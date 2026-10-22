@@ -179,4 +179,5 @@ export const ml: Record<keyof typeof en, string> = {
   appVersion: "പതിപ്പ് {v}",
   stoppedSaved: "നിർത്തി, സേവ് ചെയ്തു",
   saving: "സേവ് ചെയ്യുന്നു…",
+  stopShort: "നിർത്തുക",
 };

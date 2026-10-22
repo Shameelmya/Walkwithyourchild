@@ -199,4 +199,5 @@ export const en = {
   appVersion: "Version {v}",
   stoppedSaved: "Stopped and saved",
   saving: "Saving…",
+  stopShort: "Stop",
 };

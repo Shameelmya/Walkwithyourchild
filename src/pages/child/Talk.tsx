@@ -81,11 +81,7 @@ export default function Talk() {
     addEventListener('keydown', k); return () => removeEventListener('keydown', k);
   }, [shown, focus, say, pages, editing]);
 
-  const toggleFull = async () => {
-    try { if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.(); else await document.exitFullscreen?.(); } catch { /* */ }
-    setFull((f) => !f);
-  };
-  useEffect(() => { const f = () => !document.fullscreenElement && setFull(false); document.addEventListener('fullscreenchange', f); return () => document.removeEventListener('fullscreenchange', f); }, []);
+  const toggleFull = () => setFull((f) => !f);
 
   const grid = (
     <div className="grid gap-3 flex-1" style={{ gridTemplateColumns: `repeat(${n}, minmax(0,1fr))`, gridAutoRows: full ? `calc((100vh - 190px - ${n - 1} * 0.75rem) / ${n})` : n === 4 ? 'minmax(118px, auto)' : 'minmax(150px, auto)' }}>

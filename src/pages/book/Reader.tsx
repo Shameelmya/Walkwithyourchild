@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine, Maximize, Minimize, Siren } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine, Siren } from 'lucide-react';
 import { useT } from '../../i18n';
 import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/content';
 import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
@@ -32,9 +32,6 @@ const SW: Record<Theme, string> = { white: '#ffffff', paper: '#F7F2EB', comfort:
 function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: boolean; onClose: () => void; speaking: boolean; onSpeak: () => void; hasVoice: boolean }) {
   const { t, lang } = useT();
   const { theme, setTheme, fontScale, setFontScale, setLang, brightness, setBrightness } = useUI();
-  const [fs, setFs] = useState(!!document.fullscreenElement);
-  useEffect(() => { const f = () => setFs(!!document.fullscreenElement); document.addEventListener('fullscreenchange', f); return () => document.removeEventListener('fullscreenchange', f); }, []);
-  const toggleFs = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); } catch { /* not supported */ } };
   const idx = Math.max(0, FONT_STEPS.findIndex((f) => f === fontScale));
   const { mounted, closing } = usePresence(open, 200);
   useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open, onClose]);
@@ -71,8 +68,7 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
             {LANGS.map((l) => <button key={l.v} role="radio" aria-checked={lang === l.v} lang={l.v} onClick={() => setLang(l.v)} className={cx('min-h-[44px] rounded-xl font-bold text-sm transition', lang === l.v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>{l.native}</button>)}
           </div>
         </div>
-        <div className={cx('grid gap-2', hasVoice && 'grid-cols-2')}>
-        <button className="btn-outline" onClick={toggleFs}>{fs ? <><Minimize size={18} aria-hidden /> {t('exitFullScreen')}</> : <><Maximize size={18} aria-hidden /> {t('fullScreen')}</>}</button>
+        <div className="grid gap-2">
         {hasVoice && <button className={speaking ? 'btn-ghost' : 'btn-outline'} onClick={onSpeak}>{speaking ? <><Square size={18} aria-hidden /> {t('stopReading')}</> : <><Volume2 size={18} aria-hidden /> {meta.reader.readAloud[lang]}</>}</button>}
         </div>
       </div>

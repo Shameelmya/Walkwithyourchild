@@ -101,12 +101,8 @@ export default function SeizureTimer() {
           <p className="text-lg font-extrabold">1. {t('aidSide')}</p>
           <p className="text-lg font-extrabold mt-1">2. {t('aidMouth')}</p>
         </div>
-        {stoppedAt ? null : rec ? (
-          <div className="rounded-3xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" />
-            <button className="btn-danger absolute bottom-2 left-1/2 -translate-x-1/2" onClick={stopVideo}><Square size={18} aria-hidden /> {t('stopVideo')}</button></div>
-        ) : videoId ? <p className="text-center font-bold text-[var(--p2)]">{t('videoSaved')}</p> : (
-          <button className="btn-outline" onClick={startVideo}><Video aria-hidden /> {t('recordVideo')}</button>
-        )}
+        {rec && <div className="rounded-3xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" /><span className="absolute top-3 left-3 flex items-center gap-1.5 text-white text-sm font-bold"><span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />REC</span></div>}
+        {videoId && !rec && <p className="text-center font-bold text-[var(--p2)]">{t('videoSaved')}</p>}
         {recErr && <p role="alert" className="text-danger text-center">{recErr}</p>}
         <details className="card !rounded-3xl p-4">
           <summary className="font-extrabold cursor-pointer min-h-[32px]">{t('firstAidFromBook')}</summary>
@@ -123,7 +119,12 @@ export default function SeizureTimer() {
       </div>
       <BottomBar bare>
         {!stoppedAt ? (
-          <button className="btn-danger w-full !min-h-[76px] !rounded-3xl text-xl" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopAndSave')}</button>
+          <div className="w-full grid grid-cols-2 gap-2.5">
+            {rec
+              ? <button className="btn !min-h-[76px] !rounded-3xl bg-ink text-bg" onClick={stopVideo}><Square size={18} aria-hidden /> {t('stopVideo')}</button>
+              : <button className="btn !min-h-[76px] !rounded-3xl t-blue text-white shadow-lift" onClick={startVideo} disabled={!!videoId}><Video aria-hidden /> {videoId ? t('videoSaved') : t('videoClip')}</button>}
+            <button className="btn-danger !min-h-[76px] !rounded-3xl text-lg" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopShort')}</button>
+          </div>
         ) : (
           <div className="w-full grid grid-cols-2 gap-2.5 anim-sheet">
             <button className="btn-outline !min-h-[60px]" onClick={() => nav(-1)}>{t('done')}</button>
