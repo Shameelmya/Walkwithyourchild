@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { create } from 'zustand';
-import { ArrowLeft, X, User } from 'lucide-react';
+import { ArrowLeft, X, User, Check } from 'lucide-react';
 import { useT, type TKey } from '../i18n';
 import { Illus } from './Illus';
 import { useBlobUrl, usePresence } from '../lib/hooks';
@@ -82,7 +82,17 @@ export const useToast = create<ToastS>((set) => ({ msg: null, show: (msg, action
 export function Toaster() {
   const { msg, action } = useToast();
   const nav = useNavigate();
-  return <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 bottom-32 lg:bottom-8 z-[60] pointer-events-none">{msg && <div className="anim-sheet rounded-2xl bg-ink text-bg pl-5 pr-2 py-2 min-h-[52px] font-bold shadow-lift max-w-[92vw] flex items-center gap-3 pointer-events-auto"><span className="py-1">{msg}</span>{action && <button className="rounded-xl bg-bg/15 px-3 min-h-[40px] font-extrabold" onClick={() => { useToast.setState({ msg: null }); nav(action.to); }}>{action.label}</button>}</div>}</div>;
+  return (
+    <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 top-[max(12px,env(safe-area-inset-top))] z-[80] pointer-events-none">
+      {msg && (
+        <div className="anim-zoom origin-top glass-panel border border-line/60 rounded-full pl-3 pr-1.5 py-1.5 min-h-[44px] text-sm font-semibold text-ink shadow-lift max-w-[92vw] flex items-center gap-2 pointer-events-auto">
+          <span className="w-6 h-6 rounded-full bg-[rgb(var(--accent))] text-onaccent flex items-center justify-center shrink-0"><Check size={14} aria-hidden /></span>
+          <span className="pr-2">{msg}</span>
+          {action && <button className="rounded-full bg-soft text-[rgb(var(--accent))] px-3 min-h-[34px] font-bold" onClick={() => { useToast.setState({ msg: null }); nav(action.to); }}>{action.label}</button>}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function Confirm({ open, text, onYes, onNo, danger = false, yes }: { open: boolean; text: string; onYes: () => void; onNo: () => void; danger?: boolean; yes?: string }) {

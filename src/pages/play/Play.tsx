@@ -42,8 +42,8 @@ export default function Play() {
   const [cat, setCat] = useState<Cat | 'all'>('all');
   const ref = useRef<HTMLDivElement>(null);
   useWakeLock(!!game);
-  const start = async (g: Game) => { setGame(g); try { await ref.current?.requestFullscreen?.(); } catch { /* */ } };
-  const exit = async () => { setGame(null); try { if (document.fullscreenElement) await document.exitFullscreen(); } catch { /* */ } };
+  const start = (g: Game) => setGame(g);
+  const exit = () => setGame(null);
   const shown = GAMES.filter((g) => cat === 'all' || g.cat === cat);
   return (
     <div ref={ref} className="min-h-screen bg-bg select-none touch-manipulation">

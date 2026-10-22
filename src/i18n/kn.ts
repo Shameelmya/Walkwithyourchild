@@ -136,4 +136,5 @@ export const kn: Record<keyof typeof en, string> = {
   appVersion: "ಆವೃತ್ತಿ {v}",
   stoppedSaved: "ನಿಲ್ಲಿಸಿ ಉಳಿಸಲಾಗಿದೆ",
   saving: "ಉಳಿಸಲಾಗುತ್ತಿದೆ…",
+  stopShort: "ನಿಲ್ಲಿಸಿ",
 };
