@@ -219,4 +219,8 @@ export const en = {
   testVoice: "Test",
   speechSpeed: "Speaking speed",
   voiceInstallHint: "For a natural Malayalam or Kannada voice on Android: open phone Settings → search “Text-to-speech” → choose “Speech Services by Google” → Settings → Install voice data → pick the language. Voices marked ☁ sound most natural but need internet. You can also record your own voice on any talk card.",
+  voiceOk: "Spoken",
+  voiceFailed: "The phone did not speak ({why}).",
+  useChrome: "This app is open in Samsung Internet, which does not speak aloud. Open the app link in Google Chrome and add it to the home screen from there.",
+  voiceCheckVolume: "Turn up the media volume and try again. The first time can take a few seconds.",
 };

@@ -18,7 +18,7 @@ import { PrintSheet } from '../../components/sheets/PrintSheet';
 import { loadSummary, SummaryDoc } from '../../components/SummaryDoc';
 import { checkForUpdates } from '../../components/UpdatePrompt';
 import { RefreshCw, Volume2 } from 'lucide-react';
-import { voicesFor, bestVoice, speak } from '../../lib/audio';
+import { voicesFor, bestVoice, speak, isSamsungBrowser, type NoVoice } from '../../lib/audio';
 import { PHRASES } from '../../lib/talk';
 import { LANGS } from '../../lib/store';
 
@@ -116,7 +116,7 @@ function VoiceSettings() {
   const { t } = useT();
   const { voices, setVoice, speechRate, setSpeechRate } = useUI();
   const [, tick] = useState(0);
-  const [heard, setHeard] = useState<Record<string, 'ok' | 'none'>>({});
+  const [heard, setHeard] = useState<Record<string, 'trying' | 'ok' | NoVoice>>({});
   useEffect(() => {
     if (!('speechSynthesis' in window)) return;
     const r = () => tick((x) => x + 1); speechSynthesis.addEventListener?.('voiceschanged', r); const h = setTimeout(r, 800);
@@ -124,6 +124,7 @@ function VoiceSettings() {
   }, []);
   return (
     <div className="card p-4 grid gap-4">
+      {isSamsungBrowser() && <p className="rounded-2xl bg-[var(--urt)] p-3 text-sm font-semibold">{t('useChrome')}</p>}
       {LANGS.map(({ v: l, native }) => {
         const list = voicesFor(l);
         const cur = bestVoice(l);
@@ -136,11 +137,13 @@ function VoiceSettings() {
                 {list.map((x) => <option key={x.voiceURI} value={x.voiceURI}>{x.name}{x.localService ? '' : ' ☁'}</option>)}
               </select>
               <button className="icon-chip shrink-0" aria-label={`${t('testVoice')} ${native}`} onClick={() => {
-                setHeard((h) => ({ ...h, [l]: 'ok' }));
-                speak(PHRASES[1][l], l, undefined, { force: true, rate: 0.9, onNoVoice: () => setHeard((h) => ({ ...h, [l]: 'none' })) });
+                setHeard((h) => ({ ...h, [l]: 'trying' }));
+                speak(PHRASES[1][l], l, () => setHeard((h) => ({ ...h, [l]: 'ok' })), { force: true, rate: 0.9, onNoVoice: (why) => setHeard((h) => ({ ...h, [l]: h[l] === 'ok' ? 'ok' : why })) });
               }}><Volume2 size={20} /></button>
             </div>
-            {(heard[l] === 'none' || (l !== 'en' && !list.length && 'speechSynthesis' in window && speechSynthesis.getVoices().length > 0)) && <p className="text-sm text-danger mt-1.5">{t('noVoice', { l: native })}</p>}
+            {heard[l] === 'ok' && <p className="text-sm font-semibold text-[var(--p2)] mt-1.5">✓ {t('voiceOk')}</p>}
+            {(heard[l] === 'missing' || (l !== 'en' && !list.length && 'speechSynthesis' in window && speechSynthesis.getVoices().length > 0)) && <p className="text-sm text-danger mt-1.5">{t('noVoice', { l: native })}</p>}
+            {heard[l] && heard[l] !== 'ok' && heard[l] !== 'trying' && heard[l] !== 'missing' && <p className="text-sm text-danger mt-1.5">{t('voiceFailed', { why: String(heard[l]).replace('error:', '') })} {t(isSamsungBrowser() ? 'useChrome' : 'voiceCheckVolume')}</p>}
           </div>
         );
       })}
