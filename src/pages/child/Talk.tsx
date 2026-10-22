@@ -71,9 +71,9 @@ export default function Talk() {
       if (b) { const a = new Audio(URL.createObjectURL(b.blob)); audio.current = a; a.volume = 1; void a.play(); return; }
     }
     // Speak straight from the tap (Android needs this). Try the chosen language even if the voice list is not loaded yet; English only if that fails.
-    speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08, force: true, fallback: c.phraseEn, onNoVoice: () => {
+    speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08, force: true, fallback: c.phraseEn, onNoVoice: (why) => {
       if (warned.current) return; warned.current = true;
-      toast(t('noVoice', { l: LANGS.find((x) => x.v === lang)!.native }), { label: t('voiceSettings'), to: '/settings#voice' });
+      toast(why === 'missing' ? t('noVoice', { l: LANGS.find((x) => x.v === lang)!.native }) : t('voiceFailed', { why: why.replace('error:', '') }), { label: t('voiceSettings'), to: '/settings#voice' });
     } });
   }, [lang, t, toast]);
 

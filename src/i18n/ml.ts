@@ -199,4 +199,8 @@ export const ml: Record<keyof typeof en, string> = {
   testVoice: "കേട്ടുനോക്കൂ",
   speechSpeed: "സംസാര വേഗം",
   voiceInstallHint: "ആൻഡ്രോയിഡിൽ സ്വാഭാവികമായ മലയാളം/കന്നഡ ശബ്ദത്തിന്: ഫോൺ Settings → “Text-to-speech” എന്ന് തിരയൂ → “Speech Services by Google” → Settings → Install voice data → ഭാഷ തിരഞ്ഞെടുക്കൂ. ☁ അടയാളമുള്ള ശബ്ദങ്ങൾ ഏറ്റവും സ്വാഭാവികം, പക്ഷേ ഇന്റർനെറ്റ് വേണം. ഓരോ കാർഡിലും നിങ്ങളുടെ സ്വന്തം ശബ്ദം റെക്കോർഡ് ചെയ്യുകയും ചെയ്യാം.",
+  voiceOk: "സംസാരിച്ചു",
+  voiceFailed: "ഫോൺ സംസാരിച്ചില്ല ({why}).",
+  useChrome: "ഈ ആപ്പ് Samsung Internet-ലാണ് തുറന്നിരിക്കുന്നത്, അതിൽ ശബ്ദം വരില്ല. ആപ്പ് ലിങ്ക് Google Chrome-ൽ തുറന്ന് അവിടെ നിന്ന് ഹോം സ്ക്രീനിലേക്ക് ചേർക്കൂ.",
+  voiceCheckVolume: "മീഡിയ ശബ്ദം കൂട്ടി വീണ്ടും ശ്രമിക്കൂ. ആദ്യ തവണ കുറച്ച് സെക്കൻഡ് എടുക്കാം.",
 };

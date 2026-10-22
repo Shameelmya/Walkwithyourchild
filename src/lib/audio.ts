@@ -95,34 +95,41 @@ const live: SpeechSynthesisUtterance[] = [];
 if (typeof window !== 'undefined' && 'speechSynthesis' in window) { speechSynthesis.getVoices(); speechSynthesis.addEventListener?.('voiceschanged', () => speechSynthesis.getVoices()); }
 /** True once the phone has told us which voices it has (Android loads the list a moment after start). */
 export const voicesKnown = () => 'speechSynthesis' in window && speechSynthesis.getVoices().length > 0;
-type SpeakOpts = { rate?: number; pitch?: number; force?: boolean; fallback?: string; onNoVoice?: () => void };
+/** Why speech did not happen: no voice for the language, an engine error code, or no start at all. */
+export type NoVoice = 'missing' | 'timeout' | `error:${string}`;
+type SpeakOpts = { rate?: number; pitch?: number; force?: boolean; fallback?: string; onNoVoice?: (why: NoVoice) => void };
+/** Samsung Internet lists the phone's voices but often never speaks them. */
+export const isSamsungBrowser = () => /SamsungBrowser/i.test(navigator.userAgent);
 export function speak(text: string, lang: string, onend?: () => void, opts: SpeakOpts = {}): boolean {
-  if (!('speechSynthesis' in window)) { opts.onNoVoice?.(); return false; }
+  if (!('speechSynthesis' in window)) { opts.onNoVoice?.('error:unsupported'); return false; }
   const ss = speechSynthesis;
   const v = bestVoice(lang);
   // The phone has no voice for this language: say it in English rather than stay silent.
-  if (!v && lang !== 'en' && voicesKnown() && opts.fallback) { opts.onNoVoice?.(); return speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch }); }
+  if (!v && lang !== 'en' && voicesKnown() && opts.fallback) { opts.onNoVoice?.('missing'); return speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch }); }
   if (!v && lang !== 'en' && !opts.force) return false;
-  if (ss.speaking || ss.pending) ss.cancel();
-  ss.resume();
+  const busy = ss.speaking || ss.pending;
+  if (busy) ss.cancel();
+  if (ss.paused) ss.resume();
   const u = new SpeechSynthesisUtterance(text);
   if (v) try { u.voice = v; } catch { /* */ }
   u.lang = v?.lang ?? `${lang}-IN`;
   u.rate = (opts.rate ?? 0.92) * useUI.getState().speechRate; u.pitch = opts.pitch ?? 1; u.volume = 1;
   let started = false;
   const done = () => { const i = live.indexOf(u); if (i >= 0) live.splice(i, 1); };
-  const fail = () => {
-    opts.onNoVoice?.();
-    // No engine for this language: say it in English so the child is still heard.
-    if (opts.fallback && lang !== 'en') speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch });
-  };
   u.onstart = () => { started = true; };
   u.onend = () => { started = true; done(); onend?.(); };
-  u.onerror = (e) => { const was = live.includes(u); done(); if (was && e.error !== 'interrupted' && e.error !== 'canceled') fail(); };
+  u.onerror = (e) => {
+    const was = live.includes(u); done();
+    if (!was || e.error === 'interrupted' || e.error === 'canceled') return;
+    opts.onNoVoice?.(`error:${e.error}`);
+    // The engine could not say it in this language: say it in English so the child is still heard.
+    if (opts.fallback && lang !== 'en') speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch });
+  };
   live.push(u);
-  ss.speak(u);
-  // Some phones accept a language they cannot speak and then stay silent without an error.
-  if (opts.onNoVoice || opts.fallback) setTimeout(() => { if (!started && !ss.speaking && live.includes(u)) { done(); ss.cancel(); fail(); } }, 3000);
+  // Android Chrome drops an utterance spoken in the same moment as a cancel; give it a breath.
+  if (busy) setTimeout(() => ss.speak(u), 120); else ss.speak(u);
+  // The speech engine can take a few seconds to wake up the first time; only report, never cut it off.
+  if (opts.onNoVoice) setTimeout(() => { if (!started && !ss.speaking && live.includes(u)) opts.onNoVoice?.('timeout'); }, 8000);
   return true;
 }
 
@@ -175,18 +182,22 @@ export function speakQueue(texts: string[], lang: string, onDone: () => void) {
   const ss = speechSynthesis;
   const v = bestVoice(lang);
   if (!v && lang !== 'en') return false;
-  ss.cancel(); ss.resume();
+  const busy = ss.speaking || ss.pending;
+  if (busy) ss.cancel();
+  if (ss.paused) ss.resume();
   const parts = texts.flatMap((t) => t.match(/[^.!?।]+[.!?।]?\s*/g) ?? [t]).map((s) => s.trim()).filter(Boolean);
   if (!parts.length) return false;
-  parts.forEach((p, i) => {
+  const us = parts.map((p, i) => {
     const u = new SpeechSynthesisUtterance(p);
     if (v) try { u.voice = v; } catch { /* */ }
     u.lang = v?.lang ?? `${lang}-IN`; u.rate = 0.95;
     live.push(u);
     u.onend = () => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (i === parts.length - 1) onDone(); };
     u.onerror = (e) => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (e.error !== 'interrupted' && e.error !== 'canceled' && i === parts.length - 1) onDone(); };
-    ss.speak(u);
+    return u;
   });
+  const go = () => us.forEach((u) => ss.speak(u));
+  if (busy) setTimeout(go, 120); else go();
   return true;
 }
 export function stopSpeaking() { if ('speechSynthesis' in window) speechSynthesis.cancel(); live.length = 0; }

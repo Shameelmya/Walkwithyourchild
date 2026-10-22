@@ -156,4 +156,8 @@ export const kn: Record<keyof typeof en, string> = {
   testVoice: "ಕೇಳಿ ನೋಡಿ",
   speechSpeed: "ಮಾತಿನ ವೇಗ",
   voiceInstallHint: "ಆಂಡ್ರಾಯ್ಡ್‌ನಲ್ಲಿ ಸಹಜ ಕನ್ನಡ/ಮಲಯಾಳಂ ಧ್ವನಿಗೆ: ಫೋನ್ Settings → “Text-to-speech” ಹುಡುಕಿ → “Speech Services by Google” → Settings → Install voice data → ಭಾಷೆ ಆರಿಸಿ. ☁ ಗುರುತಿನ ಧ್ವನಿಗಳು ಹೆಚ್ಚು ಸಹಜ, ಆದರೆ ಇಂಟರ್ನೆಟ್ ಬೇಕು. ಪ್ರತಿ ಕಾರ್ಡ್‌ನಲ್ಲೂ ನಿಮ್ಮ ಸ್ವಂತ ಧ್ವನಿ ರೆಕಾರ್ಡ್ ಮಾಡಬಹುದು.",
+  voiceOk: "ಮಾತಾಡಿತು",
+  voiceFailed: "ಫೋನ್ ಮಾತಾಡಲಿಲ್ಲ ({why}).",
+  useChrome: "ಈ ಆ್ಯಪ್ Samsung Internet ನಲ್ಲಿ ತೆರೆದಿದೆ, ಅದರಲ್ಲಿ ಧ್ವನಿ ಬರುವುದಿಲ್ಲ. ಆ್ಯಪ್ ಲಿಂಕ್ ಅನ್ನು Google Chrome ನಲ್ಲಿ ತೆರೆದು ಅಲ್ಲಿಂದ ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಸೇರಿಸಿ.",
+  voiceCheckVolume: "ಮೀಡಿಯಾ ವಾಲ್ಯೂಮ್ ಹೆಚ್ಚಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ. ಮೊದಲ ಬಾರಿ ಕೆಲವು ಸೆಕೆಂಡ್ ಬೇಕಾಗಬಹುದು.",
 };
