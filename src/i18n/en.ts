@@ -225,4 +225,9 @@ export const en = {
   voiceCheckVolume: "Turn up the media volume and try again. The first time can take a few seconds.",
   darkMode: "Dark mode",
   textSize: "Text size",
+  recordVoices: "Record voices",
+  recordVoicesHint: "Say each sentence in your own voice. Your recording plays whenever the card is tapped, even when the phone cannot speak.",
+  skip: "Skip",
+  voiceTest: "Voice test",
+  voiceRecordInstead: "You can record your own voice for the talk board instead.",
 };

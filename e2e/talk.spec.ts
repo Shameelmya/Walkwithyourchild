@@ -107,3 +107,45 @@ test('a phone that refuses a named voice still speaks with a simpler request', a
   await expect.poll(() => page.evaluate(() => (window as unknown as { __said: string[] }).__said)).toEqual(['I want some water.']);
   await expect(page.getByText(/did not speak/)).toHaveCount(0);
 });
+
+test('record your own voice for every card in one go, and taps play it', async ({ browser }) => {
+  const ctx = await browser.newContext({ permissions: ['microphone'] });
+  const page = await ctx.newPage();
+  await page.addInitScript(() => {
+    (window as unknown as { __played: number }).__played = 0;
+    HTMLMediaElement.prototype.play = function () { (window as unknown as { __played: number }).__played++; return Promise.resolve(); };
+    // A pretend microphone: the recorder hands back a small audio blob.
+    navigator.mediaDevices.getUserMedia = async () => new MediaStream();
+    class FakeRec { state = 'inactive'; mimeType = 'audio/webm'; ondataavailable: ((e: { data: Blob }) => void) | null = null; onstop: (() => void) | null = null;
+      static isTypeSupported() { return true; }
+      start() { this.state = 'recording'; }
+      stop() { this.state = 'inactive'; this.ondataavailable?.({ data: new Blob(['x'], { type: 'audio/webm' }) }); setTimeout(() => this.onstop?.(), 10); } }
+    (window as unknown as { MediaRecorder: unknown }).MediaRecorder = FakeRec;
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: /English/ }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByLabel("Child's name *").fill('Ammu');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
+  await page.goto('/talk');
+  await page.getByRole('button', { name: 'Record voices' }).click();
+  const dlg = page.getByRole('dialog');
+  await expect(dlg.getByText('“I want food, please.”')).toBeVisible();
+  await dlg.getByRole('button', { name: 'Record your voice' }).click();
+  await page.waitForTimeout(700);
+  await dlg.getByRole('button', { name: 'Stop recording' }).click();
+  await expect(dlg.getByLabel('Saved')).toBeVisible();
+  await dlg.getByRole('button', { name: /Next/ }).click();
+  await expect(dlg.getByText('“I want some water.”')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  const before = await page.evaluate(() => (window as unknown as { __played: number }).__played);
+  await page.getByRole('button', { name: 'Food', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __played: number }).__played)).toBeGreaterThan(before);
+  await ctx.close();
+});

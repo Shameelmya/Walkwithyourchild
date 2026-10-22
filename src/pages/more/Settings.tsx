@@ -151,13 +151,17 @@ function VoiceSettings() {
             </div>
             {heard[l] === 'ok' && <p className="text-sm font-semibold text-[var(--p2)] mt-1.5">✓ {t('voiceOk')}</p>}
             {(heard[l] === 'missing' || (l !== 'en' && !list.length && 'speechSynthesis' in window && speechSynthesis.getVoices().length > 0)) && <p className="text-sm text-danger mt-1.5">{t('noVoice', { l: native })}</p>}
-            {heard[l] && heard[l] !== 'ok' && heard[l] !== 'trying' && heard[l] !== 'missing' && <p className="text-sm text-danger mt-1.5">{t('voiceFailed', { why: String(heard[l]).replace('error:', '') })} {t(isSamsungBrowser() ? 'useChrome' : 'voiceCheckVolume')}</p>}
+            {heard[l] && heard[l] !== 'ok' && heard[l] !== 'trying' && heard[l] !== 'missing' && <p className="text-sm text-danger mt-1.5">{t('voiceFailed', { why: String(heard[l]).replace('error:', '') })} {t(isSamsungBrowser() ? 'useChrome' : 'voiceCheckVolume')} {t('voiceRecordInstead')}</p>}
           </div>
         );
       })}
       <label className="block"><span className="label">{t('speechSpeed')}</span>
         <input type="range" min={0.7} max={1.3} step={0.05} value={speechRate} onChange={(e) => setSpeechRate(+e.target.value)} className="slider w-full" /></label>
       <p className="text-sm text-muted">{t('voiceInstallHint')}</p>
+      <div className="flex flex-wrap gap-2">
+        <Link to="/talk" className="chip">🎙️ {t('recordVoices')}</Link>
+        <a href="/voice-test.html" className="chip">🔊 {t('voiceTest')}</a>
+      </div>
       <p className="text-xs text-muted/80 break-all">{browserInfo()} · {'speechSynthesis' in window ? speechSynthesis.getVoices().length : 0} voices</p>
     </div>
   );
