@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { onboard } from './helpers';
 test('every game opens, responds to taps and keys, and exits with a long press', async ({ page }) => {
   test.setTimeout(180_000);
   const errs: string[] = []; page.on('pageerror', (e) => errs.push(String(e))); page.on('console', (m) => m.type() === 'error' && errs.push(m.text()));
@@ -67,7 +68,7 @@ test('song tiles play a whole song, quizzes answer, and the mute switch persists
   await page.goto('/play/songs');
   await page.getByRole('button', { name: "Let's play" }).click();
   await page.getByRole('button', { name: /Mary had a little lamb/ }).click();
-  await page.getByRole('radio', { name: '110' }).click();
+  await page.getByRole('radio', { name: '100' }).click();
   // Keyboard input plays the next note once its tile reaches the line; the song waits otherwise.
   for (let i = 0; i < 200 && !(await page.getByRole('button', { name: 'Play again' }).isVisible()); i++) { await page.keyboard.press('a'); await page.waitForTimeout(150); }
   await expect(page.getByRole('button', { name: 'Play again' })).toBeVisible();
@@ -84,4 +85,22 @@ test('song tiles play a whole song, quizzes answer, and the mute switch persists
   await expect(page.getByRole('switch', { name: /Sound: Off/ })).toBeVisible();
   await page.getByRole('button', { name: "Let's play" }).click();
   await expect(page.getByRole('button', { name: 'Sound' })).toHaveAttribute('aria-pressed', 'false');
+});
+
+test('record your own song and it becomes song tiles', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.goto('/play/songs'); await page.getByRole('button', { name: "Let's play" }).click();
+  await page.getByRole('button', { name: /Twinkle/ }).click(); await page.waitForTimeout(6500);
+  await page.keyboard.press('a'); await page.waitForTimeout(200);
+  await page.getByRole('button', { name: 'Choose a song' }).click();
+  await page.getByRole('button', { name: 'Make your own song' }).click();
+  await page.getByPlaceholder('Song name').fill('Amma song');
+  await page.getByRole('button', { name: 'Record' }).click();
+  for (const m of [60, 62, 64, 60, 60, 62, 64, 60]) { const k = page.getByRole('button', { name: `key ${m}` }); await k.dispatchEvent('pointerdown', { pointerId: 1 }); await page.waitForTimeout(250); await k.dispatchEvent('pointerup', { pointerId: 1 }); await page.waitForTimeout(100); }
+  await page.getByRole('button', { name: 'Stop' }).click();
+ 
+  await page.getByRole('button', { name: 'Save song' }).click();
+  await expect(page.getByRole('button', { name: 'Amma song', exact: true })).toBeVisible();
+ 
 });

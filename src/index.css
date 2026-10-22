@@ -156,3 +156,7 @@ a.card, button.card, a.cover { transition: transform 0.25s var(--ease), backgrou
 a.card:active, button.card:active { transform: scale(0.98); background-color: rgb(var(--surface2)); }
 .btn:active { filter: brightness(0.95); }
 nav a:active > span:first-child { transform: scale(0.88); }
+
+.song-tile { transition: opacity .35s, transform .35s; }
+.song-tile[data-hit] { opacity: 0 !important; transform: scale(1.12); }
+@keyframes sayUp { from { opacity: 1; transform: translateY(0) scale(1.1) } to { opacity: 0; transform: translateY(-48px) scale(1) } }
