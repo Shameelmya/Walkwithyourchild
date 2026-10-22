@@ -8,6 +8,20 @@ import { cx } from '../lib/util';
 import { PathMotif } from './Path';
 import { LangButton } from './LangButton';
 
+const SEEN = 'wwyc-seen';
+/** The app was open (and unlocked) less than 5 seconds ago: a refresh or a quick reopen needs no PIN. */
+export function openedRecently() { try { return Date.now() - Number(localStorage.getItem(SEEN) || 0) < 5000; } catch { return false; } }
+/** While unlocked, keep a heartbeat so a reload within 5 seconds stays unlocked. */
+export function useSeenHeartbeat(on: boolean) {
+  useEffect(() => {
+    if (!on) return;
+    const mark = () => { try { localStorage.setItem(SEEN, String(Date.now())); } catch { /* */ } };
+    mark(); const h = setInterval(() => document.visibilityState === 'visible' && mark(), 1000);
+    addEventListener('pagehide', mark);
+    return () => { clearInterval(h); removeEventListener('pagehide', mark); };
+  }, [on]);
+}
+
 export function useAutoLock(enabled: boolean, lock: () => void) {
   const hiddenAt = useRef<number | null>(null);
   useEffect(() => {

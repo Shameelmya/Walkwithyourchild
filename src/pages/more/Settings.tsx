@@ -111,6 +111,14 @@ function Backup() {
   );
 }
 
+/** A short "Chrome 130 · Android 14" line, so a screenshot tells us what the phone is running. */
+function browserInfo() {
+  const ua = navigator.userAgent;
+  const b = /SamsungBrowser\/([\d.]+)/.exec(ua)?.[0] ?? /(Edg|OPR|Firefox|Chrome)\/(\d+)/.exec(ua)?.slice(1, 3).join(' ') ?? 'Browser';
+  const os = /Android [\d.]+/.exec(ua)?.[0] ?? /iPhone OS [\d_]+/.exec(ua)?.[0] ?? '';
+  return [b, os, matchMedia('(display-mode: standalone)').matches ? 'app' : 'tab'].filter(Boolean).join(' · ');
+}
+
 /** Pick the phone voice for each language and test it. Voices come from the phone, so the list differs per phone. */
 function VoiceSettings() {
   const { t } = useT();
@@ -150,6 +158,7 @@ function VoiceSettings() {
       <label className="block"><span className="label">{t('speechSpeed')}</span>
         <input type="range" min={0.7} max={1.3} step={0.05} value={speechRate} onChange={(e) => setSpeechRate(+e.target.value)} className="slider w-full" /></label>
       <p className="text-sm text-muted">{t('voiceInstallHint')}</p>
+      <p className="text-xs text-muted/80 break-all">{browserInfo()} · {'speechSynthesis' in window ? speechSynthesis.getVoices().length : 0} voices</p>
     </div>
   );
 }

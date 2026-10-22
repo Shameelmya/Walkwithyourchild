@@ -5,7 +5,7 @@ import { db, getSetting } from './lib/db';
 import { applyUI, useUI } from './lib/store';
 import { Layout } from './components/Layout';
 import { Toaster } from './components/ui';
-import { LockScreen, useAutoLock } from './components/Lock';
+import { LockScreen, useAutoLock, openedRecently, useSeenHeartbeat } from './components/Lock';
 import { Reminders } from './components/Reminders';
 import { UpdatePrompt } from './components/UpdatePrompt';
 import Home from './pages/Home';
@@ -50,7 +50,8 @@ function Gate() {
   const children = useLiveQuery(() => db.children.count(), []);
   const { activeChildId, setActiveChild } = useUI();
   const [locked, setLocked] = useState<boolean | null>(null);
-  useEffect(() => { if (pin !== undefined && locked === null) setLocked(!!pin); }, [pin, locked]);
+  useEffect(() => { if (pin !== undefined && locked === null) setLocked(!!pin && !openedRecently()); }, [pin, locked]);
+  useSeenHeartbeat(locked === false);
   useAutoLock(!!pin, () => setLocked(true));
   useNavTracker();
   // Every new page opens at the top (the reader restores its own reading position).

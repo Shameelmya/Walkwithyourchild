@@ -100,7 +100,17 @@ export type NoVoice = 'missing' | 'timeout' | `error:${string}`;
 type SpeakOpts = { rate?: number; pitch?: number; force?: boolean; fallback?: string; onNoVoice?: (why: NoVoice) => void };
 /** Samsung Internet lists the phone's voices but often never speaks them. */
 export const isSamsungBrowser = () => /SamsungBrowser/i.test(navigator.userAgent);
-export function speak(text: string, lang: string, onend?: () => void, opts: SpeakOpts = {}): boolean {
+/* Some phones refuse an utterance with a named voice ("synthesis-failed") but speak it with just a language,
+   or only with the engine's default voice. Remember what worked on this phone. */
+let mode = 0; // 0: named voice, 1: language only, 2: engine default
+const MODES = 3;
+function utter(text: string, lang: string, v: SpeechSynthesisVoice | undefined, m: number) {
+  const u = new SpeechSynthesisUtterance(text);
+  if (m === 0 && v) try { u.voice = v; } catch { /* */ }
+  if (m < 2) u.lang = v?.lang ?? `${lang}-IN`;
+  return u;
+}
+export function speak(text: string, lang: string, onend?: () => void, opts: SpeakOpts = {}, attempt = mode): boolean {
   if (!('speechSynthesis' in window)) { opts.onNoVoice?.('error:unsupported'); return false; }
   const ss = speechSynthesis;
   const v = bestVoice(lang);
@@ -110,17 +120,17 @@ export function speak(text: string, lang: string, onend?: () => void, opts: Spea
   const busy = ss.speaking || ss.pending;
   if (busy) ss.cancel();
   if (ss.paused) ss.resume();
-  const u = new SpeechSynthesisUtterance(text);
-  if (v) try { u.voice = v; } catch { /* */ }
-  u.lang = v?.lang ?? `${lang}-IN`;
+  const u = utter(text, lang, v, attempt);
   u.rate = (opts.rate ?? 0.92) * useUI.getState().speechRate; u.pitch = opts.pitch ?? 1; u.volume = 1;
   let started = false;
   const done = () => { const i = live.indexOf(u); if (i >= 0) live.splice(i, 1); };
-  u.onstart = () => { started = true; };
-  u.onend = () => { started = true; done(); onend?.(); };
+  u.onstart = () => { started = true; mode = attempt; };
+  u.onend = () => { started = true; mode = attempt; done(); onend?.(); };
   u.onerror = (e) => {
     const was = live.includes(u); done();
     if (!was || e.error === 'interrupted' || e.error === 'canceled') return;
+    // Try the simpler ways before giving up.
+    if (!started && attempt + 1 < MODES) { setTimeout(() => speak(text, lang, onend, opts, attempt + 1), 60); return; }
     opts.onNoVoice?.(`error:${e.error}`);
     // The engine could not say it in this language: say it in English so the child is still heard.
     if (opts.fallback && lang !== 'en') speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch });
@@ -188,9 +198,7 @@ export function speakQueue(texts: string[], lang: string, onDone: () => void) {
   const parts = texts.flatMap((t) => t.match(/[^.!?।]+[.!?।]?\s*/g) ?? [t]).map((s) => s.trim()).filter(Boolean);
   if (!parts.length) return false;
   const us = parts.map((p, i) => {
-    const u = new SpeechSynthesisUtterance(p);
-    if (v) try { u.voice = v; } catch { /* */ }
-    u.lang = v?.lang ?? `${lang}-IN`; u.rate = 0.95;
+    const u = utter(p, lang, v, mode); u.rate = 0.95;
     live.push(u);
     u.onend = () => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (i === parts.length - 1) onDone(); };
     u.onerror = (e) => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (e.error !== 'interrupted' && e.error !== 'canceled' && i === parts.length - 1) onDone(); };
