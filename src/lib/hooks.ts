@@ -21,20 +21,19 @@ export function useBlobUrl(id?: number) {
   return url;
 }
 
-/** Notebook sheet data with debounced autosave. */
+// Notebook writes go through one queue so they always land in the order they were typed.
+let writeChain: Promise<unknown> = Promise.resolve();
+const queueSave = (childId: number, sheetId: string, data: Record<string, unknown>) => { writeChain = writeChain.then(() => saveSheet(childId, sheetId, data)).catch(() => {}); return writeChain; };
+
+/** Notebook sheet data. Every change is saved straight away (no waiting), so closing the app can't lose the last edit. */
 export function useSheet(sheetId: string, childOverride?: number) {
   const active = useChildId();
   const childId = childOverride ?? active;
   const key = `${childId}:${sheetId}`;
-  const [st, setSt] = useState<{ key: string; data: Record<string, unknown>; dirty: boolean } | null>(null);
-  useEffect(() => { let live = true; getSheet(childId, sheetId).then((d) => live && setSt({ key, data: d, dirty: false })); return () => { live = false; }; }, [childId, sheetId, key]);
-  useEffect(() => {
-    if (!st || st.key !== key || !st.dirty) return;
-    const h = setTimeout(() => void saveSheet(childId, sheetId, st.data), 400);
-    return () => clearTimeout(h);
-  }, [st, key, childId, sheetId]);
+  const [st, setSt] = useState<{ key: string; data: Record<string, unknown> } | null>(null);
+  useEffect(() => { let live = true; getSheet(childId, sheetId).then((d) => live && setSt({ key, data: d })); return () => { live = false; }; }, [childId, sheetId, key]);
   const data = st && st.key === key ? st.data : null;
-  const setData = (d: Record<string, unknown>) => setSt({ key, data: d, dirty: true });
+  const setData = (d: Record<string, unknown>) => { setSt({ key, data: d }); void queueSave(childId, sheetId, d); };
   return [data, setData] as const;
 }
 

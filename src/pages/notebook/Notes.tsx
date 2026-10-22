@@ -13,11 +13,9 @@ export default function Notes() {
   const notes = useLiveQuery(() => db.notes.where('childId').equals(childId).reverse().sortBy('updatedAt'), [childId]) ?? [];
   const [edit, setEdit] = useState<Note | null>(null);
   const [del, setDel] = useState(false);
-  useEffect(() => {
-    if (!edit?.id) return;
-    const h = setTimeout(() => db.notes.update(edit.id!, { title: edit.title, body: edit.body, updatedAt: Date.now() }), 400);
-    return () => clearTimeout(h);
-  }, [edit]);
+  // Save every change straight away.
+  useEffect(() => { if (edit?.id) void db.notes.update(edit.id, { title: edit.title, body: edit.body, updatedAt: Date.now() }); }, [edit]);
+  const close = async () => { if (edit?.id) await db.notes.update(edit.id, { title: edit.title, body: edit.body, updatedAt: Date.now() }); setEdit(null); };
   const add = async () => { const n: Note = { childId, title: '', body: '', updatedAt: Date.now() }; n.id = await db.notes.add(n); setEdit(n); };
   return (
     <Page>
@@ -33,13 +31,13 @@ export default function Notes() {
           ))}
         </ul>
       )}
-      <Modal open={!!edit} onClose={() => setEdit(null)} title={t('myNotes')} full>
+      <Modal open={!!edit} onClose={close} title={t('myNotes')} full>
         {edit && (<>
           <label className="label" htmlFor="n-title">{t('title')}</label>
           <input id="n-title" className="input mb-3" value={edit.title} onChange={(e) => setEdit({ ...edit, title: e.target.value })} />
           <label className="label" htmlFor="n-body">{t('note')}</label>
           <textarea id="n-body" className="input min-h-[45vh] font-read" value={edit.body} onChange={(e) => setEdit({ ...edit, body: e.target.value })} />
-          <div className="flex justify-between mt-4"><button className="btn-ghost text-danger" onClick={() => setDel(true)}><Trash2 size={18} aria-hidden /> {t('delete')}</button><button className="btn-primary" onClick={() => setEdit(null)}>{t('done')}</button></div>
+          <div className="flex justify-between mt-4"><button className="btn-ghost text-danger" onClick={() => setDel(true)}><Trash2 size={18} aria-hidden /> {t('delete')}</button><button className="btn-primary" onClick={close}>{t('done')}</button></div>
         </>)}
       </Modal>
       <BottomBar><button className="btn-primary w-full" onClick={add}><Plus size={18} aria-hidden /> {t('newNote')}</button></BottomBar>

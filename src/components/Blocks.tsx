@@ -1,11 +1,11 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { HelpCircle, PenLine, Phone, Plus, Check, Info, HeartPulse } from 'lucide-react';
 import { db, FAMILY, getSheet, saveSheet } from '../lib/db';
 import { meta, loc, type Block, type L10n, callTel } from '../lib/content';
 import { useT } from '../i18n';
-import { useToast } from './ui';
+import { useToast, Modal } from './ui';
 import { useUI } from '../lib/store';
 import { isoDate, cx } from '../lib/util';
 
@@ -40,29 +40,45 @@ function Checklist({ items, chapter, index }: { items: string[]; chapter: string
   );
 }
 
-export const BlockView = memo(function BlockView({ b, chapter, index }: { b: Block; chapter: string; index: number }) {
-  const { t, lang } = useT();
+function AskBox({ b, label }: { b: Extract<Block, { t: 'callout' }>; label: string }) {
+  const { t } = useT();
   const toast = useToast((s) => s.show);
   const childId = useUI((s) => s.activeChildId);
+  const [q, setQ] = useState<string | null>(null);
+  const confirm = async () => {
+    if (!q) return;
+    const ok = await addQuestion(childId, q);
+    setQ(null);
+    toast(ok ? t('questionAdded') : t('questionExists'), { label: t('myQuestions'), to: '/notebook/questions' });
+  };
+  return (
+    <aside className="callout my-5 rounded-2xl p-4 bg-[var(--pt)] font-ui" aria-label={label}>
+      <p className="flex items-center gap-2 font-extrabold text-[var(--pc)] mb-2 font-head"><HelpCircle size={20} aria-hidden /> {label}</p>
+      <ul className="grid gap-2 list-none !pl-0 !m-0">
+        {(b.questions ?? []).map((x, i) => (
+          <li key={i} className="!m-0 bg-surface rounded-xl p-3 flex flex-col sm:flex-row sm:items-center gap-2">
+            <span className="flex-1 font-read">“{x}”</span>
+            <button className="chip shrink-0 self-start" onClick={() => setQ(x)}><Plus size={16} aria-hidden /> {t('addToQuestions')}</button>
+          </li>
+        ))}
+      </ul>
+      <Modal open={!!q} onClose={() => setQ(null)} title={t('addQuestionQ')}>
+        <p className="font-read text-lg leading-relaxed mb-6">“{q}”</p>
+        <div className="grid grid-cols-2 gap-2"><button className="btn-ghost" onClick={() => setQ(null)}>{t('cancel')}</button><button className="btn-primary" onClick={confirm}><Plus size={18} aria-hidden /> {t('add')}</button></div>
+      </Modal>
+    </aside>
+  );
+}
+
+export const BlockView = memo(function BlockView({ b, chapter, index }: { b: Block; chapter: string; index: number }) {
+  const { t, lang } = useT();
   if (b.t === 'h') return <h3 dangerouslySetInnerHTML={{ __html: b.html }} />;
   if (b.t === 'html') return <Html html={b.html} />;
   if (b.t === 'check') return <Checklist items={b.items} chapter={chapter} index={index} />;
   const label = loc((meta.calloutLabels as Record<string, L10n>)[b.kind], lang);
   switch (b.kind) {
     case 'ask':
-      return (
-        <aside className="callout my-5 rounded-2xl p-4 bg-[var(--pt)] font-ui" aria-label={label}>
-          <p className="flex items-center gap-2 font-extrabold text-[var(--pc)] mb-2 font-head"><HelpCircle size={20} aria-hidden /> {label}</p>
-          <ul className="grid gap-2 list-none !pl-0 !m-0">
-            {(b.questions ?? []).map((q, i) => (
-              <li key={i} className="!m-0 bg-surface rounded-xl p-3 flex flex-col sm:flex-row sm:items-center gap-2">
-                <span className="flex-1 font-read">“{q}”</span>
-                <button className="chip shrink-0 self-start" onClick={async () => toast((await addQuestion(childId, q)) ? t('questionAdded') : t('questionExists'))}><Plus size={16} aria-hidden /> {t('addToQuestions')}</button>
-              </li>
-            ))}
-          </ul>
-        </aside>
-      );
+      return <AskBox b={b} label={label} />;
     case 'try':
       return (
         <aside className="callout my-5 rounded-2xl p-4 border-2 border-dashed border-[var(--pc)] bg-surface">

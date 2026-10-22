@@ -27,3 +27,22 @@ test('every game opens, responds to taps and keys, and exits with a long press',
   }
   expect(errs).toEqual([]);
 });
+
+test('colouring book celebrates a finished picture', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: /English/ }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByLabel("Child's name *").fill('Ammu');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
+  await page.goto('/play');
+  await page.getByRole('button', { name: 'Colouring book', exact: true }).click();
+  const parts = page.locator('svg[viewBox="0 0 300 300"] > :not(path[fill="none"])');
+  const n = await parts.count();
+  for (let i = 1; i < n; i++) await parts.nth(i).dispatchEvent('pointerdown');
+  await expect(page.getByRole('img', { name: '★' })).toBeVisible();
+});

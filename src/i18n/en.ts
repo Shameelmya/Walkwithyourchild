@@ -200,4 +200,7 @@ export const en = {
   stoppedSaved: "Stopped and saved",
   saving: "Saving…",
   stopShort: "Stop",
+  addQuestionQ: "Add this question to your list for the doctor?",
+  myQuestions: "My questions",
+  wellDone: "Well done!",
 };
