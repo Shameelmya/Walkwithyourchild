@@ -38,7 +38,7 @@ export default function Documents() {
   const groups = [...cats.map((c, i) => ({ i, title: loc(c, lang) })), { i: cats.length, title: t('otherDocuments') }];
   return (
     <Page wide>
-      <PageHeader title={t('navDocuments')} sub={t('documentsSub')} />
+      <PageHeader title={t('navDocuments')} />
       <div className="card p-4 mb-6 grid gap-3">
         <label className="label" htmlFor="doc-cat">{t('category')}</label>
         <select id="doc-cat" className="input" value={cat} onChange={(e) => setCat(+e.target.value)}>{groups.map((g) => <option key={g.i} value={g.i}>{g.title}</option>)}</select>

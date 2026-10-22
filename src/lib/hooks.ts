@@ -52,3 +52,17 @@ export function useWakeLockSafe() {
     return () => { void l?.release(); };
   }, []);
 }
+
+/** Keeps something mounted briefly after `open` turns false so it can animate out. */
+export function usePresence(open: boolean, ms = 220) {
+  const [mounted, setMounted] = useState(open);
+  const [closing, setClosing] = useState(false);
+  useEffect(() => {
+    if (open) { setMounted(true); setClosing(false); return; }
+    if (!mounted) return;
+    setClosing(true);
+    const h = setTimeout(() => { setMounted(false); setClosing(false); }, ms);
+    return () => clearTimeout(h);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  return { mounted, closing };
+}

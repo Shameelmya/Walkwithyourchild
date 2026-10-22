@@ -8,7 +8,7 @@ import { useChild, useChildId } from '../lib/hooks';
 import { db, getSetting, getSheet } from '../lib/db';
 import { logDose, todaySlots } from '../lib/meds';
 import { chapterPct, getReading, journeyPct } from '../lib/reading';
-import { loc, meta, toc } from '../lib/content';
+import { loc, meta, toc, partColor } from '../lib/content';
 import { addDays, fmtDate, isoDate, cx, hhmm } from '../lib/util';
 
 export default function Home() {
@@ -27,25 +27,25 @@ export default function Home() {
   const chId = reading?.chapter ?? 'c0';
   const ch = toc.toc.find((c) => c.id === chId)!;
   const part = toc.parts.find((p) => p.n === ch.part);
-  const g = ch.part >= 1 && ch.part <= 5 ? ch.part : 'i';
+  const pc = partColor(ch.part);
   const cpct = Math.round(chapterPct(reading, chId) * 100);
   const backupDue = hasData && (!lastBackup || Date.now() - lastBackup > 30 * 86400_000);
   const done = slots.filter((s) => s.log).length;
   const now = hhmm();
   const week = Array.from({ length: 7 }, (_, i) => addDays(new Date(), i - 3));
   const quick = [
-    { to: '/seizure', I: Activity, l: t('seizureBtn'), s: t('seizureBtnSub'), cls: 't-rose' },
-    { to: '/talk', I: MessageSquareHeart, l: t('navTalk'), s: t('talkSub'), cls: 't-violet' },
-    { to: '/play', I: Gamepad2, l: t('navPlay'), s: t('playSub'), cls: 't-green' },
-    { to: '/medicines', I: Pill, l: t('navMedicines'), s: slots.length ? t('medsGivenOf', { done, all: slots.length }) : t('medsSub'), cls: 't-mint' },
-    { to: '/notebook', I: NotebookPen, l: t('navNotebook'), s: t('notebookSub'), cls: 't-amber' },
-    { to: '/me', I: Wind, l: t('navForMe'), s: t('forMeShort'), cls: 't-coral' },
+    { to: '/seizure', I: Activity, l: t('seizureBtn'), s: '', cls: 't-rose' },
+    { to: '/talk', I: MessageSquareHeart, l: t('navTalk'), s: '', cls: 't-violet' },
+    { to: '/play', I: Gamepad2, l: t('navPlay'), s: '', cls: 't-green' },
+    { to: '/medicines', I: Pill, l: t('navMedicines'), s: slots.length ? t('medsGivenOf', { done, all: slots.length }) : '', cls: 't-mint' },
+    { to: '/notebook', I: NotebookPen, l: t('navNotebook'), s: '', cls: 't-amber' },
+    { to: '/me', I: Wind, l: t('navForMe'), s: '', cls: 't-coral' },
   ];
   return (
     <Page wide>
       <section className="pt-1 pb-5">
-        <p className="eyebrow">{greet}{child?.name ? ` · ${child.name}` : ''}</p>
-        <h1 className="font-display text-[1.9rem] sm:text-4xl font-bold leading-tight tracking-tight mt-1 max-w-xl">{t('homeHeadline')}</h1>
+        <p className="eyebrow">{greet}</p>
+        <h1 className="font-display text-[1.9rem] sm:text-4xl font-bold leading-tight tracking-tight mt-0.5">{child?.name}</h1>
       </section>
 
       {backupDue && (
@@ -57,18 +57,18 @@ export default function Home() {
       )}
 
       <div className="grid lg:grid-cols-[1.35fr_1fr] gap-4 mb-7">
-        <Link to={`/book/${chId}`} className={cx('tile !p-5 sm:!p-6 flex gap-4 min-h-[190px]', `grad-${g}`)}>
+        <Link to={`/book/${chId}`} style={{ ['--pc' as string]: pc.c, ['--pt' as string]: pc.t }} className="cover rounded-3xl !p-5 sm:!p-6 flex gap-4 min-h-[190px] transition duration-300 active:scale-[0.98] hover:-translate-y-0.5">
           <div className="flex-1 min-w-0 flex flex-col relative z-[1]">
-            <p className="text-[0.78rem] font-bold opacity-90">{loc(meta.reader.continue, lang)}{part ? ` · ${meta.partLabel[lang]} ${part.n}` : ''}</p>
+            <p className="text-[0.78rem] font-bold text-[var(--pc)]">{loc(meta.reader.continue, lang)}{part ? ` · ${meta.partLabel[lang]} ${part.n}` : ''}</p>
             <p className="font-display text-2xl font-bold leading-snug mt-1 line-clamp-3">{loc(ch.title, lang)}</p>
             <div className="mt-auto pt-4">
-              <div className="flex justify-between text-xs font-bold opacity-90 mb-1.5"><span>{t('chapterProgress')}</span><span>{cpct}%</span></div>
-              <div className="h-2 rounded-full bg-white/25 overflow-hidden"><div className="h-full rounded-full bg-white" style={{ width: `${Math.max(4, cpct)}%` }} /></div>
-              <span className="inline-flex items-center gap-2 mt-4 bg-white text-[#2a231d] rounded-2xl px-4 min-h-[44px] font-extrabold text-sm">{t('readNow')} <ArrowRight size={16} aria-hidden /></span>
+              <div className="flex justify-between text-xs font-bold text-muted mb-1.5"><span>{t('chapterProgress')}</span><span>{cpct}%</span></div>
+              <div className="h-2 rounded-full bg-[rgb(var(--surface))] overflow-hidden"><div className="h-full rounded-full bg-[var(--pc)]" style={{ width: `${Math.max(4, cpct)}%` }} /></div>
+              <span className="btn-primary !min-h-[44px] !px-4 mt-4 self-start text-sm">{t('readNow')} <ArrowRight size={16} aria-hidden /></span>
             </div>
           </div>
           <div aria-hidden className="flex w-[96px] sm:w-[118px] shrink-0 self-center relative z-[1]">
-            <div className="w-full aspect-[3/4.3] rounded-r-xl rounded-l-md bg-white/95 shadow-lift rotate-[4deg] p-2.5 flex flex-col border-l-[6px] border-black/20">
+            <div className="w-full aspect-[3/4.3] rounded-r-xl rounded-l-md bg-white shadow-lift rotate-[4deg] p-2.5 flex flex-col border-l-[6px] border-[var(--pc)]">
               <BookOpen size={18} className="text-[#2a231d]/70" />
               <p className="font-display text-[0.62rem] leading-tight font-bold text-[#2a231d] mt-2 line-clamp-4">{meta.appTitle[lang]}</p>
               <div className="mt-auto"><PathMotif height={22} filled={pct} /></div>
@@ -77,7 +77,6 @@ export default function Home() {
         </Link>
         <section className="card p-5 flex flex-col">
           <div className="flex items-center justify-between gap-2"><h2 className="font-extrabold text-lg">{t('journey')}</h2><span className="chip chip-on !min-h-[30px] !px-3 text-xs">{Math.round(pct * 100)}%</span></div>
-          <p className="text-sm text-muted">{t('journeySub')}</p>
           <Link to="/book" aria-label={t('openContents')} className="block mt-auto"><PathMotif filled={pct} active={ch.part} height={92} labels={toc.parts.map((p) => loc(p.title, lang))} /></Link>
         </section>
       </div>
@@ -86,9 +85,9 @@ export default function Home() {
         <h2 className="text-lg font-extrabold tracking-tight mb-3">{t('quickHelp')}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {quick.map(({ to, I, l, s, cls }) => (
-            <Link key={to} to={to} className={cx('tile min-h-[142px] flex flex-col justify-between', cls)}>
+            <Link key={to} to={to} className={cx('tile min-h-[124px] flex flex-col justify-between', cls)}>
               <span className="glass relative z-[1]"><I size={22} aria-hidden /></span>
-              <span className="relative z-[1]"><span className="block text-[1.05rem] font-extrabold leading-tight">{l}</span><span className="block text-[0.78rem] opacity-90 mt-0.5 line-clamp-2">{s}</span></span>
+              <span className="relative z-[1]"><span className="block text-[1.05rem] font-extrabold leading-tight">{l}</span>{s && <span className="block text-[0.78rem] opacity-90 mt-0.5 line-clamp-1">{s}</span>}</span>
             </Link>
           ))}
         </div>

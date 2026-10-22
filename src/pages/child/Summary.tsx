@@ -35,7 +35,7 @@ export default function Summary() {
   };
   return (
     <Page wide>
-      <PageHeader title={t('navSummary')} sub={t('summarySub')} />
+      <PageHeader title={t('navSummary')} />
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <Seg label={t('language')} value={lang} onChange={setLang} options={LANGS.map((x) => ({ v: x.v, l: x.native }))} />
       </div>

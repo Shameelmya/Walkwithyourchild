@@ -58,7 +58,7 @@ export default function ForMe() {
   useEffect(() => { const a = toc.anchors.relax; loadBook(lang).then((b) => setRelax(b.chapters.find((c) => c.id === a.c)?.blocks.slice(a.from, a.to + 1) ?? [])); }, [lang]);
   return (
     <Page>
-      <PageHeader title={t('navForMe')} sub={t('forMeSub')} />
+      <PageHeader title={t('navForMe')} />
       <a href="tel:14416" className="card p-4 mb-6 flex items-center gap-4 bg-[var(--p1t)]">
         <span className="w-14 h-14 rounded-full bg-[var(--p1)] text-white flex items-center justify-center shrink-0"><Phone aria-hidden /></span>
         <span><b className="text-lg block">{t('teleManas')}</b><span className="text-sm">{t('teleManasSub')}</span></span>

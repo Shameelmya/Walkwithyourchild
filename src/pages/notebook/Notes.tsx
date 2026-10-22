@@ -21,7 +21,7 @@ export default function Notes() {
   const add = async () => { const n: Note = { childId, title: '', body: '', updatedAt: Date.now() }; n.id = await db.notes.add(n); setEdit(n); };
   return (
     <Page>
-      <PageHeader back="/notebook" title={t('myNotes')} sub={t('myNotesSub')} actions={<button className="btn-primary px-4" onClick={add}><Plus size={18} aria-hidden /> {t('newNote')}</button>} />
+      <PageHeader back="/notebook" title={t('myNotes')} actions={<button className="btn-primary px-4" onClick={add}><Plus size={18} aria-hidden /> {t('newNote')}</button>} />
       {!notes.length ? <Empty kind="leaf" title={t('noNotes')} text={t('noNotesText')} /> : (
         <ul className="grid sm:grid-cols-2 gap-3">
           {notes.map((n) => (
