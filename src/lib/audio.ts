@@ -209,3 +209,72 @@ export function speakQueue(texts: string[], lang: string, onDone: () => void) {
   return true;
 }
 export function stopSpeaking() { if ('speechSynthesis' in window) speechSynthesis.cancel(); live.length = 0; }
+
+/* Held instruments: the note sounds while the key is held and fades when it is let go. */
+export type HoldInst = 'piano' | 'violin' | 'guitar' | 'flute' | 'harmonium' | 'organ' | 'marimba' | 'bell';
+const ksCache = new Map<number, AudioBuffer>();
+/** Plucked string (Karplus-Strong): a burst of noise that rings at the note's pitch. */
+function pluckBuffer(freq: number) {
+  const a = ac(); const key = Math.round(freq * 10);
+  const hit = ksCache.get(key); if (hit) return hit;
+  const sr = a.sampleRate; const len = Math.floor(sr * 3); const N = Math.max(2, Math.round(sr / freq));
+  const buf = a.createBuffer(1, len, sr); const d = buf.getChannelData(0);
+  for (let i = 0; i < N; i++) d[i] = (Math.random() * 2 - 1) * 0.6;
+  const decay = 0.996 - Math.min(0.01, freq / 200000);
+  for (let i = N; i < len; i++) d[i] = decay * 0.5 * (d[i - N] + d[i - N + 1 < i ? i - N + 1 : i - N]);
+  ksCache.set(key, buf); return buf;
+}
+export function hold(freq: number, inst: HoldInst, vol = 0.6): () => void {
+  if (vol <= 0) return () => {};
+  const a = ac(); const t = a.currentTime;
+  const g = a.createGain(); g.connect(out());
+  const nodes: (OscillatorNode | AudioBufferSourceNode)[] = [];
+  const osc = (type: OscillatorType, f: number, dest: AudioNode, detune = 0) => { const o = a.createOscillator(); o.type = type; o.frequency.value = f; o.detune.value = detune; o.connect(dest); o.start(t); nodes.push(o); return o; };
+  const vibrato = (o: OscillatorNode, rate: number, depth: number, delay: number) => { const l = a.createOscillator(); const lg = a.createGain(); l.frequency.value = rate; lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(freq * depth, t + delay + 0.3); l.connect(lg).connect(o.frequency); l.start(t); nodes.push(l); };
+  let release = 0.12;
+  g.gain.setValueAtTime(0.0001, t);
+  switch (inst) {
+    case 'violin': {
+      const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = Math.min(6000, freq * 7); f.Q.value = 1.2;
+      const body = a.createBiquadFilter(); body.type = 'peaking'; body.frequency.value = 2400; body.gain.value = 6; f.connect(body).connect(g);
+      const o1 = osc('sawtooth', freq, f, -4); const o2 = osc('sawtooth', freq, f, 5);
+      vibrato(o1, 5.6, 0.008, 0.25); vibrato(o2, 5.6, 0.008, 0.25);
+      g.gain.exponentialRampToValueAtTime(vol * 0.2, t + 0.14); release = 0.18; break;
+    }
+    case 'flute': {
+      const o = osc('sine', freq, g); vibrato(o, 5, 0.006, 0.2);
+      const h = a.createGain(); h.gain.value = 0.15; h.connect(g); osc('triangle', freq * 2, h);
+      const n = a.createBufferSource(); n.buffer = noise(); n.loop = true; const nf = a.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = freq * 2; nf.Q.value = 2; const ng = a.createGain(); ng.gain.value = 0.18;
+      n.connect(nf).connect(ng).connect(g); n.start(t); nodes.push(n);
+      g.gain.exponentialRampToValueAtTime(vol * 0.32, t + 0.09); release = 0.1; break;
+    }
+    case 'harmonium': {
+      const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 2600; f.connect(g);
+      osc('sawtooth', freq, f, -3); osc('square', freq, f, 3);
+      const lo = a.createGain(); lo.gain.value = 0.5; lo.connect(f); osc('sawtooth', freq / 2, lo);
+      g.gain.exponentialRampToValueAtTime(vol * 0.13, t + 0.06); release = 0.12; break;
+    }
+    case 'organ': {
+      for (const [m, v] of [[0.5, 0.5], [1, 1], [2, 0.6], [3, 0.3], [4, 0.25], [8, 0.1]] as const) { const pg = a.createGain(); pg.gain.value = v; pg.connect(g); osc('sine', freq * m, pg); }
+      g.gain.exponentialRampToValueAtTime(vol * 0.12, t + 0.02); release = 0.06; break;
+    }
+    case 'guitar': {
+      const s = a.createBufferSource(); s.buffer = pluckBuffer(freq); const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 3200;
+      s.connect(f).connect(g); s.start(t); nodes.push(s);
+      g.gain.setValueAtTime(vol * 0.9, t); release = 0.25; break;
+    }
+    case 'marimba': case 'bell': { play(freq, inst, vol, inst === 'bell' ? 1.6 : 0.8); return () => {}; }
+    default: { // piano: bright attack, slow natural decay, damped when the key is let go
+      const f = a.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(Math.min(9000, freq * 12), t); f.frequency.exponentialRampToValueAtTime(freq * 3, t + 1.2); f.connect(g);
+      osc('triangle', freq, f); const h = a.createGain(); h.gain.value = 0.35; h.connect(f); osc('sine', freq * 2, h, 4); const h3 = a.createGain(); h3.gain.value = 0.12; h3.connect(f); osc('sine', freq * 3, h3, -3);
+      g.gain.exponentialRampToValueAtTime(vol * 0.42, t + 0.006); g.gain.exponentialRampToValueAtTime(vol * 0.12, t + 1.5); g.gain.exponentialRampToValueAtTime(0.0008, t + 6); release = 0.22;
+    }
+  }
+  let off = false;
+  return () => {
+    if (off) return; off = true;
+    const n = a.currentTime;
+    g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(Math.max(0.0001, g.gain.value), n); g.gain.setTargetAtTime(0.0001, n, release / 3);
+    nodes.forEach((o) => { try { o.stop(n + release * 3); } catch { /* */ } });
+  };
+}

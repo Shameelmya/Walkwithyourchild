@@ -14,6 +14,8 @@ import { Peek, Sea, Balloons, Rub, Tilt, StarFollow, Maracas } from './games-mov
 import { Eggs, Catch, Target } from './games-tilt';
 import { Piano, SongTiles } from './games-music';
 import { Quiz, Memory, Simon, type QuizKind } from './games-learn';
+import { Watercolour } from './games-art';
+import { Rubik, Slide } from './games-puzzle';
 import { askMotion } from './shared';
 import { GAME_TEXT, UI_TEXT } from './text';
 
@@ -24,6 +26,7 @@ interface Game { id: string; e: string; cat: Cat; tile: string; C: GC; snd: [Ins
 const quiz = (kind: QuizKind): GC => function QuizGame({ vol }) { return <Quiz vol={vol} kind={kind} />; };
 const GAMES: Game[] = [
   { id: 'colouring', e: '🖍️', cat: 'colour', tile: 't-coral', C: Colouring, snd: ['glass', 'major', 72] },
+  { id: 'watercolour', e: '🖌️', cat: 'colour', tile: 't-blue', C: Watercolour, snd: ['pad'] },
   { id: 'paint', e: '🎨', cat: 'colour', tile: 't-violet', C: Paint, snd: ['flute', 'pentatonic', 60] },
   { id: 'bubbles', e: '🫧', cat: 'colour', tile: 't-blue', C: Bubbles, snd: ['bubble', 'pentatonic', 64] },
   { id: 'fireworks', e: '🎆', cat: 'colour', tile: 't-violet', C: Fireworks, snd: ['glass', 'lydian', 60] },
@@ -52,6 +55,8 @@ const GAMES: Game[] = [
   { id: 'q-abc', e: '🔤', cat: 'learn', tile: 't-mint', C: quiz('abc'), snd: ['kalimba', 'major', 60] },
   { id: 'q-ml', e: 'അ', cat: 'learn', tile: 't-rose', C: quiz('ml'), snd: ['kalimba', 'major', 60] },
   { id: 'q-kn', e: 'ಅ', cat: 'learn', tile: 't-amber', C: quiz('kn'), snd: ['kalimba', 'major', 60] },
+  { id: 'rubik', e: '🧊', cat: 'learn', tile: 't-coral', C: Rubik, snd: ['marimba'] },
+  { id: 'slide', e: '🧩', cat: 'learn', tile: 't-green', C: Slide, snd: ['kalimba'] },
   { id: 'memory', e: '🃏', cat: 'learn', tile: 't-violet', C: Memory, snd: ['kalimba', 'pentatonic', 60] },
   { id: 'simon', e: '🔁', cat: 'learn', tile: 't-blue', C: Simon, snd: ['kalimba'], essential: true },
 ];
