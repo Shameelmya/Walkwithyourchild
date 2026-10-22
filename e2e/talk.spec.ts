@@ -73,7 +73,7 @@ test('a phone without a Malayalam voice speaks English instead and says how to a
   await page.getByRole('menuitemradio', { name: 'മലയാളം' }).click();
   await page.getByRole('button', { name: 'ഭക്ഷണം', exact: true }).click();
   await expect.poll(() => page.evaluate(() => (window as unknown as { __said: { text: string; lang: string }[] }).__said.at(-1))).toEqual({ text: 'I want food, please.', lang: 'en-IN' });
-  await page.getByRole('button', { name: 'ശബ്ദം' }).click();
+  await page.getByRole('button', { name: 'ശബ്ദം', exact: true }).click();
   await expect(page).toHaveURL(/\/settings#voice/);
   await expect(page.getByLabel('English', { exact: true })).toBeVisible();
   await expect(page.getByText(/ഈ ഫോണിൽ മലയാളം ശബ്ദം/).first()).toBeVisible();
