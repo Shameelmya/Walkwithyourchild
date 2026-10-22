@@ -41,7 +41,7 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4 }: { onSu
   });
   return (
     <div className="w-full max-w-[320px] mx-auto text-center">
-      <span className="w-14 h-14 rounded-2xl grad-a text-white inline-flex items-center justify-center shadow-lift mb-4"><Lock size={24} aria-hidden /></span>
+      <span className="w-14 h-14 rounded-2xl t-blue text-white inline-flex items-center justify-center shadow-lift mb-4"><Lock size={24} aria-hidden /></span>
       <h1 className="text-2xl font-extrabold">{title}</h1>
       {sub && <p className="text-muted mt-1">{sub}</p>}
       <div key={shake} className={cx('flex justify-center gap-4 my-7', shake > 0 && 'anim-pop')} aria-label={t('pin')} aria-live="polite" role="status">

@@ -8,15 +8,15 @@ import { ageFrom, cx } from '../../lib/util';
 import { db } from '../../lib/db';
 
 const TILES: { to: string; k: TKey; s: TKey; I: typeof Pill; g: string }[] = [
-  { to: '/medicines', k: 'navMedicines', s: 'medsSub', I: Pill, g: 'grad-1' },
-  { to: '/seizures', k: 'navSeizures', s: 'seizuresSub', I: Activity, g: 'grad-r' },
-  { to: '/visits', k: 'navVisits', s: 'visitsSub', I: Stethoscope, g: 'grad-5' },
-  { to: '/records', k: 'navRecords', s: 'recordsSub', I: ClipboardList, g: 'grad-5' },
-  { to: '/progress', k: 'navProgress', s: 'progressShort', I: LineChart, g: 'grad-2' },
-  { to: '/documents', k: 'navDocuments', s: 'documentsShort', I: FolderHeart, g: 'grad-i' },
-  { to: '/summary', k: 'navSummary', s: 'summaryShort', I: FileText, g: 'grad-3' },
-  { to: '/talk', k: 'navTalk', s: 'talkSub', I: MessageSquareHeart, g: 'grad-4' },
-  { to: '/play', k: 'navPlay', s: 'playSub', I: Gamepad2, g: 'grad-2' },
+  { to: '/medicines', k: 'navMedicines', s: 'medsSub', I: Pill, g: 't-mint' },
+  { to: '/seizures', k: 'navSeizures', s: 'seizuresSub', I: Activity, g: 't-rose' },
+  { to: '/visits', k: 'navVisits', s: 'visitsSub', I: Stethoscope, g: 't-blue' },
+  { to: '/records', k: 'navRecords', s: 'recordsSub', I: ClipboardList, g: 't-blue' },
+  { to: '/progress', k: 'navProgress', s: 'progressShort', I: LineChart, g: 't-green' },
+  { to: '/documents', k: 'navDocuments', s: 'documentsShort', I: FolderHeart, g: 't-amber' },
+  { to: '/summary', k: 'navSummary', s: 'summaryShort', I: FileText, g: 't-coral' },
+  { to: '/talk', k: 'navTalk', s: 'talkSub', I: MessageSquareHeart, g: 't-violet' },
+  { to: '/play', k: 'navPlay', s: 'playSub', I: Gamepad2, g: 't-green' },
 ];
 
 export default function ChildHub() {
@@ -31,7 +31,7 @@ export default function ChildHub() {
   }), [childId]);
   return (
     <Page wide>
-      <section className="tile grad-a !p-5 sm:!p-6 mb-6">
+      <section className="tile t-blue !p-5 sm:!p-6 mb-6">
         <div className="relative z-[1] flex items-center gap-4">
           <Avatar blobId={child?.photoBlobId} name={child?.name} size={76} />
           <div className="flex-1 min-w-0">

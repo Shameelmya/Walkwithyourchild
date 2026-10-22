@@ -47,7 +47,7 @@ export default function Onboarding() {
 
   const body = [
     <div key="lang">
-      <div className="tile grad-a !p-6 !rounded-[32px] mb-8 text-center">
+      <div className="tile t-blue !p-6 !rounded-[32px] mb-8 text-center">
         <div className="relative z-[1]">
           <div className="bg-white/95 rounded-3xl p-2 mb-5 shadow-lift"><PathMotif height={84} filled={0.35} /></div>
           <p className="text-sm font-bold opacity-90">{meta.kicker[lang]}</p>
@@ -73,14 +73,14 @@ export default function Onboarding() {
       <h1 className="font-display text-[2rem] font-bold leading-tight mt-1 mb-2">{t('welcomeTitle')}</h1>
       <p className="text-muted mb-6">{meta.subtitle[lang]}</p>
       <ul className="grid gap-3 mb-8">
-        <Feature I={BookOpen} c="grad-1" title={t('featBookTitle')} text={t('featBookText')} />
-        <Feature I={NotebookPen} c="grad-i" title={t('featNotebookTitle')} text={t('featNotebookText')} />
-        <Feature I={HeartHandshake} c="grad-4" title={t('featCareTitle')} text={t('featCareText')} />
+        <Feature I={BookOpen} c="t-mint" title={t('featBookTitle')} text={t('featBookText')} />
+        <Feature I={NotebookPen} c="t-amber" title={t('featNotebookTitle')} text={t('featNotebookText')} />
+        <Feature I={HeartHandshake} c="t-violet" title={t('featCareTitle')} text={t('featCareText')} />
       </ul>
       <button className="btn-primary w-full" onClick={next}>{t('continue')} <ArrowRight size={18} aria-hidden /></button>
     </div>,
     <div key="privacy">
-      <span className="w-16 h-16 rounded-3xl grad-1 text-white flex items-center justify-center shadow-lift mb-5"><ShieldCheck size={30} aria-hidden /></span>
+      <span className="w-16 h-16 rounded-3xl t-mint text-white flex items-center justify-center shadow-lift mb-5"><ShieldCheck size={30} aria-hidden /></span>
       <h1 className="font-display text-[2rem] font-bold leading-tight mb-2">{t('privacyTitle')}</h1>
       <p className="text-muted mb-6">{t('privacyLead')}</p>
       <div className="card p-5 mb-3 flex gap-3"><Smartphone className="text-[var(--p1)] shrink-0 mt-0.5" aria-hidden /><p className="font-semibold">{meta.privacy[lang]}</p></div>
@@ -114,7 +114,7 @@ export default function Onboarding() {
       <button className="btn-ghost w-full mt-6" onClick={() => { setPin1(''); next(); }}>{t('skipForNow')}</button>
     </div>,
     <div key="install" className="text-center">
-      <span className="w-20 h-20 rounded-[28px] grad-a text-white inline-flex items-center justify-center shadow-lift mb-6"><Download size={34} aria-hidden /></span>
+      <span className="w-20 h-20 rounded-[28px] t-blue text-white inline-flex items-center justify-center shadow-lift mb-6"><Download size={34} aria-hidden /></span>
       <h1 className="font-display text-[2rem] font-bold leading-tight mb-2">{t('installTitle')}</h1>
       <p className="text-muted mb-8">{inst.ios ? t('installIos') : t('installText')}</p>
       <div className="card p-4 mb-8 flex items-center gap-3 text-left"><Lock className="text-[var(--p1)] shrink-0" aria-hidden /><p className="text-sm">{t('readyNote')}</p></div>

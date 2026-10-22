@@ -37,7 +37,7 @@ export default function SOS() {
   const row = (label: string, v?: string) => v ? <div className="py-2 border-b border-line/60"><p className="text-sm font-bold text-muted">{label}</p><p className="text-xl font-bold whitespace-pre-wrap">{v}</p></div> : null;
   return (
     <main id="main" className="min-h-screen bg-bg">
-      <div className="grad-r text-white px-4 pt-4 pb-6 rounded-b-[32px] shadow-lift">
+      <div className="t-rose text-white px-4 pt-4 pb-6 rounded-b-[32px] shadow-lift">
         <div className="flex items-center justify-between"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><div className="flex gap-2"><LangButton light /><button className="glass !w-12 !h-12" onClick={() => nav(-1)} aria-label={t('close')}><X /></button></div></div>
         <div className="grid gap-3 mt-3 max-w-xl mx-auto">
           <a href="tel:108" className="btn bg-white text-danger text-2xl !min-h-[72px]"><Phone aria-hidden /> {t('call108')}</a>

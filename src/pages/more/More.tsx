@@ -5,14 +5,14 @@ import { Page, PageHeader } from '../../components/ui';
 import { cx } from '../../lib/util';
 
 const ITEMS: { to: string; k: TKey; I: typeof Info; g: string }[] = [
-  { to: '/me', k: 'navForMe', I: HeartHandshake, g: 'grad-3' },
-  { to: '/talk', k: 'navTalk', I: MessageSquareHeart, g: 'grad-4' },
-  { to: '/play', k: 'navPlay', I: Gamepad2, g: 'grad-2' },
-  { to: '/memory', k: 'navMemory', I: Archive, g: 'grad-4' },
-  { to: '/updates', k: 'navUpdates', I: Newspaper, g: 'grad-5' },
-  { to: '/community', k: 'navCommunity', I: Users, g: 'grad-1' },
-  { to: '/settings', k: 'navSettings', I: Settings, g: 'grad-i' },
-  { to: '/about', k: 'about', I: Info, g: 'grad-a' },
+  { to: '/me', k: 'navForMe', I: HeartHandshake, g: 't-coral' },
+  { to: '/talk', k: 'navTalk', I: MessageSquareHeart, g: 't-violet' },
+  { to: '/play', k: 'navPlay', I: Gamepad2, g: 't-green' },
+  { to: '/memory', k: 'navMemory', I: Archive, g: 't-violet' },
+  { to: '/updates', k: 'navUpdates', I: Newspaper, g: 't-blue' },
+  { to: '/community', k: 'navCommunity', I: Users, g: 't-mint' },
+  { to: '/settings', k: 'navSettings', I: Settings, g: 't-amber' },
+  { to: '/about', k: 'about', I: Info, g: 't-blue' },
 ];
 export default function More() {
   const { t } = useT();

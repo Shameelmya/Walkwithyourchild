@@ -13,7 +13,7 @@ import { compressImage, startRecording, type Rec } from '../../lib/media';
 import { cx } from '../../lib/util';
 
 const EMOJI = ['🍚', '💧', '🤕', '🚽', '👩', '👨', '🎵', '😴', '👍', '👎', '➕', '✋', '🔥', '❄️', '🤗', '🌳'];
-const COLORS = ['1', '2', '3', '4', '5', 'i'];
+const COLORS = ['t-blue', 't-violet', 't-mint', 't-coral', 't-amber', 't-green'];
 
 interface Card { key: string; rec?: TalkCard; builtin?: number; label: string; phrase: string; phraseEn: string; emoji?: string; photo?: number; voice?: number }
 
@@ -92,7 +92,7 @@ export default function Talk() {
     <div className="grid gap-3 flex-1" style={{ gridTemplateColumns: `repeat(${n}, minmax(0,1fr))`, gridAutoRows: full ? `calc((100vh - 190px - ${n - 1} * 0.75rem) / ${n})` : n === 4 ? 'minmax(118px, auto)' : 'minmax(150px, auto)' }}>
       {shown.map((c, i) => (
         <button key={c.key} onClick={() => (editMode ? setEditing(c) : say(c))} aria-label={c.label}
-          className={cx('tile !p-3 flex flex-col items-stretch gap-2 border-4', `grad-${COLORS[(page * per + i) % COLORS.length]}`, focus === i ? 'border-white ring-4 ring-[rgb(var(--accent))]' : 'border-transparent', active === c.key && 'anim-pop ring-4 ring-white')}>
+          className={cx('tile !p-3 flex flex-col items-stretch gap-2 border-4', COLORS[(page * per + i) % COLORS.length], focus === i ? 'border-white ring-4 ring-[rgb(var(--accent))]' : 'border-transparent', active === c.key && 'anim-pop ring-4 ring-white')}>
           <CardFace c={c} big={n <= 3} />
           {editMode && <span className="absolute top-2 right-2 z-[2] bg-white text-[#2a231d] rounded-full p-1.5"><Pencil size={16} aria-hidden /></span>}
         </button>
@@ -108,7 +108,7 @@ export default function Talk() {
   );
   const strip = (
     <div aria-live="polite" className="card !rounded-[24px] p-4 mb-4 flex items-center gap-3 min-h-[76px]">
-      <span className="w-12 h-12 rounded-2xl grad-4 text-white flex items-center justify-center shrink-0 text-2xl" aria-hidden>{said?.emoji ?? '💬'}</span>
+      <span className="w-12 h-12 rounded-2xl t-violet text-white flex items-center justify-center shrink-0 text-2xl" aria-hidden>{said?.emoji ?? '💬'}</span>
       <p className={cx('flex-1 font-extrabold leading-snug', said ? 'text-xl' : 'text-muted')}>{said ? said.phrase : t('talkStripHint')}</p>
       {said && <button className="icon-chip" onClick={() => say(said)} aria-label={t('sayAgain')}><Play size={20} /></button>}
     </div>

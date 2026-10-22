@@ -92,7 +92,7 @@ export function Confirm({ open, text, onYes, onNo, danger = false, yes }: { open
 export function Avatar({ blobId, name, size = 48 }: { blobId?: number; name?: string; size?: number }) {
   const url = useBlobUrl(blobId);
   return (
-    <span className="inline-flex items-center justify-center rounded-full overflow-hidden grad-a text-white font-extrabold shrink-0 ring-2 ring-surface shadow-card" style={{ width: size, height: size, fontSize: size * 0.42 }}>
+    <span className="inline-flex items-center justify-center rounded-full overflow-hidden t-blue text-white font-extrabold shrink-0 ring-2 ring-surface shadow-card" style={{ width: size, height: size, fontSize: size * 0.42 }}>
       {url ? <img src={url} alt="" className="w-full h-full object-cover" /> : name ? name.trim().charAt(0).toUpperCase() : <User size={size * 0.5} />}
     </span>
   );

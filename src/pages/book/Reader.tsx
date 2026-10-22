@@ -183,14 +183,14 @@ export default function Reader() {
               {ch.blocks.map((b, i) => <div key={i} data-b={i} className="scroll-mt-[90px]"><BlockView b={b} chapter={chapter} index={i} /></div>)}
               <nav className="grid sm:grid-cols-2 gap-3 mt-14 font-ui" aria-label={t('chapterNav')}>
                 {prev ? <button className="card p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`)}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
-                {next ? <button className="tile grad-a !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`)}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
+                {next ? <button className="tile t-blue !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`)}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
               </nav>
             </article>
           )}
         </main>
       </div>
       <button onClick={() => setPanel(!panel)} aria-expanded={panel} aria-label={t('readingSettings')}
-        className={cx('fixed z-50 right-4 bottom-[100px] lg:bottom-6 lg:right-6 h-14 rounded-full shadow-lift flex items-center gap-2 px-5 font-extrabold transition active:scale-95', panel ? 'bg-ink text-bg' : 'grad-a text-white')}>
+        className={cx('fixed z-50 right-4 bottom-[100px] lg:bottom-6 lg:right-6 h-14 rounded-full shadow-lift flex items-center gap-2 px-5 font-extrabold transition active:scale-95', panel ? 'bg-ink text-bg' : 't-blue text-white')}>
         {panel ? <X size={20} aria-hidden /> : <><span className="font-display text-xl leading-none">Aa</span><Sun size={16} aria-hidden /><Languages size={16} aria-hidden /></>}
       </button>
       <ReadingPanel open={panel} onClose={() => setPanel(false)} speaking={speaking} onSpeak={readAloud} hasVoice={hasVoice} />

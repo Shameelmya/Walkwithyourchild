@@ -34,12 +34,12 @@ export default function Home() {
   const now = hhmm();
   const week = Array.from({ length: 7 }, (_, i) => addDays(new Date(), i - 3));
   const quick = [
-    { to: '/seizure', I: Activity, l: t('seizureBtn'), s: t('seizureBtnSub'), cls: 'grad-r' },
-    { to: '/talk', I: MessageSquareHeart, l: t('navTalk'), s: t('talkSub'), cls: 'grad-4' },
-    { to: '/play', I: Gamepad2, l: t('navPlay'), s: t('playSub'), cls: 'grad-2' },
-    { to: '/medicines', I: Pill, l: t('navMedicines'), s: slots.length ? t('medsGivenOf', { done, all: slots.length }) : t('medsSub'), cls: 'grad-1' },
-    { to: '/notebook', I: NotebookPen, l: t('navNotebook'), s: t('notebookSub'), cls: 'grad-i' },
-    { to: '/me', I: Wind, l: t('navForMe'), s: t('forMeShort'), cls: 'grad-3' },
+    { to: '/seizure', I: Activity, l: t('seizureBtn'), s: t('seizureBtnSub'), cls: 't-rose' },
+    { to: '/talk', I: MessageSquareHeart, l: t('navTalk'), s: t('talkSub'), cls: 't-violet' },
+    { to: '/play', I: Gamepad2, l: t('navPlay'), s: t('playSub'), cls: 't-green' },
+    { to: '/medicines', I: Pill, l: t('navMedicines'), s: slots.length ? t('medsGivenOf', { done, all: slots.length }) : t('medsSub'), cls: 't-mint' },
+    { to: '/notebook', I: NotebookPen, l: t('navNotebook'), s: t('notebookSub'), cls: 't-amber' },
+    { to: '/me', I: Wind, l: t('navForMe'), s: t('forMeShort'), cls: 't-coral' },
   ];
   return (
     <Page wide>
@@ -50,7 +50,7 @@ export default function Home() {
 
       {backupDue && (
         <Link to="/settings#backup" className="card flex items-center gap-3 p-4 mb-5 !bg-soft border-transparent">
-          <span className="w-11 h-11 rounded-2xl grad-a text-white flex items-center justify-center shrink-0"><CloudUpload size={20} aria-hidden /></span>
+          <span className="w-11 h-11 rounded-2xl t-blue text-white flex items-center justify-center shrink-0"><CloudUpload size={20} aria-hidden /></span>
           <span className="flex-1 min-w-0"><b className="block">{t('backupReminder')}</b><span className="text-sm text-muted">{lastBackup ? t('lastBackupOn', { date: fmtDate(lastBackup, lang) }) : t('neverBackedUp')}</span></span>
           <ChevronRight aria-hidden />
         </Link>
@@ -99,7 +99,7 @@ export default function Home() {
           <div className="flex items-center justify-between mb-3"><h2 className="font-extrabold text-lg">{t('today')}</h2><Link to="/medicines" className="text-sm font-bold text-[rgb(var(--accent))] min-h-[40px] inline-flex items-center">{t('seeAll')}</Link></div>
           <div className="flex gap-1.5 mb-4" aria-hidden>
             {week.map((d) => { const on = isoDate(d) === isoDate(); return (
-              <span key={+d} className={cx('flex-1 rounded-2xl py-2 flex flex-col items-center text-xs font-bold', on ? 'grad-a text-white shadow-lift' : 'bg-surface2 text-muted')}>
+              <span key={+d} className={cx('flex-1 rounded-2xl py-2 flex flex-col items-center text-xs font-bold', on ? 't-blue text-white shadow-lift' : 'bg-surface2 text-muted')}>
                 <span>{d.toLocaleDateString(`${lang}-IN`, { weekday: 'narrow' })}</span><span className="text-base font-extrabold">{d.getDate()}</span>
               </span>); })}
           </div>
@@ -118,7 +118,7 @@ export default function Home() {
         </section>
         <div className="grid gap-4">
           <Link to="/visits" className="card p-5 flex gap-4 items-center">
-            <span className="w-14 h-14 rounded-2xl grad-5 text-white flex flex-col items-center justify-center shrink-0 leading-none">
+            <span className="w-14 h-14 rounded-2xl t-blue text-white flex flex-col items-center justify-center shrink-0 leading-none">
               {visit ? <><span className="text-[0.65rem] font-bold">{fmtDate(visit.date, lang, { month: 'short' })}</span><span className="text-xl font-extrabold">{visit.date.slice(8)}</span></> : <Stethoscope aria-hidden />}
             </span>
             <span className="flex-1 min-w-0"><span className="eyebrow block">{t('nextVisit')}</span>
@@ -127,13 +127,13 @@ export default function Home() {
             <ChevronRight aria-hidden className="text-muted" />
           </Link>
           <Link to="/notebook/questions" className="card p-5 flex gap-4 items-center">
-            <span className="w-14 h-14 rounded-2xl grad-i text-white flex items-center justify-center shrink-0"><HelpCircle aria-hidden /></span>
+            <span className="w-14 h-14 rounded-2xl t-amber text-white flex items-center justify-center shrink-0"><HelpCircle aria-hidden /></span>
             <span className="flex-1 min-w-0"><span className="eyebrow block">{t('questionsForDoctor')}</span><b>{openQs ? t('questionsToAsk', { n: openQs }) : t('noOpenQuestions')}</b></span>
             <ChevronRight aria-hidden className="text-muted" />
           </Link>
           <div className="grid grid-cols-2 gap-3">
-            <a href="tel:108" className="card p-4 flex items-center gap-3"><span className="w-11 h-11 rounded-2xl grad-r text-white flex items-center justify-center shrink-0"><Phone size={19} aria-hidden /></span><span className="min-w-0"><b className="block text-lg leading-none">108</b><span className="text-xs text-muted line-clamp-1">{t('ambulance')}</span></span></a>
-            <a href="tel:14416" className="card p-4 flex items-center gap-3"><span className="w-11 h-11 rounded-2xl grad-1 text-white flex items-center justify-center shrink-0"><Phone size={19} aria-hidden /></span><span className="min-w-0"><b className="block text-lg leading-none">14416</b><span className="text-xs text-muted line-clamp-1">Tele-MANAS</span></span></a>
+            <a href="tel:108" className="card p-4 flex items-center gap-3"><span className="w-11 h-11 rounded-2xl t-rose text-white flex items-center justify-center shrink-0"><Phone size={19} aria-hidden /></span><span className="min-w-0"><b className="block text-lg leading-none">108</b><span className="text-xs text-muted line-clamp-1">{t('ambulance')}</span></span></a>
+            <a href="tel:14416" className="card p-4 flex items-center gap-3"><span className="w-11 h-11 rounded-2xl t-mint text-white flex items-center justify-center shrink-0"><Phone size={19} aria-hidden /></span><span className="min-w-0"><b className="block text-lg leading-none">14416</b><span className="text-xs text-muted line-clamp-1">Tele-MANAS</span></span></a>
           </div>
         </div>
       </div>
