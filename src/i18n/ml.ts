@@ -180,4 +180,7 @@ export const ml: Record<keyof typeof en, string> = {
   stoppedSaved: "നിർത്തി, സേവ് ചെയ്തു",
   saving: "സേവ് ചെയ്യുന്നു…",
   stopShort: "നിർത്തുക",
+  addQuestionQ: "ഡോക്ടറോട് ചോദിക്കാനുള്ള പട്ടികയിൽ ഈ ചോദ്യം ചേർക്കണോ?",
+  myQuestions: "എന്റെ ചോദ്യങ്ങൾ",
+  wellDone: "വളരെ നന്നായി!",
 };

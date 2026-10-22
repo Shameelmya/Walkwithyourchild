@@ -137,4 +137,7 @@ export const kn: Record<keyof typeof en, string> = {
   stoppedSaved: "ನಿಲ್ಲಿಸಿ ಉಳಿಸಲಾಗಿದೆ",
   saving: "ಉಳಿಸಲಾಗುತ್ತಿದೆ…",
   stopShort: "ನಿಲ್ಲಿಸಿ",
+  addQuestionQ: "ವೈದ್ಯರನ್ನು ಕೇಳುವ ಪಟ್ಟಿಗೆ ಈ ಪ್ರಶ್ನೆ ಸೇರಿಸಬೇಕೇ?",
+  myQuestions: "ನನ್ನ ಪ್ರಶ್ನೆಗಳು",
+  wellDone: "ಭೇಷ್!",
 };

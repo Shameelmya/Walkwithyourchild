@@ -14,7 +14,7 @@ test('extra: meds, notebook pdf, backup roundtrip', async ({ page }) => {
   await page.getByLabel('Medicine *').fill('Valproate'); await page.getByLabel('Dose', { exact: true }).fill('5 ml');
   await page.getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('Valproate').first()).toBeVisible();
-  await go('/book/c2'); await page.getByRole('button', { name: 'Add to my questions' }).first().click(); await expect(page.getByText('Added to your questions for the doctor')).toBeVisible();
+  await go('/book/c2'); await page.getByRole('button', { name: 'Add to my questions' }).first().click(); await page.getByRole('dialog').getByRole('button', { name: 'Add', exact: true }).click(); await expect(page.getByText('Added to your questions for the doctor')).toBeVisible();
   await go('/notebook/questions'); await expect(page.locator('textarea').first()).not.toHaveValue('');
   await go('/notebook'); await page.getByRole('button', { name: 'Print or PDF' }).click();
   const dl = page.waitForEvent('download', { timeout: 90_000 }); await page.getByRole('button', { name: 'Download PDF' }).click(); expect((await dl).suggestedFilename()).toMatch(/pdf$/);

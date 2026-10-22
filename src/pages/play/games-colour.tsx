@@ -32,9 +32,23 @@ export function Colouring({ vol }: { vol: number }) {
   const [col, setCol] = useState(5);
   const [fills, setFills] = useState<Record<string, string[]>>(() => { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch { return {}; } });
   const [flash, setFlash] = useState(-1);
+  const [party, setParty] = useState(0);
+  const celebrated = useRef<Record<string, boolean>>({});
   useEffect(() => { try { localStorage.setItem(LS, JSON.stringify(fills)); } catch { /* */ } }, [fills]);
   const p = PICTURES[pic];
   const f = fills[p.id] ?? [];
+  // Every part of the picture (the background is optional) has a colour: celebrate once.
+  const complete = p.regions.every((_, i) => i === 0 || !!f[i]);
+  useEffect(() => {
+    if (!complete) { celebrated.current[p.id] = false; return; }
+    if (celebrated.current[p.id]) return;
+    celebrated.current[p.id] = true;
+    setParty((x) => x + 1);
+    [0, 2, 4, 5, 7].forEach((n, i) => tone(PENTA[n] * 2, 1.2, vol * 0.7, 'sine', 0.12 * i));
+    try { navigator.vibrate?.([40, 60, 40]); } catch { /* */ }
+  }, [complete, p.id, vol]);
+  // Pictures already finished before this visit don't celebrate again.
+  useEffect(() => { PICTURES.forEach((x) => { const ff = fills[x.id] ?? []; if (x.regions.every((_, i) => i === 0 || !!ff[i])) celebrated.current[x.id] = true; }); }, []); // eslint-disable-line
   const fill = useCallback((i: number, c = PAINT[col]) => {
     setFills((all) => { const cur = [...(all[p.id] ?? [])]; cur[i] = c; return { ...all, [p.id]: cur }; });
     setFlash(i); setTimeout(() => setFlash(-1), 350);
@@ -54,6 +68,7 @@ export function Colouring({ vol }: { vol: number }) {
           {p.lines?.map((d, i) => <path key={'l' + i} d={d} fill="none" stroke="#2a2f3a" strokeWidth={3.5} strokeLinecap="round" pointerEvents="none" />)}
         </svg>
       </div>
+      {party > 0 && <Celebrate key={party} />}
       <div className="flex items-center gap-6">
         <button aria-label="previous" onClick={() => go(-1)} className="w-14 h-14 rounded-full bg-white shadow-card flex items-center justify-center text-[#2a2f3a] active:scale-90 transition duration-300"><ChevronLeft size={30} /></button>
         <span className="text-sm font-bold text-[#6b7385] tabular-nums" aria-hidden>{pic + 1} / {PICTURES.length}</span>
@@ -65,6 +80,21 @@ export function Colouring({ vol }: { vol: number }) {
             className="w-12 h-12 rounded-full border-4 transition-transform duration-300" style={{ background: c, borderColor: col === i ? '#2a2f3a' : '#ffffff', transform: col === i ? 'scale(1.15)' : undefined, boxShadow: '0 4px 12px -4px rgb(0 0 0 / .3)' }} />
         ))}
       </div>
+    </div>
+  );
+}
+
+/** A short, joyful burst over the picture: big star, confetti, no words needed. */
+function Celebrate() {
+  const [on, setOn] = useState(true);
+  useEffect(() => { const h = setTimeout(() => setOn(false), 2600); return () => clearTimeout(h); }, []);
+  if (!on) return null;
+  return (
+    <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center" aria-live="polite">
+      {Array.from({ length: 28 }, (_, i) => (
+        <span key={i} className="absolute w-3 h-4 rounded-sm" style={{ left: '50%', top: '45%', background: PAINT[i % 9], transform: `rotate(${i * 13}deg) translate(${60 + (i % 7) * 22}px)`, animation: `burst ${1.2 + (i % 5) * 0.2}s ease-out forwards` }} />
+      ))}
+      <span className="anim-zoom text-[9rem] drop-shadow-xl" role="img" aria-label="★">🌟</span>
     </div>
   );
 }

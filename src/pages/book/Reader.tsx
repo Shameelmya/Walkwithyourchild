@@ -148,7 +148,8 @@ export default function Reader() {
     };
     addEventListener('scroll', onScroll, { passive: true });
     void savePosition(chapter, cur.current);
-    return () => { removeEventListener('scroll', onScroll); clearTimeout(h); };
+    // Keep the exact spot even when leaving the chapter right after scrolling.
+    return () => { removeEventListener('scroll', onScroll); clearTimeout(h); if (inSync.current) void savePosition(chapter, cur.current); };
   }, [ch, chapter, ready]);
 
   useEffect(() => () => { stopSpeaking(); setSpeaking(false); }, [chapter, lang]);
