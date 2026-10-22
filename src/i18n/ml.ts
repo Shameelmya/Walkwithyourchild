@@ -177,4 +177,6 @@ export const ml: Record<keyof typeof en, string> = {
   stopAndSave: "ടൈമർ നിർത്തി സേവ് ചെയ്യുക",
   seizureHistory: "ഫിറ്റ്സ് ചരിത്രം",
   appVersion: "പതിപ്പ് {v}",
+  stoppedSaved: "നിർത്തി, സേവ് ചെയ്തു",
+  saving: "സേവ് ചെയ്യുന്നു…",
 };
