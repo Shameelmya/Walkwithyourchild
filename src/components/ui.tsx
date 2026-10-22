@@ -36,13 +36,16 @@ export function Page({ children, className = '', wide = false }: { children: Rea
 export function Modal({ open, onClose, title, children, full = false }: { open: boolean; onClose: () => void; title?: ReactNode; children: ReactNode; full?: boolean }) {
   const { t } = useT();
   const ref = useRef<HTMLDivElement>(null);
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  // Focus the first field only when the dialog opens; re-running this on every render would steal focus while typing.
   useEffect(() => {
     if (!open) return;
-    const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && closeRef.current();
     addEventListener('keydown', k);
     ref.current?.querySelector<HTMLElement>('input,textarea,select,button')?.focus();
     return () => removeEventListener('keydown', k);
-  }, [open, onClose]);
+  }, [open]);
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40" onClick={onClose}>
