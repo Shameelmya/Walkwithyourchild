@@ -64,7 +64,7 @@ export default function Contents() {
         <Link to="/book/search" className="flex-1 input !min-h-[52px] flex items-center gap-3 text-muted !bg-surface shadow-card border-line/50"><Search size={20} aria-hidden /> {t('searchPlaceholder')}</Link>
         <Link to="/book/bookmarks" className="icon-chip !w-[52px] !h-[52px]" aria-label={t('bookmarks')}><Bookmark size={20} /></Link>
       </div>
-      <Link to={`/book/${ch.id}`} className="tile grad-a !p-5 flex items-center gap-4 mb-5">
+      <Link to={`/book/${ch.id}`} className="tile t-blue !p-5 flex items-center gap-4 mb-5">
         <div className="relative z-[1] flex-1 min-w-0">
           <p className="text-[0.78rem] font-bold opacity-90">{r?.updatedAt ? meta.reader.continue[lang] : t('startReading')}</p>
           <p className="font-display text-xl font-bold leading-snug line-clamp-2">{loc(ch.title, lang)}</p>

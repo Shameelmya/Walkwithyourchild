@@ -28,7 +28,7 @@ interface UI {
   setVolume: (v: number) => void;
 }
 
-const initialTheme = (): Theme => (typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'paper');
+const initialTheme = (): Theme => (typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'white');
 
 export const useUI = create<UI>()(
   persist(
@@ -48,7 +48,12 @@ export const useUI = create<UI>()(
       setTalkGrid: (talkGrid) => set({ talkGrid }),
       setVolume: (volume) => set({ volume }),
     }),
-    { name: 'wwyc-ui' },
+    {
+      name: 'wwyc-ui',
+      version: 1,
+      // v1: the soft white theme became the default look; move earlier installs off the old default.
+      migrate: (state, from) => { const s = state as UI; if (from < 1 && s.theme === 'paper') s.theme = 'white'; return s; },
+    },
   ),
 );
 

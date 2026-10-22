@@ -10,31 +10,31 @@ import { PathMotif } from './Path';
 
 type Item = { to: string; k: TKey; I: typeof Home; c: string };
 const MAIN: Item[] = [
-  { to: '/', k: 'navHome', I: Home, c: 'var(--ga)' },
-  { to: '/book', k: 'navBook', I: BookOpen, c: 'var(--g1)' },
-  { to: '/notebook', k: 'navNotebook', I: NotebookPen, c: 'var(--gi)' },
-  { to: '/child', k: 'navChild', I: Baby, c: 'var(--g3)' },
+  { to: '/', k: 'navHome', I: Home, c: 'var(--tb2)' },
+  { to: '/book', k: 'navBook', I: BookOpen, c: 'var(--tm2)' },
+  { to: '/notebook', k: 'navNotebook', I: NotebookPen, c: 'var(--ta2)' },
+  { to: '/child', k: 'navChild', I: Baby, c: 'var(--tc2)' },
 ];
 const CARE: Item[] = [
-  { to: '/medicines', k: 'navMedicines', I: Pill, c: 'var(--g1)' },
-  { to: '/seizures', k: 'navSeizures', I: Activity, c: 'var(--gr)' },
-  { to: '/visits', k: 'navVisits', I: Stethoscope, c: 'var(--g5)' },
-  { to: '/records', k: 'navRecords', I: ClipboardList, c: 'var(--g5)' },
-  { to: '/progress', k: 'navProgress', I: LineChart, c: 'var(--g2)' },
-  { to: '/documents', k: 'navDocuments', I: FolderHeart, c: 'var(--gi)' },
-  { to: '/summary', k: 'navSummary', I: FileText, c: 'var(--g3)' },
+  { to: '/medicines', k: 'navMedicines', I: Pill, c: 'var(--tm2)' },
+  { to: '/seizures', k: 'navSeizures', I: Activity, c: 'var(--tr2)' },
+  { to: '/visits', k: 'navVisits', I: Stethoscope, c: 'var(--tb2)' },
+  { to: '/records', k: 'navRecords', I: ClipboardList, c: 'var(--tb2)' },
+  { to: '/progress', k: 'navProgress', I: LineChart, c: 'var(--tg2)' },
+  { to: '/documents', k: 'navDocuments', I: FolderHeart, c: 'var(--ta2)' },
+  { to: '/summary', k: 'navSummary', I: FileText, c: 'var(--tc2)' },
 ];
 const CHILD: Item[] = [
-  { to: '/talk', k: 'navTalk', I: MessageSquareHeart, c: 'var(--g4)' },
-  { to: '/play', k: 'navPlay', I: Gamepad2, c: 'var(--g2)' },
+  { to: '/talk', k: 'navTalk', I: MessageSquareHeart, c: 'var(--tv2)' },
+  { to: '/play', k: 'navPlay', I: Gamepad2, c: 'var(--tg2)' },
 ];
 const YOU: Item[] = [
-  { to: '/me', k: 'navForMe', I: HeartHandshake, c: 'var(--g3)' },
-  { to: '/memory', k: 'navMemory', I: Archive, c: 'var(--g4)' },
-  { to: '/updates', k: 'navUpdates', I: Newspaper, c: 'var(--g5)' },
-  { to: '/community', k: 'navCommunity', I: Users, c: 'var(--g1)' },
-  { to: '/settings', k: 'navSettings', I: Settings, c: 'var(--gi)' },
-  { to: '/about', k: 'about', I: Info, c: 'var(--gi)' },
+  { to: '/me', k: 'navForMe', I: HeartHandshake, c: 'var(--tc2)' },
+  { to: '/memory', k: 'navMemory', I: Archive, c: 'var(--tv2)' },
+  { to: '/updates', k: 'navUpdates', I: Newspaper, c: 'var(--tb2)' },
+  { to: '/community', k: 'navCommunity', I: Users, c: 'var(--tm2)' },
+  { to: '/settings', k: 'navSettings', I: Settings, c: 'var(--ta2)' },
+  { to: '/about', k: 'about', I: Info, c: 'var(--ta2)' },
 ];
 const GROUPS: { k: TKey; items: Item[] }[] = [{ k: 'groupMain', items: MAIN }, { k: 'groupCare', items: CARE }, { k: 'groupChild', items: CHILD }, { k: 'groupYou', items: YOU }];
 
@@ -103,7 +103,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <div className="relative mx-auto max-w-md bg-surface rounded-[28px] shadow-nav border border-line/60 h-[70px] grid grid-cols-5 items-center pointer-events-auto">
           {MAIN.slice(0, 2).map((it) => <Tab key={it.to} {...it} />)}
           <div className="flex justify-center">
-            <button onClick={() => nav('/sos')} aria-label={t('sosLong')} className="-mt-9 w-[68px] h-[68px] rounded-full grad-r text-white flex flex-col items-center justify-center shadow-lift ring-[6px] ring-bg active:scale-95 transition">
+            <button onClick={() => nav('/sos')} aria-label={t('sosLong')} className="-mt-9 w-[68px] h-[68px] rounded-full t-rose text-white flex flex-col items-center justify-center shadow-lift ring-[6px] ring-bg active:scale-95 transition">
               <Siren size={24} aria-hidden /><span className="text-[0.66rem] font-extrabold leading-none mt-0.5">SOS</span>
             </button>
           </div>
