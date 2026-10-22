@@ -13,7 +13,7 @@ export function A4({ lang, children, footer }: { lang: Lang; children: ReactNode
     <div className="a4" lang={lang} style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `3px solid ${GOLD}`, paddingBottom: 8, marginBottom: 18, fontSize: 12, color: '#6b5a3c' }}>
         <b style={{ fontFamily: 'Nunito, Manjari, sans-serif', fontSize: 14 }}>{meta.appTitle[lang]}</b>
-        <span>{workbook.title[lang]}</span>
+        <span>{workbook.title[lang] ?? workbook.title.en}</span>
       </div>
       <div style={{ flex: 1 }}>{children}</div>
       {footer && <div style={{ borderTop: '1px solid #ddd', marginTop: 16, paddingTop: 8, fontSize: 11, color: '#555' }}>{footer}</div>}
@@ -22,7 +22,7 @@ export function A4({ lang, children, footer }: { lang: Lang; children: ReactNode
 }
 
 export function PrintSheet({ sheet, data, lang, blank }: { sheet: Sheet; data?: SheetData; lang: Lang; blank: boolean }) {
-  const L = (v?: { en: string; ml: string }) => (v ? v[lang] : '');
+  const L = (v?: { en: string; ml: string; kn?: string }) => (v ? v[lang] ?? v.en : '');
   const d = blank ? undefined : data;
   const head = (
     <div style={{ marginBottom: 14 }}>

@@ -6,7 +6,7 @@ import { useChildId } from '../../lib/hooks';
 import { loadSummary, SummaryDoc, type SummaryData } from '../../components/SummaryDoc';
 import { pdfFromNode, printNode } from '../../lib/printing';
 import { download, shareOrDownload } from '../../lib/util';
-import type { Lang } from '../../lib/store';
+import { LANGS, type Lang } from '../../lib/store';
 
 export default function Summary() {
   const { t } = useT();
@@ -37,7 +37,7 @@ export default function Summary() {
     <Page wide>
       <PageHeader title={t('navSummary')} sub={t('summarySub')} />
       <div className="flex flex-wrap gap-3 items-center mb-4">
-        <Seg label={t('language')} value={lang} onChange={setLang} options={[{ v: 'en', l: 'English' }, { v: 'ml', l: 'മലയാളം' }]} />
+        <Seg label={t('language')} value={lang} onChange={setLang} options={LANGS.map((x) => ({ v: x.v, l: x.native }))} />
       </div>
       <div className="flex flex-wrap gap-2 mb-5">
         <button className="btn-primary" disabled={!d || !!busy} onClick={() => pdf('download')}><FileDown aria-hidden /> {busy === 'download' ? t('preparing') : t('downloadPdf')}</button>

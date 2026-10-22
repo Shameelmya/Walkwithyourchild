@@ -16,7 +16,7 @@ export interface Visit { id?: number; childId: number; date: string; time?: stri
 export interface GenericRecord { id?: number; childId: number; date: string; [k: string]: unknown }
 export interface Progress { id?: number; childId: number; date: string; scores: Record<string, number | undefined>; weight?: number; notes?: string; photoBlobId?: number }
 export interface DocumentRec { id?: number; childId: number; category: number; title: string; blobId: number; type: string; createdAt: number }
-export interface TalkCard { id?: number; childId: number; builtin?: number; label: string; emoji?: string; photoBlobId?: number; voiceBlobId?: number; hidden?: boolean; order: number }
+export interface TalkCard { id?: number; childId: number; builtin?: number; label: string; phrase?: string; emoji?: string; photoBlobId?: number; voiceBlobId?: number; hidden?: boolean; order: number }
 export interface Memory { id?: number; childId: number; kind: 'photo' | 'voice' | 'video' | 'note' | 'handprint'; date: string; title: string; text?: string; blobId?: number; createdAt: number }
 export interface SelfCare { id?: number; childId: number; week: string; values: Record<string, boolean | number | undefined> }
 

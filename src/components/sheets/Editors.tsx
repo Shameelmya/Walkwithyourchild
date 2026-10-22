@@ -105,10 +105,11 @@ function SupportActions({ row, need }: { row: Row; need: string }) {
   const { t } = useT();
   const phone = extractPhone(row.phone);
   if (!phone) return null;
-  const wa = (l: 'en' | 'ml') => `https://wa.me/${phone.length === 10 ? '91' + phone : phone.replace('+', '')}?text=${encodeURIComponent(t(l === 'en' ? 'helpMsgEn' : 'helpMsgMl', { who: row.who ?? '', need }))}`;
+  const wa = (l: 'en' | 'ml' | 'kn') => `https://wa.me/${phone.length === 10 ? '91' + phone : phone.replace('+', '')}?text=${encodeURIComponent(t(l === 'en' ? 'helpMsgEn' : l === 'kn' ? 'helpMsgKn' : 'helpMsgMl', { who: row.who ?? '', need }))}`;
   return (
     <>
       <a className="chip" href={wa('ml')} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> മലയാളം</a>
+      <a className="chip" href={wa('kn')} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> ಕನ್ನಡ</a>
       <a className="chip" href={wa('en')} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> English</a>
       <a className="icon-btn" href={callTel(phone)} aria-label={t('callNumber', { n: phone })}><Phone size={20} /></a>
     </>

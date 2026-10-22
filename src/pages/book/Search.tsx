@@ -3,18 +3,19 @@ import { Link } from 'react-router-dom';
 import { Search as SearchIcon } from 'lucide-react';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Empty } from '../../components/ui';
+import { LANGS, type Lang } from '../../lib/store';
 import { loadBook, loc, toc, type Book } from '../../lib/content';
 
 export default function Search() {
   const { t, lang } = useT();
   const [q, setQ] = useState('');
-  const [books, setBooks] = useState<{ en?: Book; ml?: Book }>({});
-  useEffect(() => { Promise.all([loadBook('en'), loadBook('ml')]).then(([en, ml]) => setBooks({ en, ml })); }, []);
+  const [books, setBooks] = useState<{ en?: Book; ml?: Book; kn?: Book }>({});
+  useEffect(() => { Promise.all([loadBook('en'), loadBook('ml'), loadBook('kn')]).then(([en, ml, kn]) => setBooks({ en, ml, kn: kn.fallback ? undefined : kn })); }, []);
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (s.length < 2) return [];
-    const out: { l: 'en' | 'ml'; c: string; b: number; text: string }[] = [];
-    for (const l of ['en', 'ml'] as const) for (const c of books[l]?.chapters ?? []) c.blocks.forEach((b, i) => {
+    const out: { l: Lang; c: string; b: number; text: string }[] = [];
+    for (const l of ['en', 'ml', 'kn'] as const) for (const c of books[l]?.chapters ?? []) c.blocks.forEach((b, i) => {
       const at = b.text.toLowerCase().indexOf(s);
       if (at >= 0) out.push({ l, c: c.id, b: i, text: (at > 40 ? '…' : '') + b.text.slice(Math.max(0, at - 40), at + 120) });
     });
@@ -32,7 +33,7 @@ export default function Search() {
       <ul className="grid gap-2">
         {results.map((r, i) => (
           <li key={i}><Link to={`/book/${r.c}?b=${r.b}`} className="card block p-3 hover:bg-surface2">
-            <span className="text-xs font-extrabold text-accent">{r.l === 'en' ? 'English' : 'മലയാളം'} · {loc(toc.toc.find((c) => c.id === r.c)!.title, lang)}</span>
+            <span className="text-xs font-extrabold text-accent">{LANGS.find((x) => x.v === r.l)!.native} · {loc(toc.toc.find((c) => c.id === r.c)!.title, lang)}</span>
             <span className="block font-read mt-1" lang={r.l}>{r.text}</span>
           </Link></li>
         ))}

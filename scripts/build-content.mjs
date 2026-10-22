@@ -80,8 +80,10 @@ function parseBook(src) {
   return { parts, chapters };
 }
 
+const LANGS = ['en', 'ml', 'kn'];
+const has = (lang) => fs.existsSync(path.join(C, lang, 'book.md'));
 const books = {};
-for (const lang of ['en', 'ml']) {
+for (const lang of LANGS.filter(has)) {
   const b = parseBook(fs.readFileSync(path.join(C, lang, 'book.md'), 'utf8'));
   const pro = parseBook(fs.readFileSync(path.join(C, lang, 'professionals.md'), 'utf8'));
   b.chapters.push(...pro.chapters);
@@ -113,26 +115,40 @@ const anchors = {
   relax: { c: 'c10', from: rx + 1, to: rx + 1 },
 };
 
-for (const lang of ['en', 'ml']) {
+for (const lang of Object.keys(books)) {
   const b = books[lang];
   for (const c of b.chapters) c.blocks.forEach((x) => { x.text = strip(x.html || (x.items || []).join(' ')); });
+}
+for (const lang of LANGS) {
+  // A language without a translated book falls back to English (flagged so the reader can say so).
+  const b = books[lang] ?? { ...books.en, fallback: true };
   fs.writeFileSync(path.join(OUT, `book.${lang}.json`), JSON.stringify(b));
 }
+const kn = books.kn;
 // Light table of contents for the initial bundle.
-const toc = en.chapters.map((c, i) => ({ id: c.id, n: c.n, part: c.part, blocks: c.blocks.length, title: { en: c.title, ml: ml.chapters[i]?.title ?? c.title } }));
-const parts = en.parts.map((p, i) => ({ n: p.n, title: { en: p.title, ml: ml.parts[i]?.title ?? p.title } }));
+const toc = en.chapters.map((c, i) => ({ id: c.id, n: c.n, part: c.part, blocks: c.blocks.length, title: { en: c.title, ml: ml.chapters[i]?.title ?? c.title, kn: kn?.chapters[i]?.title ?? c.title } }));
+const parts = en.parts.map((p, i) => ({ n: p.n, title: { en: p.title, ml: ml.parts[i]?.title ?? p.title, kn: kn?.parts[i]?.title ?? p.title } }));
 fs.writeFileSync(path.join(OUT, 'toc.json'), JSON.stringify({ toc, parts, anchors }));
 
 // Updates
 const updates = {};
-for (const lang of ['en', 'ml']) {
-  const dir = path.join(C, 'updates', lang);
+for (const lang of LANGS) {
+  const dir = path.join(C, 'updates', fs.existsSync(path.join(C, 'updates', lang)) ? lang : 'en');
   updates[lang] = (fs.existsSync(dir) ? fs.readdirSync(dir) : []).filter((f) => f.endsWith('.md')).map((f) => {
     const { attributes: a, body } = fm(fs.readFileSync(path.join(dir, f), 'utf8'));
     return { id: String(a.id ?? f.replace(/\.md$/, '')), date: String(a.date instanceof Date ? a.date.toISOString().slice(0, 10) : a.date ?? ''), title: String(a.title ?? ''), html: md.render(body) };
   }).sort((x, y) => y.date.localeCompare(x.date));
 }
 fs.writeFileSync(path.join(OUT, 'updates.json'), JSON.stringify(updates));
-fs.copyFileSync(path.join(C, 'meta.json'), path.join(OUT, 'meta.json'));
-fs.copyFileSync(path.join(C, 'workbook.json'), path.join(OUT, 'workbook.json'));
+// Add Kannada labels (content/kn/labels.json maps English text to Kannada) to every {en, ml} pair.
+const knLabels = fs.existsSync(path.join(C, 'kn', 'labels.json')) ? JSON.parse(fs.readFileSync(path.join(C, 'kn', 'labels.json'), 'utf8')) : {};
+const addKn = (o) => {
+  if (Array.isArray(o)) o.forEach(addKn);
+  else if (o && typeof o === 'object') {
+    if (typeof o.en === 'string' && typeof o.ml === 'string' && !o.kn) o.kn = knLabels[o.en] ?? o.en;
+    Object.values(o).forEach(addKn);
+  }
+  return o;
+};
+for (const f of ['meta.json', 'workbook.json']) fs.writeFileSync(path.join(OUT, f), JSON.stringify(addKn(JSON.parse(fs.readFileSync(path.join(C, f), 'utf8')))));
 console.log(`content: ${en.chapters.length} chapters, ${en.parts.length} parts, anchors ${JSON.stringify(anchors)}, warnings ${warnings}`);

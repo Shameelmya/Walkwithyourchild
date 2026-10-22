@@ -3,14 +3,14 @@ import workbookJson from '../generated/workbook.json';
 import tocJson from '../generated/toc.json';
 import type { Lang } from './store';
 
-export type L10n = { en: string; ml: string };
+export type L10n = { en: string; ml: string; kn?: string };
 export type Block =
   | { t: 'h'; html: string; text: string }
   | { t: 'html'; html: string; text: string }
   | { t: 'check'; items: string[]; text: string }
   | { t: 'callout'; kind: string; html: string; text: string; questions?: string[]; numbers?: string[]; link?: string };
 export interface Chapter { id: string; n: number; part: number; title: string; blocks: Block[] }
-export interface Book { parts: { n: number; title: string; intro: string }[]; chapters: Chapter[] }
+export interface Book { fallback?: boolean; parts: { n: number; title: string; intro: string }[]; chapters: Chapter[] }
 
 export interface Field { id: string; label: L10n; size?: string; input: string; sub?: L10n; width?: number }
 export interface Sheet {
@@ -25,6 +25,7 @@ export const toc = tocJson as { toc: { id: string; n: number; part: number; bloc
 
 export const sheetById = (id: string) => workbook.sheets.find((s) => s.id === id);
 export const loc = (v: L10n | undefined, lang: Lang) => (v ? v[lang] ?? v.en : '');
+export const L = (v: { en: string; ml: string; kn?: string }, lang: Lang) => v[lang] ?? v.en;
 
 export function partColor(part: number) {
   if (part >= 1 && part <= 5) return { c: `var(--p${part})`, t: `var(--p${part}t)` };
@@ -35,7 +36,7 @@ export function partColor(part: number) {
 const cache: Partial<Record<Lang, Promise<Book>>> = {};
 export function loadBook(lang: Lang): Promise<Book> {
   if (!cache[lang]) {
-    cache[lang] = (lang === 'ml' ? import('../generated/book.ml.json') : import('../generated/book.en.json')).then((m) => m.default as unknown as Book);
+    cache[lang] = (lang === 'ml' ? import('../generated/book.ml.json') : lang === 'kn' ? import('../generated/book.kn.json') : import('../generated/book.en.json')).then((m) => m.default as unknown as Book);
   }
   return cache[lang]!;
 }

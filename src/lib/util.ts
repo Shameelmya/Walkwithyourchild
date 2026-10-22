@@ -6,7 +6,7 @@ export const hhmm = (d = new Date()) => `${pad(d.getHours())}:${pad(d.getMinutes
 export const addDays = (d: Date, n: number) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 export const parseISO = (s: string) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1); };
 export const weekStart = (d = new Date()) => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); const wd = (x.getDay() + 6) % 7; return isoDate(addDays(x, -wd)); };
-const locale = (l: Lang) => (l === 'ml' ? 'ml-IN' : 'en-IN');
+const locale = (l: Lang) => `${l}-IN`;
 export const fmtDate = (s: string | number | undefined, lang: Lang, opts: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' }) => {
   if (s === undefined || s === '') return '';
   const d = typeof s === 'number' ? new Date(s) : parseISO(s);

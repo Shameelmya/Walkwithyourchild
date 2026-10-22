@@ -9,6 +9,7 @@ import { sheetById, loc, callTel, extractPhone } from '../lib/content';
 import { isActive } from '../lib/meds';
 import { ageFrom } from '../lib/util';
 import { Avatar } from '../components/ui';
+import { LangButton } from '../components/LangButton';
 
 export default function SOS() {
   const { t, lang } = useT();
@@ -36,12 +37,12 @@ export default function SOS() {
   const row = (label: string, v?: string) => v ? <div className="py-2 border-b border-line/60"><p className="text-sm font-bold text-muted">{label}</p><p className="text-xl font-bold whitespace-pre-wrap">{v}</p></div> : null;
   return (
     <main id="main" className="min-h-screen bg-bg">
-      <div className="bg-danger text-ondanger px-4 pt-3 pb-5">
-        <div className="flex items-center justify-between"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><button className="icon-btn text-ondanger" onClick={() => nav(-1)} aria-label={t('close')}><X /></button></div>
+      <div className="grad-r text-white px-4 pt-4 pb-6 rounded-b-[32px] shadow-lift">
+        <div className="flex items-center justify-between"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><div className="flex gap-2"><LangButton light /><button className="glass !w-12 !h-12" onClick={() => nav(-1)} aria-label={t('close')}><X /></button></div></div>
         <div className="grid gap-3 mt-3 max-w-xl mx-auto">
           <a href="tel:108" className="btn bg-white text-danger text-2xl !min-h-[72px]"><Phone aria-hidden /> {t('call108')}</a>
-          {contact && <a href={callTel(contact)} className="btn bg-white/15 border-2 border-white text-ondanger text-lg !min-h-[60px]"><Phone aria-hidden /> {t('callMainContact')}</a>}
-          <button onClick={share} className="btn bg-white/15 border-2 border-white text-ondanger !min-h-[56px]"><MapPin aria-hidden /> {t('shareLocation')}</button>
+          {contact && <a href={callTel(contact)} className="btn bg-white/15 border-2 border-white text-white text-lg !min-h-[60px]"><Phone aria-hidden /> {t('callMainContact')}</a>}
+          <button onClick={share} className="btn bg-white/15 border-2 border-white text-white !min-h-[56px]"><MapPin aria-hidden /> {t('shareLocation')}</button>
           {locErr && <p role="alert" className="font-bold">{locErr}</p>}
           {loc0 && <a className="underline break-all text-sm" href={loc0}>{loc0}</a>}
         </div>

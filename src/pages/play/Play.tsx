@@ -5,6 +5,7 @@ import { useT } from '../../i18n';
 import { LongPress, useWakeLock } from '../../components/ui';
 import { useUI } from '../../lib/store';
 import { PENTA, tone } from '../../lib/audio';
+import { LangButton } from '../../components/LangButton';
 
 type Game = 'bubbles' | 'music' | 'peek' | 'sea';
 const HUES = ['#7FC8C1', '#A7CF8A', '#F2A98C', '#C7A9DB', '#9FB0E3', '#F3D08A'];
@@ -97,13 +98,13 @@ export default function Play() {
     <div ref={ref} className="min-h-screen bg-bg select-none touch-manipulation">
       {!game ? (
         <main id="main" className="max-w-3xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-2 mb-2"><button className="icon-btn" onClick={() => nav(-1)} aria-label={t('back')}><ArrowLeft /></button><h1 className="text-2xl font-extrabold">{t('navPlay')}</h1></div>
+          <div className="flex items-center gap-3 mb-3"><button className="icon-chip" onClick={() => nav(-1)} aria-label={t('back')}><ArrowLeft size={20} /></button><h1 className="flex-1 text-[1.65rem] font-extrabold">{t('navPlay')}</h1><LangButton /></div>
           <p className="text-muted mb-4">{t('playIntro')}</p>
           <div className="grid grid-cols-2 gap-3 mb-6">
-            {games.map(({ g, e, l, bg }) => <button key={g} onClick={() => start(g)} className="rounded-3xl min-h-[160px] text-white flex flex-col items-center justify-center gap-2 shadow-card" style={{ background: bg }}><span className="text-6xl" aria-hidden>{e}</span><span className="font-extrabold text-lg">{l}</span></button>)}
+            {games.map(({ g, e, l, bg }) => <button key={g} onClick={() => start(g)} className="tile min-h-[170px] flex flex-col items-center justify-center gap-3" style={{ background: `linear-gradient(140deg, ${bg}, #1f2a3a)` }}><span className="relative z-[1] w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-5xl" aria-hidden>{e}</span><span className="relative z-[1] font-extrabold text-lg">{l}</span></button>)}
           </div>
           <label className="card p-4 flex items-center gap-3"><Volume1 aria-hidden /><span className="sr-only">{t('volume')}</span>
-            <input type="range" min={0} max={1} step={0.05} value={volume} onChange={(e) => setVolume(+e.target.value)} className="flex-1 accent-[rgb(var(--accent))] h-12" aria-label={t('volume')} /><Volume2 aria-hidden /></label>
+            <input type="range" min={0} max={1} step={0.05} value={volume} onChange={(e) => setVolume(+e.target.value)} className="slider flex-1" aria-label={t('volume')} /><Volume2 aria-hidden /></label>
           <p className="text-sm text-muted mt-3">{t('playExitHint')}</p>
         </main>
       ) : (

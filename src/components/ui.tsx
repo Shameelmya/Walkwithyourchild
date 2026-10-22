@@ -7,27 +7,30 @@ import { Illus } from './Illus';
 import { useBlobUrl } from '../lib/hooks';
 import { cx } from '../lib/util';
 
-export function PageHeader({ title, back = true, actions, sub, color }: { title: ReactNode; back?: boolean | string; actions?: ReactNode; sub?: ReactNode; color?: string }) {
+export function PageHeader({ title, back = true, actions, sub, color, eyebrow }: { title: ReactNode; back?: boolean | string; actions?: ReactNode; sub?: ReactNode; color?: string; eyebrow?: ReactNode }) {
   const nav = useNavigate();
   const { t } = useT();
   return (
-    <header className="flex items-start gap-2 pt-3 pb-4">
-      {back && (
-        <button className="icon-btn -ml-2 shrink-0" aria-label={t('back')} onClick={() => (typeof back === 'string' ? nav(back) : history.length > 1 ? nav(-1) : nav('/'))}>
-          <ArrowLeft size={24} />
-        </button>
-      )}
-      <div className="flex-1 min-w-0 pt-2">
-        <h1 className="text-2xl font-extrabold leading-tight" style={color ? { color } : undefined}>{title}</h1>
-        {sub && <p className="text-muted mt-1">{sub}</p>}
+    <header className="pt-2 pb-5">
+      <div className="flex items-center gap-3">
+        {back && (
+          <button className="icon-chip shrink-0" aria-label={t('back')} onClick={() => (typeof back === 'string' ? nav(back) : history.length > 1 ? nav(-1) : nav('/'))}>
+            <ArrowLeft size={21} />
+          </button>
+        )}
+        <div className="flex-1 min-w-0">
+          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+          <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight" style={color ? { color } : undefined}>{title}</h1>
+        </div>
+        {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
       </div>
-      {actions && <div className="flex items-center gap-1 shrink-0">{actions}</div>}
+      {sub && <p className="text-muted mt-2 max-w-2xl">{sub}</p>}
     </header>
   );
 }
 
 export function Page({ children, className = '', wide = false }: { children: ReactNode; className?: string; wide?: boolean }) {
-  return <main id="main" className={cx('mx-auto w-full px-4 pb-32 lg:pb-12 anim-in', wide ? 'max-w-6xl' : 'max-w-3xl', className)}>{children}</main>;
+  return <main id="main" className={cx('mx-auto w-full px-4 pb-36 lg:pb-12 anim-in', wide ? 'max-w-6xl' : 'max-w-3xl', className)}>{children}</main>;
 }
 
 export function Modal({ open, onClose, title, children, full = false }: { open: boolean; onClose: () => void; title?: ReactNode; children: ReactNode; full?: boolean }) {
@@ -43,12 +46,13 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40" onClick={onClose}>
-      <div ref={ref} role="dialog" aria-modal="true" className={cx('bg-surface text-ink w-full shadow-xl anim-in overflow-y-auto', full ? 'h-full sm:h-auto sm:max-h-[92vh] sm:max-w-2xl sm:rounded-2xl' : 'max-h-[92vh] sm:max-w-lg rounded-t-3xl sm:rounded-2xl')} onClick={(e) => e.stopPropagation()}>
-        <div className="sticky top-0 bg-surface z-10 flex items-center gap-2 px-4 pt-3 pb-2 border-b border-line/60">
-          <h2 className="flex-1 text-lg font-extrabold">{title}</h2>
+      <div ref={ref} role="dialog" aria-modal="true" className={cx('bg-surface text-ink w-full shadow-2xl anim-sheet overflow-y-auto', full ? 'h-full sm:h-auto sm:max-h-[92vh] sm:max-w-2xl sm:rounded-[28px]' : 'max-h-[92vh] sm:max-w-lg rounded-t-[28px] sm:rounded-[28px]')} onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 bg-surface z-10 flex items-center gap-2 px-5 pt-3 pb-3">
+          <span className="absolute left-1/2 -translate-x-1/2 top-2 w-10 h-1.5 rounded-full bg-line sm:hidden" aria-hidden />
+          <h2 className="flex-1 text-xl font-extrabold pt-2">{title}</h2>
           <button className="icon-btn" onClick={onClose} aria-label={t('close')}><X /></button>
         </div>
-        <div className="p-4 pb-8">{children}</div>
+        <div className="px-5 pb-8 pt-1">{children}</div>
       </div>
     </div>
   );
@@ -56,7 +60,7 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
 
 export function Empty({ kind, title, text, action }: { kind?: Parameters<typeof Illus>[0]['kind']; title: string; text?: string; action?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center text-center py-10 px-4 gap-3">
+    <div className="card flex flex-col items-center text-center py-10 px-6 gap-3">
       <Illus kind={kind} />
       <p className="font-extrabold text-lg">{title}</p>
       {text && <p className="text-muted max-w-sm">{text}</p>}
@@ -69,7 +73,7 @@ interface ToastS { msg: string | null; show: (m: string) => void }
 export const useToast = create<ToastS>((set) => ({ msg: null, show: (msg) => { set({ msg }); setTimeout(() => set({ msg: null }), 3200); } }));
 export function Toaster() {
   const msg = useToast((s) => s.msg);
-  return <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 bottom-28 lg:bottom-8 z-[60] pointer-events-none">{msg && <div className="anim-in rounded-full bg-ink text-bg px-5 py-3 font-bold shadow-lg max-w-[90vw] text-center">{msg}</div>}</div>;
+  return <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 bottom-32 lg:bottom-8 z-[60] pointer-events-none">{msg && <div className="anim-sheet rounded-2xl bg-ink text-bg px-5 py-3 font-bold shadow-lift max-w-[90vw] text-center">{msg}</div>}</div>;
 }
 
 export function Confirm({ open, text, onYes, onNo, danger = false, yes }: { open: boolean; text: string; onYes: () => void; onNo: () => void; danger?: boolean; yes?: string }) {
@@ -85,7 +89,7 @@ export function Confirm({ open, text, onYes, onNo, danger = false, yes }: { open
 export function Avatar({ blobId, name, size = 48 }: { blobId?: number; name?: string; size?: number }) {
   const url = useBlobUrl(blobId);
   return (
-    <span className="inline-flex items-center justify-center rounded-full overflow-hidden bg-soft text-accent font-extrabold shrink-0" style={{ width: size, height: size, fontSize: size * 0.42 }}>
+    <span className="inline-flex items-center justify-center rounded-full overflow-hidden grad-a text-white font-extrabold shrink-0 ring-2 ring-surface shadow-card" style={{ width: size, height: size, fontSize: size * 0.42 }}>
       {url ? <img src={url} alt="" className="w-full h-full object-cover" /> : name ? name.trim().charAt(0).toUpperCase() : <User size={size * 0.5} />}
     </span>
   );
@@ -103,8 +107,8 @@ export function FileButton({ accept, capture, onFile, children, className = 'btn
 
 export function Section({ title, children, action, className = '' }: { title?: ReactNode; children: ReactNode; action?: ReactNode; className?: string }) {
   return (
-    <section className={cx('mb-6', className)}>
-      {(title || action) && <div className="flex items-center justify-between mb-2 gap-2"><h2 className="text-lg font-extrabold">{title}</h2>{action}</div>}
+    <section className={cx('mb-7', className)}>
+      {(title || action) && <div className="flex items-center justify-between mb-3 gap-2"><h2 className="text-lg font-extrabold tracking-tight">{title}</h2>{action}</div>}
       {children}
     </section>
   );
