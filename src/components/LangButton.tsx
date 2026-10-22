@@ -29,7 +29,7 @@ export function LangButton({ className = '', up = false, light = false }: { clas
   return (
     <div ref={ref} className={cx('relative', className)}>
       <button ref={btn} type="button" aria-haspopup="menu" aria-expanded={open} aria-label={t('switchLanguage')} onClick={() => { const r = btn.current!.getBoundingClientRect(); setPos({ top: r.bottom + 8, right: innerWidth - r.right, bottom: innerHeight - r.top + 8 }); setOpen(!open); }}
-        className={cx('relative inline-flex items-center justify-center w-12 h-12 rounded-2xl transition', light ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-surface border border-line/60 shadow-card text-ink hover:bg-surface2')}>
+        className={cx('relative inline-flex items-center justify-center w-[46px] h-[46px] shrink-0 rounded-2xl transition', light ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-surface border border-line/60 shadow-card text-ink hover:bg-surface2')}>
         <Globe size={21} aria-hidden />
         <span className={cx('absolute -bottom-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full text-[0.7rem] font-extrabold flex items-center justify-center', light ? 'bg-white text-[rgb(var(--accent))]' : 'bg-accent text-onaccent')}>{LANGS.find((l) => l.v === lang)!.short}</span>
       </button>

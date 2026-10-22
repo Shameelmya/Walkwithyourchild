@@ -62,3 +62,15 @@ test('settings: check for updates and set a PIN', async ({ page }) => {
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('The app asks for your PIN when it opens.')).toBeVisible({ timeout: 15000 });
 });
+
+test('header: dark mode and text size in one tap', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.getByRole('button', { name: 'Dark mode' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'night');
+  await page.getByRole('button', { name: 'Dark mode' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'white');
+  await page.getByRole('button', { name: 'Text size' }).click();
+  await page.getByRole('radio', { name: '130%' }).click();
+  await expect.poll(() => page.evaluate(() => document.documentElement.style.fontSize)).toBe('20.8px');
+});
