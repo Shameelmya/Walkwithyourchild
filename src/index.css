@@ -53,12 +53,12 @@ h1, h2, h3, .font-head { font-family: theme('fontFamily.head'); }
   .btn-ghost { @apply btn bg-surface2 text-ink hover:brightness-95; }
   .btn-outline { @apply btn border border-line text-ink bg-surface shadow-card hover:bg-surface2; }
   .btn-danger { @apply btn bg-danger text-ondanger shadow-lift; }
-  .icon-btn { @apply inline-flex items-center justify-center min-w-[48px] min-h-[48px] rounded-2xl text-ink hover:bg-surface2 transition; }
-  .icon-chip { @apply inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-surface shadow-card border border-line/50 text-ink transition hover:bg-surface2; }
+  .icon-btn { @apply inline-flex items-center justify-center min-w-[48px] min-h-[48px] rounded-2xl text-ink hover:bg-surface2 transition duration-200 active:scale-90 active:bg-soft active:text-[rgb(var(--accent))]; }
+  .icon-chip { @apply inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-surface shadow-card border border-line/50 text-ink transition duration-200 hover:bg-surface2 active:scale-90 active:bg-soft active:text-[rgb(var(--accent))] active:border-[rgb(var(--accent)/0.4)]; }
   .input { @apply w-full min-h-[52px] rounded-2xl border border-transparent bg-surface2 px-4 py-3 text-ink placeholder:text-muted/70 outline-none transition focus:bg-surface focus:border-accent; }
   .input:focus-visible { outline: none; }
   .label { @apply block text-[0.8rem] font-bold text-muted mb-1.5; }
-  .chip { @apply inline-flex items-center gap-1.5 min-h-[40px] px-4 rounded-full border border-line bg-surface text-sm font-semibold transition hover:bg-surface2; }
+  .chip { @apply inline-flex items-center gap-1.5 min-h-[40px] px-4 rounded-full border border-line bg-surface text-sm font-semibold transition duration-200 hover:bg-surface2 active:scale-95 active:bg-soft; }
   .chip-on { @apply border-accent bg-soft text-[rgb(var(--accent))]; }
   .tile { @apply relative overflow-hidden rounded-3xl p-4 text-white shadow-lift transition duration-300 active:scale-[0.96] hover:-translate-y-0.5; }
   .tile::after { content: ''; position: absolute; width: 140px; height: 140px; right: -40px; top: -50px; border-radius: 9999px; background: rgb(255 255 255 / 0.12); pointer-events: none; }
@@ -146,3 +146,9 @@ input[type=range].slider::-moz-range-thumb { width: 18px; height: 18px; border-r
 .cover { position: relative; overflow: hidden; color: rgb(var(--text)); background: linear-gradient(160deg, var(--pt) 0%, var(--pt) 55%, rgb(var(--surface)) 140%); border: 1px solid rgb(var(--border) / 0.6); box-shadow: 0 12px 32px -18px rgb(var(--shadow) / 0.35); }
 .cover::after { content: ''; position: absolute; width: 180px; height: 180px; right: -60px; top: -70px; border-radius: 9999px; background: var(--pc); opacity: 0.08; pointer-events: none; }
 .cover::before { content: ''; position: absolute; width: 110px; height: 110px; right: 40px; bottom: -70px; border-radius: 9999px; background: var(--pc); opacity: 0.06; pointer-events: none; }
+
+/* Press feedback: anything tappable gives a small, quick response */
+a.card, button.card, a.cover { transition: transform 0.25s var(--ease), background-color 0.2s var(--ease), box-shadow 0.25s var(--ease); }
+a.card:active, button.card:active { transform: scale(0.98); background-color: rgb(var(--surface2)); }
+.btn:active { filter: brightness(0.95); }
+nav a:active > span:first-child { transform: scale(0.88); }
