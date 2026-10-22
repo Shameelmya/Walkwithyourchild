@@ -30,3 +30,20 @@ export function useCanvas(frame?: (ctx: CanvasRenderingContext2D, w: number, h: 
   }, []);
   return ref;
 }
+
+/** Phone tilt, -1..1 on each axis. Starts at 0 when there is no motion sensor. */
+export function useTilt() {
+  const r = useRef({ ax: 0, ay: 0 });
+  useEffect(() => {
+    const o = (e: DeviceOrientationEvent) => { r.current.ax = Math.max(-1, Math.min(1, (e.gamma ?? 0) / 45)); r.current.ay = Math.max(-1, Math.min(1, (e.beta ?? 0) / 45)); };
+    addEventListener('deviceorientation', o); return () => removeEventListener('deviceorientation', o);
+  }, []);
+  return r;
+}
+/** iPhone asks before sharing motion; this must run inside a tap. */
+export function askMotion() {
+  const req = (globalThis.DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> } | undefined)?.requestPermission;
+  if (req) req().catch(() => {});
+}
+export const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+export const shuffle = <T,>(a: T[]) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };

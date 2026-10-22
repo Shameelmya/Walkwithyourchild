@@ -13,9 +13,14 @@ test('every game opens, responds to taps and keys, and exits with a long press',
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/play');
-  const names = ['Colouring book', 'Finger paint', 'Bubbles', 'Fireworks', 'Colour lights', 'Music pad', 'Drums', 'Xylophone', 'Wind chimes', 'Maracas', 'Balloons', 'Find the picture', 'Rolling ball', 'Follow the star', 'Peekaboo', 'Quiet sea'];
+  const names = ['Colouring book', 'Finger paint', 'Bubbles', 'Fireworks', 'Colour lights', 'Piano', 'Song tiles', 'Music pad', 'Drums', 'Xylophone', 'Wind chimes', 'Maracas',
+    'Crack the eggs', 'Catch the fruit', 'Roll to the star', 'Balloons', 'Rolling ball', 'Find the picture', 'Follow the star', 'Peekaboo', 'Quiet sea',
+    'Animals', 'Fruits and food', 'Colours', 'Shapes', 'Counting', 'ABC letters', 'Malayalam letters', 'Kannada letters', 'Memory pairs', 'Repeat the tune'];
   for (const n of names) {
     await page.getByRole('button', { name: n, exact: true }).click();
+    // Each game first explains how to play.
+    await expect(page.getByRole('dialog', { name: n })).toBeVisible();
+    await page.getByRole('button', { name: "Let's play" }).click();
     await page.waitForTimeout(400);
     for (const [x, y] of [[120, 300], [260, 500], [200, 650]]) { await page.mouse.move(x, y); await page.mouse.down(); await page.mouse.move(x + 40, y + 30, { steps: 4 }); await page.mouse.up(); }
     await page.keyboard.press('a');
@@ -41,8 +46,41 @@ test('colouring book celebrates a finished picture', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/play');
   await page.getByRole('button', { name: 'Colouring book', exact: true }).click();
+  await page.getByRole('button', { name: "Let's play" }).click();
   const parts = page.locator('svg[viewBox="0 0 300 300"] > :not(path[fill="none"])');
   const n = await parts.count();
   for (let i = 1; i < n; i++) await parts.nth(i).dispatchEvent('pointerdown');
   await expect(page.getByRole('img', { name: '★' })).toBeVisible();
+});
+
+test('song tiles play a whole song, quizzes answer, and the mute switch persists', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: /English/ }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByLabel("Child's name *").fill('Ammu');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
+  await page.goto('/play/songs');
+  await page.getByRole('button', { name: "Let's play" }).click();
+  await page.getByRole('button', { name: /Mary had a little lamb/ }).click();
+  // Keyboard input always plays the next right note.
+  for (let i = 0; i < 26; i++) await page.keyboard.press('a');
+  await expect(page.getByRole('button', { name: 'Play again' })).toBeVisible();
+
+  await page.goto('/play/q-animals');
+  await page.getByRole('button', { name: "Let's play" }).click();
+  const prompt = await page.locator('[aria-live="polite"]', { hasText: 'Find the' }).innerText();
+  const animal = prompt.replace('Find the ', '').trim();
+  await page.getByRole('button', { name: animal, exact: true }).click();
+  await expect(page.locator('p', { hasText: '⭐' })).toContainText('1');
+
+  await page.goto('/play/bubbles');
+  await page.getByRole('switch', { name: /Sound/ }).click();
+  await expect(page.getByRole('switch', { name: /Sound: Off/ })).toBeVisible();
+  await page.getByRole('button', { name: "Let's play" }).click();
+  await expect(page.getByRole('button', { name: 'Sound' })).toHaveAttribute('aria-pressed', 'false');
 });

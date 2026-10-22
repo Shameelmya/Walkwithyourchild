@@ -87,6 +87,7 @@ test('everything you enter is still there after closing and reopening', async ({
   await expect(page.getByRole('button', { name: 'Bookmark', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/play');
   await page.getByRole('button', { name: 'Colouring book', exact: true }).click();
+  await page.getByRole('button', { name: "Let's play" }).click();
   await page.mouse.click(195, 330);
   await page.waitForTimeout(300);
   await page.goto('/settings');

@@ -4,7 +4,7 @@ import { HUES, nextId, useAnyInput } from './shared';
 
 export function Music({ vol }: { vol: number }) {
   const [on, setOn] = useState<number>(-1);
-  const hit = useCallback((i: number) => { setOn(i); tone(PENTA[i], 1.2, vol, 'triangle'); setTimeout(() => setOn((o) => (o === i ? -1 : o)), 300); }, [vol]);
+  const hit = useCallback((i: number) => { setOn(i); tone(PENTA[i], 1.2, vol); setTimeout(() => setOn((o) => (o === i ? -1 : o)), 300); }, [vol]);
   useAnyInput(useCallback(() => hit(Math.floor(Math.random() * 9)), [hit]));
   return (
     <div className="absolute inset-0 grid grid-cols-3 gap-3 p-3 pt-20 bg-[#1d2430]">
