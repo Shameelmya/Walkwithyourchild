@@ -1,118 +1,77 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef, useState, type ComponentType } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, LogOut, Volume1, Volume2 } from 'lucide-react';
-import { useT } from '../../i18n';
+import { ArrowLeft, LogOut, Volume1, Volume2, Music2, Palette, Move, LayoutGrid } from 'lucide-react';
+import { useT, type TKey } from '../../i18n';
 import { LongPress, useWakeLock } from '../../components/ui';
 import { useUI } from '../../lib/store';
-import { PENTA, tone } from '../../lib/audio';
 import { LangButton } from '../../components/LangButton';
+import { cx } from '../../lib/util';
+import { Music, Drums, Xylophone, Chimes } from './games-sound';
+import { Bubbles, Colouring, Paint, Fireworks, Lights } from './games-colour';
+import { Peek, Sea, Balloons, Rub, Tilt, StarFollow, Maracas } from './games-move';
 
-type Game = 'bubbles' | 'music' | 'peek' | 'sea';
-const HUES = ['#7FC8C1', '#A7CF8A', '#F2A98C', '#C7A9DB', '#9FB0E3', '#F3D08A'];
-let uid = 0;
-
-function useAnyInput(fn: (x: number, y: number) => void) {
-  useEffect(() => {
-    const k = (e: KeyboardEvent) => { if (e.repeat) return; fn(Math.random() * innerWidth, Math.random() * innerHeight * 0.8 + 40); };
-    addEventListener('keydown', k); return () => removeEventListener('keydown', k);
-  }, [fn]);
-}
-
-function Bubbles({ vol }: { vol: number }) {
-  const [items, setItems] = useState<{ id: number; x: number; y: number; c: string; s: number; burst: boolean }[]>([]);
-  const add = useCallback((x: number, y: number) => {
-    const n = 5;
-    const fresh = Array.from({ length: n }, (_, i) => ({ id: ++uid, x: x + (Math.random() - 0.5) * 120, y: y + (Math.random() - 0.5) * 60, c: HUES[(uid + i) % HUES.length], s: 40 + Math.random() * 70, burst: i === 0 }));
-    setItems((it) => [...it.slice(-40), ...fresh]);
-    tone(PENTA[Math.floor(Math.random() * PENTA.length)], 0.9, vol);
-    setTimeout(() => setItems((it) => it.filter((b) => !fresh.includes(b))), 6000);
-  }, [vol]);
-  useAnyInput(add);
-  return (
-    <div className="absolute inset-0 overflow-hidden" style={{ background: 'linear-gradient(#20324a,#3b5876)' }} onPointerDown={(e) => add(e.clientX, e.clientY)}>
-      {items.map((b) => b.burst
-        ? <span key={b.id} className="absolute rounded-full pointer-events-none" style={{ left: b.x, top: b.y, width: 160, height: 160, background: `radial-gradient(circle, ${b.c}cc, transparent 70%)`, animation: 'burst 1.4s ease-out forwards' }} />
-        : <span key={b.id} className="absolute rounded-full pointer-events-none border-2 border-white/60" style={{ left: b.x, top: b.y, width: b.s, height: b.s, background: `radial-gradient(circle at 30% 30%, #fff9, ${b.c}88)`, animation: `floaty ${5 + Math.random() * 3}s linear forwards` }} />)}
-    </div>
-  );
-}
-
-function Music({ vol }: { vol: number }) {
-  const [on, setOn] = useState<number>(-1);
-  const hit = useCallback((i: number) => { setOn(i); tone(PENTA[i], 1.2, vol, 'triangle'); setTimeout(() => setOn((o) => (o === i ? -1 : o)), 300); }, [vol]);
-  useAnyInput(useCallback(() => hit(Math.floor(Math.random() * 9)), [hit]));
-  return (
-    <div className="absolute inset-0 grid grid-cols-3 gap-3 p-3 pt-20 bg-[#1d2430]">
-      {Array.from({ length: 9 }, (_, i) => (
-        <button key={i} aria-label={`note ${i + 1}`} onPointerDown={() => hit(i)} className="rounded-3xl transition-transform" style={{ background: HUES[i % HUES.length], transform: on === i ? 'scale(0.94)' : undefined, boxShadow: on === i ? `0 0 60px ${HUES[i % HUES.length]}` : undefined, opacity: on === i ? 1 : 0.85 }} />
-      ))}
-    </div>
-  );
-}
-
-const PEEK = ['🐘', '🐱', '🐶', '🦜', '🐢', '🐰', '🐟', '⭐', '🌙', '🌼'];
-function Peek({ vol }: { vol: number }) {
-  const [i, setI] = useState(0);
-  const [shown, setShown] = useState(false);
-  const tap = useCallback(() => {
-    if (shown) { setShown(false); setI((x) => (x + 1) % PEEK.length); tone(PENTA[2], 0.5, vol * 0.7); }
-    else { setShown(true); tone(PENTA[5], 0.4, vol); tone(PENTA[7], 0.6, vol, 'sine', 0.15); }
-  }, [shown, vol]);
-  useAnyInput(tap);
-  return (
-    <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'linear-gradient(#cfe8f5,#f6efe2)' }} onPointerDown={tap}>
-      <span className="transition-all duration-500" style={{ fontSize: 'min(55vw, 55vh)', transform: shown ? 'scale(1)' : 'scale(0.3)', opacity: shown ? 1 : 0 }} aria-hidden>{PEEK[i]}</span>
-      <span className="absolute transition-all duration-500" style={{ fontSize: 'min(60vw, 60vh)', opacity: shown ? 0 : 1, transform: shown ? 'translateY(-40vh)' : 'none' }} aria-hidden>☁️</span>
-    </div>
-  );
-}
-
-const FISH = ['🐠', '🐟', '🐡', '🐠', '🐟'];
-function Sea({ vol }: { vol: number }) {
-  const [rip, setRip] = useState<{ id: number; x: number; y: number }[]>([]);
-  const add = useCallback((x: number, y: number) => { const r = { id: ++uid, x, y }; setRip((a) => [...a.slice(-10), r]); tone(PENTA[3 + Math.floor(Math.random() * 5)], 1.5, vol * 0.6); setTimeout(() => setRip((a) => a.filter((z) => z !== r)), 1500); }, [vol]);
-  useAnyInput(add);
-  return (
-    <div className="absolute inset-0 overflow-hidden" style={{ background: 'linear-gradient(#0f3b57,#13597a 60%,#1b6f86)' }} onPointerDown={(e) => add(e.clientX, e.clientY)}>
-      {Array.from({ length: 14 }, (_, i) => <span key={'l' + i} className="absolute rounded-full" style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 100}%`, width: 10 + (i % 4) * 6, height: 10 + (i % 4) * 6, background: '#fff6c8', filter: 'blur(2px)', animation: `glow ${4 + (i % 5)}s ease-in-out ${i * 0.4}s infinite` }} />)}
-      {FISH.map((f, i) => <span key={i} className="absolute" style={{ top: `${15 + i * 16}%`, fontSize: 56 + (i % 3) * 18, animation: `swim ${18 + i * 5}s linear ${-i * 4}s infinite`, transform: 'scaleX(-1)' }} aria-hidden>{f}</span>)}
-      {rip.map((r) => <span key={r.id} className="absolute rounded-full border-4 border-white/70 pointer-events-none" style={{ left: r.x, top: r.y, width: 120, height: 120, animation: 'burst 1.5s ease-out forwards' }} />)}
-    </div>
-  );
-}
+type Cat = 'sound' | 'colour' | 'move';
+interface Game { id: string; e: string; k: TKey; cat: Cat; tile: string; C: ComponentType<{ vol: number }> }
+const GAMES: Game[] = [
+  { id: 'colouring', e: '🖍️', k: 'gameColouring', cat: 'colour', tile: 't-coral', C: Colouring },
+  { id: 'paint', e: '🎨', k: 'gamePaint', cat: 'colour', tile: 't-violet', C: Paint },
+  { id: 'bubbles', e: '🫧', k: 'gameBubbles', cat: 'colour', tile: 't-blue', C: Bubbles },
+  { id: 'fireworks', e: '🎆', k: 'gameFireworks', cat: 'colour', tile: 't-violet', C: Fireworks },
+  { id: 'lights', e: '🌈', k: 'gameLights', cat: 'colour', tile: 't-amber', C: Lights },
+  { id: 'music', e: '🎹', k: 'gameMusic', cat: 'sound', tile: 't-violet', C: Music },
+  { id: 'drums', e: '🥁', k: 'gameDrums', cat: 'sound', tile: 't-coral', C: Drums },
+  { id: 'xylophone', e: '🎼', k: 'gameXylophone', cat: 'sound', tile: 't-mint', C: Xylophone },
+  { id: 'chimes', e: '🎐', k: 'gameChimes', cat: 'sound', tile: 't-blue', C: Chimes },
+  { id: 'maracas', e: '🪇', k: 'gameMaracas', cat: 'move', tile: 't-amber', C: Maracas },
+  { id: 'balloons', e: '🎈', k: 'gameBalloons', cat: 'move', tile: 't-rose', C: Balloons },
+  { id: 'rub', e: '☁️', k: 'gameRub', cat: 'move', tile: 't-blue', C: Rub },
+  { id: 'tilt', e: '🔵', k: 'gameTilt', cat: 'move', tile: 't-mint', C: Tilt },
+  { id: 'star', e: '⭐', k: 'gameStar', cat: 'move', tile: 't-violet', C: StarFollow },
+  { id: 'peek', e: '🐘', k: 'gamePeek', cat: 'move', tile: 't-green', C: Peek },
+  { id: 'sea', e: '🐠', k: 'gameSea', cat: 'move', tile: 't-mint', C: Sea },
+];
+const CATS: { v: Cat | 'all'; k: TKey; I: typeof Music2 }[] = [
+  { v: 'all', k: 'all', I: LayoutGrid }, { v: 'colour', k: 'catColour', I: Palette }, { v: 'sound', k: 'catSound', I: Music2 }, { v: 'move', k: 'catMove', I: Move },
+];
 
 export default function Play() {
   const { t } = useT();
   const nav = useNavigate();
   const { volume, setVolume } = useUI();
   const [game, setGame] = useState<Game | null>(null);
+  const [cat, setCat] = useState<Cat | 'all'>('all');
   const ref = useRef<HTMLDivElement>(null);
   useWakeLock(!!game);
   const start = async (g: Game) => { setGame(g); try { await ref.current?.requestFullscreen?.(); } catch { /* */ } };
   const exit = async () => { setGame(null); try { if (document.fullscreenElement) await document.exitFullscreen(); } catch { /* */ } };
-  const games: { g: Game; e: string; l: string; bg: string }[] = [
-    { g: 'bubbles', e: '🫧', l: t('gameBubbles'), bg: '#3b5876' }, { g: 'music', e: '🎵', l: t('gameMusic'), bg: '#74548A' },
-    { g: 'peek', e: '🐘', l: t('gamePeek'), bg: '#1E6B66' }, { g: 'sea', e: '🐠', l: t('gameSea'), bg: '#13597a' },
-  ];
+  const shown = GAMES.filter((g) => cat === 'all' || g.cat === cat);
   return (
     <div ref={ref} className="min-h-screen bg-bg select-none touch-manipulation">
       {!game ? (
-        <main id="main" className="max-w-3xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3 mb-3"><button className="icon-chip" onClick={() => nav(-1)} aria-label={t('back')}><ArrowLeft size={20} /></button><h1 className="flex-1 text-[1.65rem] font-extrabold">{t('navPlay')}</h1><LangButton /></div>
-          <p className="text-muted mb-4">{t('playIntro')}</p>
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            {games.map(({ g, e, l, bg }) => <button key={g} onClick={() => start(g)} className="tile min-h-[170px] flex flex-col items-center justify-center gap-3" style={{ background: `linear-gradient(140deg, ${bg}, #1f2a3a)` }}><span className="relative z-[1] w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-5xl" aria-hidden>{e}</span><span className="relative z-[1] font-extrabold text-lg">{l}</span></button>)}
+        <main id="main" className="max-w-4xl mx-auto px-4 py-4 pb-16 anim-in">
+          <div className="flex items-center gap-3 mb-4"><button className="icon-chip" onClick={() => nav(-1)} aria-label={t('back')}><ArrowLeft size={20} /></button><h1 className="flex-1 text-[1.65rem] font-extrabold">{t('navPlay')}</h1><LangButton /></div>
+          <div role="tablist" aria-label={t('filter')} className="flex gap-2 p-1 rounded-2xl bg-surface2 mb-5 overflow-x-auto no-scrollbar">
+            {CATS.map(({ v, k, I }) => (
+              <button key={v} role="tab" aria-selected={cat === v} onClick={() => setCat(v)} className={cx('flex-1 min-w-fit inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3 rounded-xl text-sm font-bold transition duration-300', cat === v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>
+                <I size={16} aria-hidden /> {t(k)}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+            {shown.map((g) => (
+              <button key={g.id} onClick={() => start(g)} className={cx('tile min-h-[150px] flex flex-col items-center justify-center gap-3 anim-in', g.tile)}>
+                <span className="relative z-[1] w-20 h-20 rounded-full bg-white/25 flex items-center justify-center text-5xl" aria-hidden>{g.e}</span>
+                <span className="relative z-[1] font-extrabold">{t(g.k)}</span>
+              </button>
+            ))}
           </div>
           <label className="card p-4 flex items-center gap-3"><Volume1 aria-hidden /><span className="sr-only">{t('volume')}</span>
             <input type="range" min={0} max={1} step={0.05} value={volume} onChange={(e) => setVolume(+e.target.value)} className="slider flex-1" aria-label={t('volume')} /><Volume2 aria-hidden /></label>
           <p className="text-sm text-muted mt-3">{t('playExitHint')}</p>
         </main>
       ) : (
-        <div className="fixed inset-0">
-          {game === 'bubbles' && <Bubbles vol={volume} />}
-          {game === 'music' && <Music vol={volume} />}
-          {game === 'peek' && <Peek vol={volume} />}
-          {game === 'sea' && <Sea vol={volume} />}
+        <div className="fixed inset-0 overflow-hidden">
+          <game.C vol={volume} />
           <LongPress onDone={exit} label={t('holdToExit')} className="fixed top-3 right-3 z-10 w-14 h-14 rounded-full bg-black/25 text-white flex items-center justify-center"><LogOut size={20} aria-hidden /></LongPress>
         </div>
       )}
