@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Check, Phone } from 'lucide-react';
 import { db, FAMILY } from '../../lib/db';
@@ -38,12 +39,18 @@ export function WeeklyEditor({ currentOnly = false }: { currentOnly?: boolean })
   const { t, lang } = useT();
   const sheet = sheetById('selfcare')!;
   const rows = sheet.rows as { id: string; label: L10n; input: string }[];
-  const weeks = useSelfCare();
-  if (!weeks) return null;
+  const saved = useSelfCare();
+  const [local, setLocal] = useState<Record<string, Record<string, boolean | number | undefined>>>({});
+  if (!saved) return null;
+  // Show the change at once; the database catches up a moment later.
+  const weeks = saved.map((w) => ({ ...w, values: { ...w.values, ...(local[w.week] ?? {}) } }));
   const set = async (week: string, id: string, v: boolean | number | undefined) => {
-    const ex = await db.selfCare.where('week').equals(week).first();
-    if (ex?.id) await db.selfCare.update(ex.id, { values: { ...ex.values, [id]: v } });
-    else await db.selfCare.add({ childId: FAMILY, week, values: { [id]: v } });
+    setLocal((l) => ({ ...l, [week]: { ...(l[week] ?? {}), [id]: v } }));
+    await db.transaction('rw', db.selfCare, async () => {
+      const ex = await db.selfCare.where('week').equals(week).first();
+      if (ex?.id) await db.selfCare.update(ex.id, { values: { ...ex.values, [id]: v } });
+      else await db.selfCare.add({ childId: FAMILY, week, values: { [id]: v } });
+    });
   };
   const shown = currentOnly ? weeks.slice(-1) : weeks;
   return (

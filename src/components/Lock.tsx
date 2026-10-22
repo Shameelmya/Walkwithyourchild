@@ -47,7 +47,7 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4 }: { onSu
       <div key={shake} className={cx('flex justify-center gap-4 my-7', shake > 0 && 'anim-pop')} aria-label={t('pin')} aria-live="polite" role="status">
         {Array.from({ length }, (_, i) => <span key={i} className={cx('w-4 h-4 rounded-full transition', i < pin.length ? 'bg-[rgb(var(--accent))] scale-110' : 'bg-line')} />)}
       </div>
-      <p role="alert" className="text-danger font-bold min-h-[1.6em] -mt-3 mb-2">{error ?? ''}</p>
+      <p role="alert" className="text-danger font-bold min-h-[1.6em] -mt-3 mb-2">{busy ? <span className="inline-flex items-center gap-2 text-muted font-semibold"><span className="w-4 h-4 rounded-full border-2 border-line border-t-[rgb(var(--accent))] animate-spin" aria-hidden /> {t('checking')}</span> : error ?? ''}</p>
       <div className="grid grid-cols-3 gap-3">
         {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => <button key={d} type="button" onClick={() => press(d)} className="h-16 rounded-3xl bg-surface shadow-card border border-line/50 text-2xl font-bold active:scale-95 transition hover:bg-surface2">{d}</button>)}
         <span />

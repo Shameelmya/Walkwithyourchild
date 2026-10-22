@@ -1,5 +1,6 @@
 import { useRef, useState, type ComponentType } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useBack } from '../../lib/nav';
 import { ArrowLeft, LogOut, Volume1, Volume2, Music2, Palette, Move, LayoutGrid } from 'lucide-react';
 import { useT, type TKey } from '../../i18n';
 import { LongPress, useWakeLock } from '../../components/ui';
@@ -38,18 +39,20 @@ export default function Play() {
   const { t } = useT();
   const nav = useNavigate();
   const { volume, setVolume } = useUI();
-  const [game, setGame] = useState<Game | null>(null);
+  const { game: gid } = useParams();
+  const back = useBack();
+  const game = GAMES.find((g) => g.id === gid) ?? null;
   const [cat, setCat] = useState<Cat | 'all'>('all');
   const ref = useRef<HTMLDivElement>(null);
   useWakeLock(!!game);
-  const start = (g: Game) => setGame(g);
-  const exit = () => setGame(null);
+  const start = (g: Game) => nav(`/play/${g.id}`);
+  const exit = () => back('/play');
   const shown = GAMES.filter((g) => cat === 'all' || g.cat === cat);
   return (
     <div ref={ref} className="min-h-screen bg-bg select-none touch-manipulation">
       {!game ? (
         <main id="main" className="max-w-4xl mx-auto px-4 py-4 pb-16 anim-in">
-          <div className="flex items-center gap-3 mb-4"><button className="icon-chip" onClick={() => nav(-1)} aria-label={t('back')}><ArrowLeft size={20} /></button><h1 className="flex-1 text-[1.65rem] font-extrabold">{t('navPlay')}</h1><LangButton /></div>
+          <div className="flex items-center gap-3 mb-4"><button className="icon-chip" onClick={() => back('/')} aria-label={t('back')}><ArrowLeft size={20} /></button><h1 className="flex-1 text-[1.65rem] font-extrabold">{t('navPlay')}</h1><LangButton /></div>
           <div role="tablist" aria-label={t('filter')} className="flex gap-2 p-1 rounded-2xl bg-surface2 mb-5 overflow-x-auto no-scrollbar">
             {CATS.map(({ v, k, I }) => (
               <button key={v} role="tab" aria-selected={cat === v} onClick={() => setCat(v)} className={cx('flex-1 min-w-fit inline-flex items-center justify-center gap-1.5 min-h-[44px] px-3 rounded-xl text-sm font-bold transition duration-300', cat === v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>

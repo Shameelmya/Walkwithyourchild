@@ -97,9 +97,10 @@ export default function Onboarding() {
         {!pin1 ? (
           <Keypad key="a" title={t('pinTitle')} onSubmit={(p) => setPin1(p)} />
         ) : (
-          <Keypad key="b" title={t('repeatPin')} error={err} onSubmit={async (p) => {
+          <Keypad key="b" title={t('repeatPin')} error={err} busy={busy} onSubmit={async (p) => {
             if (p !== pin1) { setErr(t('pinMismatch')); setPin1(''); return; }
-            await setSetting('pin', await hashPin(p)); next();
+            setBusy(true);
+            try { await setSetting('pin', await hashPin(p)); next(); } finally { setBusy(false); }
           }} />
         )}
       </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Camera } from 'lucide-react';
 import { useT } from '../../i18n';
 import { Avatar, FileButton, Page, PageHeader, useToast, BottomBar } from '../../components/ui';
@@ -7,13 +7,14 @@ import { db, putBlob, getSetting } from '../../lib/db';
 import { useChild } from '../../lib/hooks';
 import { useUI } from '../../lib/store';
 import { compressImage } from '../../lib/media';
+import { useBack } from '../../lib/nav';
 
 export default function Profile() {
   const { t } = useT();
   const [sp] = useSearchParams();
   const isNew = sp.get('new') === '1';
   const child = useChild();
-  const nav = useNavigate();
+  const back = useBack();
   const toast = useToast((s) => s.show);
   const setActive = useUI((s) => s.setActiveChild);
   const [name, setName] = useState('');
@@ -28,7 +29,7 @@ export default function Profile() {
     if (!name.trim()) return toast(t('nameNeeded'));
     if (isNew) { const id = await db.children.add({ name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue, createdAt: Date.now() }); setActive(id); }
     else if (child?.id) await db.children.update(child.id, { name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue });
-    toast(t('saved')); nav('/child');
+    toast(t('saved')); back('/child');
   };
   return (
     <Page>

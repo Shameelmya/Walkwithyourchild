@@ -9,6 +9,7 @@ import { LockScreen, useAutoLock } from './components/Lock';
 import { Reminders } from './components/Reminders';
 import { UpdatePrompt } from './components/UpdatePrompt';
 import Home from './pages/Home';
+import { useNavTracker } from './lib/nav';
 
 const L = (f: () => Promise<{ default: React.ComponentType }>) => lazy(f);
 const Onboarding = L(() => import('./pages/Onboarding'));
@@ -51,6 +52,7 @@ function Gate() {
   const [locked, setLocked] = useState<boolean | null>(null);
   useEffect(() => { if (pin !== undefined && locked === null) setLocked(!!pin); }, [pin, locked]);
   useAutoLock(!!pin, () => setLocked(true));
+  useNavTracker();
   // Every new page opens at the top (the reader restores its own reading position).
   useEffect(() => { if (!loc.pathname.startsWith('/book/c') && !loc.pathname.startsWith('/book/appendix')) window.scrollTo(0, 0); }, [loc.pathname]);
   useEffect(() => {
@@ -86,6 +88,7 @@ function Gate() {
         <Route path="/documents" element={<Documents />} />
         <Route path="/talk" element={<Talk />} />
         <Route path="/play" element={<Play />} />
+        <Route path="/play/:game" element={<Play />} />
         <Route path="/me" element={<ForMe />} />
         <Route path="/memory" element={<Memory />} />
         <Route path="/updates" element={<Updates />} />

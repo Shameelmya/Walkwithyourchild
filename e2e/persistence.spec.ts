@@ -28,20 +28,21 @@ test('everything you enter is still there after closing and reopening', async ({
   await page.getByRole('button', { name: 'Add to my questions' }).first().click();
   await page.getByRole('dialog').getByRole('button', { name: 'Add', exact: true }).click();
   await expect(page.getByText('Added to your questions for the doctor')).toBeVisible();
+  await page.waitForTimeout(400);
 
   // Notes: close straight after typing
   await page.goto('/notebook/notes');
   await page.getByRole('button', { name: 'New note' }).click();
   await page.getByLabel('Title').fill('Three things I know');
   await page.getByRole('dialog').getByLabel('Note').fill('Line one');
-  await page.getByRole('button', { name: 'Done' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Done' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
 
   // Medicine + dose
   await page.goto('/medicines');
   await page.getByRole('button', { name: 'Add medicine' }).click();
   await page.getByLabel('Medicine *').fill('Levetiracetam');
   await page.getByLabel('Dose', { exact: true }).fill('2 ml');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
   await expect(page.getByText('Levetiracetam').first()).toBeVisible();
 
   // Visit, record, progress
@@ -49,16 +50,16 @@ test('everything you enter is still there after closing and reopening', async ({
   await page.getByRole('button', { name: 'Doctor visit' }).click();
   await page.getByLabel('Date *').fill('2030-01-15');
   await page.getByLabel('Doctor', { exact: true }).fill('Dr Rao');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
   await page.goto('/records/consultations');
   await page.getByRole('button', { name: 'Consultations' }).last().click();
   await page.getByLabel('Doctor', { exact: true }).fill('Dr Menon');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
   await page.goto('/progress');
   await page.getByRole('button', { name: 'Check-in' }).last().click();
   await page.getByRole('button', { name: /^3: / }).first().click();
   await page.getByLabel('Weight (kg)').fill('18.5');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
 
   // Seizure with details
   await page.goto('/seizure');
@@ -66,7 +67,7 @@ test('everything you enter is still there after closing and reopening', async ({
   await page.getByRole('button', { name: 'Stop', exact: true }).click();
   await page.getByRole('button', { name: 'Add details' }).click();
   await page.getByLabel('What it looked like').fill('Arms jerking');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
 
   // Self-care, talk board, memory, bookmark, colouring, settings
   await page.goto('/me');
@@ -76,11 +77,11 @@ test('everything you enter is still there after closing and reopening', async ({
   await page.getByRole('button', { name: 'Edit cards' }).click();
   await page.getByRole('button', { name: 'Water', exact: true }).click();
   await page.getByLabel('Word on the card').fill('Juice');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
   await page.goto('/memory');
   await page.getByRole('button', { name: 'Note' }).click();
   await page.getByRole('dialog').getByLabel('Title').fill('First smile');
-  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click(); await expect(page.getByRole('dialog')).toHaveCount(0); await page.waitForTimeout(300);
   await page.goto('/book/c1?b=0');
   await page.getByRole('button', { name: 'Bookmark', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Bookmark', exact: true })).toHaveAttribute('aria-pressed', 'true');

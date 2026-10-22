@@ -6,6 +6,7 @@ import { LANGS, useUI } from '../lib/store';
 import { useT } from '../i18n';
 import { cx } from '../lib/util';
 import { usePresence } from '../lib/hooks';
+import { useBackToClose } from '../lib/nav';
 
 /** Small language icon. Tap to open the three choices; switching is instant everywhere. */
 export function LangButton({ className = '', up = false, light = false }: { className?: string; up?: boolean; light?: boolean }) {
@@ -14,6 +15,7 @@ export function LangButton({ className = '', up = false, light = false }: { clas
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { mounted, closing } = usePresence(open, 200);
+  useBackToClose(open, () => setOpen(false));
   const [pos, setPos] = useState({ top: 0, right: 0, bottom: 0 });
   const btn = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);

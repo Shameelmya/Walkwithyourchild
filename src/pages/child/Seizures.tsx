@@ -25,11 +25,11 @@ export default function Seizures() {
   const [edit, setEdit] = useState<{ s?: Seizure; v: Record<string, unknown> } | null>(null);
   const [del, setDel] = useState<Seizure | null>(null);
   const open = (s?: Seizure) => setEdit({ s, v: s ? { date: isoDate(new Date(s.start)), time: hhmm(new Date(s.start)), minutes: Math.round(s.durationSec / 6) / 10, looked: s.looked, helped: s.helped, rescue: s.rescue, notes: s.notes } : { date: isoDate(), time: hhmm(), minutes: 1 } });
-  const saved = sp.get('saved');
+  const saved = sp.get('saved') ?? (() => { try { return sessionStorage.getItem('wwyc-open-seizure'); } catch { return null; } })();
   useEffect(() => {
     if (!saved || !list.length) return;
     const s = list.find((x) => x.id === +saved);
-    if (s) { toast(t('seizureSaved')); open(s); setSp({}, { replace: true }); }
+    if (s) { toast(t('seizureSaved')); open(s); try { sessionStorage.removeItem('wwyc-open-seizure'); } catch { /* */ } if (sp.get('saved')) setSp({}, { replace: true }); }
   }, [saved, list]); // eslint-disable-line
   const save = async () => {
     if (!edit) return;

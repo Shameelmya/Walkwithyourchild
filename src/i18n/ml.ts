@@ -183,4 +183,12 @@ export const ml: Record<keyof typeof en, string> = {
   addQuestionQ: "ഡോക്ടറോട് ചോദിക്കാനുള്ള പട്ടികയിൽ ഈ ചോദ്യം ചേർക്കണോ?",
   myQuestions: "എന്റെ ചോദ്യങ്ങൾ",
   wellDone: "വളരെ നന്നായി!",
+  emergencyCard: "എമർജൻസി കാർഡ്",
+  editEmergencyCard: "എമർജൻസി കാർഡ് മാറ്റുക",
+  appUpdates: "ആപ്പ് അപ്ഡേറ്റ്",
+  checkUpdates: "അപ്ഡേറ്റ് ഉണ്ടോ എന്ന് നോക്കുക",
+  checkingUpdates: "നോക്കുന്നു…",
+  upToDate: "ഏറ്റവും പുതിയ പതിപ്പാണ് ഉള്ളത്.",
+  updatingNow: "പുതുക്കുന്നു… ആപ്പ് ഉടൻ വീണ്ടും തുറക്കും.",
+  updateOffline: "ഇന്റർനെറ്റ് ഇല്ല. ഓൺലൈനിൽ വന്ന ശേഷം വീണ്ടും നോക്കൂ.",
 };

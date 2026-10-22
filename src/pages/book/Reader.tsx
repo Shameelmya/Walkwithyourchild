@@ -12,6 +12,7 @@ import { TocList } from './Contents';
 import { speakQueue, stopSpeaking, voicesFor } from '../../lib/audio';
 import { cx } from '../../lib/util';
 import { usePresence } from '../../lib/hooks';
+import { useBackToClose } from '../../lib/nav';
 
 function useHasVoice(lang: string) {
   const [has, setHas] = useState(() => voicesFor(lang).length > 0);
@@ -91,6 +92,7 @@ export default function Reader() {
   inSync.current = loaded?.l === lang;
   const [showToc, setShowToc] = useState(false);
   const [panel, setPanel] = useState(false);
+  useBackToClose(panel, () => setPanel(false));
   const [speaking, setSpeaking] = useState(false);
   const [progress, setProgress] = useState(0);
   const [chrome, setChrome] = useState(true);

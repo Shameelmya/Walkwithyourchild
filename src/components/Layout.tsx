@@ -8,6 +8,7 @@ import { LangButton } from './LangButton';
 import { meta } from '../lib/content';
 import { PathMotif } from './Path';
 import { usePresence } from '../lib/hooks';
+import { useBackToClose } from '../lib/nav';
 
 type Item = { to: string; k: TKey; I: typeof Home; c: string };
 const MAIN: Item[] = [
@@ -17,6 +18,7 @@ const MAIN: Item[] = [
   { to: '/child', k: 'navChild', I: Baby, c: 'var(--tc2)' },
 ];
 const CARE: Item[] = [
+  { to: '/notebook/emergency', k: 'emergencyCard', I: Siren, c: 'var(--tr2)' },
   { to: '/medicines', k: 'navMedicines', I: Pill, c: 'var(--tm2)' },
   { to: '/seizures', k: 'navSeizures', I: Activity, c: 'var(--tr2)' },
   { to: '/visits', k: 'navVisits', I: Stethoscope, c: 'var(--tb2)' },
@@ -47,7 +49,7 @@ function NavList({ onPick }: { onPick?: () => void }) {
         <div key={g.k}>
           <p className="eyebrow px-3 mb-1">{t(g.k)}</p>
           {g.items.map(({ to, k, I, c }) => (
-            <NavLink key={to} to={to} end={to === '/'} onClick={onPick} className={({ isActive }) => cx('flex items-center gap-3 px-2 min-h-[48px] rounded-2xl font-semibold transition', isActive ? 'bg-soft text-ink' : 'hover:bg-surface2 text-ink/90')}>
+            <NavLink key={to} to={to} end={to === '/'} onClick={onPick} replace={!!onPick} className={({ isActive }) => cx('flex items-center gap-3 px-2 min-h-[48px] rounded-2xl font-semibold transition', isActive ? 'bg-soft text-ink' : 'hover:bg-surface2 text-ink/90')}>
               <span className="w-9 h-9 rounded-xl flex items-center justify-center text-white shrink-0" style={{ background: c }}><I size={18} aria-hidden /></span>{t(k)}
             </NavLink>
           ))}
@@ -64,6 +66,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const [drawer, setDrawer] = useState(false);
   useEffect(() => setDrawer(false), [loc.pathname]);
   const dp = usePresence(drawer, 250);
+  useBackToClose(drawer, () => setDrawer(false));
   const reader = /^\/book\/(?!search|bookmarks)/.test(loc.pathname);
   return (
     <div className="min-h-screen lg:flex">

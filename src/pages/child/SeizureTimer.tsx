@@ -13,10 +13,13 @@ import { alarm } from '../../lib/audio';
 import { startRecording, type Rec } from '../../lib/media';
 import { fmtDur, fmtDate, fmtTime } from '../../lib/util';
 import { LangButton } from '../../components/LangButton';
+import { useBack, usePrevPath } from '../../lib/nav';
 
 export default function SeizureTimer() {
   const { t, lang } = useT();
   const nav = useNavigate();
+  const back = useBack();
+  const prev = usePrevPath();
   const child = useChild();
   const childId = useChildId();
   const [start] = useState(() => Date.now());
@@ -75,7 +78,7 @@ export default function SeizureTimer() {
   return (
     <main id="main" className={`min-h-screen flex flex-col transition-colors duration-700 ${over ? 'bg-[var(--urt)]' : 'bg-bg'}`}>
       <div className="flex items-center gap-2 px-3 pt-3">
-        <button className="icon-chip" onClick={() => nav(-1)} aria-label={t('cancel')}><X size={20} /></button>
+        <button className="icon-chip" onClick={() => back('/')} aria-label={t('cancel')}><X size={20} /></button>
         <Link to="/seizures" className="icon-chip" aria-label={t('seizureHistory')}><History size={20} /></Link>
         <span className="flex-1" />
         <LangButton />
@@ -127,8 +130,8 @@ export default function SeizureTimer() {
           </div>
         ) : (
           <div className="w-full grid grid-cols-2 gap-2.5 anim-sheet">
-            <button className="btn-outline !min-h-[60px]" onClick={() => nav(-1)}>{t('done')}</button>
-            <button className="btn-primary !min-h-[60px]" disabled={!savedId} onClick={() => nav(`/seizures?saved=${savedId}`, { replace: true })}>{t('addDetailsLater')}</button>
+            <button className="btn-outline !min-h-[60px]" onClick={() => back('/')}>{t('done')}</button>
+            <button className="btn-primary !min-h-[60px]" disabled={!savedId} onClick={() => { try { sessionStorage.setItem('wwyc-open-seizure', String(savedId)); } catch { /* */ } if (prev?.startsWith('/seizures')) nav(-1); else nav('/seizures', { replace: true }); }}>{t('addDetailsLater')}</button>
           </div>
         )}
       </BottomBar>
