@@ -177,7 +177,7 @@ export function LongPress({ ms = 2000, onDone, children, label, className = '' }
   };
   const stop = () => { if (timer.current) cancelAnimationFrame(timer.current); setP(0); };
   return (
-    <button aria-label={label} className={cx('relative select-none', className)} onPointerDown={start} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop} onContextMenu={(e) => e.preventDefault()}
+    <button aria-label={label} className={cx(/\b(fixed|absolute)\b/.test(className) ? '' : 'relative', 'select-none', className)} onPointerDown={start} onPointerUp={stop} onPointerLeave={stop} onPointerCancel={stop} onContextMenu={(e) => e.preventDefault()}
       onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) { e.preventDefault(); e.stopPropagation(); start(); } }} onKeyUp={stop}>
       <svg viewBox="0 0 44 44" className="absolute inset-0 w-full h-full -rotate-90" aria-hidden><circle cx="22" cy="22" r="20" fill="none" stroke="currentColor" strokeOpacity=".9" strokeWidth="3" strokeDasharray={`${p * 125.6} 200`} /></svg>
       {children}

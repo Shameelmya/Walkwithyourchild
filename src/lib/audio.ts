@@ -60,3 +60,43 @@ export function speak(text: string, lang: string, onend?: () => void, opts: { ra
   speechSynthesis.speak(u);
   return true;
 }
+
+let noiseBuf: AudioBuffer | null = null;
+function noise() {
+  const a = ac();
+  if (!noiseBuf) {
+    noiseBuf = a.createBuffer(1, a.sampleRate, a.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  return noiseBuf;
+}
+/** Short filtered noise: the base of drums, shakers and pops. */
+export function hiss(vol = 0.5, dur = 0.15, freq = 3000, type: BiquadFilterType = 'bandpass', when = 0) {
+  const a = ac(); const t = a.currentTime + when;
+  const src = a.createBufferSource(); src.buffer = noise();
+  const f = a.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = 0.8;
+  const g = a.createGain();
+  g.gain.setValueAtTime(vol * 0.6, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  src.connect(f).connect(g).connect(out()); src.start(t); src.stop(t + dur + 0.02);
+}
+function thump(f0: number, f1: number, vol: number, dur: number) {
+  const a = ac(); const t = a.currentTime;
+  const o = a.createOscillator(); const g = a.createGain();
+  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  g.gain.setValueAtTime(vol * 0.8, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g).connect(out()); o.start(t); o.stop(t + dur + 0.02);
+}
+export type Drum = 'kick' | 'snare' | 'hat' | 'tomHi' | 'tomLo' | 'clap';
+export function drum(kind: Drum, vol = 0.6) {
+  switch (kind) {
+    case 'kick': return thump(150, 45, vol, 0.45);
+    case 'snare': thump(220, 120, vol * 0.5, 0.12); return hiss(vol, 0.2, 2500);
+    case 'hat': return hiss(vol * 0.6, 0.06, 9000, 'highpass');
+    case 'tomHi': return thump(260, 160, vol, 0.3);
+    case 'tomLo': return thump(150, 90, vol, 0.4);
+    case 'clap': for (let i = 0; i < 3; i++) hiss(vol * 0.8, 0.09, 1500, 'bandpass', i * 0.018); return;
+  }
+}
+export function pop(vol = 0.5) { hiss(vol, 0.07, 1800); tone(700 + Math.random() * 500, 0.25, vol * 0.6); }
+export function shaker(vol = 0.5) { hiss(vol * 0.7, 0.12, 6000, 'highpass'); }
