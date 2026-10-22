@@ -7,6 +7,24 @@ import { useT } from '../i18n';
 const BUSY = /^\/(seizure|sos|onboarding|play)/;
 
 let registration: ServiceWorkerRegistration | undefined;
+
+/** Switch to the new version now: wake the waiting one if there is one, then reload. Never more than once in 20 s, so it cannot loop. */
+export function applyUpdate() {
+  try {
+    const last = Number(sessionStorage.getItem('wwyc-upd') || 0);
+    if (Date.now() - last < 20_000) return false;
+    sessionStorage.setItem('wwyc-upd', String(Date.now()));
+  } catch { /* */ }
+  const go = () => location.reload();
+  const reg = registration;
+  const w = reg?.waiting;
+  if (w) {
+    w.postMessage({ type: 'SKIP_WAITING' });
+    navigator.serviceWorker.addEventListener('controllerchange', go, { once: true });
+    setTimeout(go, 1500); // in case the switch-over event never comes
+  } else go();
+  return true;
+}
 /** Used by Settings → Check for updates. Resolves to what happened; a found update installs and the app reloads itself. */
 export async function checkForUpdates(): Promise<'latest' | 'updating' | 'offline' | 'error'> {
   if (!navigator.onLine) return 'offline';
@@ -49,13 +67,12 @@ export function UpdatePrompt() {
     return () => navigator.serviceWorker.removeEventListener('controllerchange', onChange);
   }, []);
   // A waiting update (older service worker without skipWaiting) is activated right away, or when leaving a busy screen.
-  useEffect(() => { if (need && !BUSY.test(loc.pathname)) void updateServiceWorker(true); }, [need, loc.pathname, updateServiceWorker]);
-  useEffect(() => { if (pending && !BUSY.test(loc.pathname)) location.reload(); }, [pending, loc.pathname]);
+  useEffect(() => { if ((need || pending) && !BUSY.test(loc.pathname)) applyUpdate(); }, [need, pending, loc.pathname]);
   if (!pending && !need) return null;
   return (
     <div role="status" className="fixed z-[65] left-4 right-4 top-4 lg:left-auto lg:right-6 lg:w-96 glass-panel rounded-2xl shadow-lift border border-line/60 p-3 flex items-center gap-3 anim-zoom">
       <p className="flex-1 text-sm font-semibold">{t('updateReady')}</p>
-      <button className="btn-primary !min-h-[40px] px-4 text-sm" onClick={() => (need ? updateServiceWorker(true) : location.reload())}>{t('update')}</button>
+      <button className="btn-primary !min-h-[40px] px-4 text-sm" onClick={() => { try { sessionStorage.removeItem('wwyc-upd'); } catch { /* */ } void updateServiceWorker(false).catch(() => {}); applyUpdate(); }}>{t('update')}</button>
     </div>
   );
 }
