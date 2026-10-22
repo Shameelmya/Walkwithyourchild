@@ -17,7 +17,10 @@ import { loadSheetData } from '../../lib/sheets';
 import { PrintSheet } from '../../components/sheets/PrintSheet';
 import { loadSummary, SummaryDoc } from '../../components/SummaryDoc';
 import { checkForUpdates } from '../../components/UpdatePrompt';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Volume2 } from 'lucide-react';
+import { voicesFor, bestVoice, speak } from '../../lib/audio';
+import { PHRASES } from '../../lib/talk';
+import { LANGS } from '../../lib/store';
 
 function PinSettings() {
   const { t } = useT();
@@ -108,6 +111,46 @@ function Backup() {
   );
 }
 
+/** Pick the phone voice for each language and test it. Voices come from the phone, so the list differs per phone. */
+function VoiceSettings() {
+  const { t } = useT();
+  const { voices, setVoice, speechRate, setSpeechRate } = useUI();
+  const [, tick] = useState(0);
+  const [heard, setHeard] = useState<Record<string, 'ok' | 'none'>>({});
+  useEffect(() => {
+    if (!('speechSynthesis' in window)) return;
+    const r = () => tick((x) => x + 1); speechSynthesis.addEventListener?.('voiceschanged', r); const h = setTimeout(r, 800);
+    return () => { speechSynthesis.removeEventListener?.('voiceschanged', r); clearTimeout(h); };
+  }, []);
+  return (
+    <div className="card p-4 grid gap-4">
+      {LANGS.map(({ v: l, native }) => {
+        const list = voicesFor(l);
+        const cur = bestVoice(l);
+        return (
+          <div key={l}>
+            <label className="label" htmlFor={`voice-${l}`}>{native}</label>
+            <div className="flex gap-2">
+              <select id={`voice-${l}`} className="input flex-1 min-w-0" value={voices[l] && list.some((x) => x.voiceURI === voices[l]) ? voices[l] : ''} onChange={(e) => setVoice(l, e.target.value)} disabled={!list.length}>
+                <option value="">{list.length ? `${t('automatic')}${cur ? ' · ' + cur.name : ''}` : t('noVoiceShort')}</option>
+                {list.map((x) => <option key={x.voiceURI} value={x.voiceURI}>{x.name}{x.localService ? '' : ' ☁'}</option>)}
+              </select>
+              <button className="icon-chip shrink-0" aria-label={`${t('testVoice')} ${native}`} onClick={() => {
+                setHeard((h) => ({ ...h, [l]: 'ok' }));
+                speak(PHRASES[1][l], l, undefined, { force: true, rate: 0.9, onNoVoice: () => setHeard((h) => ({ ...h, [l]: 'none' })) });
+              }}><Volume2 size={20} /></button>
+            </div>
+            {(heard[l] === 'none' || (l !== 'en' && !list.length && 'speechSynthesis' in window && speechSynthesis.getVoices().length > 0)) && <p className="text-sm text-danger mt-1.5">{t('noVoice', { l: native })}</p>}
+          </div>
+        );
+      })}
+      <label className="block"><span className="label">{t('speechSpeed')}</span>
+        <input type="range" min={0.7} max={1.3} step={0.05} value={speechRate} onChange={(e) => setSpeechRate(+e.target.value)} className="slider w-full" /></label>
+      <p className="text-sm text-muted">{t('voiceInstallHint')}</p>
+    </div>
+  );
+}
+
 function UpdateCheck() {
   const { t } = useT();
   const [state, setState] = useState<'' | 'checking' | 'latest' | 'updating' | 'offline' | 'error'>('');
@@ -137,7 +180,7 @@ export default function Settings() {
   const [del1, setDel1] = useState(false); const [del2, setDel2] = useState(false);
   const [busy, setBusy] = useState(false);
   useEffect(() => { getSetting('defaultRescue', 5).then(setRescue); }, []);
-  useEffect(() => { if (location.hash === '#backup') setTimeout(() => document.getElementById('backup')?.scrollIntoView({ behavior: 'smooth' }), 200); }, []);
+  useEffect(() => { if (location.hash === '#backup' || location.hash === '#voice') setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }), 200); }, []);
   const exportAll = async () => {
     setBusy(true);
     try {
@@ -158,6 +201,7 @@ export default function Settings() {
         </ul>
         <button className="btn-ghost mt-2" onClick={() => nav('/child/profile?new=1')}><Plus size={18} aria-hidden /> {t('addChild')}</button>
       </Section>
+      <Section title={t('voiceSection')}><div id="voice" className="scroll-mt-40"><VoiceSettings /></div></Section>
       <Section title={t('pinLock')}><PinSettings /></Section>
       <Section title={t('seizureSettings')}>
         <div className="card p-4"><label className="label" htmlFor="s-rescue">{t('defaultRescueTime')}</label>

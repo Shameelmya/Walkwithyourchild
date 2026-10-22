@@ -211,4 +211,12 @@ export const en = {
   upToDate: "You have the latest version.",
   updatingNow: "Updating… the app will reopen in a moment.",
   updateOffline: "No internet. Try again when you are online.",
+  noVoice: "This phone has no {l} voice yet, so it spoke in English. Add it in Settings → Voice.",
+  voiceSettings: "Voice",
+  voiceSection: "Voice",
+  automatic: "Automatic",
+  noVoiceShort: "No voice on this phone",
+  testVoice: "Test",
+  speechSpeed: "Speaking speed",
+  voiceInstallHint: "For a natural Malayalam or Kannada voice on Android: open phone Settings → search “Text-to-speech” → choose “Speech Services by Google” → Settings → Install voice data → pick the language. Voices marked ☁ sound most natural but need internet. You can also record your own voice on any talk card.",
 };

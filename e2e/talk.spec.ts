@@ -4,7 +4,7 @@ test('talk board speaks the full sentence right from the tap, in the chosen lang
     const said: { text: string; lang: string }[] = [];
     (window as unknown as { __said: typeof said }).__said = said;
     const fake = { speaking: false, pending: false, getVoices: () => [], cancel() {}, resume() {}, addEventListener() {}, removeEventListener() {},
-      speak(u: SpeechSynthesisUtterance) { said.push({ text: u.text, lang: u.lang }); } };
+      speak(u: SpeechSynthesisUtterance) { said.push({ text: u.text, lang: u.lang }); setTimeout(() => u.onstart?.(new Event('start') as SpeechSynthesisEvent), 10); } };
     Object.defineProperty(window, 'speechSynthesis', { value: fake, configurable: true });
   });
   await page.goto('/');
@@ -48,4 +48,33 @@ test('read aloud in the reader queues the chapter from the tap', async ({ page }
   await page.getByRole('button', { name: 'Read aloud' }).click();
   await expect.poll(() => page.evaluate(() => (window as unknown as { __said: string[] }).__said.length)).toBeGreaterThan(10);
   expect(await page.getByRole('navigation', { name: 'Main navigation' }).count()).toBe(0);
+});
+
+test('a phone without a Malayalam voice speaks English instead and says how to add one', async ({ page }) => {
+  await page.addInitScript(() => {
+    const said: { text: string; lang: string }[] = [];
+    (window as unknown as { __said: typeof said }).__said = said;
+    const en = { name: 'English India', lang: 'en-IN', voiceURI: 'en-IN', localService: true, default: true };
+    const fake = { speaking: false, pending: false, getVoices: () => [en], cancel() {}, resume() {}, addEventListener() {}, removeEventListener() {},
+      speak(u: SpeechSynthesisUtterance) { said.push({ text: u.text, lang: u.lang }); setTimeout(() => u.onstart?.(new Event('start') as SpeechSynthesisEvent), 10); } };
+    Object.defineProperty(window, 'speechSynthesis', { value: fake, configurable: true });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: /English/ }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByLabel("Child's name *").fill('Ammu');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
+  await page.goto('/talk');
+  await page.getByRole('button', { name: 'Switch language' }).click();
+  await page.getByRole('menuitemradio', { name: 'മലയാളം' }).click();
+  await page.getByRole('button', { name: 'ഭക്ഷണം', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __said: { text: string; lang: string }[] }).__said.at(-1))).toEqual({ text: 'I want food, please.', lang: 'en-IN' });
+  await page.getByRole('button', { name: 'ശബ്ദം' }).click();
+  await expect(page).toHaveURL(/\/settings#voice/);
+  await expect(page.getByLabel('English', { exact: true })).toBeVisible();
+  await expect(page.getByText(/ഈ ഫോണിൽ മലയാളം ശബ്ദം/).first()).toBeVisible();
 });
