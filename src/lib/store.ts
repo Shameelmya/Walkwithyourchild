@@ -20,6 +20,8 @@ interface UI {
   setBrightness: (b: number) => void;
   talkGrid: 2 | 3 | 4;
   volume: number;
+  gameMuted: boolean;
+  setGameMuted: (m: boolean) => void;
   setLang: (l: Lang) => void;
   setTheme: (t: Theme) => void;
   setFontScale: (f: number) => void;
@@ -41,6 +43,8 @@ export const useUI = create<UI>()(
       setBrightness: (brightness) => set({ brightness }),
       talkGrid: 3,
       volume: 0.6,
+      gameMuted: false,
+      setGameMuted: (gameMuted) => set({ gameMuted }),
       setLang: (lang) => set({ lang }),
       setTheme: (theme) => set({ theme }),
       setFontScale: (fontScale) => set({ fontScale }),

@@ -85,7 +85,7 @@ export function Colouring({ vol }: { vol: number }) {
 }
 
 /** A short, joyful burst over the picture: big star, confetti, no words needed. */
-function Celebrate() {
+export function Celebrate() {
   const [on, setOn] = useState(true);
   useEffect(() => { const h = setTimeout(() => setOn(false), 2600); return () => clearTimeout(h); }, []);
   if (!on) return null;
