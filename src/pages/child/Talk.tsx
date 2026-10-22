@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Maximize2, Minimize2, Pencil, Plus, Mic, Square, Play, Camera, ChevronLeft, ChevronRight, EyeOff, Trash2 } from 'lucide-react';
+import { Maximize2, Minimize2, Pencil, Plus, Mic, Square, Play, Camera, ChevronLeft, ChevronRight, EyeOff, Trash2, Check } from 'lucide-react';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Modal, FileButton, Seg, useToast, SheetActions } from '../../components/ui';
 import { db, putBlob, type TalkCard } from '../../lib/db';
@@ -44,6 +44,7 @@ export default function Talk() {
   const [active, setActive] = useState<string>();
   const [editing, setEditing] = useState<Card | null>(null);
   const [editMode, setEditMode] = useState(false);
+  const [recAll, setRecAll] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
 
   const cards: Card[] = useMemo(() => {
@@ -129,10 +130,12 @@ export default function Talk() {
         <button className={cx('chip', editMode && 'chip-on')} aria-pressed={editMode} onClick={() => setEditMode(!editMode)}><Pencil size={16} aria-hidden /> {t('editCards')}</button>
         {editMode && recs.some((r) => r.hidden) && <button className="chip" onClick={() => Promise.all(recs.filter((r) => r.hidden).map((r) => db.talkCards.update(r.id!, { hidden: false })))}>{t('showHidden')}</button>}
         {editMode && <button className="chip" onClick={() => setEditing({ key: 'new', label: '', phrase: '', phraseEn: '', emoji: '⭐' })}><Plus size={16} aria-hidden /> {t('newCard')}</button>}
+        <button className="chip" onClick={() => setRecAll(true)}><Mic size={16} aria-hidden /> {t('recordVoices')}</button>
       </div>
       <p className="text-sm text-muted mb-3">{editMode ? t('editCardsHint') : t('switchHint')}</p>
       {strip}
       {grid}{pager}
+      {recAll && <RecordAll cards={cards} childId={childId} count={recs.length} onClose={() => setRecAll(false)} />}
       <CardEditor card={editing} onClose={() => setEditing(null)} childId={childId} count={recs.length} onSaved={() => toast(t('saved'))} />
     </Page>
   );
@@ -177,6 +180,49 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
           {card.builtin !== undefined ? <button className="btn-ghost" onClick={() => save(true)}><EyeOff size={18} aria-hidden /> {t('hideCard')}</button>
             : card.rec?.id ? <button className="btn-ghost text-danger" onClick={async () => { await db.talkCards.delete(card.rec!.id!); onClose(); }}><Trash2 size={18} aria-hidden /> {t('delete')}</button> : <span />}
           <button className="btn-primary" disabled={!label.trim()} onClick={() => save(false)}>{t('save')}</button>
+        </SheetActions>
+      </div>
+    </Modal>
+  );
+}
+
+/** Record your own voice for each card, one after another. A recorded card always plays your voice, with or without the phone's speech engine. */
+function RecordAll({ cards, childId, count, onClose }: { cards: Card[]; childId: number; count: number; onClose: () => void }) {
+  const { t } = useT();
+  const [i, setI] = useState(0);
+  const [rec, setRec] = useState<Rec | null>(null);
+  const [fresh, setFresh] = useState<Record<string, number>>({});
+  const c = cards[i];
+  const voice = c ? fresh[c.key] ?? c.voice : undefined;
+  const url = useBlobUrl(voice);
+  const keep = async (b: Blob) => {
+    const id = await putBlob(b, childId, 'voice');
+    if (c.rec?.id) await db.talkCards.update(c.rec.id, { voiceBlobId: id });
+    else await db.talkCards.add({ childId, builtin: c.builtin, label: '', voiceBlobId: id, hidden: false, order: count + i } as TalkCard);
+    setFresh((f) => ({ ...f, [c.key]: id }));
+    void new Audio(URL.createObjectURL(b)).play().catch(() => {});
+  };
+  if (!c) return null;
+  return (
+    <Modal open onClose={() => { void rec?.stop(); onClose(); }} title={t('recordVoices')}>
+      <div className="grid gap-4 text-center">
+        <p className="text-sm text-muted">{t('recordVoicesHint')}</p>
+        <div className="flex items-center justify-center gap-1 flex-wrap" aria-hidden>{cards.map((x, k) => <span key={x.key} className={cx('w-2 h-2 rounded-full', k === i ? 'bg-[rgb(var(--accent))] scale-125' : fresh[x.key] ?? x.voice ? 'bg-[var(--p2)]' : 'bg-line')} />)}</div>
+        <div className="mx-auto w-24 h-24 rounded-full bg-surface2 flex items-center justify-center text-5xl">{c.emoji ?? '💬'}</div>
+        <p className="text-sm font-bold text-muted">{c.label}</p>
+        <p className="text-2xl font-extrabold leading-snug">“{c.phrase}”</p>
+        <div className="flex items-center justify-center gap-3">
+          {rec
+            ? <button className="btn-danger !min-h-[64px] !px-6 text-lg" onClick={async () => { const b = await rec.stop(); setRec(null); if (b) await keep(b); }}><Square size={20} aria-hidden fill="currentColor" /> {t('stopRecording')}</button>
+            : <button className="btn-primary !min-h-[64px] !px-6 text-lg" onClick={async () => { try { setRec(await startRecording('audio', 15000, async (b) => { setRec(null); await keep(b); })); } catch { useToast.getState().show(t('micNotAvailable')); } }}><Mic size={20} aria-hidden /> {voice ? t('recordAgain') : t('recordYourVoice')}</button>}
+          {url && !rec && <button className="icon-chip" aria-label={t('play')} onClick={() => void new Audio(url).play()}><Play size={20} /></button>}
+          {voice && !rec && <span className="text-[var(--p2)]" aria-label={t('saved')}><Check /></span>}
+        </div>
+        <SheetActions>
+          <button className="btn-ghost" disabled={i === 0 || !!rec} onClick={() => setI(i - 1)}><ChevronLeft size={18} aria-hidden /> {t('previous')}</button>
+          {i < cards.length - 1
+            ? <button className="btn-primary" disabled={!!rec} onClick={() => setI(i + 1)}>{voice ? t('next') : t('skip')} <ChevronRight size={18} aria-hidden /></button>
+            : <button className="btn-primary" disabled={!!rec} onClick={onClose}>{t('done')}</button>}
         </SheetActions>
       </div>
     </Modal>
