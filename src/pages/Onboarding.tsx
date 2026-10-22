@@ -77,7 +77,7 @@ export default function Onboarding() {
         <Feature I={NotebookPen} c="t-amber" title={t('featNotebookTitle')} text={t('featNotebookText')} />
         <Feature I={HeartHandshake} c="t-violet" title={t('featCareTitle')} text={t('featCareText')} />
       </ul>
-      <button className="btn-primary w-full" onClick={next}>{t('continue')} <ArrowRight size={18} aria-hidden /></button>
+<div className="mt-auto sticky bottom-0 pt-4 pb-[max(12px,env(safe-area-inset-bottom))] bg-bg grid gap-3"><button className="btn-primary w-full" onClick={next}>{t('continue')} <ArrowRight size={18} aria-hidden /></button></div>
     </div>,
     <div key="privacy">
       <span className="w-16 h-16 rounded-3xl t-mint text-white flex items-center justify-center shadow-lift mb-5"><ShieldCheck size={30} aria-hidden /></span>
@@ -85,7 +85,7 @@ export default function Onboarding() {
       <p className="text-muted mb-6">{t('privacyLead')}</p>
       <div className="card p-5 mb-3 flex gap-3"><Smartphone className="text-[var(--p1)] shrink-0 mt-0.5" aria-hidden /><p className="font-semibold">{meta.privacy[lang]}</p></div>
       <div className="card p-5 mb-8 flex gap-3 !bg-[var(--urt)] border-transparent"><ShieldCheck className="text-[var(--ur)] shrink-0 mt-0.5" aria-hidden /><div><p className="text-sm font-extrabold mb-1">{t('disclaimer')}</p><p>{meta.disclaimer[lang]}</p></div></div>
-      <button className="btn-primary w-full" onClick={async () => { try { await navigator.storage?.persist?.(); } catch { /* */ } next(); }}><Check size={18} aria-hidden /> {t('iUnderstand')}</button>
+<div className="mt-auto sticky bottom-0 pt-4 pb-[max(12px,env(safe-area-inset-bottom))] bg-bg grid gap-3"><button className="btn-primary w-full" onClick={async () => { try { await navigator.storage?.persist?.(); } catch { /* */ } next(); }}><Check size={18} aria-hidden /> {t('iUnderstand')}</button></div>
     </div>,
     <div key="child">
       <h1 className="font-display text-[2rem] font-bold leading-tight mb-2">{t('aboutChild')}</h1>
@@ -100,7 +100,7 @@ export default function Onboarding() {
         <div><label className="label" htmlFor="ob-dob">{t('dobOptional')}</label><input id="ob-dob" type="date" className="input" value={dob} onChange={(e) => setDob(e.target.value)} /></div>
       </div>
       {err && <p role="alert" className="text-danger font-bold mb-3">{err}</p>}
-      <button className="btn-primary w-full" disabled={busy} onClick={saveChild}>{t('continue')} <ArrowRight size={18} aria-hidden /></button>
+<div className="mt-auto sticky bottom-0 pt-4 pb-[max(12px,env(safe-area-inset-bottom))] bg-bg grid gap-3"><button className="btn-primary w-full" disabled={busy} onClick={saveChild}>{t('continue')} <ArrowRight size={18} aria-hidden /></button></div>
     </div>,
     <div key="pin">
       {!pin1 ? (
@@ -111,21 +111,21 @@ export default function Onboarding() {
           await setSetting('pin', await hashPin(p)); next();
         }} />
       )}
-      <button className="btn-ghost w-full mt-6" onClick={() => { setPin1(''); next(); }}>{t('skipForNow')}</button>
+<div className="mt-auto sticky bottom-0 pt-4 pb-[max(12px,env(safe-area-inset-bottom))] bg-bg grid gap-3"><button className="btn-ghost w-full" onClick={() => { setPin1(''); next(); }}>{t('skipForNow')}</button></div>
     </div>,
     <div key="install" className="text-center">
       <span className="w-20 h-20 rounded-[28px] t-blue text-white inline-flex items-center justify-center shadow-lift mb-6"><Download size={34} aria-hidden /></span>
       <h1 className="font-display text-[2rem] font-bold leading-tight mb-2">{t('installTitle')}</h1>
       <p className="text-muted mb-8">{inst.ios ? t('installIos') : t('installText')}</p>
       <div className="card p-4 mb-8 flex items-center gap-3 text-left"><Lock className="text-[var(--p1)] shrink-0" aria-hidden /><p className="text-sm">{t('readyNote')}</p></div>
-      <div className="grid gap-3">
+<div className="mt-auto sticky bottom-0 pt-4 pb-[max(12px,env(safe-area-inset-bottom))] bg-bg grid gap-3">
         {inst.can && !inst.standalone && <button className="btn-outline" onClick={inst.install}><Download size={18} aria-hidden /> {t('installApp')}</button>}
         <button className="btn-primary" onClick={finish}>{t('startUsing')} <ArrowRight size={18} aria-hidden /></button>
       </div>
     </div>,
   ];
   return (
-    <main id="main" className="min-h-screen flex flex-col items-center px-5 pt-4 pb-10">
+    <main id="main" className="min-h-[100dvh] flex flex-col items-center px-5 pt-4">
       <div className="w-full max-w-md flex items-center gap-3 mb-6">
         {step > 0 && step < 4 ? <button className="icon-chip" onClick={() => setStep(step - 1)} aria-label={t('back')}><ArrowLeft size={20} /></button> : <span className="w-12" />}
         <div className="flex-1 flex gap-1.5" aria-label={t('stepOf', { n: step + 1, all: STEPS })} role="progressbar" aria-valuenow={step + 1} aria-valuemin={1} aria-valuemax={STEPS}>
@@ -133,7 +133,7 @@ export default function Onboarding() {
         </div>
         <LangButton />
       </div>
-      <div className="w-full max-w-md anim-in" key={step}>{body[step]}</div>
+      <div className="w-full max-w-md anim-in flex-1 flex flex-col [&>div]:flex-1 [&>div]:flex [&>div]:flex-col" key={step}>{body[step]}</div>
     </main>
   );
 }

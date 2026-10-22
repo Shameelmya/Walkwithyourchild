@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Activity, Pencil, Trash2, Plus, Video } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, Confirm, FormFields, useToast, type FDef } from '../../components/ui';
+import { Page, PageHeader, Empty, Modal, Confirm, FormFields, useToast, BottomBar, SheetActions, type FDef } from '../../components/ui';
 import { db, type Seizure } from '../../lib/db';
 import { useBlobUrl, useChildId } from '../../lib/hooks';
 import { fmtDate, fmtDur, fmtTime, hhmm, isoDate } from '../../lib/util';
@@ -51,7 +51,6 @@ export default function Seizures() {
   return (
     <Page>
       <PageHeader title={t('navSeizures')} actions={<button className="btn-ghost px-4" onClick={() => open()}><Plus size={18} aria-hidden /> {t('addPast')}</button>} />
-      <Link to="/seizure" className="btn-danger w-full !min-h-[64px] text-lg mb-5"><Activity aria-hidden /> {t('startSeizureTimer')}</Link>
       {!list.length ? <Empty kind="chart" title={t('noSeizures')} text={t('noSeizuresText')} /> : (
         <>
           <section className="card p-4 mb-5"><h2 className="font-extrabold mb-2">{t('seizuresPerWeek')}</h2><BarChart data={weeks} color="var(--p5)" /></section>
@@ -75,8 +74,9 @@ export default function Seizures() {
         </>
       )}
       <Modal open={!!edit} onClose={() => setEdit(null)} title={t('seizureDetails')}>
-        {edit && <><FormFields fields={FIELDS} value={edit.v} onChange={(v) => setEdit({ ...edit, v })} /><button className="btn-primary w-full mt-5" onClick={save}>{t('save')}</button></>}
+        {edit && <><FormFields fields={FIELDS} value={edit.v} onChange={(v) => setEdit({ ...edit, v })} /><SheetActions><button className="btn-primary" onClick={save}>{t('save')}</button></SheetActions></>}
       </Modal>
+      <BottomBar><Link to="/seizure" className="btn-danger w-full !min-h-[60px] text-lg"><Activity aria-hidden /> {t('startSeizureTimer')}</Link></BottomBar>
       <Confirm open={!!del} danger text={t('deleteEntryQ')} onNo={() => setDel(null)} onYes={async () => { if (del?.videoBlobId) await db.blobs.delete(del.videoBlobId); await db.seizures.delete(del!.id!); setDel(null); }} />
     </Page>
   );

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Trash2 } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, Confirm } from '../../components/ui';
+import { Page, PageHeader, Empty, Modal, Confirm, BottomBar } from '../../components/ui';
 import { db, type Note } from '../../lib/db';
 import { useChildId } from '../../lib/hooks';
 import { fmtDate } from '../../lib/util';
@@ -21,7 +21,7 @@ export default function Notes() {
   const add = async () => { const n: Note = { childId, title: '', body: '', updatedAt: Date.now() }; n.id = await db.notes.add(n); setEdit(n); };
   return (
     <Page>
-      <PageHeader back="/notebook" title={t('myNotes')} actions={<button className="btn-primary px-4" onClick={add}><Plus size={18} aria-hidden /> {t('newNote')}</button>} />
+      <PageHeader back="/notebook" title={t('myNotes')} />
       {!notes.length ? <Empty kind="leaf" title={t('noNotes')} text={t('noNotesText')} /> : (
         <ul className="grid sm:grid-cols-2 gap-3">
           {notes.map((n) => (
@@ -42,6 +42,7 @@ export default function Notes() {
           <div className="flex justify-between mt-4"><button className="btn-ghost text-danger" onClick={() => setDel(true)}><Trash2 size={18} aria-hidden /> {t('delete')}</button><button className="btn-primary" onClick={() => setEdit(null)}>{t('done')}</button></div>
         </>)}
       </Modal>
+      <BottomBar><button className="btn-primary w-full" onClick={add}><Plus size={18} aria-hidden /> {t('newNote')}</button></BottomBar>
       <Confirm open={del} danger text={t('deleteNoteQ')} onNo={() => setDel(false)} onYes={async () => { if (edit?.id) await db.notes.delete(edit.id); setDel(false); setEdit(null); }} />
     </Page>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FileDown, Printer, Share2 } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Seg, useToast } from '../../components/ui';
+import { Page, PageHeader, Seg, useToast, BottomBar } from '../../components/ui';
 import { useChildId } from '../../lib/hooks';
 import { loadSummary, SummaryDoc, type SummaryData } from '../../components/SummaryDoc';
 import { pdfFromNode, printNode } from '../../lib/printing';
@@ -39,14 +39,15 @@ export default function Summary() {
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <Seg label={t('language')} value={lang} onChange={setLang} options={LANGS.map((x) => ({ v: x.v, l: x.native }))} />
       </div>
-      <div className="flex flex-wrap gap-2 mb-5">
-        <button className="btn-primary" disabled={!d || !!busy} onClick={() => pdf('download')}><FileDown aria-hidden /> {busy === 'download' ? t('preparing') : t('downloadPdf')}</button>
-        <button className="btn-outline" disabled={!d} onClick={() => d && printNode(<SummaryDoc d={d} lang={lang} />)}><Printer aria-hidden /> {t('print')}</button>
-        <button className="btn-outline" disabled={!d || !!busy} onClick={() => pdf('share')}><Share2 aria-hidden /> {busy === 'share' ? t('preparing') : t('share')}</button>
-      </div>
+
       <div ref={box} className="w-full overflow-hidden rounded-xl border border-line bg-white" style={{ height: d ? h * scale : 200 }}>
         {d && <div ref={inner} style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: 794 }}><SummaryDoc d={d} lang={lang} /></div>}
       </div>
+      <BottomBar>
+        <button className="btn-primary flex-1" disabled={!d || !!busy} onClick={() => pdf('download')}><FileDown aria-hidden /> {busy === 'download' ? t('preparing') : t('downloadPdf')}</button>
+        <button className="btn-outline !px-0 w-14" aria-label={t('print')} disabled={!d} onClick={() => d && printNode(<SummaryDoc d={d} lang={lang} />)}><Printer aria-hidden /></button>
+        <button className="btn-outline !px-0 w-14" aria-label={t('share')} disabled={!d || !!busy} onClick={() => pdf('share')}><Share2 aria-hidden /></button>
+      </BottomBar>
     </Page>
   );
 }

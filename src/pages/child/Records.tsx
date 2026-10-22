@@ -3,7 +3,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { useT, type TKey } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, Confirm, FormFields, useToast, type FDef } from '../../components/ui';
+import { Page, PageHeader, Empty, Modal, Confirm, FormFields, useToast, BottomBar, SheetActions, type FDef } from '../../components/ui';
 import { Attachments, Thumb } from '../../components/Attachments';
 import { db, type GenericRecord } from '../../lib/db';
 import { useChildId } from '../../lib/hooks';
@@ -81,7 +81,6 @@ function KindList({ kind }: { kind: Kind }) {
   };
   return (
     <>
-      <button className="btn-primary mb-4" onClick={() => setEdit({ childId, date: isoDate(), files: [] })}><Plus size={18} aria-hidden /> {t('add')}</button>
       {!list.length ? <Empty kind="doc" title={t('nothingYet')} /> : (
         <ul className="grid gap-2">
           {list.map((r) => (
@@ -102,9 +101,10 @@ function KindList({ kind }: { kind: Kind }) {
         {edit && (<>
           <FormFields fields={cfg.fields} value={edit} onChange={(v) => setEdit(v as GenericRecord)} />
           {kind !== 'treatments' && <div className="mt-4"><Attachments value={(edit.files as number[]) ?? []} onChange={(files) => setEdit({ ...edit, files })} /></div>}
-          <button className="btn-primary w-full mt-5" onClick={save}>{t('save')}</button>
+          <SheetActions><button className="btn-primary" onClick={save}>{t('save')}</button></SheetActions>
         </>)}
       </Modal>
+      <BottomBar><button className="btn-primary w-full" onClick={() => setEdit({ childId, date: isoDate(), files: [] })}><Plus size={18} aria-hidden /> {t(cfg.label)}</button></BottomBar>
       <Confirm open={!!del} danger text={t('deleteEntryQ')} onNo={() => setDel(null)} onYes={async () => { await db[kind].delete(del!.id!); setDel(null); }} />
     </>
   );

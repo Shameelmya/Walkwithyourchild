@@ -10,7 +10,7 @@ test('extra: meds, notebook pdf, backup roundtrip', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByText('Choose a 4-number PIN')).toBeVisible(); await page.keyboard.type('1234'); await expect(page.getByText('Type the PIN again')).toBeVisible(); await page.keyboard.type('1234'); await page.waitForTimeout(800);
   await page.getByRole('button', { name: 'Start' }).click(); await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Kannan');
-    await go('/medicines'); await page.getByRole('button', { name: 'Add', exact: true }).click();
+    await go('/medicines'); await page.getByRole('button', { name: 'Add medicine' }).click();
   await page.getByLabel('Medicine *').fill('Valproate'); await page.getByLabel('Dose', { exact: true }).fill('5 ml');
   await page.getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('Valproate').first()).toBeVisible();

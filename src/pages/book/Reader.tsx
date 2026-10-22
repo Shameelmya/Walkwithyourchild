@@ -7,7 +7,7 @@ import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/conten
 import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
 import { getReading, savePosition, toggleBookmark } from '../../lib/reading';
 import { BlockView } from '../../components/Blocks';
-import { Modal, useToast } from '../../components/ui';
+import { Modal, useToast, Scrim } from '../../components/ui';
 import { TocList } from './Contents';
 import { speak, voicesFor } from '../../lib/audio';
 import { cx } from '../../lib/util';
@@ -151,7 +151,13 @@ export default function Reader() {
     const go = () => { if (i >= blocks.length) { setSpeaking(false); return; } const b = blocks[i++]; if (!speak(b.text, lang, go)) setSpeaking(false); };
     go();
   };
-  const bookmarked = reading?.bookmarks.some((b) => b.chapter === chapter && b.blockIndex === cur.current);
+  const marks = new Set((reading?.bookmarks ?? []).filter((b) => b.chapter === chapter).map((b) => b.blockIndex));
+  const bookmarked = marks.size > 0;
+  const onBookmark = async () => {
+    // Bookmark the paragraph at the top of the screen; tapping again on the same spot removes it.
+    const added = await toggleBookmark(chapter, cur.current);
+    toast(added ? t('bookmarkAdded') : t('bookmarkRemoved'), { label: t('bookmarks'), to: '/book/bookmarks' });
+  };
   const partTitle = toc.parts.find((p) => p.n === ch?.part);
   const minutes = ch ? Math.max(1, Math.round(ch.blocks.reduce((s, b) => s + b.text.split(/\s+/).length, 0) / 180)) : 0;
 
@@ -165,7 +171,7 @@ export default function Reader() {
             <Link to="/book" className="icon-chip" aria-label={meta.reader.contents[lang]}><ArrowLeft size={20} /></Link>
             <p className="flex-1 min-w-0 text-center text-sm font-bold truncate px-1">{ch?.title}</p>
             <button className="icon-chip xl:hidden" onClick={() => setShowToc(true)} aria-label={meta.reader.contents[lang]}><List size={20} /></button>
-            <button className="icon-chip" aria-pressed={!!bookmarked} aria-label={meta.reader.bookmark[lang]} onClick={async () => toast((await toggleBookmark(chapter, cur.current)) ? t('bookmarkAdded') : t('bookmarkRemoved'))}>{bookmarked ? <BookmarkCheck size={20} className="text-[rgb(var(--accent))]" /> : <Bookmark size={20} />}</button>
+            <button className="icon-chip" aria-pressed={!!bookmarked} aria-label={meta.reader.bookmark[lang]} onClick={onBookmark}>{bookmarked ? <BookmarkCheck size={20} className="text-[rgb(var(--accent))]" fill="rgb(var(--accent) / 0.15)" /> : <Bookmark size={20} />}</button>
           </div>
           <div className="h-1 bg-line/50"><div className="h-full transition-[width] duration-150" style={{ width: `${progress * 100}%`, background: 'var(--pc)' }} /></div>
         </div>
@@ -181,7 +187,12 @@ export default function Reader() {
                 </div>
               </header>
               {book?.fallback && <p className="card !rounded-2xl p-4 mb-6 text-[0.95rem] font-ui flex gap-3"><Info size={18} className="shrink-0 mt-1 text-[rgb(var(--accent))]" aria-hidden />{t('bookNotTranslated')}</p>}
-              {ch.blocks.map((b, i) => <div key={i} data-b={i} className="scroll-mt-[90px]"><BlockView b={b} chapter={chapter} index={i} /></div>)}
+              {ch.blocks.map((b, i) => (
+                <div key={i} data-b={i} className="scroll-mt-[90px] relative">
+                  {marks.has(i) && <span className="absolute -left-4 top-1 w-1.5 h-6 rounded-full bg-[rgb(var(--accent))]" title={meta.reader.bookmark[lang]} aria-label={meta.reader.bookmark[lang]} />}
+                  <BlockView b={b} chapter={chapter} index={i} />
+                </div>
+              ))}
               <nav className="grid sm:grid-cols-2 gap-3 mt-14 font-ui" aria-label={t('chapterNav')}>
                 {prev ? <button className="card p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`)}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
                 {next ? <button className="tile t-blue !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`)}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
@@ -197,6 +208,7 @@ export default function Reader() {
           <X size={24} className={cx('absolute inset-0 transition duration-300', panel ? 'opacity-100' : 'opacity-0 -rotate-90 scale-50')} />
         </span>
       </button>
+      <Scrim open={panel} onClose={() => setPanel(false)} />
       <ReadingPanel open={panel} onClose={() => setPanel(false)} speaking={speaking} onSpeak={readAloud} hasVoice={hasVoice} />
       <Modal open={showToc} onClose={() => setShowToc(false)} title={meta.reader.contents[lang]}><TocList current={chapter} onPick={() => setShowToc(false)} /></Modal>
     </div>
