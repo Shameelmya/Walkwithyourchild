@@ -160,3 +160,19 @@ nav a:active > span:first-child { transform: scale(0.88); }
 .song-tile { transition: opacity .35s, transform .35s; }
 .song-tile[data-hit] { opacity: 0 !important; transform: scale(1.12); }
 @keyframes sayUp { from { opacity: 1; transform: translateY(0) scale(1.1) } to { opacity: 0; transform: translateY(-48px) scale(1) } }
+
+/* Malayalam and Kannada words are long and their letters tall: headings and card titles step down a size
+   and long words wrap instead of being cut off. English keeps its sizes. */
+html:not([lang="en"]) .text-xl { font-size: 1.12rem; line-height: 1.5; }
+html:not([lang="en"]) .text-2xl { font-size: 1.28rem; line-height: 1.45; }
+html:not([lang="en"]) .text-3xl { font-size: 1.55rem; line-height: 1.4; }
+html:not([lang="en"]) .text-4xl { font-size: 1.85rem; line-height: 1.35; }
+html:not([lang="en"]) .text-\[1\.9rem\] { font-size: 1.6rem; }
+html:not([lang="en"]) .text-\[1\.8rem\] { font-size: 1.55rem; }
+html:not([lang="en"]) .text-\[1\.65rem\] { font-size: 1.4rem; }
+html:not([lang="en"]) .text-\[1\.05rem\] { font-size: 0.98rem; }
+@media (min-width: 640px) {
+  html:not([lang="en"]) .sm\:text-4xl { font-size: 1.95rem; }
+  html:not([lang="en"]) .sm\:text-3xl { font-size: 1.65rem; }
+}
+html:not([lang="en"]) :is(h1, h2, h3, .font-display, .tile, .card) { overflow-wrap: anywhere; }
