@@ -10,7 +10,8 @@ import { PHRASES } from '../../lib/talk';
 import { useUI } from '../../lib/store';
 import { speak } from '../../lib/audio';
 import { LANGS } from '../../lib/store';
-import { compressImage, startRecording, type Rec } from '../../lib/media';
+import { startRecording, type Rec } from '../../lib/media';
+import { PhotoCrop } from '../../components/PhotoCrop';
 import { cx } from '../../lib/util';
 import { useBackToClose } from '../../lib/nav';
 
@@ -148,6 +149,7 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
   const [emoji, setEmoji] = useState('');
   const [photo, setPhoto] = useState<number>();
   const [voice, setVoice] = useState<number>();
+  const [crop, setCrop] = useState<Blob | null>(null);
   const [rec, setRec] = useState<Rec | null>(null);
   const voiceUrl = useBlobUrl(voice);
   useEffect(() => { if (card) { setLabel(card.label); setPhrase(card.rec?.phrase ?? (card.builtin === undefined ? card.phrase : '')); setEmoji(card.emoji ?? ''); setPhoto(card.photo); setVoice(card.voice); } }, [card]);
@@ -159,12 +161,13 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
   };
   return (
     <Modal open onClose={onClose} title={card.key === 'new' ? t('newCard') : t('editCard')}>
+      {crop && <PhotoCrop file={crop} round={false} onCancel={() => setCrop(null)} onDone={async (b) => { setCrop(null); setPhoto(await putBlob(b, childId, 'talk')); }} />}
       <div className="grid gap-4">
         <div><label className="label" htmlFor="tc-l">{t('cardWord')}</label><input id="tc-l" className="input" value={label} onChange={(e) => setLabel(e.target.value)} /></div>
         <div><label className="label" htmlFor="tc-p">{t('cardSentence')}</label><input id="tc-p" className="input" placeholder={card.builtin !== undefined ? card.phrase : t('cardSentenceHint')} value={phrase} onChange={(e) => setPhrase(e.target.value)} /></div>
         {card.builtin === undefined && <div><label className="label" htmlFor="tc-e">{t('emojiOptional')}</label><input id="tc-e" className="input w-24 text-2xl" value={emoji} onChange={(e) => setEmoji(e.target.value)} /></div>}
         <div className="flex flex-wrap gap-2 items-center">
-          <FileButton accept="image/*" onFile={async (f) => setPhoto(await putBlob(await compressImage(f, 800), childId, 'talk'))}><Camera size={18} aria-hidden /> {photo ? t('changePhoto') : t('addPhoto')}</FileButton>
+          <FileButton accept="image/*" onFile={(f) => setCrop(f)}><Camera size={18} aria-hidden /> {photo ? t('changePhoto') : t('addPhoto')}</FileButton>
           {photo && <button className="chip" onClick={() => setPhoto(undefined)}>{t('removePhoto')}</button>}
         </div>
         <div>

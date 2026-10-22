@@ -167,4 +167,11 @@ export const kn: Record<keyof typeof en, string> = {
   skip: "ಬಿಟ್ಟುಬಿಡಿ",
   voiceTest: "ಧ್ವನಿ ಪರೀಕ್ಷೆ",
   voiceRecordInstead: "ಬದಲಿಗೆ ಮಾತಿನ ಫಲಕಕ್ಕೆ ನಿಮ್ಮ ಸ್ವಂತ ಧ್ವನಿ ರೆಕಾರ್ಡ್ ಮಾಡಬಹುದು.",
+  editPhoto: "ಫೋಟೋ ಹೊಂದಿಸಿ",
+  rotate: "ತಿರುಗಿಸಿ",
+  zoomIn: "ದೊಡ್ಡದು",
+  zoomOut: "ಚಿಕ್ಕದು",
+  zoom: "ಗಾತ್ರ",
+  cropHint: "ಸರಿಸಲು ಎಳೆಯಿರಿ. ದೊಡ್ಡದಾಗಿಸಲು ಎರಡು ಬೆರಳಿನಿಂದ ಹಿಗ್ಗಿಸಿ ಅಥವಾ ಸ್ಲೈಡರ್ ಬಳಸಿ.",
+  usePhoto: "ಈ ಫೋಟೋ ಬಳಸಿ",
 };

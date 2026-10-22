@@ -230,4 +230,11 @@ export const en = {
   skip: "Skip",
   voiceTest: "Voice test",
   voiceRecordInstead: "You can record your own voice for the talk board instead.",
+  editPhoto: "Adjust photo",
+  rotate: "Turn",
+  zoomIn: "Zoom in",
+  zoomOut: "Zoom out",
+  zoom: "Zoom",
+  cropHint: "Drag to move. Pinch or use the slider to zoom.",
+  usePhoto: "Use photo",
 };
