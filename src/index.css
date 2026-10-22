@@ -31,7 +31,11 @@
 /* Deep tones for gradient tiles (white text stays readable in every theme) */
 :root { --g1: #3E9A91; --g1b: #1B625D; --g2: #6FA352; --g2b: #3B6629; --g3: #DB7B57; --g3b: #A6472A; --g4: #9C80B6; --g4b: #614679; --g5: #6B7FB4; --g5b: #33416C; --gi: #C49545; --gib: #7A5818; --gr: #F2726A; --grb: #C93B37; --ga: #4F8FEA; --gab: #2F67C8; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+/* Malayalam and Kannada: real font weights only (no faux bold), a touch lighter than Latin so the letters stay open and clear */
+:is(html[lang='ml'], html[lang='kn']) :is(.font-extrabold, .font-black) { font-weight: 700; }
+:is(html[lang='ml'], html[lang='kn']) .font-bold { font-weight: 600; }
+:is(html[lang='ml'], html[lang='kn']) .prose-read strong { font-weight: 600; }
 body { font-feature-settings: 'ss01'; background: rgb(var(--bg)); color: rgb(var(--text)); font-family: theme('fontFamily.ui'); line-height: 1.6; -webkit-tap-highlight-color: transparent; }
 html[lang='ml'] body, html[lang='kn'] body { line-height: 1.78; }
 :is(html[lang='ml'], html[lang='kn']) :is(em, i, .italic) { font-style: normal; }
@@ -130,8 +134,8 @@ article.prose-read { overflow-anchor: none; } html { overflow-anchor: none; }
 .t-amber { background: linear-gradient(160deg, var(--ta1), var(--ta2)); } .t-green { background: linear-gradient(160deg, var(--tg1), var(--tg2)); }
 .t-rose { background: linear-gradient(160deg, var(--tr1), var(--tr2)); }
 .tile { text-shadow: 0 1px 2px rgb(0 0 0 / 0.14); }
-input[type=range].slider { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 99px; background: rgb(var(--surface2)); outline: none; }
-input[type=range].slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 99px; background: rgb(var(--surface)); border: 6px solid rgb(var(--accent)); box-shadow: 0 2px 8px rgb(0 0 0 / .2); cursor: pointer; }
+input[type=range].slider { -webkit-appearance: none; appearance: none; height: 0.5rem; border-radius: 99px; background: rgb(var(--surface2)); outline: none; }
+input[type=range].slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.75rem; height: 1.75rem; border-radius: 99px; background: rgb(var(--surface)); border: 0.375rem solid rgb(var(--accent)); box-shadow: 0 2px 8px rgb(0 0 0 / .2); cursor: pointer; }
 input[type=range].slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 99px; background: rgb(var(--surface)); border: 6px solid rgb(var(--accent)); cursor: pointer; }
 @keyframes pop { 0% { transform: scale(1) } 35% { transform: scale(1.05) } 100% { transform: scale(1) } }
 .anim-pop { animation: pop 0.5s var(--ease); }

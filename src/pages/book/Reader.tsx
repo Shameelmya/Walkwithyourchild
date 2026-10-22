@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine, Maximize, Minimize, Siren } from 'lucide-react';
 import { useT } from '../../i18n';
 import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/content';
 import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
@@ -9,7 +9,7 @@ import { getReading, savePosition, toggleBookmark } from '../../lib/reading';
 import { BlockView } from '../../components/Blocks';
 import { Modal, useToast, Scrim } from '../../components/ui';
 import { TocList } from './Contents';
-import { speak, voicesFor } from '../../lib/audio';
+import { speakQueue, stopSpeaking, voicesFor } from '../../lib/audio';
 import { cx } from '../../lib/util';
 import { usePresence } from '../../lib/hooks';
 
@@ -24,17 +24,23 @@ function useHasVoice(lang: string) {
   return has;
 }
 
+/** The reading menu keeps the same size whatever the text size is set to. */
+const unscale = (f: number, lang: string) => 1 / (f * (lang !== 'en' ? 1.05 : 1));
+
 const SW: Record<Theme, string> = { white: '#ffffff', paper: '#F7F2EB', comfort: '#ECE0C9', night: '#121417' };
 
 function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: boolean; onClose: () => void; speaking: boolean; onSpeak: () => void; hasVoice: boolean }) {
   const { t, lang } = useT();
   const { theme, setTheme, fontScale, setFontScale, setLang, brightness, setBrightness } = useUI();
+  const [fs, setFs] = useState(!!document.fullscreenElement);
+  useEffect(() => { const f = () => setFs(!!document.fullscreenElement); document.addEventListener('fullscreenchange', f); return () => document.removeEventListener('fullscreenchange', f); }, []);
+  const toggleFs = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen(); } catch { /* not supported */ } };
   const idx = Math.max(0, FONT_STEPS.findIndex((f) => f === fontScale));
   const { mounted, closing } = usePresence(open, 200);
   useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open, onClose]);
   if (!mounted) return null;
   return (
-    <div role="dialog" aria-label={t('readingSettings')} className={cx('fixed z-50 right-4 left-4 sm:left-auto sm:w-[340px] bottom-[164px] lg:bottom-[92px] lg:right-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right', closing ? 'anim-zoom-out' : 'anim-zoom')}>
+    <div role="dialog" aria-label={t('readingSettings')} style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 right-4 left-4 sm:left-auto sm:w-[21rem] bottom-[6rem] lg:right-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right [&_svg]:w-[1.1rem] [&_svg]:h-[1.1rem]', closing ? 'anim-zoom-out' : 'anim-zoom')}>
       <div className="grid gap-5">
         <div>
           <p className="label flex items-center gap-1.5"><Sun size={14} aria-hidden /> {t('screenLight')}</p>
@@ -65,7 +71,10 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
             {LANGS.map((l) => <button key={l.v} role="radio" aria-checked={lang === l.v} lang={l.v} onClick={() => setLang(l.v)} className={cx('min-h-[44px] rounded-xl font-bold text-sm transition', lang === l.v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>{l.native}</button>)}
           </div>
         </div>
+        <div className={cx('grid gap-2', hasVoice && 'grid-cols-2')}>
+        <button className="btn-outline" onClick={toggleFs}>{fs ? <><Minimize size={18} aria-hidden /> {t('exitFullScreen')}</> : <><Maximize size={18} aria-hidden /> {t('fullScreen')}</>}</button>
         {hasVoice && <button className={speaking ? 'btn-ghost' : 'btn-outline'} onClick={onSpeak}>{speaking ? <><Square size={18} aria-hidden /> {t('stopReading')}</> : <><Volume2 size={18} aria-hidden /> {meta.reader.readAloud[lang]}</>}</button>}
+        </div>
       </div>
     </div>
   );
@@ -76,6 +85,7 @@ export default function Reader() {
   const [sp] = useSearchParams();
   const { t, lang } = useT();
   const brightness = useUI((s) => s.brightness);
+  const fontScale = useUI((s) => s.fontScale);
   const nav = useNavigate();
   const toast = useToast((s) => s.show);
   const [loaded, setLoaded] = useState<{ l: string; b: Book } | null>(null);
@@ -87,6 +97,8 @@ export default function Reader() {
   const [panel, setPanel] = useState(false);
   const [speaking, setSpeaking] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [chrome, setChrome] = useState(true);
+  const lastY = useRef(0);
   const cur = useRef(0);
   const restored = useRef<string>('');
   const hasVoice = useHasVoice(lang);
@@ -129,6 +141,9 @@ export default function Reader() {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - innerHeight;
       setProgress(max > 0 ? Math.min(1, scrollY / max) : 1);
+      // Immersive reading: the top bar slides away while reading down and returns when scrolling up.
+      const dy = scrollY - lastY.current;
+      if (Math.abs(dy) > 8) { if (!restoring.current) setChrome(dy < 0 || scrollY < 80); lastY.current = scrollY; }
       if (!inSync.current || restoring.current) return; // layout is changing during a language switch
       const els = document.querySelectorAll<HTMLElement>('[data-b]');
       let best = 0;
@@ -140,16 +155,13 @@ export default function Reader() {
     return () => { removeEventListener('scroll', onScroll); clearTimeout(h); };
   }, [ch, chapter, ready]);
 
-  useEffect(() => () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); }, [chapter, lang]);
+  useEffect(() => () => { stopSpeaking(); setSpeaking(false); }, [chapter, lang]);
 
   const readAloud = () => {
-    if (speaking) { speechSynthesis.cancel(); setSpeaking(false); return; }
+    if (speaking) { stopSpeaking(); setSpeaking(false); return; }
     if (!ch) return;
-    setSpeaking(true);
-    const blocks = ch.blocks.slice(cur.current);
-    let i = 0;
-    const go = () => { if (i >= blocks.length) { setSpeaking(false); return; } const b = blocks[i++]; if (!speak(b.text, lang, go)) setSpeaking(false); };
-    go();
+    // Called straight from the tap so Android allows speech; reads from the paragraph at the top of the screen.
+    setSpeaking(speakQueue(ch.blocks.slice(cur.current).map((b) => b.text), lang, () => setSpeaking(false)));
   };
   const marks = new Set((reading?.bookmarks ?? []).filter((b) => b.chapter === chapter).map((b) => b.blockIndex));
   const bookmarked = marks.size > 0;
@@ -166,16 +178,17 @@ export default function Reader() {
       {brightness < 1 && <div aria-hidden className="fixed inset-0 z-[35] pointer-events-none bg-black transition-opacity" style={{ opacity: (1 - brightness) * 0.9 }} />}
       <aside className="hidden xl:block w-80 shrink-0 h-[calc(100vh-1rem)] sticky top-2 overflow-y-auto no-scrollbar p-3"><TocList current={chapter} /></aside>
       <div className="flex-1 min-w-0">
-        <div className="sticky top-0 z-30 bg-bg/90 backdrop-blur-md">
-          <div className="px-3 h-[64px] flex items-center gap-2">
+        <div className="fixed top-0 inset-x-0 z-[31] h-[3px] bg-line/40 pointer-events-none"><div className="h-full transition-[width] duration-150" style={{ width: `${progress * 100}%`, background: 'var(--pc)' }} /></div>
+        <div className={cx('fixed top-0 inset-x-0 z-30 glass-panel border-b border-line/40 transition-transform duration-500', !chrome && '-translate-y-full')} style={{ transitionTimingFunction: 'var(--ease)' }}>
+          <div className="mx-auto max-w-3xl px-3 h-[64px] flex items-center gap-2">
             <Link to="/book" className="icon-chip" aria-label={meta.reader.contents[lang]}><ArrowLeft size={20} /></Link>
             <p className="flex-1 min-w-0 text-center text-sm font-bold truncate px-1">{ch?.title}</p>
             <button className="icon-chip xl:hidden" onClick={() => setShowToc(true)} aria-label={meta.reader.contents[lang]}><List size={20} /></button>
+            <Link to="/sos" className="icon-chip !text-[rgb(var(--danger))]" aria-label={t('sosLong')}><Siren size={20} /></Link>
             <button className="icon-chip" aria-pressed={!!bookmarked} aria-label={meta.reader.bookmark[lang]} onClick={onBookmark}>{bookmarked ? <BookmarkCheck size={20} className="text-[rgb(var(--accent))]" fill="rgb(var(--accent) / 0.15)" /> : <Bookmark size={20} />}</button>
           </div>
-          <div className="h-1 bg-line/50"><div className="h-full transition-[width] duration-150" style={{ width: `${progress * 100}%`, background: 'var(--pc)' }} /></div>
         </div>
-        <main id="main" className="px-5 pb-40 lg:pb-20">
+        <main id="main" className="px-5 pt-16 pb-40 lg:pb-24" onClick={(e) => { if (!(e.target as HTMLElement).closest('a,button,input,label,summary,aside')) setChrome((c) => !c); }}>
           {!ch ? <div className="py-20 text-center text-muted" aria-busy="true">…</div> : (
             <article className="prose-read mx-auto anim-in" key={lang + chapter}>
               <header className="cover rounded-[28px] p-6 mt-5 mb-8 font-ui">
@@ -202,10 +215,10 @@ export default function Reader() {
         </main>
       </div>
       <button onClick={() => setPanel(!panel)} aria-expanded={panel} aria-label={t('readingSettings')}
-        className={cx('fixed z-50 right-4 bottom-[100px] lg:bottom-6 lg:right-6 w-14 h-14 rounded-full shadow-lift glass-panel border border-line/60 flex items-center justify-center transition duration-300 active:scale-90', panel ? 'text-ink' : 'text-[rgb(var(--accent))]')}>
+        style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 right-4 bottom-6 lg:right-6 w-14 h-14 rounded-full shadow-lift glass-panel border border-line/60 flex items-center justify-center transition duration-300 active:scale-90', panel ? 'text-ink' : 'text-[rgb(var(--accent))]')}>
         <span className="relative w-6 h-6" aria-hidden>
-          <PenLine size={24} className={cx('absolute inset-0 transition duration-300', panel ? 'opacity-0 rotate-90 scale-50' : 'opacity-100')} />
-          <X size={24} className={cx('absolute inset-0 transition duration-300', panel ? 'opacity-100' : 'opacity-0 -rotate-90 scale-50')} />
+          <PenLine size={24} className={cx('w-6 h-6 absolute inset-0 transition duration-300', panel ? 'opacity-0 rotate-90 scale-50' : 'opacity-100')} />
+          <X size={24} className={cx('w-6 h-6 absolute inset-0 transition duration-300', panel ? 'opacity-100' : 'opacity-0 -rotate-90 scale-50')} />
         </span>
       </button>
       <Scrim open={panel} onClose={() => setPanel(false)} />
