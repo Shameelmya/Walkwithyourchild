@@ -1,0 +1,340 @@
+{
+ "appTitle": {
+  "en": "Walking With Your Child",
+  "ml": "നിങ്ങളുടെ കുട്ടിക്കൊപ്പം, ഓരോ ചുവടും"
+ },
+ "kicker": {
+  "en": "A guide for families",
+  "ml": "കുടുംബങ്ങൾക്കായി ഒരു വഴികാട്ടി"
+ },
+ "subtitle": {
+  "en": "For parents and families of children with progressive neurological conditions",
+  "ml": "കാലം പോകുന്തോറും കൂടിവരുന്ന നാഡീരോഗങ്ങളുള്ള കുട്ടികളുടെ മാതാപിതാക്കൾക്കും കുടുംബങ്ങൾക്കും"
+ },
+ "about": {
+  "en": "This book was developed from interviews with professionals who care for children with progressive neurological conditions, conversations with families, and a review of published studies, at the Department of Psychiatric Social Work, NIMHANS, Bengaluru.",
+  "ml": "കാലം പോകുന്തോറും കൂടിവരുന്ന നാഡീരോഗങ്ങളുള്ള കുട്ടികളെ പരിചരിക്കുന്ന വിദഗ്ധരുമായുള്ള അഭിമുഖങ്ങൾ, കുടുംബങ്ങളുമായുള്ള സംഭാഷണങ്ങൾ, പ്രസിദ്ധീകരിച്ച പഠനങ്ങളുടെ അവലോകനം എന്നിവയിൽ നിന്ന്, ബെംഗളൂരു നിംഹാൻസിലെ സൈക്യാട്രിക് സോഷ്യൽ വർക്ക് വിഭാഗത്തിൽ രൂപപ്പെടുത്തിയതാണ് ഈ പുസ്തകം."
+ },
+ "disclaimer": {
+  "en": "This app does not replace advice from your child's own doctors, nurses and therapists. In an emergency, call 108 or go to the nearest hospital.",
+  "ml": "നിങ്ങളുടെ കുട്ടിയെ ചികിത്സിക്കുന്ന ഡോക്ടർമാരുടെയും നഴ്സുമാരുടെയും തെറാപ്പിസ്റ്റുകളുടെയും ഉപദേശത്തിന് പകരമല്ല ഈ ആപ്പ്. അടിയന്തര സാഹചര്യത്തിൽ 108-ൽ വിളിക്കുക, അല്ലെങ്കിൽ ഏറ്റവും അടുത്ത ആശുപത്രിയിൽ പോകുക."
+ },
+ "privacy": {
+  "en": "Everything you enter stays only on this device. Nothing is sent to any server. Make a backup regularly.",
+  "ml": "നിങ്ങൾ നൽകുന്ന വിവരങ്ങളെല്ലാം ഈ ഫോണിൽ മാത്രമാണ് സൂക്ഷിക്കുന്നത്. ഒരു സെർവറിലേക്കും ഒന്നും അയയ്ക്കുന്നില്ല. ഇടയ്ക്കിടെ ബാക്കപ്പ് എടുക്കുക."
+ },
+ "storiesNote": {
+  "en": "The parent experiences in this book are drawn from many families and changed so that no one can be recognised.",
+  "ml": "ഈ പുസ്തകത്തിലെ മാതാപിതാക്കളുടെ അനുഭവങ്ങൾ പല കുടുംബങ്ങളിൽ നിന്നെടുത്ത്, ആരെയും തിരിച്ചറിയാനാകാത്ത വിധം മാറ്റം വരുത്തിയവയാണ്."
+ },
+ "numbers": [
+  {
+   "number": "108",
+   "label": {
+    "en": "Ambulance and medical emergency",
+    "ml": "ആംബുലൻസ്, മെഡിക്കൽ അടിയന്തരാവസ്ഥ"
+   }
+  },
+  {
+   "number": "14416",
+   "alt": "1-800-891-4416",
+   "label": {
+    "en": "Tele-MANAS: free mental health support, 24 hours, in many Indian languages",
+    "ml": "ടെലി-മനസ്: സൗജന്യ മാനസികാരോഗ്യ പിന്തുണ, 24 മണിക്കൂറും, മലയാളം ഉൾപ്പെടെ പല ഭാഷകളിൽ"
+   }
+  }
+ ],
+ "backPage": {
+  "en": "You are not alone. Every family's journey is different. Read the part you need today, keep your notebook with you, and keep asking until you understand.",
+  "ml": "നിങ്ങൾ ഒറ്റയ്ക്കല്ല. ഓരോ കുടുംബത്തിന്റെയും യാത്ര വ്യത്യസ്തമാണ്. ഇന്ന് ആവശ്യമുള്ള ഭാഗം വായിക്കുക, നോട്ട്ബുക്ക് എപ്പോഴും കൂടെ കരുതുക, മനസ്സിലാകുന്നതുവരെ ചോദിച്ചുകൊണ്ടേയിരിക്കുക."
+ },
+ "parts": [
+  {
+   "n": 1,
+   "color": "#1E6B66",
+   "tint": "#E3F0EE"
+  },
+  {
+   "n": 2,
+   "color": "#4E7A36",
+   "tint": "#EAF2E3"
+  },
+  {
+   "n": 3,
+   "color": "#C9603F",
+   "tint": "#FBEAE3"
+  },
+  {
+   "n": 4,
+   "color": "#74548A",
+   "tint": "#F0E9F4"
+  },
+  {
+   "n": 5,
+   "color": "#3D4C78",
+   "tint": "#E7EAF3"
+  }
+ ],
+ "introColor": {
+  "color": "#B4842F",
+  "tint": "#F8F0E1"
+ },
+ "notebookColor": {
+  "color": "#B4842F",
+  "tint": "#F8F0E1"
+ },
+ "professionalsColor": {
+  "color": "#4A5866",
+  "tint": "#E9EDF0"
+ },
+ "urgentColor": {
+  "color": "#B5452F",
+  "tint": "#FBE7E1"
+ },
+ "calloutLabels": {
+  "ask": {
+   "en": "Ask your team",
+   "ml": "ചികിത്സാസംഘത്തോട് ചോദിക്കൂ"
+  },
+  "try": {
+   "en": "Try this",
+   "ml": "ഇതൊന്ന് ചെയ്തുനോക്കൂ"
+  },
+  "why": {
+   "en": "Why it matters",
+   "ml": "ഇത് എന്തിന്"
+  },
+  "urgent": {
+   "en": "Get help now",
+   "ml": "ഉടൻ സഹായം തേടുക"
+  },
+  "alert": {
+   "en": "Emergency",
+   "ml": "അടിയന്തരം"
+  },
+  "soft": {
+   "en": "Important",
+   "ml": "ശ്രദ്ധിക്കുക"
+  },
+  "note": {
+   "en": "About the stories",
+   "ml": "അനുഭവങ്ങളെക്കുറിച്ച്"
+  },
+  "care": {
+   "en": "Look after yourself",
+   "ml": "സ്വയം ശ്രദ്ധിക്കുക"
+  }
+ },
+ "partLabel": {
+  "en": "Part",
+  "ml": "ഭാഗം"
+ },
+ "chapterLabel": {
+  "en": "Chapter",
+  "ml": "അധ്യായം"
+ },
+ "inThisPart": {
+  "en": "In this part",
+  "ml": "ഈ ഭാഗത്തിൽ"
+ },
+ "nav": {
+  "home": {
+   "en": "Home",
+   "ml": "ഹോം"
+  },
+  "book": {
+   "en": "Book",
+   "ml": "പുസ്തകം"
+  },
+  "notebook": {
+   "en": "Notebook",
+   "ml": "നോട്ട്ബുക്ക്"
+  },
+  "child": {
+   "en": "My child",
+   "ml": "എന്റെ കുട്ടി"
+  },
+  "medicines": {
+   "en": "Medicines",
+   "ml": "മരുന്നുകൾ"
+  },
+  "seizure": {
+   "en": "Seizure",
+   "ml": "ഫിറ്റ്സ്"
+  },
+  "records": {
+   "en": "Health records",
+   "ml": "ചികിത്സാ രേഖകൾ"
+  },
+  "visits": {
+   "en": "Doctor visits",
+   "ml": "ഡോക്ടർ സന്ദർശനങ്ങൾ"
+  },
+  "progress": {
+   "en": "Progress",
+   "ml": "പുരോഗതി"
+  },
+  "documents": {
+   "en": "Documents",
+   "ml": "രേഖകൾ"
+  },
+  "summary": {
+   "en": "Doctor summary",
+   "ml": "ഡോക്ടർക്കുള്ള സംഗ്രഹം"
+  },
+  "talk": {
+   "en": "Talk board",
+   "ml": "സംസാര ബോർഡ്"
+  },
+  "play": {
+   "en": "Play",
+   "ml": "കളിസ്ഥലം"
+  },
+  "forMe": {
+   "en": "For me",
+   "ml": "എനിക്കായി"
+  },
+  "memory": {
+   "en": "Memory box",
+   "ml": "ഓർമ്മപ്പെട്ടി"
+  },
+  "updates": {
+   "en": "Updates",
+   "ml": "പുതിയ വിവരങ്ങൾ"
+  },
+  "community": {
+   "en": "Community",
+   "ml": "കൂട്ടായ്മ"
+  },
+  "comingSoon": {
+   "en": "Coming soon",
+   "ml": "ഉടൻ വരുന്നു"
+  },
+  "emergency": {
+   "en": "Emergency",
+   "ml": "അടിയന്തരം"
+  },
+  "settings": {
+   "en": "Settings",
+   "ml": "ക്രമീകരണങ്ങൾ"
+  },
+  "backup": {
+   "en": "Backup",
+   "ml": "ബാക്കപ്പ്"
+  }
+ },
+ "reader": {
+  "fontSize": {
+   "en": "Text size",
+   "ml": "അക്ഷര വലുപ്പം"
+  },
+  "theme": {
+   "en": "Page colour",
+   "ml": "പേജിന്റെ നിറം"
+  },
+  "themes": {
+   "white": {
+    "en": "White",
+    "ml": "വെള്ള"
+   },
+   "paper": {
+    "en": "Paper",
+    "ml": "പേപ്പർ"
+   },
+   "comfort": {
+    "en": "Eye comfort",
+    "ml": "കണ്ണിന് സുഖം"
+   },
+   "night": {
+    "en": "Night",
+    "ml": "രാത്രി"
+   }
+  },
+  "language": {
+   "en": "Language",
+   "ml": "ഭാഷ"
+  },
+  "contents": {
+   "en": "Contents",
+   "ml": "ഉള്ളടക്കം"
+  },
+  "bookmark": {
+   "en": "Bookmark",
+   "ml": "ബുക്ക്മാർക്ക്"
+  },
+  "readAloud": {
+   "en": "Read aloud",
+   "ml": "ഉറക്കെ വായിക്കുക"
+  },
+  "continue": {
+   "en": "Continue reading",
+   "ml": "വായന തുടരുക"
+  }
+ },
+ "talkBoardCards": [
+  {
+   "en": "Food",
+   "ml": "ഭക്ഷണം"
+  },
+  {
+   "en": "Water",
+   "ml": "വെള്ളം"
+  },
+  {
+   "en": "Pain",
+   "ml": "വേദന"
+  },
+  {
+   "en": "Toilet",
+   "ml": "മൂത്രം"
+  },
+  {
+   "en": "Mother",
+   "ml": "അമ്മ"
+  },
+  {
+   "en": "Father",
+   "ml": "അച്ഛൻ"
+  },
+  {
+   "en": "Song",
+   "ml": "പാട്ട്"
+  },
+  {
+   "en": "Sleep",
+   "ml": "ഉറങ്ങണം"
+  },
+  {
+   "en": "Yes",
+   "ml": "അതെ"
+  },
+  {
+   "en": "No",
+   "ml": "വേണ്ട"
+  },
+  {
+   "en": "More",
+   "ml": "ഇനിയും"
+  },
+  {
+   "en": "Stop",
+   "ml": "മതി"
+  },
+  {
+   "en": "Hot",
+   "ml": "ചൂട്"
+  },
+  {
+   "en": "Cold",
+   "ml": "തണുപ്പ്"
+  },
+  {
+   "en": "Hug",
+   "ml": "കെട്ടിപ്പിടിക്കണം"
+  },
+  {
+   "en": "Go outside",
+   "ml": "പുറത്ത് പോകണം"
+  }
+ ]
+}

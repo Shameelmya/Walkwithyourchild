@@ -1,0 +1,700 @@
+{
+ "title": {
+  "en": "My notebook",
+  "ml": "എന്റെ നോട്ട്ബുക്ക്"
+ },
+ "intro": {
+  "en": "Fill these pages in on your phone, or print them. Take them to every hospital visit.",
+  "ml": "ഈ താളുകൾ ഫോണിൽ തന്നെ പൂരിപ്പിക്കാം, അല്ലെങ്കിൽ പ്രിന്റ് എടുക്കാം. ഓരോ തവണ ആശുപത്രിയിൽ പോകുമ്പോഴും കൂടെ കരുതുക."
+ },
+ "note": "rows = number of empty rows to show initially; tables must let the user add more rows. input types: text, textarea, date, time, number, tel, tel-text, yesno, check, scale1to5.",
+ "sheets": [
+  {
+   "id": "my-child",
+   "n": 1,
+   "type": "form",
+   "title": {
+    "en": "My child",
+    "ml": "എന്റെ കുട്ടി"
+   },
+   "hint": {
+    "en": "Show this page to any new doctor, nurse or hospital. It saves you explaining everything again.",
+    "ml": "പുതിയ ഡോക്ടറെയോ നഴ്സിനെയോ ആശുപത്രിയെയോ കാണുമ്പോൾ ഈ താൾ കാണിക്കുക. എല്ലാം വീണ്ടും ആദ്യം മുതൽ പറയേണ്ടി വരില്ല."
+   },
+   "fields": [
+    {
+     "id": "name_age",
+     "label": {
+      "en": "Child's name and age",
+      "ml": "കുട്ടിയുടെ പേരും പ്രായവും"
+     },
+     "size": "short",
+     "input": "text"
+    },
+    {
+     "id": "condition",
+     "label": {
+      "en": "Name of the condition",
+      "ml": "രോഗത്തിന്റെ പേര്"
+     },
+     "size": "short",
+     "input": "text",
+     "sub": {
+      "en": "as written by the doctor",
+      "ml": "ഡോക്ടർ എഴുതിയതുപോലെ"
+     }
+    },
+    {
+     "id": "diagnosis",
+     "label": {
+      "en": "Date of diagnosis, and hospital",
+      "ml": "രോഗനിർണയം നടത്തിയ തീയതിയും ആശുപത്രിയും"
+     },
+     "size": "short",
+     "input": "text"
+    },
+    {
+     "id": "allergies",
+     "label": {
+      "en": "Allergies",
+      "ml": "അലർജികൾ"
+     },
+     "size": "short",
+     "input": "text"
+    },
+    {
+     "id": "main_doctor",
+     "label": {
+      "en": "Main doctor and phone",
+      "ml": "പ്രധാന ഡോക്ടറും ഫോൺ നമ്പറും"
+     },
+     "size": "short",
+     "input": "tel-text"
+    },
+    {
+     "id": "main_contact",
+     "label": {
+      "en": "Main contact after discharge, and phone",
+      "ml": "ഡിസ്ചാർജിനു ശേഷം ബന്ധപ്പെടേണ്ട പ്രധാന വ്യക്തിയും ഫോണും"
+     },
+     "size": "short",
+     "input": "tel-text"
+    },
+    {
+     "id": "can_do",
+     "label": {
+      "en": "What my child can do now",
+      "ml": "എന്റെ കുട്ടിക്ക് ഇപ്പോൾ ചെയ്യാൻ കഴിയുന്നത്"
+     },
+     "size": "long",
+     "input": "text"
+    },
+    {
+     "id": "signals",
+     "label": {
+      "en": "How my child tells us yes, no, pain, hunger",
+      "ml": "അതെ, അല്ല, വേദന, വിശപ്പ് എന്നിവ കുട്ടി ഞങ്ങളെ അറിയിക്കുന്നത് എങ്ങനെ"
+     },
+     "size": "long",
+     "input": "text"
+    },
+    {
+     "id": "comforts",
+     "label": {
+      "en": "What comforts my child",
+      "ml": "എന്റെ കുട്ടിക്ക് ആശ്വാസം നൽകുന്നത്"
+     },
+     "size": "long",
+     "input": "text"
+    }
+   ]
+  },
+  {
+   "id": "questions",
+   "n": 2,
+   "type": "table",
+   "rows": 12,
+   "title": {
+    "en": "Questions for the doctor",
+    "ml": "ഡോക്ടറോട് ചോദിക്കാനുള്ളവ"
+   },
+   "hint": {
+    "en": "Write questions down as they come to you, even at night. Write the answer next to each one.",
+    "ml": "ചോദ്യങ്ങൾ മനസ്സിൽ വരുമ്പോൾ തന്നെ എഴുതിവയ്ക്കുക, രാത്രിയിലാണെങ്കിൽ പോലും. ഓരോന്നിന്റെയും ഉത്തരം അരികിൽ എഴുതുക."
+   },
+   "columns": [
+    {
+     "id": "date",
+     "label": {
+      "en": "Date",
+      "ml": "തീയതി"
+     },
+     "input": "date",
+     "width": 16
+    },
+    {
+     "id": "question",
+     "label": {
+      "en": "My question",
+      "ml": "എന്റെ ചോദ്യം"
+     },
+     "input": "textarea",
+     "width": 42
+    },
+    {
+     "id": "answer",
+     "label": {
+      "en": "The answer",
+      "ml": "ഉത്തരം"
+     },
+     "input": "textarea"
+    }
+   ]
+  },
+  {
+   "id": "medicines",
+   "n": 3,
+   "type": "table",
+   "rows": 13,
+   "title": {
+    "en": "Medicines chart",
+    "ml": "മരുന്നു ചാർട്ട്"
+   },
+   "hint": {
+    "en": "Give medicines at the same times every day. Never stop or change a medicine without asking the doctor.",
+    "ml": "എല്ലാ ദിവസവും ഒരേ സമയത്ത് മരുന്ന് കൊടുക്കുക. ഡോക്ടറോട് ചോദിക്കാതെ ഒരു മരുന്നും നിർത്തുകയോ മാറ്റുകയോ ചെയ്യരുത്."
+   },
+   "columns": [
+    {
+     "id": "medicine",
+     "label": {
+      "en": "Medicine",
+      "ml": "മരുന്ന്"
+     },
+     "input": "text"
+    },
+    {
+     "id": "for",
+     "label": {
+      "en": "What it is for",
+      "ml": "എന്തിനുള്ളത്"
+     },
+     "input": "text"
+    },
+    {
+     "id": "dose",
+     "label": {
+      "en": "Dose",
+      "ml": "അളവ്"
+     },
+     "input": "text",
+     "width": 11
+    },
+    {
+     "id": "times",
+     "label": {
+      "en": "Times",
+      "ml": "സമയങ്ങൾ"
+     },
+     "input": "text",
+     "width": 15
+    },
+    {
+     "id": "started",
+     "label": {
+      "en": "Started on",
+      "ml": "തുടങ്ങിയ തീയതി"
+     },
+     "input": "date",
+     "width": 13
+    },
+    {
+     "id": "notes",
+     "label": {
+      "en": "Notes",
+      "ml": "കുറിപ്പുകൾ"
+     },
+     "input": "textarea",
+     "sub": {
+      "en": "side effects, changes",
+      "ml": "പാർശ്വഫലങ്ങൾ, മാറ്റങ്ങൾ"
+     }
+    }
+   ]
+  },
+  {
+   "id": "seizures",
+   "n": 4,
+   "type": "table",
+   "rows": 12,
+   "title": {
+    "en": "Seizure diary",
+    "ml": "ഫിറ്റ്സ് ഡയറി"
+   },
+   "hint": {
+    "en": "A short phone video of a seizure helps the doctor a great deal. Call 108 if a seizure lasts longer than 5 minutes, or the time your doctor has told you.",
+    "ml": "ഫിറ്റ്സ് വരുമ്പോൾ ഫോണിൽ എടുക്കുന്ന ഒരു ചെറിയ വീഡിയോ ഡോക്ടർക്ക് വളരെ സഹായകമാണ്. ഫിറ്റ്സ് 5 മിനിറ്റിൽ കൂടുതൽ (അല്ലെങ്കിൽ ഡോക്ടർ പറഞ്ഞ സമയത്തിൽ കൂടുതൽ) നീണ്ടാൽ 108-ൽ വിളിക്കുക."
+   },
+   "columns": [
+    {
+     "id": "date",
+     "label": {
+      "en": "Date",
+      "ml": "തീയതി"
+     },
+     "input": "date",
+     "width": 12
+    },
+    {
+     "id": "time",
+     "label": {
+      "en": "Time",
+      "ml": "സമയം"
+     },
+     "input": "time",
+     "width": 10
+    },
+    {
+     "id": "duration",
+     "label": {
+      "en": "How long",
+      "ml": "എത്ര നേരം"
+     },
+     "input": "text",
+     "width": 11
+    },
+    {
+     "id": "looked",
+     "label": {
+      "en": "What it looked like",
+      "ml": "എങ്ങനെയായിരുന്നു"
+     },
+     "input": "textarea"
+    },
+    {
+     "id": "helped",
+     "label": {
+      "en": "What helped",
+      "ml": "എന്ത് സഹായിച്ചു"
+     },
+     "input": "textarea",
+     "width": 18
+    },
+    {
+     "id": "rescue",
+     "label": {
+      "en": "Emergency medicine given?",
+      "ml": "അടിയന്തര മരുന്ന് കൊടുത്തോ?"
+     },
+     "input": "yesno",
+     "width": 14
+    }
+   ],
+   "linkedTo": "seizure-button"
+  },
+  {
+   "id": "documents",
+   "n": 5,
+   "type": "checklist",
+   "title": {
+    "en": "Documents checklist",
+    "ml": "രേഖകളുടെ ചെക്ക്‌ലിസ്റ്റ്"
+   },
+   "hint": {
+    "en": "Keep originals safe, carry photocopies, and keep clear photos on your phone.",
+    "ml": "ഒറിജിനലുകൾ സുരക്ഷിതമായി വയ്ക്കുക, ഫോട്ടോകോപ്പികൾ കൂടെ കരുതുക, വ്യക്തമായ ഫോട്ടോകൾ ഫോണിലും സൂക്ഷിക്കുക."
+   },
+   "items": [
+    {
+     "en": "Aadhaar card (child and parent)",
+     "ml": "ആധാർ കാർഡ് (കുട്ടിയുടെയും രക്ഷിതാവിന്റെയും)"
+    },
+    {
+     "en": "Ration card or BPL card",
+     "ml": "റേഷൻ കാർഡ് (BPL / മുൻഗണനാ കാർഡ്)"
+    },
+    {
+     "en": "Income certificate",
+     "ml": "വരുമാന സർട്ടിഫിക്കറ്റ്"
+    },
+    {
+     "en": "Online login or user ID for these",
+     "ml": "ഇവയുടെ ഓൺലൈൻ ലോഗിൻ / യൂസർ ഐഡി"
+    },
+    {
+     "en": "State health card or insurance card (checked: is it accepted at the hospital we are going to?)",
+     "ml": "സംസ്ഥാന ആരോഗ്യ കാർഡ് അല്ലെങ്കിൽ ഇൻഷുറൻസ് കാർഡ് (പോകുന്ന ആശുപത്രിയിൽ ഇത് സ്വീകരിക്കുമോ എന്ന് ഉറപ്പാക്കി)"
+    },
+    {
+     "en": "Disability certificate or UDID card",
+     "ml": "ഭിന്നശേഷി സർട്ടിഫിക്കറ്റ് അല്ലെങ്കിൽ UDID കാർഡ്"
+    },
+    {
+     "en": "All medical reports, scans and discharge summaries, in date order",
+     "ml": "എല്ലാ മെഡിക്കൽ റിപ്പോർട്ടുകളും സ്കാനുകളും ഡിസ്ചാർജ് സമ്മറികളും, തീയതി ക്രമത്തിൽ"
+    },
+    {
+     "en": "Current prescriptions",
+     "ml": "ഇപ്പോഴത്തെ മരുന്നു കുറിപ്പടികൾ"
+    },
+    {
+     "en": "Bank passbook",
+     "ml": "ബാങ്ക് പാസ്ബുക്ക്"
+    },
+    {
+     "en": "Passport-size photos",
+     "ml": "പാസ്പോർട്ട് സൈസ് ഫോട്ടോകൾ"
+    },
+    {
+     "en": "Photos of all documents saved on the phone",
+     "ml": "എല്ലാ രേഖകളുടെയും ഫോട്ടോകൾ ഫോണിൽ"
+    }
+   ],
+   "note": {
+    "en": "Before you travel to another state: ask whether your state health card will be accepted there, and whether your disability card needs updating for your home-state pension.",
+    "ml": "മറ്റൊരു സംസ്ഥാനത്തേക്ക് ചികിത്സയ്ക്ക് പോകുന്നതിനു മുമ്പ്: നിങ്ങളുടെ സംസ്ഥാന ആരോഗ്യ കാർഡ് അവിടെ സ്വീകരിക്കുമോ എന്നും, സ്വന്തം സംസ്ഥാനത്തെ പെൻഷന് ഭിന്നശേഷി കാർഡ് പുതുക്കേണ്ടതുണ്ടോ എന്നും ചോദിച്ചറിയുക."
+   },
+   "linkedTo": "document-locker"
+  },
+  {
+   "id": "emergency",
+   "n": 6,
+   "type": "card",
+   "title": {
+    "en": "Emergency card",
+    "ml": "എമർജൻസി കാർഡ്"
+   },
+   "hint": {
+    "en": "Fill this in before you leave hospital. Keep one copy near the door at home and one in your bag.",
+    "ml": "ആശുപത്രിയിൽ നിന്ന് ഇറങ്ങുന്നതിനു മുമ്പ് ഇത് പൂരിപ്പിക്കുക. ഒരു കോപ്പി വീട്ടിൽ വാതിലിനരികിലും ഒന്ന് ബാഗിലും സൂക്ഷിക്കുക."
+   },
+   "banner": {
+    "en": "In an emergency",
+    "ml": "അടിയന്തര സാഹചര്യത്തിൽ"
+   },
+   "fields": [
+    {
+     "id": "contact",
+     "label": {
+      "en": "Main contact and phone",
+      "ml": "പ്രധാനമായി ബന്ധപ്പെടേണ്ട വ്യക്തിയും ഫോണും"
+     },
+     "size": "short",
+     "input": "tel-text"
+    },
+    {
+     "id": "hospital",
+     "label": {
+      "en": "Nearest hospital that knows my child",
+      "ml": "കുട്ടിയെ അറിയുന്ന ഏറ്റവും അടുത്ത ആശുപത്രി"
+     },
+     "size": "short",
+     "input": "text"
+    },
+    {
+     "id": "normal",
+     "label": {
+      "en": "What is normal for my child",
+      "ml": "എന്റെ കുട്ടിക്ക് സാധാരണമായത്"
+     },
+     "size": "long",
+     "input": "text"
+    },
+    {
+     "id": "emergency",
+     "label": {
+      "en": "What is an emergency for my child",
+      "ml": "എന്റെ കുട്ടിക്ക് അടിയന്തരാവസ്ഥ എന്നാൽ"
+     },
+     "size": "long",
+     "input": "text"
+    },
+    {
+     "id": "plan",
+     "label": {
+      "en": "Our plan in an emergency",
+      "ml": "അടിയന്തര സാഹചര്യത്തിൽ ഞങ്ങളുടെ പദ്ധതി"
+     },
+     "size": "long",
+     "input": "text"
+    }
+   ],
+   "linkedTo": "sos"
+  },
+  {
+   "id": "support",
+   "n": 7,
+   "type": "table",
+   "rows": 4,
+   "title": {
+    "en": "My support circle",
+    "ml": "എന്റെ സഹായവലയം"
+   },
+   "hint": {
+    "en": "People often say, \"Tell me if you need anything.\" Write their names here, and give each one a real task.",
+    "ml": "\"എന്തെങ്കിലും വേണമെങ്കിൽ പറഞ്ഞാൽ മതി\" എന്ന് ആളുകൾ പറയാറുണ്ട്. അവരുടെ പേരുകൾ ഇവിടെ എഴുതുക; ഓരോരുത്തർക്കും ഒരു യഥാർത്ഥ ജോലി കൊടുക്കുക."
+   },
+   "columns": [
+    {
+     "id": "need",
+     "label": {
+      "en": "I need help with",
+      "ml": "എനിക്ക് സഹായം വേണ്ടത്"
+     },
+     "input": "text",
+     "width": 40
+    },
+    {
+     "id": "who",
+     "label": {
+      "en": "Who can help",
+      "ml": "ആര് സഹായിക്കും"
+     },
+     "input": "text"
+    },
+    {
+     "id": "phone",
+     "label": {
+      "en": "Phone",
+      "ml": "ഫോൺ"
+     },
+     "input": "tel",
+     "width": 24
+    }
+   ],
+   "prefilled": [
+    {
+     "en": "Sleep (taking a turn at night)",
+     "ml": "ഉറക്കം (രാത്രി ഊഴമെടുക്കാൻ)"
+    },
+    {
+     "en": "Money and papers",
+     "ml": "പണവും രേഖകളും"
+    },
+    {
+     "en": "Hospital visits",
+     "ml": "ആശുപത്രി യാത്രകൾ"
+    },
+    {
+     "en": "My other children",
+     "ml": "എന്റെ മറ്റു മക്കൾ"
+    },
+    {
+     "en": "Listening when I need to talk",
+     "ml": "സംസാരിക്കണമെന്ന് തോന്നുമ്പോൾ കേട്ടിരിക്കാൻ"
+    },
+    {
+     "en": "Cooking and the house",
+     "ml": "പാചകവും വീട്ടുജോലിയും"
+    }
+   ]
+  },
+  {
+   "id": "joy",
+   "n": 8,
+   "type": "boxes",
+   "title": {
+    "en": "What brings my child joy",
+    "ml": "എന്റെ കുട്ടിയുടെ സന്തോഷങ്ങൾ"
+   },
+   "hint": {
+    "en": "Share this page with everyone who cares for your child. It helps them see your child as a whole person.",
+    "ml": "കുട്ടിയെ പരിചരിക്കുന്ന എല്ലാവരുമായും ഈ താൾ പങ്കുവയ്ക്കുക. കുട്ടിയെ ഒരു രോഗിയായി മാത്രമല്ല, ഒരു പൂർണ്ണ വ്യക്തിയായി കാണാൻ ഇത് അവരെ സഹായിക്കും."
+   },
+   "boxes": [
+    {
+     "en": "Favourite songs and music",
+     "ml": "ഇഷ്ടപ്പെട്ട പാട്ടുകളും സംഗീതവും"
+    },
+    {
+     "en": "Favourite people",
+     "ml": "ഇഷ്ടപ്പെട്ട ആളുകൾ"
+    },
+    {
+     "en": "Favourite foods and tastes",
+     "ml": "ഇഷ്ടഭക്ഷണങ്ങളും രുചികളും"
+    },
+    {
+     "en": "Favourite games and play",
+     "ml": "ഇഷ്ടപ്പെട്ട കളികൾ"
+    },
+    {
+     "en": "Colours, places and smells",
+     "ml": "നിറങ്ങൾ, സ്ഥലങ്ങൾ, മണങ്ങൾ"
+    },
+    {
+     "en": "Stories and things that make my child laugh",
+     "ml": "കുട്ടിയെ ചിരിപ്പിക്കുന്ന കഥകളും കാര്യങ്ങളും"
+    }
+   ]
+  },
+  {
+   "id": "treatments",
+   "n": 9,
+   "type": "table",
+   "rows": 12,
+   "title": {
+    "en": "Treatment map",
+    "ml": "ചികിത്സാ ഭൂപടം"
+   },
+   "hint": {
+    "en": "List every treatment you have tried. It helps you and your doctor see clearly what helps, and what has cost too much.",
+    "ml": "പരീക്ഷിച്ച എല്ലാ ചികിത്സകളും എഴുതുക. എന്താണ് സഹായിക്കുന്നതെന്നും എന്തിനാണ് വളരെയധികം ചെലവായതെന്നും നിങ്ങൾക്കും ഡോക്ടർക്കും വ്യക്തമായി കാണാൻ ഇത് സഹായിക്കും."
+   },
+   "columns": [
+    {
+     "id": "treatment",
+     "label": {
+      "en": "Treatment tried",
+      "ml": "പരീക്ഷിച്ച ചികിത്സ"
+     },
+     "input": "text"
+    },
+    {
+     "id": "where",
+     "label": {
+      "en": "Where",
+      "ml": "എവിടെ"
+     },
+     "input": "text",
+     "width": 20
+    },
+    {
+     "id": "cost",
+     "label": {
+      "en": "Total cost",
+      "ml": "ആകെ ചെലവ്"
+     },
+     "input": "number",
+     "width": 16
+    },
+    {
+     "id": "changed",
+     "label": {
+      "en": "What changed for my child",
+      "ml": "കുട്ടിയിൽ എന്ത് മാറ്റമുണ്ടായി"
+     },
+     "input": "textarea"
+    }
+   ]
+  },
+  {
+   "id": "selfcare",
+   "n": 10,
+   "type": "weekly",
+   "weeks": 4,
+   "title": {
+    "en": "Weekly self-care check",
+    "ml": "ആഴ്ചതോറുമുള്ള സ്വയം പരിചരണ പരിശോധന"
+   },
+   "hint": {
+    "en": "Tick each week. If your mood stays low for two weeks or more, talk to a doctor, counsellor or the social worker.",
+    "ml": "ഓരോ ആഴ്ചയും ടിക് ചെയ്യുക. രണ്ടാഴ്ചയോ അതിലധികമോ മനസ്സ് തളർന്നിരിക്കുന്നുവെങ്കിൽ ഒരു ഡോക്ടറോടോ കൗൺസിലറോടോ സോഷ്യൽ വർക്കറോടോ സംസാരിക്കുക."
+   },
+   "rowHeader": {
+    "en": "This week",
+    "ml": "ഈ ആഴ്ച"
+   },
+   "weekLabel": {
+    "en": "Week",
+    "ml": "ആഴ്ച"
+   },
+   "rows": [
+    {
+     "id": "sleep",
+     "label": {
+      "en": "I got at least one good night's sleep",
+      "ml": "ഒരു രാത്രിയെങ്കിലും നന്നായി ഉറങ്ങി"
+     },
+     "input": "check"
+    },
+    {
+     "id": "meals",
+     "label": {
+      "en": "I ate regular meals",
+      "ml": "സമയത്ത് ഭക്ഷണം കഴിച്ചു"
+     },
+     "input": "check"
+    },
+    {
+     "id": "me_time",
+     "label": {
+      "en": "I had 15 minutes for myself most days",
+      "ml": "മിക്ക ദിവസവും എനിക്കായി 15 മിനിറ്റ് കിട്ടി"
+     },
+     "input": "check"
+    },
+    {
+     "id": "talked",
+     "label": {
+      "en": "I talked honestly with someone",
+      "ml": "ആരോടെങ്കിലും മനസ്സ് തുറന്ന് സംസാരിച്ചു"
+     },
+     "input": "check"
+    },
+    {
+     "id": "joy_time",
+     "label": {
+      "en": "I spent time with my child that was not about care",
+      "ml": "പരിചരണമല്ലാതെ കുട്ടിയോടൊപ്പം സമയം ചെലവഴിച്ചു"
+     },
+     "input": "check"
+    },
+    {
+     "id": "mood",
+     "label": {
+      "en": "My mood (1 = very low, 5 = good)",
+      "ml": "എന്റെ മനോനില (1 = വളരെ മോശം, 5 = നല്ലത്)"
+     },
+     "input": "scale1to5"
+    },
+    {
+     "id": "need_help",
+     "label": {
+      "en": "I need to ask for help this week",
+      "ml": "ഈ ആഴ്ച എനിക്ക് സഹായം ചോദിക്കണം"
+     },
+     "input": "check"
+    }
+   ],
+   "warning": {
+    "en": "If you have thoughts of harming yourself or your child, tell someone near you right away, go to the nearest hospital, or call Tele-MANAS on 14416 (free, 24 hours).",
+    "ml": "സ്വയം ഉപദ്രവിക്കാനോ കുട്ടിയെ ഉപദ്രവിക്കാനോ ഉള്ള ചിന്തകൾ വരുന്നുണ്ടെങ്കിൽ ഉടനെ അടുത്തുള്ള ആരോടെങ്കിലും പറയുക, അടുത്തുള്ള ആശുപത്രിയിൽ പോകുക, അല്ലെങ്കിൽ ടെലി-മനസ് 14416 എന്ന നമ്പറിൽ വിളിക്കുക (സൗജന്യം, 24 മണിക്കൂറും)."
+   },
+   "rule": "If mood <= 2 for 2 consecutive weeks, show a gentle card with one-tap call to 14416 and a suggestion to talk to the care team."
+  },
+  {
+   "id": "good-moments",
+   "n": 11,
+   "type": "table",
+   "rows": 13,
+   "title": {
+    "en": "Good moments",
+    "ml": "നല്ല നിമിഷങ്ങൾ"
+   },
+   "hint": {
+    "en": "Write one good moment each day: a smile, a song, a calm night.",
+    "ml": "ഓരോ ദിവസവും ഒരു നല്ല നിമിഷം എഴുതുക: ഒരു ചിരി, ഒരു പാട്ട്, ശാന്തമായ ഒരു രാത്രി."
+   },
+   "columns": [
+    {
+     "id": "date",
+     "label": {
+      "en": "Date",
+      "ml": "തീയതി"
+     },
+     "input": "date",
+     "width": 18
+    },
+    {
+     "id": "moment",
+     "label": {
+      "en": "One good moment today",
+      "ml": "ഇന്നത്തെ ഒരു നല്ല നിമിഷം"
+     },
+     "input": "textarea"
+    }
+   ]
+  }
+ ]
+}
