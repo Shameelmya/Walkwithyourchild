@@ -1,0 +1,124 @@
+export const en = {
+  // general
+  back: 'Back', close: 'Close', cancel: 'Cancel', save: 'Save', saved: 'Saved', delete: 'Delete', edit: 'Edit', add: 'Add', done: 'Done', yes: 'Yes', no: 'No', dash: '—',
+  continue: 'Continue', later: 'Later', update: 'Update', pleaseConfirm: 'Please confirm', search: 'Search', share: 'Share', print: 'Print', downloadPdf: 'Download PDF',
+  preparing: 'Preparing…', somethingWrong: 'Something went wrong. Please try again.', nothingYet: 'Nothing here yet', title: 'Title', note: 'Note', notes: 'Notes',
+  date: 'Date', time: 'Time', minutes: 'minutes', from: 'from', until: 'until', previous: 'Previous', next: 'Next', all: 'All', active: 'Active', seeAll: 'See all',
+  photo: 'Photo', addPhoto: 'Add photo', changePhoto: 'Change photo', removePhoto: 'Remove photo', play: 'Play', stop: 'Stop', video: 'Video', language: 'Language',
+  updateReady: 'A new version of the app is ready.', mainNav: 'Main navigation', display: 'Display', displayAppWide: 'These settings apply to the whole app.',
+  // nav
+  navHome: 'Home', navBook: 'Book', navNotebook: 'Notebook', navChild: 'My child', navMore: 'More', navMedicines: 'Medicines', navSeizures: 'Seizure diary',
+  navVisits: 'Doctor visits', navRecords: 'Health records', navProgress: 'Progress', navDocuments: 'Documents', navSummary: 'Doctor summary', navTalk: 'Talk board',
+  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
+  sos: 'SOS', sosLong: 'Emergency: open the emergency card', switchChild: 'Switch child', addChild: 'Add a child', editProfile: 'Edit profile', myChildPage: '“My child” page',
+  // onboarding
+  chooseLanguage: 'Choose your language', welcomeText: 'A gentle guide, a notebook for hospital visits, and simple tools for everyday care. Take it one step at a time.',
+  privacyTitle: 'Your privacy', disclaimer: 'Please note', iUnderstand: 'I understand', aboutChild: 'About your child', aboutChildSub: 'Only the name is needed. You can add more later.',
+  childName: "Child's name", dobOptional: 'Date of birth (optional)', photoOptional: 'Add a photo (optional)', nameNeeded: 'Please write a name.',
+  pinTitle: 'Keep it private with a PIN', pinSub: 'If others use this phone, a PIN keeps your notes private. You can do this later in Settings.',
+  newPin: 'New PIN (4 to 8 numbers)', repeatPin: 'Type the PIN again', setPin: 'Set PIN', skipForNow: 'Skip for now', pinShort: 'Please use at least 4 numbers.', pinMismatch: 'The two PINs are not the same.',
+  installTitle: 'Keep it on your home screen', installText: 'Install the app so it opens quickly and works without internet, even in hospital.',
+  installIos: 'In Safari, tap the Share button, then “Add to Home Screen”.', installApp: 'Install the app', startUsing: 'Start',
+  // lock
+  pin: 'PIN', enterPin: 'Enter your PIN', wrongPin: 'That PIN is not right. Please try again.', unlock: 'Open', checking: 'Checking…', call108: 'Call 108',
+  // home
+  goodMorning: 'Good morning', goodAfternoon: 'Good afternoon', goodEvening: 'Good evening', seizureBtn: 'Seizure', seizureBtnSub: 'Start the timer now',
+  notebookSub: 'Questions, medicines, emergency card', talkSub: 'Help your child tell you', medsToday: 'Medicines today', noMedsToday: 'No medicines are planned for today.',
+  medsGivenOf: '{done} of {all} done', nextVisit: 'Next doctor visit', noVisits: 'No visit planned', journey: 'Your journey through the book', journeySub: 'Read the part you need today. There is no hurry.',
+  openContents: 'Open the contents', backupReminder: 'Time to make a backup', lastBackupOn: 'Last backup: {date}', neverBackedUp: 'No backup made yet',
+  // book
+  searchBook: 'Search the book', searchPlaceholder: 'Search in English or Malayalam', noResults: 'Nothing found. Try another word.', resultsCount: '{n} results',
+  bookmarks: 'Bookmarks', noBookmarks: 'No bookmarks yet', noBookmarksText: 'Tap the bookmark button while reading to keep a page you want to return to.',
+  bookmarkAdded: 'Bookmark added', bookmarkRemoved: 'Bookmark removed', switchLanguage: 'Switch language', chapterNav: 'Chapters',
+  addToQuestions: 'Add to my questions', questionAdded: 'Added to your questions for the doctor', questionExists: 'This question is already in your list',
+  openInNotebook: 'Open in my notebook', callNumber: 'Call {n}',
+  // notebook
+  printOrPdf: 'Print or PDF', whatToPrint: 'What would you like?', filledIn: 'Filled in', blankPages: 'Blank pages', printLangNote: 'Pages are made in the language you are using now, on A4 paper.',
+  sheetN: 'Sheet {n}', linkedSheet: 'Updates by itself', autosaved: 'Everything you type is saved by itself.', addRow: 'Add row', deleteRow: 'Delete row',
+  manageMedicines: 'Open medicines', openSeizureDiary: 'Open seizure diary', openEmergencyCard: 'Open emergency card', inLocker: 'Saved in the documents locker', openLocker: 'Open documents locker',
+  myNotes: 'My notes', myNotesSub: 'Free pages for anything on your mind.', newNote: 'New note', noNotes: 'No notes yet', noNotesText: 'Write what you know, what you still want to ask, and who you can talk to.',
+  untitled: 'Untitled', deleteNoteQ: 'Delete this note?',
+  helpMsgEn: 'Hello {who}, could you help me with {need} this week? It would mean a lot to us. Thank you.',
+  helpMsgMl: 'നമസ്കാരം {who}, ഈ ആഴ്ച {need} എന്ന കാര്യത്തിൽ ഒന്ന് സഹായിക്കാമോ? ഞങ്ങൾക്ക് അത് വലിയ ആശ്വാസമാകും. നന്ദി.',
+  selfCareNote: 'Tick what was true this week. There is no right or wrong.', lowMoodTitle: 'You have had two hard weeks', lowMoodText: 'You matter too. Please talk to someone you trust, or to your care team. Tele-MANAS is free and open all day and night.',
+  callTeleManas: 'Call Tele-MANAS 14416',
+  // medicines
+  todaySchedule: "Today's schedule", allMedicines: 'All medicines', addMedicine: 'Add medicine', editMedicine: 'Edit medicine', noMedicines: 'No medicines added yet',
+  noMedicinesText: 'Add each medicine with its dose and times. It will fill the medicines chart in your notebook.', medName: 'Medicine', medPurpose: 'What it is for', medDose: 'Dose',
+  medTimes: 'Times', addTime: 'Add time', startDate: 'Started on', stopDate: 'Stopped on (if stopped)', medNotes: 'Notes (side effects, changes)', given: 'Given', skipped: 'Skipped', late: 'Given late',
+  doseHistory: 'History', deleteMedQ: 'Delete this medicine and its schedule?', enableReminders: 'Turn on medicine reminders', medDueTitle: 'Medicine time',
+  remindersHonest: 'Reminders work while the app is open or installed on this phone. Reliable alarms when the phone is locked will come with the full phone app.',
+  // seizures
+  seizureTimer: 'Seizure timer', elapsed: 'Time since the seizure started', rescueAt: 'Emergency time set: {m} minutes', stopped: 'Seizure stopped',
+  aidSide: 'Turn your child gently onto their side.', aidMouth: 'Put nothing in the mouth.', recordVideo: 'Record a short video (up to 2 minutes)', stopVideo: 'Stop video', videoSaved: 'Video saved',
+  cameraNotAvailable: 'The camera could not be opened.', firstAidFromBook: 'During a seizure (from the book)', rescueTitle: 'It has been {m} minutes', giveRescue: 'Give the emergency medicine as your doctor advised.',
+  backToTimer: 'Back to timer', startSeizureTimer: 'Start seizure timer', addPast: 'Add earlier one', noSeizures: 'No seizures recorded', noSeizuresText: 'When a seizure starts, tap the red button. The timer will keep the record for you.',
+  seizuresPerWeek: 'Seizures per week', lasted: 'Lasted {d}', rescueGiven: 'emergency medicine given', addDetailsLater: 'Add details', watchVideo: 'Watch video', seizureDetails: 'Seizure details',
+  seizureSaved: 'Saved. Add details now or later.', durationMin: 'How long (minutes)', szLooked: 'What it looked like', szHelped: 'What helped', szRescue: 'Emergency medicine given?', deleteEntryQ: 'Delete this entry?', seizureOf: 'Seizure, {d}',
+  // sos
+  callMainContact: 'Call main contact', shareLocation: 'Share my location', locationUnavailable: 'Location could not be found. Please tell them your address.',
+  locationMsg: 'We need help with {name}. This is where we are: {url}', currentMedicines: 'Current medicines', fillEmergencyCard: 'Fill in the emergency card',
+  // visits
+  upcoming: 'Coming up', pastVisits: 'Past visits', doctorVisit: 'Doctor visit', doctor: 'Doctor', hospital: 'Hospital', visitPurpose: 'Reason for the visit',
+  questionsToAsk: '{n} questions to ask', recordVisit: 'Record this visit', noVisitsText: 'Add the next appointment. You will get a reminder the day before.',
+  visitReminderNote: 'You will get a reminder the day before. Your open questions will be shown with the visit.', dateNeeded: 'Please choose a date.', visitTomorrowTitle: 'Doctor visit tomorrow',
+  // records
+  timeline: 'Timeline', consultations: 'Consultations', diagnoses: 'Diagnoses', reports: 'Tests and reports', admissions: 'Hospital stays', treatments: 'Treatments',
+  reason: 'Reason', findings: 'What the doctor found', advice: 'Advice', nextVisitDate: 'Next visit', diagnosisName: 'Diagnosis', testName: 'Test or report',
+  labOrHospital: 'Lab or hospital', result: 'Result', admittedOn: 'Admitted on', dischargedOn: 'Discharged on', dischargeSummary: 'Discharge summary',
+  treatmentTried: 'Treatment tried', where: 'Where', totalCost: 'Total cost', whatChanged: 'What changed for my child', attachments: 'Photos and files', addPhotoOrPdf: 'Add photo or PDF',
+  filter: 'Filter', recordsEmptyText: 'Visits, reports and other records will appear here in date order.',
+  // progress
+  progressSub: 'A gentle record of changes over time.', checkIn: 'Check-in', checkIns: 'Check-ins', changesOverTime: 'Changes over time', latest: 'Latest',
+  noCheckIns: 'No check-ins yet', noCheckInsText: 'Every few weeks, note how things are. It helps you and the doctors see changes over time.',
+  needTwoCheckIns: 'A line will appear after two check-ins.', checkInHint: 'Choose what fits best today. Skip anything that does not apply.', weightKg: 'Weight (kg)',
+  // summary
+  summarySub: 'One page to show any doctor.', summaryTitle: 'Summary for the doctor', preparedOn: 'Prepared on {date}', summaryParentNote: 'Prepared by the family from their own records.',
+  ageDob: 'Age / date of birth', ageYm: '{y} years {m} months', seizureStats: 'Seizures', last30: 'Last 30 days', last90: 'Last 90 days', numberOfSeizures: 'Number of seizures',
+  averageLength: 'Average length', longest: 'Longest', rescueGivenTimes: 'Emergency medicine given', recentChanges: 'Recent changes (from check-ins)', noRecentChanges: 'No changes recorded.',
+  openQuestions: 'Questions we still have', emergencyPlan: 'Emergency plan',
+  // documents
+  documentsSub: 'Keep photos of important papers safe on this phone.', category: 'Type of document', takePhoto: 'Take photo', uploadFile: 'Upload photo or PDF',
+  noDocuments: 'No documents yet', noDocumentsText: 'Take a clear photo of each document. The checklist in your notebook will tick itself.', otherDocuments: 'Other documents', openFile: 'Open file',
+  // talk
+  talkIntro: 'Tap a card to say the word. Your own recorded voice is used when you add one.', gridSize: 'Grid size', editCards: 'Edit cards', newCard: 'New card', editCard: 'Edit card',
+  editCardsHint: 'Tap a card to change its word, photo or voice.', switchHint: 'Using a switch or keyboard: Space moves, Enter speaks.', fullScreen: 'Full screen', exitFullScreen: 'Leave full screen',
+  cardWord: 'Word on the card', emojiOptional: 'Picture symbol (optional)', voiceRecording: 'Your voice', recordYourVoice: 'Record your voice', recordAgain: 'Record again', stopRecording: 'Stop recording',
+  voiceHint: 'Your child knows your voice best. Say the word slowly and warmly.', hideCard: 'Hide this card', micNotAvailable: 'The microphone could not be opened.',
+  // play
+  playIntro: 'Calm games with soft sounds. Any tap or key works. Nothing to win or lose.', gameBubbles: 'Bubbles', gameMusic: 'Music pad', gamePeek: 'Peekaboo', gameSea: 'Quiet sea',
+  volume: 'Volume', playExitHint: 'To leave a game, press and hold the button in the top corner.', holdToExit: 'Press and hold to leave',
+  // for me
+  forMeSub: 'Caring for your child includes caring for you.', teleManas: 'Tele-MANAS · 14416', teleManasSub: 'Free, 24 hours, in Malayalam and many languages. Tap to call.',
+  breathing: 'Slow breathing', breatheIn: 'Breathe in', breatheOut: 'Breathe out', startBreathing: 'Start', breathingHint: 'In for 4, out for 6. Two or three minutes is enough.',
+  relaxation: 'Tense and release', weeklyCheck: 'This week, for me', goodMoments: 'Good moments', goodMomentPlaceholder: 'One good moment today…', supportCircle: 'My support circle',
+  openSupportCircle: 'Open my support circle', supportCircleHint: 'Add a phone number and send a ready message on WhatsApp.',
+  // memory
+  memorySub: 'A private place for the moments you want to keep.', memoryPin: 'Enter your PIN to open the memory box', handprint: 'Handprint', voiceClip: 'Voice', videoClip: 'Video',
+  memoryEmpty: 'Your memory box is empty', memoryEmptyText: 'Photos, voices, handprints and little notes can rest here, safely, only on this phone.', memorySaved: 'Kept safely', deleteMemoryQ: 'Delete this memory? This cannot be undone.',
+  // updates / community
+  noUpdates: 'No updates yet', communityTitle: 'A place to meet other families', communityText: 'Soon you will be able to find and talk with other parents who understand. We are building it carefully.',
+  // settings
+  childProfiles: 'Child profiles', pinLock: 'PIN lock', pinIsOn: 'The app asks for your PIN when it opens.', pinIsOff: 'There is no PIN now.', changePin: 'Change PIN', turnOffPin: 'Turn off PIN',
+  currentPin: 'Current PIN', pinSaved: 'PIN saved', pinRemoved: 'PIN turned off', autoLockNote: 'The app locks itself after 5 minutes in the background.',
+  seizureSettings: 'Seizure timer', defaultRescueTime: 'Emergency time for new children', rescueTime: 'Emergency time for the seizure timer',
+  rescueHint: 'As told by your doctor. At this time the phone will ring and show the call 108 button.',
+  reminders: 'Reminders', inAppReminders: 'Medicine and visit reminders', allowNotifications: 'Allow notifications', notificationsBlocked: 'Notifications are blocked in your browser settings.',
+  backupRestore: 'Backup and restore', backup: 'Backup', backupExplain: 'Your data is only on this phone. A backup file keeps a locked copy you can save to your own Google Drive or WhatsApp.',
+  makeBackup: 'Make a backup', restoreBackup: 'Restore a backup', backupPassword: 'Backup password', repeatPassword: 'Type the password again', includeVideos: 'Include videos (makes the file bigger)',
+  passwordWarning: 'Write this password down. Without it, the backup cannot be opened by anyone, not even us.', passwordShort: 'Please use at least 6 characters.', passwordMismatch: 'The two passwords are not the same.',
+  backupDone: 'Backup ready', restoreDone: 'Restored. Opening again…', restoreFailed: 'Could not open this file. Check the password.', restoreWarning: 'Restoring will replace everything now in the app with the backup.',
+  exportData: 'Export', exportExplain: 'Make one PDF with the doctor summary and all notebook pages.', exportPdf: 'Export everything as PDF', moreAbout: 'More about this app', helplines: 'Helplines', aboutBook: 'About this book',
+  dangerZone: 'Delete data', deleteAllExplain: 'Remove everything from this phone. Make a backup first if you want to keep anything.', deleteAll: 'Delete all data',
+  deleteAllQ1: 'This will delete everything: notebook, medicines, records, photos and memories. Continue?', deleteAllQ2: 'Are you completely sure? This cannot be undone.',
+  // scales
+  sc_mobility: 'Moving about', sc_sitting: 'Sitting', sc_communication: 'Communication', sc_feeding: 'Eating and swallowing', sc_breathing: 'Breathing', sc_sleep: 'Sleep', sc_pain: 'Pain', sc_mood: 'Mood and comfort',
+  sc_mobility_0: 'Needs full help', sc_mobility_1: 'Needs a lot of help', sc_mobility_2: 'Needs some help', sc_mobility_3: 'Needs a little help', sc_mobility_4: 'Moves without help',
+  sc_sitting_0: 'Needs full support', sc_sitting_1: 'Sits with a lot of support', sc_sitting_2: 'Sits with some support', sc_sitting_3: 'Sits with a little support', sc_sitting_4: 'Sits without support',
+  sc_communication_0: 'Hard to understand needs', sc_communication_1: 'Shows a few needs', sc_communication_2: 'Shows needs with signs or sounds', sc_communication_3: 'Uses some words or cards', sc_communication_4: 'Tells us clearly',
+  sc_feeding_0: 'Needs full help or a tube', sc_feeding_1: 'Needs a lot of help', sc_feeding_2: 'Needs some help', sc_feeding_3: 'Needs a little help', sc_feeding_4: 'Eats without help',
+  sc_breathing_0: 'Breathing is very hard', sc_breathing_1: 'Breathing is often hard', sc_breathing_2: 'Sometimes hard', sc_breathing_3: 'Mostly easy', sc_breathing_4: 'Easy',
+  sc_sleep_0: 'Very unsettled nights', sc_sleep_1: 'Often unsettled', sc_sleep_2: 'Some unsettled nights', sc_sleep_3: 'Mostly restful', sc_sleep_4: 'Restful',
+  sc_pain_0: 'No pain seen', sc_pain_1: 'A little pain', sc_pain_2: 'Some pain', sc_pain_3: 'A lot of pain', sc_pain_4: 'Very strong pain',
+  sc_mood_0: 'Very unsettled', sc_mood_1: 'Often unsettled', sc_mood_2: 'Sometimes settled', sc_mood_3: 'Mostly settled', sc_mood_4: 'Calm and content',
+};
