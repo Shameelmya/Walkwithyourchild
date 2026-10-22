@@ -21,6 +21,10 @@ interface UI {
   talkGrid: 2 | 3 | 4;
   volume: number;
   gameMuted: boolean;
+  voices: Partial<Record<Lang, string>>;
+  speechRate: number;
+  setVoice: (l: Lang, uri: string) => void;
+  setSpeechRate: (r: number) => void;
   setGameMuted: (m: boolean) => void;
   setLang: (l: Lang) => void;
   setTheme: (t: Theme) => void;
@@ -44,6 +48,10 @@ export const useUI = create<UI>()(
       talkGrid: 3,
       volume: 0.6,
       gameMuted: false,
+      voices: {},
+      speechRate: 1,
+      setVoice: (l, uri) => set((st) => ({ voices: { ...st.voices, [l]: uri } })),
+      setSpeechRate: (speechRate) => set({ speechRate }),
       setGameMuted: (gameMuted) => set({ gameMuted }),
       setLang: (lang) => set({ lang }),
       setTheme: (theme) => set({ theme }),

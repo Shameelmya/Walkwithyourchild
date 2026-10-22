@@ -8,7 +8,8 @@ import { useBlobUrl, useChildId } from '../../lib/hooks';
 import { meta, L } from '../../lib/content';
 import { PHRASES } from '../../lib/talk';
 import { useUI } from '../../lib/store';
-import { speak, chime } from '../../lib/audio';
+import { speak } from '../../lib/audio';
+import { LANGS } from '../../lib/store';
 import { compressImage, startRecording, type Rec } from '../../lib/media';
 import { cx } from '../../lib/util';
 import { useBackToClose } from '../../lib/nav';
@@ -59,18 +60,22 @@ export default function Talk() {
   useEffect(() => { if (page >= pages) setPage(0); }, [pages, page]);
 
   const [said, setSaid] = useState<Card | null>(null);
+  const warned = useRef(false);
   const say = useCallback(async (c: Card) => {
     setActive(c.key); setTimeout(() => setActive(undefined), 1200);
     setSaid(c);
     audio.current?.pause();
-    try { chime(0.18); } catch { /* */ }
+    try { navigator.vibrate?.(25); } catch { /* */ }
     if (c.voice) {
       const b = await db.blobs.get(c.voice);
       if (b) { const a = new Audio(URL.createObjectURL(b.blob)); audio.current = a; a.volume = 1; void a.play(); return; }
     }
     // Speak straight from the tap (Android needs this). Try the chosen language even if the voice list is not loaded yet; English only if that fails.
-    speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08, force: true, fallback: c.phraseEn });
-  }, [lang]);
+    speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08, force: true, fallback: c.phraseEn, onNoVoice: () => {
+      if (warned.current) return; warned.current = true;
+      toast(t('noVoice', { l: LANGS.find((x) => x.v === lang)!.native }), { label: t('voiceSettings'), to: '/settings#voice' });
+    } });
+  }, [lang, t, toast]);
 
   // Single-switch: Space moves, Enter selects.
   useEffect(() => {
@@ -163,7 +168,7 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
           <p className="label">{t('voiceRecording')}</p>
           <div className="flex flex-wrap gap-2 items-center">
             {rec ? <button className="btn-danger" onClick={async () => { const b = await rec.stop(); setRec(null); setVoice(await putBlob(b, childId, 'voice')); }}><Square size={18} aria-hidden /> {t('stopRecording')}</button>
-              : <button className="btn-ghost" onClick={async () => { try { setRec(await startRecording('audio', 15000, async (b) => { setRec(null); setVoice(await putBlob(b, childId, 'voice')); })); } catch { alert(t('micNotAvailable')); } }}><Mic size={18} aria-hidden /> {voice ? t('recordAgain') : t('recordYourVoice')}</button>}
+              : <button className="btn-ghost" onClick={async () => { try { setRec(await startRecording('audio', 15000, async (b) => { setRec(null); setVoice(await putBlob(b, childId, 'voice')); })); } catch { useToast.getState().show(t('micNotAvailable')); } }}><Mic size={18} aria-hidden /> {voice ? t('recordAgain') : t('recordYourVoice')}</button>}
             {voiceUrl && !rec && <button className="chip" onClick={() => void new Audio(voiceUrl).play()}><Play size={16} aria-hidden /> {t('play')}</button>}
           </div>
           <p className="text-sm text-muted mt-1">{t('voiceHint')}</p>

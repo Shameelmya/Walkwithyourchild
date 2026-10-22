@@ -1,3 +1,4 @@
+import { useUI } from './store';
 let ctx: AudioContext | null = null;
 let bus: GainNode | null = null;
 
@@ -82,6 +83,9 @@ export function voicesFor(lang: string): SpeechSynthesisVoice[] {
 /** Pick the most natural voice available: Indian locale first, then neural/Google voices. */
 export function bestVoice(lang: string): SpeechSynthesisVoice | undefined {
   const vs = voicesFor(lang);
+  const chosen = (useUI.getState().voices as Record<string, string | undefined>)[lang];
+  const pick = chosen && vs.find((v) => v.voiceURI === chosen);
+  if (pick) return pick;
   const score = (v: SpeechSynthesisVoice) =>
     (v.lang.toLowerCase().includes('in') ? 4 : 0) + (/natural|neural|online|enhanced|premium/i.test(v.name) ? 3 : 0) + (/google/i.test(v.name) ? 2 : 0) + (v.localService ? 1 : 0);
   return vs.sort((a, b) => score(b) - score(a))[0];
@@ -89,26 +93,36 @@ export function bestVoice(lang: string): SpeechSynthesisVoice | undefined {
 // Android Chrome drops utterances that are garbage-collected, started after a cancel, or queued while paused; keep references and resume first.
 const live: SpeechSynthesisUtterance[] = [];
 if (typeof window !== 'undefined' && 'speechSynthesis' in window) { speechSynthesis.getVoices(); speechSynthesis.addEventListener?.('voiceschanged', () => speechSynthesis.getVoices()); }
-export function speak(text: string, lang: string, onend?: () => void, opts: { rate?: number; pitch?: number; force?: boolean; fallback?: string } = {}) {
-  if (!('speechSynthesis' in window)) return false;
+/** True once the phone has told us which voices it has (Android loads the list a moment after start). */
+export const voicesKnown = () => 'speechSynthesis' in window && speechSynthesis.getVoices().length > 0;
+type SpeakOpts = { rate?: number; pitch?: number; force?: boolean; fallback?: string; onNoVoice?: () => void };
+export function speak(text: string, lang: string, onend?: () => void, opts: SpeakOpts = {}): boolean {
+  if (!('speechSynthesis' in window)) { opts.onNoVoice?.(); return false; }
   const ss = speechSynthesis;
   const v = bestVoice(lang);
+  // The phone has no voice for this language: say it in English rather than stay silent.
+  if (!v && lang !== 'en' && voicesKnown() && opts.fallback) { opts.onNoVoice?.(); return speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch }); }
   if (!v && lang !== 'en' && !opts.force) return false;
   if (ss.speaking || ss.pending) ss.cancel();
   ss.resume();
   const u = new SpeechSynthesisUtterance(text);
-  if (v) u.voice = v;
+  if (v) try { u.voice = v; } catch { /* */ }
   u.lang = v?.lang ?? `${lang}-IN`;
-  u.rate = opts.rate ?? 0.92; u.pitch = opts.pitch ?? 1; u.volume = 1;
+  u.rate = (opts.rate ?? 0.92) * useUI.getState().speechRate; u.pitch = opts.pitch ?? 1; u.volume = 1;
+  let started = false;
   const done = () => { const i = live.indexOf(u); if (i >= 0) live.splice(i, 1); };
-  u.onend = () => { done(); onend?.(); };
-  u.onerror = (e) => {
-    done();
+  const fail = () => {
+    opts.onNoVoice?.();
     // No engine for this language: say it in English so the child is still heard.
-    if (opts.fallback && lang !== 'en' && e.error !== 'interrupted' && e.error !== 'canceled') speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch });
+    if (opts.fallback && lang !== 'en') speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch });
   };
+  u.onstart = () => { started = true; };
+  u.onend = () => { started = true; done(); onend?.(); };
+  u.onerror = (e) => { const was = live.includes(u); done(); if (was && e.error !== 'interrupted' && e.error !== 'canceled') fail(); };
   live.push(u);
   ss.speak(u);
+  // Some phones accept a language they cannot speak and then stay silent without an error.
+  if (opts.onNoVoice || opts.fallback) setTimeout(() => { if (!started && !ss.speaking && live.includes(u)) { done(); ss.cancel(); fail(); } }, 3000);
   return true;
 }
 
@@ -166,7 +180,7 @@ export function speakQueue(texts: string[], lang: string, onDone: () => void) {
   if (!parts.length) return false;
   parts.forEach((p, i) => {
     const u = new SpeechSynthesisUtterance(p);
-    if (v) u.voice = v;
+    if (v) try { u.voice = v; } catch { /* */ }
     u.lang = v?.lang ?? `${lang}-IN`; u.rate = 0.95;
     live.push(u);
     u.onend = () => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (i === parts.length - 1) onDone(); };

@@ -191,4 +191,12 @@ export const ml: Record<keyof typeof en, string> = {
   upToDate: "ഏറ്റവും പുതിയ പതിപ്പാണ് ഉള്ളത്.",
   updatingNow: "പുതുക്കുന്നു… ആപ്പ് ഉടൻ വീണ്ടും തുറക്കും.",
   updateOffline: "ഇന്റർനെറ്റ് ഇല്ല. ഓൺലൈനിൽ വന്ന ശേഷം വീണ്ടും നോക്കൂ.",
+  noVoice: "ഈ ഫോണിൽ {l} ശബ്ദം ഇതുവരെ ഇല്ല, അതിനാൽ ഇംഗ്ലീഷിൽ പറഞ്ഞു. ക്രമീകരണം → ശബ്ദം എന്നതിൽ ചേർക്കാം.",
+  voiceSettings: "ശബ്ദം",
+  voiceSection: "ശബ്ദം",
+  automatic: "സ്വയം",
+  noVoiceShort: "ഈ ഫോണിൽ ശബ്ദമില്ല",
+  testVoice: "കേട്ടുനോക്കൂ",
+  speechSpeed: "സംസാര വേഗം",
+  voiceInstallHint: "ആൻഡ്രോയിഡിൽ സ്വാഭാവികമായ മലയാളം/കന്നഡ ശബ്ദത്തിന്: ഫോൺ Settings → “Text-to-speech” എന്ന് തിരയൂ → “Speech Services by Google” → Settings → Install voice data → ഭാഷ തിരഞ്ഞെടുക്കൂ. ☁ അടയാളമുള്ള ശബ്ദങ്ങൾ ഏറ്റവും സ്വാഭാവികം, പക്ഷേ ഇന്റർനെറ്റ് വേണം. ഓരോ കാർഡിലും നിങ്ങളുടെ സ്വന്തം ശബ്ദം റെക്കോർഡ് ചെയ്യുകയും ചെയ്യാം.",
 };

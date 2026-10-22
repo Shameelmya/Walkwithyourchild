@@ -148,4 +148,12 @@ export const kn: Record<keyof typeof en, string> = {
   upToDate: "ನಿಮ್ಮಲ್ಲಿ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿ ಇದೆ.",
   updatingNow: "ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ… ಆ್ಯಪ್ ಕ್ಷಣದಲ್ಲಿ ಮತ್ತೆ ತೆರೆಯುತ್ತದೆ.",
   updateOffline: "ಇಂಟರ್ನೆಟ್ ಇಲ್ಲ. ಆನ್‌ಲೈನ್ ಆದಾಗ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+  noVoice: "ಈ ಫೋನ್‌ನಲ್ಲಿ ಇನ್ನೂ {l} ಧ್ವನಿ ಇಲ್ಲ, ಆದ್ದರಿಂದ ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಹೇಳಿತು. ಸೆಟ್ಟಿಂಗ್ಸ್ → ಧ್ವನಿ ಯಲ್ಲಿ ಸೇರಿಸಿ.",
+  voiceSettings: "ಧ್ವನಿ",
+  voiceSection: "ಧ್ವನಿ",
+  automatic: "ಸ್ವಯಂ",
+  noVoiceShort: "ಈ ಫೋನ್‌ನಲ್ಲಿ ಧ್ವನಿ ಇಲ್ಲ",
+  testVoice: "ಕೇಳಿ ನೋಡಿ",
+  speechSpeed: "ಮಾತಿನ ವೇಗ",
+  voiceInstallHint: "ಆಂಡ್ರಾಯ್ಡ್‌ನಲ್ಲಿ ಸಹಜ ಕನ್ನಡ/ಮಲಯಾಳಂ ಧ್ವನಿಗೆ: ಫೋನ್ Settings → “Text-to-speech” ಹುಡುಕಿ → “Speech Services by Google” → Settings → Install voice data → ಭಾಷೆ ಆರಿಸಿ. ☁ ಗುರುತಿನ ಧ್ವನಿಗಳು ಹೆಚ್ಚು ಸಹಜ, ಆದರೆ ಇಂಟರ್ನೆಟ್ ಬೇಕು. ಪ್ರತಿ ಕಾರ್ಡ್‌ನಲ್ಲೂ ನಿಮ್ಮ ಸ್ವಂತ ಧ್ವನಿ ರೆಕಾರ್ಡ್ ಮಾಡಬಹುದು.",
 };
