@@ -57,18 +57,18 @@ export default function Home() {
       )}
 
       <div className="grid lg:grid-cols-[1.35fr_1fr] gap-4 mb-7">
-        <Link to={`/book/${chId}`} style={{ ['--pc' as string]: pc.c, ['--pt' as string]: pc.t }} className="cover rounded-3xl !p-5 sm:!p-6 flex gap-4 min-h-[190px] transition duration-300 active:scale-[0.98] hover:-translate-y-0.5">
+        <Link to={`/book/${chId}`} style={{ ['--pc' as string]: pc.c, ['--pt' as string]: pc.t }} className="tile t-blue !rounded-3xl !p-5 sm:!p-6 flex gap-4 min-h-[190px] transition duration-300 active:scale-[0.98] hover:-translate-y-0.5">
           <div className="flex-1 min-w-0 flex flex-col relative z-[1]">
-            <p className="text-[0.78rem] font-bold text-[var(--pc)]">{loc(meta.reader.continue, lang)}{part ? ` · ${meta.partLabel[lang]} ${part.n}` : ''}</p>
+            <p className="text-[0.78rem] font-bold text-white/85">{loc(meta.reader.continue, lang)}{part ? ` · ${meta.partLabel[lang]} ${part.n}` : ''}</p>
             <p className="font-display text-2xl font-bold leading-snug mt-1 line-clamp-3">{loc(ch.title, lang)}</p>
             <div className="mt-auto pt-4">
-              <div className="flex justify-between text-xs font-bold text-muted mb-1.5"><span>{t('chapterProgress')}</span><span>{cpct}%</span></div>
-              <div className="h-2 rounded-full bg-[rgb(var(--surface))] overflow-hidden"><div className="h-full rounded-full bg-[var(--pc)]" style={{ width: `${Math.max(4, cpct)}%` }} /></div>
-              <span className="btn-primary !min-h-[44px] !px-4 mt-4 self-start text-sm">{t('readNow')} <ArrowRight size={16} aria-hidden /></span>
+              <div className="flex justify-between text-xs font-bold text-white/85 mb-1.5"><span>{t('chapterProgress')}</span><span>{cpct}%</span></div>
+              <div className="h-2 rounded-full bg-white/25 overflow-hidden"><div className="h-full rounded-full bg-white" style={{ width: `${Math.max(4, cpct)}%` }} /></div>
+              <span className="btn !min-h-[44px] !px-4 mt-4 self-start text-sm bg-white text-[#2F6FD6] shadow-card">{t('readNow')} <ArrowRight size={16} aria-hidden /></span>
             </div>
           </div>
           <div aria-hidden className="flex w-[96px] sm:w-[118px] shrink-0 self-center relative z-[1]">
-            <div className="w-full aspect-[3/4.3] rounded-r-xl rounded-l-md bg-white shadow-lift rotate-[4deg] p-2.5 flex flex-col border-l-[6px] border-[var(--pc)]">
+            <div className="w-full aspect-[3/4.3] rounded-r-xl rounded-l-md bg-white shadow-lift rotate-[4deg] p-2.5 flex flex-col border-l-[6px] border-[#2F6FD6]">
               <BookOpen size={18} className="text-[#2a231d]/70" />
               <p className="font-display text-[0.62rem] leading-tight font-bold text-[#2a231d] mt-2 line-clamp-4">{meta.appTitle[lang]}</p>
               <div className="mt-auto"><PathMotif height={22} filled={pct} /></div>
