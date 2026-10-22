@@ -6,7 +6,7 @@
   --bg: 247 242 235; --surface: 255 255 255; --surface2: 242 235 225; --text: 42 35 29; --muted: 107 95 84; --border: 232 222 208;
   --accent: 47 111 214; --accent2: 38 92 190; --onaccent: 255 255 255; --danger: 200 52 48; --ondanger: 255 255 255; --soft: 228 237 252; --shadow: 90 90 110;
   --p1: #1E6B66; --p1t: #E3F0EE; --p2: #4A7433; --p2t: #EAF2E3; --p3: #B2522F; --p3t: #FBEAE3; --p4: #74548A; --p4t: #F0E9F4; --p5: #3D4C78; --p5t: #E7EAF3;
-  --pi: #8F6820; --pit: #F8F0E1; --pp: #4A5866; --ppt: #E9EDF0; --ur: #B5452F; --urt: #FBE7E1;
+  --pi: #8F6820; --pit: #F8F0E1; --pb: #2F6FD6; --pbt: #E4EEFD; --pp: #4A5866; --ppt: #E9EDF0; --ur: #B5452F; --urt: #FBE7E1;
   color-scheme: light;
 }
 [data-theme='white'] {
@@ -16,13 +16,13 @@
   --bg: 236 224 201; --surface: 246 237 219; --surface2: 228 214 188; --text: 72 56 40; --muted: 100 84 66; --border: 214 196 166;
   --accent: 150 72 30; --accent2: 120 56 20; --soft: 240 219 194; --shadow: 110 70 20;
   --p1: #23605B; --p2: #456A31; --p3: #A24C2C; --p4: #6A4E7E; --p5: #3A486F; --pi: #81601F;
-  --p1t: #DCE6DE; --p2t: #E1E6D2; --p3t: #F1DCCC; --p4t: #E6DCE0; --p5t: #DEDFE0; --pit: #EFE2C6; --ppt: #E2E1D8; --urt: #F3D9CC;
+  --pb: #2F5E9E; --pbt: #DCE4EE; --p1t: #DCE6DE; --p2t: #E1E6D2; --p3t: #F1DCCC; --p4t: #E6DCE0; --p5t: #DEDFE0; --pit: #EFE2C6; --ppt: #E2E1D8; --urt: #F3D9CC;
 }
 [data-theme='night'] {
   --bg: 18 20 23; --surface: 29 32 37; --surface2: 39 43 50; --text: 222 217 209; --muted: 165 159 150; --border: 52 57 65;
   --accent: 132 172 245; --accent2: 104 148 232; --onaccent: 14 20 34; --danger: 240 112 104; --ondanger: 24 10 8; --soft: 34 44 66; --shadow: 0 0 0;
   --p1: #72C2BA; --p1t: #1A2D2C; --p2: #A2C985; --p2t: #212B1C; --p3: #EDA085; --p3t: #33231D; --p4: #C3A6D6; --p4t: #2A2231; --p5: #A3B1E0; --p5t: #1F2433;
-  --pi: #DDB66B; --pit: #2E2719; --pp: #AAB7C4; --ppt: #22272C; --ur: #F08C76; --urt: #36201B;
+  --pi: #DDB66B; --pit: #2E2719; --pb: #8FB4F5; --pbt: #1C2638; --pp: #AAB7C4; --ppt: #22272C; --ur: #F08C76; --urt: #36201B;
   color-scheme: dark;
 }
 /* Soft tile palette (blue, violet, mint, coral, amber, green, rose); the lower end is deeper so white text stays readable */
@@ -64,7 +64,7 @@ h1, h2, h3, .font-head { font-family: theme('fontFamily.head'); }
 }
 
 /* Reader typography */
-.prose-read { font-family: theme('fontFamily.read'); font-size: 1.125rem; line-height: 1.68; max-width: 68ch; letter-spacing: 0.002em; }
+.prose-read { font-family: theme('fontFamily.read'); font-size: 1.125rem; line-height: 1.68; max-width: 68ch; }
 :is(html[lang='ml'], html[lang='kn']) .prose-read { line-height: 1.85; font-size: 1.06rem; }
 .prose-read p { margin: 0 0 1em; }
 .prose-read ul, .prose-read ol { margin: 0 0 1em; padding-left: 1.4em; }

@@ -194,4 +194,7 @@ export const en = {
   gameRub: "Find the picture",
   gameTilt: "Rolling ball",
   gameStar: "Follow the star",
+  stopAndSave: "Stop timer and save",
+  seizureHistory: "Seizure history",
+  appVersion: "Version {v}",
 };

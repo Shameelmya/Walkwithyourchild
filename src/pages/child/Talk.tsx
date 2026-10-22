@@ -61,14 +61,13 @@ export default function Talk() {
     setActive(c.key); setTimeout(() => setActive(undefined), 1200);
     setSaid(c);
     audio.current?.pause();
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
-    try { chime(0.35); } catch { /* */ }
+    try { chime(0.18); } catch { /* */ }
     if (c.voice) {
       const b = await db.blobs.get(c.voice);
-      if (b) { const a = new Audio(URL.createObjectURL(b.blob)); audio.current = a; a.volume = 1; setTimeout(() => void a.play(), 250); return; }
+      if (b) { const a = new Audio(URL.createObjectURL(b.blob)); audio.current = a; a.volume = 1; void a.play(); return; }
     }
-    // Speak the sentence in the chosen language; if the phone has no voice for it, use English so the child is still heard.
-    setTimeout(() => { if (!speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08 })) speak(c.phraseEn, 'en', undefined, { rate: 0.88, pitch: 1.08 }); }, 250);
+    // Speak straight from the tap (Android needs this). Try the chosen language even if the voice list is not loaded yet; English only if that fails.
+    speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08, force: true, fallback: c.phraseEn });
   }, [lang]);
 
   // Single-switch: Space moves, Enter selects.

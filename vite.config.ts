@@ -31,9 +31,13 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,
+        // New versions take over straight away, so the next time the app opens it is up to date.
+        skipWaiting: true,
+        clientsClaim: true,
       },
     }),
   ],
+  define: { __APP_VERSION__: JSON.stringify(new Date().toISOString().slice(0, 16).replace('T', ' ')) },
   build: {
     target: 'es2020',
     chunkSizeWarningLimit: 900,

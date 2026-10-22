@@ -21,7 +21,7 @@ export function PageHeader({ title, back = true, actions, sub, color, eyebrow }:
         )}
         <div className="flex-1 min-w-0">
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-          <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight" style={color ? { color } : undefined}>{title}</h1>
+          <h1 className="text-[1.65rem] font-extrabold leading-tight" style={color ? { color } : undefined}>{title}</h1>
         </div>
         {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
       </div>
@@ -115,7 +115,7 @@ export function FileButton({ accept, capture, onFile, children, className = 'btn
 export function Section({ title, children, action, className = '' }: { title?: ReactNode; children: ReactNode; action?: ReactNode; className?: string }) {
   return (
     <section className={cx('mb-7', className)}>
-      {(title || action) && <div className="flex items-center justify-between mb-3 gap-2"><h2 className="text-lg font-extrabold tracking-tight">{title}</h2>{action}</div>}
+      {(title || action) && <div className="flex items-center justify-between mb-3 gap-2"><h2 className="text-lg font-extrabold">{title}</h2>{action}</div>}
       {children}
     </section>
   );

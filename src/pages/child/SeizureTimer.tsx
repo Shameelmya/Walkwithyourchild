@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, Video, Square, X } from 'lucide-react';
+import { Phone, Video, Square, X, History, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { useT } from '../../i18n';
 import { db, getSetting, putBlob } from '../../lib/db';
 import { useChild, useChildId } from '../../lib/hooks';
@@ -9,7 +11,7 @@ import { loadBook, toc, type Block } from '../../lib/content';
 import { BlockView } from '../../components/Blocks';
 import { alarm } from '../../lib/audio';
 import { startRecording, type Rec } from '../../lib/media';
-import { fmtDur } from '../../lib/util';
+import { fmtDur, fmtDate, fmtTime } from '../../lib/util';
 import { LangButton } from '../../components/LangButton';
 
 export default function SeizureTimer() {
@@ -61,36 +63,55 @@ export default function SeizureTimer() {
     nav(`/seizures?saved=${id}`, { replace: true });
   };
   const over = sec >= rescueMin * 60;
+  const recent = useLiveQuery(() => db.seizures.where('childId').equals(childId).reverse().sortBy('start').then((l) => l.slice(0, 5)), [childId]) ?? [];
+  const R = 112, C = 2 * Math.PI * R, frac = Math.min(1, sec / (rescueMin * 60));
   return (
-    <main id="main" className={`min-h-screen flex flex-col ${over ? 'bg-[var(--urt)]' : 'bg-bg'}`}>
-      <div className="flex items-center justify-between px-3 pt-3">
-        <button className="icon-chip" onClick={() => nav(-1)} aria-label={t('cancel')}><X /></button>
-        <div className="flex gap-2"><LangButton /><a href="tel:108" className="btn-danger px-4"><Phone size={18} aria-hidden /> {t('call108')}</a></div>
+    <main id="main" className={`min-h-screen flex flex-col transition-colors duration-700 ${over ? 'bg-[var(--urt)]' : 'bg-bg'}`}>
+      <div className="flex items-center gap-2 px-3 pt-3">
+        <button className="icon-chip" onClick={() => nav(-1)} aria-label={t('cancel')}><X size={20} /></button>
+        <Link to="/seizures" className="icon-chip" aria-label={t('seizureHistory')}><History size={20} /></Link>
+        <span className="flex-1" />
+        <LangButton />
+        <a href="tel:108" className="btn-danger !px-4"><Phone size={18} aria-hidden /> 108</a>
       </div>
-      <section className="text-center px-4 pt-2" aria-live="off">
-        <p className="font-bold text-muted">{t('seizureTimer')}</p>
-        <p className="font-extrabold tabular-nums leading-none my-2" style={{ fontSize: 'min(28vw, 9rem)' }} role="timer" aria-label={t('elapsed')}>{fmtDur(sec)}</p>
-        <p className="text-muted">{t('rescueAt', { m: rescueMin })}</p>
-      </section>
-      <div className="px-4 py-4 grid gap-3 max-w-xl w-full mx-auto">
-        <button className="btn-primary !min-h-[72px] text-2xl" onClick={stopped}><Square aria-hidden /> {t('stopped')}</button>
-        <div className="grid grid-cols-1 gap-2">
-          <div className="rounded-2xl bg-surface p-4 border-2 border-[var(--ur)]">
-            <p className="text-xl font-extrabold">1. {t('aidSide')}</p>
-            <p className="text-xl font-extrabold mt-1">2. {t('aidMouth')}</p>
+      <section className="flex flex-col items-center px-4 pt-4">
+        <p className="eyebrow">{t('seizureTimer')}</p>
+        <div className="relative my-3" style={{ width: 260, height: 260 }}>
+          <svg viewBox="0 0 260 260" className="absolute inset-0 -rotate-90" aria-hidden>
+            <circle cx="130" cy="130" r={R} fill="none" stroke="rgb(var(--border))" strokeWidth="14" />
+            <circle cx="130" cy="130" r={R} fill="none" stroke={over ? 'rgb(var(--danger))' : 'rgb(var(--accent))'} strokeWidth="14" strokeLinecap="round" strokeDasharray={`${frac * C} ${C}`} style={{ transition: 'stroke-dasharray 0.25s linear' }} />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="font-extrabold tabular-nums leading-none text-[4.2rem]" role="timer" aria-label={t('elapsed')}>{fmtDur(sec)}</p>
+            <p className="text-sm text-muted mt-2">{t('rescueAt', { m: rescueMin })}</p>
           </div>
         </div>
+      </section>
+      <div className="px-4 pb-10 grid gap-4 max-w-xl w-full mx-auto">
+        <button className="btn-danger !min-h-[72px] !rounded-3xl text-xl" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopAndSave')}</button>
+        <div className="card !rounded-3xl p-4 border-2 !border-[var(--ur)]">
+          <p className="text-lg font-extrabold">1. {t('aidSide')}</p>
+          <p className="text-lg font-extrabold mt-1">2. {t('aidMouth')}</p>
+        </div>
         {rec ? (
-          <div className="rounded-2xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" />
+          <div className="rounded-3xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" />
             <button className="btn-danger absolute bottom-2 left-1/2 -translate-x-1/2" onClick={stopVideo}><Square size={18} aria-hidden /> {t('stopVideo')}</button></div>
         ) : videoId ? <p className="text-center font-bold text-[var(--p2)]">{t('videoSaved')}</p> : (
           <button className="btn-outline" onClick={startVideo}><Video aria-hidden /> {t('recordVideo')}</button>
         )}
         {recErr && <p role="alert" className="text-danger text-center">{recErr}</p>}
-        <details className="card p-4" open>
+        <details className="card !rounded-3xl p-4">
           <summary className="font-extrabold cursor-pointer min-h-[32px]">{t('firstAidFromBook')}</summary>
           <div className="prose-read mt-2" style={{ ['--pc' as string]: 'var(--p2)', ['--pt' as string]: 'var(--p2t)' }}>{aid.map((b, i) => <BlockView key={i} b={b} chapter="c5" index={toc.anchors.firstAid.from + i} />)}</div>
         </details>
+        <section className="card !rounded-3xl p-4">
+          <div className="flex items-center justify-between mb-2"><h2 className="font-extrabold">{t('seizureHistory')}</h2><Link to="/seizures" className="text-sm font-bold text-[rgb(var(--accent))] inline-flex items-center min-h-[40px]">{t('seeAll')} <ChevronRight size={16} aria-hidden /></Link></div>
+          {!recent.length ? <p className="text-sm text-muted">{t('noSeizures')}</p> : (
+            <ul className="divide-y divide-line/60">
+              {recent.map((r) => <li key={r.id} className="flex items-center gap-3 py-2.5"><span className="flex-1 min-w-0"><b className="block">{fmtDate(r.start, lang, { day: 'numeric', month: 'short' })} · {fmtTime(r.start, lang)}</b></span><span className="chip !min-h-[32px] tabular-nums">{fmtDur(r.durationSec)}</span></li>)}
+            </ul>
+          )}
+        </section>
       </div>
       {showAlert && (
         <div role="alertdialog" aria-modal="true" aria-labelledby="rescue-title" className="fixed inset-0 z-50 bg-danger text-ondanger flex flex-col items-center justify-center p-6 gap-5 text-center">

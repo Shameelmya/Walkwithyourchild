@@ -1,12 +1,6 @@
-import '@fontsource/plus-jakarta-sans/latin-400.css';
-import '@fontsource/plus-jakarta-sans/latin-600.css';
-import '@fontsource/plus-jakarta-sans/latin-700.css';
-import '@fontsource/plus-jakarta-sans/latin-800.css';
 import '@fontsource/google-sans/latin-400.css';
 import '@fontsource/google-sans/latin-500.css';
 import '@fontsource/google-sans/latin-700.css';
-import '@fontsource/manjari/malayalam-400.css';
-import '@fontsource/manjari/malayalam-700.css';
 import '@fontsource/noto-sans-malayalam/malayalam-400.css';
 import '@fontsource/noto-sans-malayalam/malayalam-700.css';
 import '@fontsource/noto-sans-kannada/kannada-400.css';

@@ -10,8 +10,8 @@ export default {
         soft: v('soft'),
       },
       fontFamily: {
-        ui: ['"Plus Jakarta Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
-        head: ['"Plus Jakarta Sans"', 'Manjari', '"Noto Sans Kannada"', '"Noto Sans Malayalam"', 'system-ui', 'sans-serif'],
+        ui: ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
+        head: ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
         display: ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
         read: ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
       },

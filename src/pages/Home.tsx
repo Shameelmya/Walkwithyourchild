@@ -45,7 +45,7 @@ export default function Home() {
     <Page wide>
       <section className="pt-1 pb-5">
         <p className="eyebrow">{greet}</p>
-        <h1 className="font-display text-[1.9rem] sm:text-4xl font-bold leading-tight tracking-tight mt-0.5">{child?.name}</h1>
+        <h1 className="font-display text-[1.9rem] sm:text-4xl font-bold leading-tight mt-0.5">{child?.name}</h1>
       </section>
 
       {backupDue && (
@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       <section className="mb-7">
-        <h2 className="text-lg font-extrabold tracking-tight mb-3">{t('quickHelp')}</h2>
+        <h2 className="text-lg font-extrabold mb-3">{t('quickHelp')}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {quick.map(({ to, I, l, s, cls }) => (
             <Link key={to} to={to} className={cx('tile min-h-[124px] flex flex-col justify-between', cls)}>

@@ -174,4 +174,7 @@ export const ml: Record<keyof typeof en, string> = {
   gameRub: "ചിത്രം കണ്ടെത്താം",
   gameTilt: "ഉരുളുന്ന പന്ത്",
   gameStar: "നക്ഷത്രത്തെ പിന്തുടരാം",
+  stopAndSave: "ടൈമർ നിർത്തി സേവ് ചെയ്യുക",
+  seizureHistory: "ഫിറ്റ്സ് ചരിത്രം",
+  appVersion: "പതിപ്പ് {v}",
 };
