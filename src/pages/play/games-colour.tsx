@@ -85,7 +85,7 @@ export function Colouring({ vol }: { vol: number }) {
 }
 
 /** A short, joyful burst over the picture: big star, confetti, no words needed. */
-export function Celebrate() {
+export function Celebrate({ star = true }: { star?: boolean }) {
   const [on, setOn] = useState(true);
   useEffect(() => { const h = setTimeout(() => setOn(false), 2600); return () => clearTimeout(h); }, []);
   if (!on) return null;
@@ -94,7 +94,7 @@ export function Celebrate() {
       {Array.from({ length: 28 }, (_, i) => (
         <span key={i} className="absolute w-3 h-4 rounded-sm" style={{ left: '50%', top: '45%', background: PAINT[i % 9], transform: `rotate(${i * 13}deg) translate(${60 + (i % 7) * 22}px)`, animation: `burst ${1.2 + (i % 5) * 0.2}s ease-out forwards` }} />
       ))}
-      <span className="anim-zoom text-[9rem] drop-shadow-xl" role="img" aria-label="★">🌟</span>
+      {star && <span className="anim-zoom text-[9rem] drop-shadow-xl" role="img" aria-label="★">🌟</span>}
     </div>
   );
 }

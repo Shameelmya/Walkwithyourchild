@@ -13,9 +13,9 @@ test('every game opens, responds to taps and keys, and exits with a long press',
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/play');
-  const names = ['Colouring book', 'Finger paint', 'Bubbles', 'Fireworks', 'Colour lights', 'Piano', 'Song tiles', 'Music pad', 'Drums', 'Xylophone', 'Wind chimes', 'Maracas',
+  const names = ['Colouring book', 'Watercolour', 'Finger paint', 'Bubbles', 'Fireworks', 'Colour lights', 'Piano', 'Song tiles', 'Music pad', 'Drums', 'Xylophone', 'Wind chimes', 'Maracas',
     'Crack the eggs', 'Catch the fruit', 'Roll to the star', 'Balloons', 'Rolling ball', 'Find the picture', 'Follow the star', 'Peekaboo', 'Quiet sea',
-    'Animals', 'Fruits and food', 'Colours', 'Shapes', 'Counting', 'ABC letters', 'Malayalam letters', 'Kannada letters', 'Memory pairs', 'Repeat the tune'];
+    'Animals', 'Fruits and food', 'Colours', 'Shapes', 'Counting', 'ABC letters', 'Malayalam letters', 'Kannada letters', 'Colour cube', 'Sliding puzzle', 'Memory pairs', 'Repeat the tune'];
   for (const n of names) {
     await page.getByRole('button', { name: n, exact: true }).click();
     // Each game first explains how to play.
@@ -67,8 +67,9 @@ test('song tiles play a whole song, quizzes answer, and the mute switch persists
   await page.goto('/play/songs');
   await page.getByRole('button', { name: "Let's play" }).click();
   await page.getByRole('button', { name: /Mary had a little lamb/ }).click();
-  // Keyboard input always plays the next right note.
-  for (let i = 0; i < 26; i++) await page.keyboard.press('a');
+  await page.getByRole('radio', { name: '110' }).click();
+  // Keyboard input plays the next note once its tile reaches the line; the song waits otherwise.
+  for (let i = 0; i < 200 && !(await page.getByRole('button', { name: 'Play again' }).isVisible()); i++) { await page.keyboard.press('a'); await page.waitForTimeout(150); }
   await expect(page.getByRole('button', { name: 'Play again' })).toBeVisible();
 
   await page.goto('/play/q-animals');
