@@ -1,7 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type Lang = 'en' | 'ml';
+export type Lang = 'en' | 'ml' | 'kn';
+export const LANGS: { v: Lang; native: string; short: string }[] = [
+  { v: 'en', native: 'English', short: 'EN' },
+  { v: 'ml', native: 'മലയാളം', short: 'മ' },
+  { v: 'kn', native: 'ಕನ್ನಡ', short: 'ಕ' },
+];
+export const indic = (l: Lang) => l !== 'en';
 export type Theme = 'white' | 'paper' | 'comfort' | 'night';
 export const FONT_STEPS = [0.9, 1, 1.15, 1.3, 1.5] as const;
 
@@ -10,6 +16,8 @@ interface UI {
   theme: Theme;
   fontScale: number;
   activeChildId: number;
+  brightness: number;
+  setBrightness: (b: number) => void;
   talkGrid: 2 | 3 | 4;
   volume: number;
   setLang: (l: Lang) => void;
@@ -29,6 +37,8 @@ export const useUI = create<UI>()(
       theme: initialTheme(),
       fontScale: 1,
       activeChildId: 0,
+      brightness: 1,
+      setBrightness: (brightness) => set({ brightness }),
       talkGrid: 3,
       volume: 0.6,
       setLang: (lang) => set({ lang }),
@@ -46,7 +56,7 @@ export function applyUI(s: Pick<UI, 'lang' | 'theme' | 'fontScale'>) {
   const d = document.documentElement;
   d.lang = s.lang;
   d.dataset.theme = s.theme;
-  d.style.fontSize = `${16 * s.fontScale * (s.lang === 'ml' ? 1.05 : 1)}px`;
+  d.style.fontSize = `${16 * s.fontScale * (s.lang !== 'en' ? 1.05 : 1)}px`;
   const bg = getComputedStyle(d).getPropertyValue('--bg').trim().split(/\s+/).map(Number);
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta && bg.length === 3) meta.setAttribute('content', `rgb(${bg.join(',')})`);

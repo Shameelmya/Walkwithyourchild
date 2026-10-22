@@ -5,23 +5,26 @@ import { useT } from '../../i18n';
 import { Page, PageHeader, Modal, FileButton, Seg, useToast } from '../../components/ui';
 import { db, putBlob, type TalkCard } from '../../lib/db';
 import { useBlobUrl, useChildId } from '../../lib/hooks';
-import { meta } from '../../lib/content';
+import { meta, L } from '../../lib/content';
+import { PHRASES } from '../../lib/talk';
 import { useUI } from '../../lib/store';
-import { speak } from '../../lib/audio';
+import { speak, chime } from '../../lib/audio';
 import { compressImage, startRecording, type Rec } from '../../lib/media';
 import { cx } from '../../lib/util';
 
 const EMOJI = ['🍚', '💧', '🤕', '🚽', '👩', '👨', '🎵', '😴', '👍', '👎', '➕', '✋', '🔥', '❄️', '🤗', '🌳'];
-const COLORS = ['var(--p1t)', 'var(--p2t)', 'var(--p3t)', 'var(--p4t)', 'var(--p5t)', 'var(--pit)'];
+const COLORS = ['1', '2', '3', '4', '5', 'i'];
 
-interface Card { key: string; rec?: TalkCard; builtin?: number; label: string; emoji?: string; photo?: number; voice?: number }
+interface Card { key: string; rec?: TalkCard; builtin?: number; label: string; phrase: string; phraseEn: string; emoji?: string; photo?: number; voice?: number }
 
 function CardFace({ c, big }: { c: Card; big: boolean }) {
   const url = useBlobUrl(c.photo);
   return (
     <>
-      {url ? <img src={url} alt="" className="w-full flex-1 min-h-0 object-cover rounded-xl" /> : <span aria-hidden className="flex-1 flex items-center justify-center leading-none" style={{ fontSize: big ? '4.5rem' : '3rem' }}>{c.emoji ?? '💬'}</span>}
-      <span className={cx('font-extrabold text-center leading-tight', big ? 'text-2xl' : 'text-lg')}>{c.label}</span>
+      <span className="flex-1 min-h-0 flex items-center justify-center">
+        {url ? <img src={url} alt="" className="w-full h-full object-cover rounded-2xl" /> : <span aria-hidden className="rounded-full bg-white/90 shadow-card flex items-center justify-center leading-none aspect-square" style={{ fontSize: big ? '3.6rem' : '2.3rem', width: big ? '6.2rem' : '4.2rem' }}>{c.emoji ?? '💬'}</span>}
+      </span>
+      <span className={cx('font-extrabold text-center leading-tight text-white drop-shadow-sm', big ? 'text-xl' : 'text-base')}>{c.label}</span>
     </>
   );
 }
@@ -43,9 +46,9 @@ export default function Talk() {
   const cards: Card[] = useMemo(() => {
     const out: Card[] = meta.talkBoardCards.map((c, i) => {
       const r = recs.find((x) => x.builtin === i);
-      return { key: `b${i}`, rec: r, builtin: i, label: r?.label || c[lang], emoji: EMOJI[i], photo: r?.photoBlobId, voice: r?.voiceBlobId };
+      return { key: `b${i}`, rec: r, builtin: i, label: r?.label || L(c, lang), phrase: r?.phrase || PHRASES[i][lang], phraseEn: PHRASES[i].en, emoji: EMOJI[i], photo: r?.photoBlobId, voice: r?.voiceBlobId };
     }).filter((c) => !c.rec?.hidden);
-    for (const r of recs.filter((x) => x.builtin === undefined)) out.push({ key: `c${r.id}`, rec: r, label: r.label, emoji: r.emoji, photo: r.photoBlobId, voice: r.voiceBlobId });
+    for (const r of recs.filter((x) => x.builtin === undefined)) out.push({ key: `c${r.id}`, rec: r, label: r.label, phrase: r.phrase || r.label, phraseEn: r.phrase || r.label, emoji: r.emoji, photo: r.photoBlobId, voice: r.voiceBlobId });
     return out;
   }, [recs, lang]);
   const per = n * n;
@@ -53,14 +56,19 @@ export default function Talk() {
   const shown = cards.slice(page * per, page * per + per);
   useEffect(() => { if (page >= pages) setPage(0); }, [pages, page]);
 
+  const [said, setSaid] = useState<Card | null>(null);
   const say = useCallback(async (c: Card) => {
     setActive(c.key); setTimeout(() => setActive(undefined), 1200);
+    setSaid(c);
+    audio.current?.pause();
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    try { chime(0.35); } catch { /* */ }
     if (c.voice) {
       const b = await db.blobs.get(c.voice);
-      if (b) { audio.current?.pause(); const a = new Audio(URL.createObjectURL(b.blob)); audio.current = a; a.volume = 1; void a.play(); return; }
+      if (b) { const a = new Audio(URL.createObjectURL(b.blob)); audio.current = a; a.volume = 1; setTimeout(() => void a.play(), 250); return; }
     }
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
-    speak(c.label, lang);
+    // Speak the sentence in the chosen language; if the phone has no voice for it, use English so the child is still heard.
+    setTimeout(() => { if (!speak(c.phrase, lang, undefined, { rate: 0.88, pitch: 1.08 })) speak(c.phraseEn, 'en', undefined, { rate: 0.88, pitch: 1.08 }); }, 250);
   }, [lang]);
 
   // Single-switch: Space moves, Enter selects.
@@ -81,13 +89,12 @@ export default function Talk() {
   useEffect(() => { const f = () => !document.fullscreenElement && setFull(false); document.addEventListener('fullscreenchange', f); return () => document.removeEventListener('fullscreenchange', f); }, []);
 
   const grid = (
-    <div className="grid gap-3 flex-1" style={{ gridTemplateColumns: `repeat(${n}, minmax(0,1fr))`, gridAutoRows: full ? `calc((100vh - 90px - ${n - 1} * 0.75rem) / ${n})` : 'minmax(130px, auto)' }}>
+    <div className="grid gap-3 flex-1" style={{ gridTemplateColumns: `repeat(${n}, minmax(0,1fr))`, gridAutoRows: full ? `calc((100vh - 190px - ${n - 1} * 0.75rem) / ${n})` : n === 4 ? 'minmax(118px, auto)' : 'minmax(150px, auto)' }}>
       {shown.map((c, i) => (
         <button key={c.key} onClick={() => (editMode ? setEditing(c) : say(c))} aria-label={c.label}
-          className={cx('relative rounded-3xl p-3 flex flex-col items-stretch gap-2 border-4 transition shadow-card', focus === i ? 'border-accent ring-4 ring-accent/40' : 'border-transparent', active === c.key && 'scale-[1.04] ring-4 ring-[var(--p2)]')}
-          style={{ background: COLORS[(page * per + i) % COLORS.length] }}>
+          className={cx('tile !p-3 flex flex-col items-stretch gap-2 border-4', `grad-${COLORS[(page * per + i) % COLORS.length]}`, focus === i ? 'border-white ring-4 ring-[rgb(var(--accent))]' : 'border-transparent', active === c.key && 'anim-pop ring-4 ring-white')}>
           <CardFace c={c} big={n <= 3} />
-          {editMode && <span className="absolute top-2 right-2 bg-surface rounded-full p-1.5"><Pencil size={16} aria-hidden /></span>}
+          {editMode && <span className="absolute top-2 right-2 z-[2] bg-white text-[#2a231d] rounded-full p-1.5"><Pencil size={16} aria-hidden /></span>}
         </button>
       ))}
     </div>
@@ -99,9 +106,16 @@ export default function Talk() {
       <button className="icon-btn bg-surface2" aria-label={t('next')} onClick={() => setPage((p) => (p + 1) % pages)}><ChevronRight /></button>
     </div>
   );
+  const strip = (
+    <div aria-live="polite" className="card !rounded-[24px] p-4 mb-4 flex items-center gap-3 min-h-[76px]">
+      <span className="w-12 h-12 rounded-2xl grad-4 text-white flex items-center justify-center shrink-0 text-2xl" aria-hidden>{said?.emoji ?? '💬'}</span>
+      <p className={cx('flex-1 font-extrabold leading-snug', said ? 'text-xl' : 'text-muted')}>{said ? said.phrase : t('talkStripHint')}</p>
+      {said && <button className="icon-chip" onClick={() => say(said)} aria-label={t('sayAgain')}><Play size={20} /></button>}
+    </div>
+  );
   if (full) return (
     <div className="fixed inset-0 z-50 bg-bg p-3 flex flex-col">
-      <div className="flex justify-end mb-2"><button className="icon-btn bg-surface2" onClick={toggleFull} aria-label={t('exitFullScreen')}><Minimize2 /></button></div>
+      <div className="flex items-start gap-2"><div className="flex-1">{strip}</div><button className="icon-chip" onClick={toggleFull} aria-label={t('exitFullScreen')}><Minimize2 /></button></div>
       {grid}{pager}
     </div>
   );
@@ -111,9 +125,11 @@ export default function Talk() {
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <Seg label={t('gridSize')} value={n} onChange={(v) => { setTalkGrid(v); setPage(0); }} options={[{ v: 2, l: '2×2' }, { v: 3, l: '3×3' }, { v: 4, l: '4×4' }]} />
         <button className={cx('chip', editMode && 'chip-on')} aria-pressed={editMode} onClick={() => setEditMode(!editMode)}><Pencil size={16} aria-hidden /> {t('editCards')}</button>
-        {editMode && <button className="chip" onClick={() => setEditing({ key: 'new', label: '', emoji: '⭐' })}><Plus size={16} aria-hidden /> {t('newCard')}</button>}
+        {editMode && recs.some((r) => r.hidden) && <button className="chip" onClick={() => Promise.all(recs.filter((r) => r.hidden).map((r) => db.talkCards.update(r.id!, { hidden: false })))}>{t('showHidden')}</button>}
+        {editMode && <button className="chip" onClick={() => setEditing({ key: 'new', label: '', phrase: '', phraseEn: '', emoji: '⭐' })}><Plus size={16} aria-hidden /> {t('newCard')}</button>}
       </div>
       <p className="text-sm text-muted mb-3">{editMode ? t('editCardsHint') : t('switchHint')}</p>
+      {strip}
       {grid}{pager}
       <CardEditor card={editing} onClose={() => setEditing(null)} childId={childId} count={recs.length} onSaved={() => toast(t('saved'))} />
     </Page>
@@ -123,15 +139,16 @@ export default function Talk() {
 function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | null; onClose: () => void; childId: number; count: number; onSaved: () => void }) {
   const { t } = useT();
   const [label, setLabel] = useState('');
+  const [phrase, setPhrase] = useState('');
   const [emoji, setEmoji] = useState('');
   const [photo, setPhoto] = useState<number>();
   const [voice, setVoice] = useState<number>();
   const [rec, setRec] = useState<Rec | null>(null);
   const voiceUrl = useBlobUrl(voice);
-  useEffect(() => { if (card) { setLabel(card.label); setEmoji(card.emoji ?? ''); setPhoto(card.photo); setVoice(card.voice); } }, [card]);
+  useEffect(() => { if (card) { setLabel(card.label); setPhrase(card.rec?.phrase ?? (card.builtin === undefined ? card.phrase : '')); setEmoji(card.emoji ?? ''); setPhoto(card.photo); setVoice(card.voice); } }, [card]);
   if (!card) return null;
   const save = async (hidden = false) => {
-    const data: TalkCard = { childId, builtin: card.builtin, label: label.trim(), emoji, photoBlobId: photo, voiceBlobId: voice, hidden, order: card.rec?.order ?? count };
+    const data: TalkCard = { childId, builtin: card.builtin, label: label.trim(), phrase: phrase.trim() || undefined, emoji, photoBlobId: photo, voiceBlobId: voice, hidden, order: card.rec?.order ?? count };
     if (card.rec?.id) await db.talkCards.update(card.rec.id, data as never); else await db.talkCards.add(data);
     onSaved(); onClose();
   };
@@ -139,6 +156,7 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
     <Modal open onClose={onClose} title={card.key === 'new' ? t('newCard') : t('editCard')}>
       <div className="grid gap-4">
         <div><label className="label" htmlFor="tc-l">{t('cardWord')}</label><input id="tc-l" className="input" value={label} onChange={(e) => setLabel(e.target.value)} /></div>
+        <div><label className="label" htmlFor="tc-p">{t('cardSentence')}</label><input id="tc-p" className="input" placeholder={card.builtin !== undefined ? card.phrase : t('cardSentenceHint')} value={phrase} onChange={(e) => setPhrase(e.target.value)} /></div>
         {card.builtin === undefined && <div><label className="label" htmlFor="tc-e">{t('emojiOptional')}</label><input id="tc-e" className="input w-24 text-2xl" value={emoji} onChange={(e) => setEmoji(e.target.value)} /></div>}
         <div className="flex flex-wrap gap-2 items-center">
           <FileButton accept="image/*" onFile={async (f) => setPhoto(await putBlob(await compressImage(f, 800), childId, 'talk'))}><Camera size={18} aria-hidden /> {photo ? t('changePhoto') : t('addPhoto')}</FileButton>

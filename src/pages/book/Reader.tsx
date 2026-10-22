@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Settings2, Volume2, Square, Languages } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Languages, Info, Clock } from 'lucide-react';
 import { useT } from '../../i18n';
 import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/content';
-import { useUI } from '../../lib/store';
+import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
 import { getReading, savePosition, toggleBookmark } from '../../lib/reading';
 import { BlockView } from '../../components/Blocks';
 import { Modal, useToast } from '../../components/ui';
-import { DisplaySettings } from '../../components/ReaderSettings';
 import { TocList } from './Contents';
 import { speak, voicesFor } from '../../lib/audio';
-
+import { cx } from '../../lib/util';
 
 function useHasVoice(lang: string) {
   const [has, setHas] = useState(() => voicesFor(lang).length > 0);
@@ -24,11 +23,57 @@ function useHasVoice(lang: string) {
   return has;
 }
 
+const SW: Record<Theme, string> = { white: '#ffffff', paper: '#F7F2EB', comfort: '#ECE0C9', night: '#121417' };
+
+function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: boolean; onClose: () => void; speaking: boolean; onSpeak: () => void; hasVoice: boolean }) {
+  const { t, lang } = useT();
+  const { theme, setTheme, fontScale, setFontScale, setLang, brightness, setBrightness } = useUI();
+  const idx = Math.max(0, FONT_STEPS.findIndex((f) => f === fontScale));
+  if (!open) return null;
+  return (
+    <div role="dialog" aria-label={t('readingSettings')} className="fixed z-50 right-3 left-3 sm:left-auto sm:w-[360px] bottom-[96px] lg:bottom-24 lg:right-6 card !rounded-[28px] p-5 anim-sheet shadow-2xl">
+      <div className="flex items-center justify-between mb-4"><p className="font-extrabold text-lg">{t('readingSettings')}</p><button className="icon-btn !min-w-[40px] !min-h-[40px]" onClick={onClose} aria-label={t('close')}><X size={20} /></button></div>
+      <div className="grid gap-5">
+        <div>
+          <p className="label flex items-center gap-1.5"><Sun size={14} aria-hidden /> {t('screenLight')}</p>
+          <div className="flex items-center gap-3"><SunDim size={18} className="text-muted shrink-0" aria-hidden />
+            <input type="range" className="slider flex-1" min={0.35} max={1} step={0.05} value={brightness} onChange={(e) => setBrightness(+e.target.value)} aria-label={t('screenLight')} />
+            <Sun size={22} className="text-muted shrink-0" aria-hidden /></div>
+        </div>
+        <div>
+          <p className="label flex items-center gap-1.5"><Type size={14} aria-hidden /> {meta.reader.fontSize[lang]} · {Math.round(fontScale * 100)}%</p>
+          <div className="flex items-center gap-3"><span className="text-sm font-bold text-muted w-4" aria-hidden>A</span>
+            <input type="range" className="slider flex-1" min={0} max={FONT_STEPS.length - 1} step={1} value={idx} onChange={(e) => setFontScale(FONT_STEPS[+e.target.value])} aria-label={meta.reader.fontSize[lang]} aria-valuetext={`${Math.round(fontScale * 100)}%`} />
+            <span className="text-2xl font-bold text-muted w-5" aria-hidden>A</span></div>
+        </div>
+        <div>
+          <p className="label">{meta.reader.theme[lang]}</p>
+          <div role="radiogroup" aria-label={meta.reader.theme[lang]} className="grid grid-cols-4 gap-2">
+            {(Object.keys(SW) as Theme[]).map((th) => (
+              <button key={th} role="radio" aria-checked={theme === th} onClick={() => setTheme(th)} className="flex flex-col items-center gap-1.5 text-[0.7rem] font-bold">
+                <span className={cx('w-12 h-12 rounded-full border-2 flex items-center justify-center font-display text-lg font-bold transition', theme === th ? 'border-[rgb(var(--accent))] ring-4 ring-[rgb(var(--accent)/0.18)]' : 'border-line')} style={{ background: SW[th], color: th === 'night' ? '#D9D4CC' : '#3B3127' }} aria-hidden>Aa</span>
+                {meta.reader.themes[th][lang]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="label flex items-center gap-1.5"><Languages size={14} aria-hidden /> {meta.reader.language[lang]}</p>
+          <div role="radiogroup" aria-label={meta.reader.language[lang]} className="grid grid-cols-3 gap-2 p-1 rounded-2xl bg-surface2">
+            {LANGS.map((l) => <button key={l.v} role="radio" aria-checked={lang === l.v} lang={l.v} onClick={() => setLang(l.v)} className={cx('min-h-[44px] rounded-xl font-bold text-sm transition', lang === l.v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>{l.native}</button>)}
+          </div>
+        </div>
+        {hasVoice && <button className={speaking ? 'btn-ghost' : 'btn-outline'} onClick={onSpeak}>{speaking ? <><Square size={18} aria-hidden /> {t('stopReading')}</> : <><Volume2 size={18} aria-hidden /> {meta.reader.readAloud[lang]}</>}</button>}
+      </div>
+    </div>
+  );
+}
+
 export default function Reader() {
   const { chapter = 'c0' } = useParams();
   const [sp] = useSearchParams();
   const { t, lang } = useT();
-  const setLang = useUI((s) => s.setLang);
+  const brightness = useUI((s) => s.brightness);
   const nav = useNavigate();
   const toast = useToast((s) => s.show);
   const [loaded, setLoaded] = useState<{ l: string; b: Book } | null>(null);
@@ -37,8 +82,9 @@ export default function Reader() {
   const restoring = useRef(false);
   inSync.current = loaded?.l === lang;
   const [showToc, setShowToc] = useState(false);
-  const [showSet, setShowSet] = useState(false);
+  const [panel, setPanel] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const [progress, setProgress] = useState(0);
   const cur = useRef(0);
   const restored = useRef<string>('');
   const hasVoice = useHasVoice(lang);
@@ -48,7 +94,9 @@ export default function Reader() {
   const ch = book?.chapters.find((c) => c.id === chapter);
   const idx = toc.toc.findIndex((c) => c.id === chapter);
   const prev = toc.toc[idx - 1], next = toc.toc[idx + 1];
-  const col = partColor(ch?.part ?? toc.toc[idx]?.part ?? 0);
+  const part = ch?.part ?? toc.toc[idx]?.part ?? 0;
+  const col = partColor(part);
+  const g = part >= 1 && part <= 5 ? part : part === 0 ? 'i' : 5;
 
   const scrollTo = useCallback((i: number) => {
     if (i === 0) { window.scrollTo({ top: 0 }); return; }
@@ -73,16 +121,17 @@ export default function Reader() {
     setTimeout(() => { if (restoring.current) return; scrollTo(target); }, 400);
   }, [ch, reading, chapter, loaded, sp, scrollTo]);
 
-  // Track the block at the top of the viewport.
   const ready = !!reading;
   useEffect(() => {
     if (!ch || !ready) return;
     let h: number | undefined;
     const onScroll = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      setProgress(max > 0 ? Math.min(1, scrollY / max) : 1);
       if (!inSync.current || restoring.current) return; // layout is changing during a language switch
       const els = document.querySelectorAll<HTMLElement>('[data-b]');
       let best = 0;
-      for (const el of els) { if (el.getBoundingClientRect().top < 140) best = +el.dataset.b!; else break; }
+      for (const el of els) { if (el.getBoundingClientRect().top < 100) best = +el.dataset.b!; else break; }
       if (best !== cur.current) { cur.current = best; clearTimeout(h); h = window.setTimeout(() => void savePosition(chapter, best), 500); }
     };
     addEventListener('scroll', onScroll, { passive: true });
@@ -103,41 +152,49 @@ export default function Reader() {
   };
   const bookmarked = reading?.bookmarks.some((b) => b.chapter === chapter && b.blockIndex === cur.current);
   const partTitle = toc.parts.find((p) => p.n === ch?.part);
+  const minutes = ch ? Math.max(1, Math.round(ch.blocks.reduce((s, b) => s + b.text.split(/\s+/).length, 0) / 180)) : 0;
 
   return (
     <div style={{ ['--pc' as string]: col.c, ['--pt' as string]: col.t }} className="lg:flex lg:gap-6 mx-auto max-w-6xl">
+      {brightness < 1 && <div aria-hidden className="fixed inset-0 z-[35] pointer-events-none bg-black transition-opacity" style={{ opacity: (1 - brightness) * 0.9 }} />}
       <aside className="hidden xl:block w-80 shrink-0 h-[calc(100vh-1rem)] sticky top-2 overflow-y-auto no-scrollbar p-3"><TocList current={chapter} /></aside>
       <div className="flex-1 min-w-0">
-        <div className="sticky top-[57px] lg:top-0 z-20 bg-bg/95 backdrop-blur border-b border-line/40 px-2 py-1 flex items-center gap-1">
-          <Link to="/book" className="icon-btn" aria-label={meta.reader.contents[lang]}><ArrowLeft /></Link>
-          <button className="icon-btn xl:hidden" onClick={() => setShowToc(true)} aria-label={meta.reader.contents[lang]}><List /></button>
-          <span className="flex-1" />
-          <button className="chip" onClick={() => setLang(lang === 'en' ? 'ml' : 'en')} aria-label={t('switchLanguage')}><Languages size={18} aria-hidden /> <span lang={lang === 'en' ? 'ml' : 'en'}>{lang === 'en' ? 'മലയാളം' : 'English'}</span></button>
-          {hasVoice && <button className="icon-btn" onClick={readAloud} aria-pressed={speaking} aria-label={meta.reader.readAloud[lang]}>{speaking ? <Square /> : <Volume2 />}</button>}
-          <button className="icon-btn" aria-pressed={!!bookmarked} aria-label={meta.reader.bookmark[lang]} onClick={async () => toast((await toggleBookmark(chapter, cur.current)) ? t('bookmarkAdded') : t('bookmarkRemoved'))}>{bookmarked ? <BookmarkCheck className="text-accent" /> : <Bookmark />}</button>
-          <button className="icon-btn" onClick={() => setShowSet(true)} aria-label={t('display')}><Settings2 /></button>
+        <div className="sticky top-0 z-30 bg-bg/90 backdrop-blur-md">
+          <div className="px-3 h-[64px] flex items-center gap-2">
+            <Link to="/book" className="icon-chip" aria-label={meta.reader.contents[lang]}><ArrowLeft size={20} /></Link>
+            <p className="flex-1 min-w-0 text-center text-sm font-bold truncate px-1">{ch?.title}</p>
+            <button className="icon-chip xl:hidden" onClick={() => setShowToc(true)} aria-label={meta.reader.contents[lang]}><List size={20} /></button>
+            <button className="icon-chip" aria-pressed={!!bookmarked} aria-label={meta.reader.bookmark[lang]} onClick={async () => toast((await toggleBookmark(chapter, cur.current)) ? t('bookmarkAdded') : t('bookmarkRemoved'))}>{bookmarked ? <BookmarkCheck size={20} className="text-[rgb(var(--accent))]" /> : <Bookmark size={20} />}</button>
+          </div>
+          <div className="h-1 bg-line/50"><div className="h-full transition-[width] duration-150" style={{ width: `${progress * 100}%`, background: 'var(--pc)' }} /></div>
         </div>
-        <main id="main" className="px-5 pb-32 lg:pb-16">
+        <main id="main" className="px-5 pb-40 lg:pb-20">
           {!ch ? <div className="py-20 text-center text-muted" aria-busy="true">…</div> : (
             <article className="prose-read mx-auto anim-in" key={lang + chapter}>
-              <header className="pt-8 pb-6 font-ui">
-                {partTitle && <p className="font-extrabold text-[var(--pc)] text-sm">{meta.partLabel[lang]} {partTitle.n} · {loc(partTitle.title, lang)}</p>}
-                {ch.id !== 'appendix' && ch.n > 0 && <p className="text-6xl font-extrabold text-[var(--pc)] opacity-90 leading-none mt-3 font-head">{ch.n}</p>}
-                <h1 className="text-3xl font-extrabold mt-2 leading-tight font-head">{ch.title}</h1>
-                <div className="h-1 w-16 rounded-full bg-[var(--pc)] mt-4" />
+              <header className={cx('tile !rounded-[28px] !p-6 mt-5 mb-8 font-ui', `grad-${g}`)}>
+                <div className="relative z-[1]">
+                  <p className="text-[0.8rem] font-bold opacity-90">{partTitle ? `${meta.partLabel[lang]} ${partTitle.n} · ${loc(partTitle.title, lang)}` : ch.id === 'appendix' ? t('appendix') : t('introduction')}</p>
+                  {ch.id !== 'appendix' && ch.n > 0 && <p className="font-display text-6xl font-bold leading-none mt-4 opacity-95">{String(ch.n).padStart(2, '0')}</p>}
+                  <h1 className="font-display text-[1.8rem] font-bold mt-3 leading-tight">{ch.title}</h1>
+                  <p className="text-[0.8rem] font-semibold opacity-90 mt-4 flex items-center gap-1.5"><Clock size={14} aria-hidden /> {t('minRead', { n: minutes })}</p>
+                </div>
               </header>
-              {ch.blocks.map((b, i) => <div key={i} data-b={i} className="scroll-mt-[130px] lg:scroll-mt-[72px]"><BlockView b={b} chapter={chapter} index={i} /></div>)}
-              <nav className="flex flex-col-reverse sm:flex-row gap-3 justify-between mt-12 font-ui" aria-label={t('chapterNav')}>
-                {prev ? <button className="btn-ghost flex-1 min-w-0 justify-start text-left py-2" onClick={() => nav(`/book/${prev.id}?b=0`)}><ArrowLeft className="shrink-0" aria-hidden /> <span className="line-clamp-2">{loc(prev.title, lang)}</span></button> : <span className="flex-1" />}
-                {next ? <button className="btn-primary flex-1 min-w-0 justify-end text-right py-2" onClick={() => nav(`/book/${next.id}?b=0`)}><span className="line-clamp-2">{loc(next.title, lang)}</span> <ArrowRight className="shrink-0" aria-hidden /></button> : <span className="flex-1" />}
+              {book?.fallback && <p className="card !rounded-2xl p-4 mb-6 text-[0.95rem] font-ui flex gap-3"><Info size={18} className="shrink-0 mt-1 text-[rgb(var(--accent))]" aria-hidden />{t('bookNotTranslated')}</p>}
+              {ch.blocks.map((b, i) => <div key={i} data-b={i} className="scroll-mt-[90px]"><BlockView b={b} chapter={chapter} index={i} /></div>)}
+              <nav className="grid sm:grid-cols-2 gap-3 mt-14 font-ui" aria-label={t('chapterNav')}>
+                {prev ? <button className="card p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`)}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
+                {next ? <button className="tile grad-a !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`)}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
               </nav>
             </article>
           )}
         </main>
       </div>
+      <button onClick={() => setPanel(!panel)} aria-expanded={panel} aria-label={t('readingSettings')}
+        className={cx('fixed z-50 right-4 bottom-[100px] lg:bottom-6 lg:right-6 h-14 rounded-full shadow-lift flex items-center gap-2 px-5 font-extrabold transition active:scale-95', panel ? 'bg-ink text-bg' : 'grad-a text-white')}>
+        {panel ? <X size={20} aria-hidden /> : <><span className="font-display text-xl leading-none">Aa</span><Sun size={16} aria-hidden /><Languages size={16} aria-hidden /></>}
+      </button>
+      <ReadingPanel open={panel} onClose={() => setPanel(false)} speaking={speaking} onSpeak={readAloud} hasVoice={hasVoice} />
       <Modal open={showToc} onClose={() => setShowToc(false)} title={meta.reader.contents[lang]}><TocList current={chapter} onPick={() => setShowToc(false)} /></Modal>
-      <Modal open={showSet} onClose={() => setShowSet(false)} title={t('display')}><DisplaySettings /></Modal>
     </div>
   );
 }
-

@@ -1,45 +1,64 @@
 import { Link } from 'react-router-dom';
-import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil } from 'lucide-react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil, ChevronRight } from 'lucide-react';
 import { useT, type TKey } from '../../i18n';
 import { Avatar, Page } from '../../components/ui';
-import { useChild } from '../../lib/hooks';
-import { ageFrom } from '../../lib/util';
+import { useChild, useChildId } from '../../lib/hooks';
+import { ageFrom, cx } from '../../lib/util';
+import { db } from '../../lib/db';
 
-const TILES: { to: string; k: TKey; I: typeof Pill; c: string }[] = [
-  { to: '/medicines', k: 'navMedicines', I: Pill, c: 'var(--p1)' },
-  { to: '/seizures', k: 'navSeizures', I: Activity, c: 'var(--ur)' },
-  { to: '/visits', k: 'navVisits', I: Stethoscope, c: 'var(--p5)' },
-  { to: '/records', k: 'navRecords', I: ClipboardList, c: 'var(--pp)' },
-  { to: '/progress', k: 'navProgress', I: LineChart, c: 'var(--p2)' },
-  { to: '/documents', k: 'navDocuments', I: FolderHeart, c: 'var(--pi)' },
-  { to: '/summary', k: 'navSummary', I: FileText, c: 'var(--p3)' },
-  { to: '/talk', k: 'navTalk', I: MessageSquareHeart, c: 'var(--p4)' },
-  { to: '/play', k: 'navPlay', I: Gamepad2, c: 'var(--p2)' },
-  { to: '/notebook/my-child', k: 'myChildPage', I: Baby, c: 'var(--pi)' },
+const TILES: { to: string; k: TKey; s: TKey; I: typeof Pill; g: string }[] = [
+  { to: '/medicines', k: 'navMedicines', s: 'medsSub', I: Pill, g: 'grad-1' },
+  { to: '/seizures', k: 'navSeizures', s: 'seizuresSub', I: Activity, g: 'grad-r' },
+  { to: '/visits', k: 'navVisits', s: 'visitsSub', I: Stethoscope, g: 'grad-5' },
+  { to: '/records', k: 'navRecords', s: 'recordsSub', I: ClipboardList, g: 'grad-5' },
+  { to: '/progress', k: 'navProgress', s: 'progressShort', I: LineChart, g: 'grad-2' },
+  { to: '/documents', k: 'navDocuments', s: 'documentsShort', I: FolderHeart, g: 'grad-i' },
+  { to: '/summary', k: 'navSummary', s: 'summaryShort', I: FileText, g: 'grad-3' },
+  { to: '/talk', k: 'navTalk', s: 'talkSub', I: MessageSquareHeart, g: 'grad-4' },
+  { to: '/play', k: 'navPlay', s: 'playSub', I: Gamepad2, g: 'grad-2' },
 ];
 
 export default function ChildHub() {
   const { t } = useT();
   const child = useChild();
+  const childId = useChildId();
   const age = ageFrom(child?.dob);
+  const stats = useLiveQuery(async () => ({
+    meds: (await db.medicines.where('childId').equals(childId).count()),
+    sz: (await db.seizures.where('childId').equals(childId).filter((s) => s.start > Date.now() - 30 * 86400_000).count()),
+    docs: (await db.documents.where('childId').equals(childId).count()),
+  }), [childId]);
   return (
     <Page wide>
-      <section className="card p-4 mt-4 mb-5 flex items-center gap-4">
-        <Avatar blobId={child?.photoBlobId} name={child?.name} size={72} />
-        <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-extrabold truncate">{child?.name}</h1>
-          {age && <p className="text-muted">{t('ageYm', { y: age.y, m: age.m })}</p>}
+      <section className="tile grad-a !p-5 sm:!p-6 mb-6">
+        <div className="relative z-[1] flex items-center gap-4">
+          <Avatar blobId={child?.photoBlobId} name={child?.name} size={76} />
+          <div className="flex-1 min-w-0">
+            <h1 className="font-display text-[1.8rem] font-bold leading-tight truncate">{child?.name}</h1>
+            {age && <p className="opacity-90 font-semibold">{t('ageYm', { y: age.y, m: age.m })}</p>}
+          </div>
+          <Link to="/child/profile" className="glass !w-12 !h-12" aria-label={t('editProfile')}><Pencil size={20} /></Link>
         </div>
-        <Link to="/child/profile" className="icon-btn" aria-label={t('editProfile')}><Pencil /></Link>
+        <div className="relative z-[1] grid grid-cols-3 gap-2 mt-5">
+          {[[stats?.meds ?? 0, t('statMeds')], [stats?.sz ?? 0, t('statSeizures')], [stats?.docs ?? 0, t('statDocs')]].map(([n, l]) => (
+            <div key={String(l)} className="rounded-2xl bg-white/15 px-3 py-2.5"><p className="text-2xl font-extrabold leading-none">{n}</p><p className="text-[0.72rem] font-semibold opacity-90 mt-1 line-clamp-1">{l}</p></div>
+          ))}
+        </div>
       </section>
-      <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        {TILES.map(({ to, k, I, c }) => (
-          <li key={to}><Link to={to} className="card p-4 flex flex-col gap-3 min-h-[112px] hover:bg-surface2">
-            <span className="w-11 h-11 rounded-2xl flex items-center justify-center text-white" style={{ background: c }}><I size={22} aria-hidden /></span>
-            <span className="font-extrabold leading-tight">{t(k)}</span>
+      <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
+        {TILES.map(({ to, k, s, I, g }) => (
+          <li key={to}><Link to={to} className={cx('tile min-h-[138px] flex flex-col justify-between h-full', g)}>
+            <span className="glass relative z-[1]"><I size={21} aria-hidden /></span>
+            <span className="relative z-[1]"><span className="block font-extrabold leading-tight">{t(k)}</span><span className="block text-[0.75rem] opacity-90 line-clamp-2 mt-0.5">{t(s)}</span></span>
           </Link></li>
         ))}
       </ul>
+      <Link to="/notebook/my-child" className="card p-4 flex items-center gap-4">
+        <span className="w-12 h-12 rounded-2xl bg-[var(--pit)] text-[var(--pi)] flex items-center justify-center shrink-0"><Baby aria-hidden /></span>
+        <span className="flex-1"><b className="block">{t('myChildPage')}</b><span className="text-sm text-muted">{t('myChildPageSub')}</span></span>
+        <ChevronRight className="text-muted" aria-hidden />
+      </Link>
     </Page>
   );
 }

@@ -27,7 +27,7 @@ const H = ({ children }: { children: React.ReactNode }) => <h3 style={{ fontSize
 export function SummaryDoc({ d, lang }: { d: SummaryData; lang: Lang }) {
   const T = (k: Parameters<typeof tr>[1], v?: Record<string, string | number>) => tr(lang, k, v);
   const f1 = sheetById('my-child')!.fields!; const f6 = sheetById('emergency')!.fields!;
-  const lab = (fs: typeof f1, id: string) => fs.find((f) => f.id === id)!.label[lang];
+  const lab = (fs: typeof f1, id: string) => { const l = fs.find((f) => f.id === id)!.label; return l[lang] ?? l.en; };
   const now = Date.now();
   const stat = (days: number) => {
     const s = d.seizures.filter((x) => x.start > now - days * 86400_000);

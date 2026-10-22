@@ -1,5 +1,5 @@
 import { useT } from '../i18n';
-import { useUI, FONT_STEPS, type Theme } from '../lib/store';
+import { useUI, FONT_STEPS, LANGS, type Theme } from '../lib/store';
 import { meta } from '../lib/content';
 import { Seg } from './ui';
 
@@ -11,7 +11,7 @@ export function DisplaySettings() {
   return (
     <div className="grid gap-5">
       <div><p className="label">{meta.reader.language[lang]}</p>
-        <Seg label={meta.reader.language[lang]} value={lang} onChange={setLang} options={[{ v: 'en', l: 'English' }, { v: 'ml', l: <span lang="ml">മലയാളം</span> }]} /></div>
+        <Seg label={meta.reader.language[lang]} value={lang} onChange={setLang} options={LANGS.map((x) => ({ v: x.v, l: <span lang={x.v}>{x.native}</span> }))} /></div>
       <div><p className="label">{meta.reader.fontSize[lang]}</p>
         <div role="radiogroup" aria-label={meta.reader.fontSize[lang]} className="flex gap-2">
           {FONT_STEPS.map((f) => (

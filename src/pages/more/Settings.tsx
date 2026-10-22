@@ -27,11 +27,11 @@ function PinSettings() {
   const submit = async () => {
     if (pin && !(await verifyPin(old, pin))) return setErr(t('wrongPin'));
     if (mode === 'off') { await setSetting('pin', null); toast(t('pinRemoved')); return close(); }
-    if (a.length < 4) return setErr(t('pinShort'));
+    if (a.length !== 4) return setErr(t('pinShort'));
     if (a !== b) return setErr(t('pinMismatch'));
     await setSetting('pin', await hashPin(a)); toast(t('pinSaved')); close();
   };
-  const inp = (id: string, v: string, s: (x: string) => void, l: string) => <div><label className="label" htmlFor={id}>{l}</label><input id={id} className="input" type="password" inputMode="numeric" maxLength={8} value={v} onChange={(e) => s(e.target.value.replace(/\D/g, ''))} /></div>;
+  const inp = (id: string, v: string, s: (x: string) => void, l: string) => <div><label className="label" htmlFor={id}>{l}</label><input id={id} className="input" type="password" inputMode="numeric" maxLength={4} value={v} onChange={(e) => s(e.target.value.replace(/\D/g, ''))} /></div>;
   return (
     <div className="card p-4">
       <p className="mb-3">{pin ? t('pinIsOn') : t('pinIsOff')}</p>

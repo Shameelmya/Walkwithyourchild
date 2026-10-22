@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { HelpCircle, PenLine, Phone, Plus, Check, Info, HeartPulse } from 'lucide-react';
 import { db, FAMILY, getSheet, saveSheet } from '../lib/db';
-import { meta, type Block, callTel } from '../lib/content';
+import { meta, loc, type Block, type L10n, callTel } from '../lib/content';
 import { useT } from '../i18n';
 import { useToast } from './ui';
 import { useUI } from '../lib/store';
@@ -47,7 +47,7 @@ export const BlockView = memo(function BlockView({ b, chapter, index }: { b: Blo
   if (b.t === 'h') return <h3 dangerouslySetInnerHTML={{ __html: b.html }} />;
   if (b.t === 'html') return <Html html={b.html} />;
   if (b.t === 'check') return <Checklist items={b.items} chapter={chapter} index={index} />;
-  const label = (meta.calloutLabels as Record<string, { en: string; ml: string }>)[b.kind]?.[lang] ?? '';
+  const label = loc((meta.calloutLabels as Record<string, L10n>)[b.kind], lang);
   switch (b.kind) {
     case 'ask':
       return (

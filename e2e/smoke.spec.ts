@@ -16,14 +16,14 @@ test.afterAll(async () => { await ctx.close(); });
 test('1. onboarding completes', async () => {
   await page.goto('/');
   await expect(page).toHaveURL(/onboarding/);
-  await page.getByRole('button', { name: 'English' }).click();
+  await page.getByRole('button', { name: /English/ }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'I understand' }).click();
   await page.getByLabel("Child's name *").fill('Ammu');
   await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Skip for now' }).click();
   await page.getByRole('button', { name: 'Start' }).click();
-  await expect(page.getByRole('heading', { name: 'Ammu', level: 1 })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
 });
 
 test('2. switching EN to ML keeps the chapter and position', async () => {
@@ -31,15 +31,16 @@ test('2. switching EN to ML keeps the chapter and position', async () => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Caring for your child');
   await page.waitForTimeout(800);
   const before = await page.evaluate(() => document.querySelector('[data-b="20"]')!.getBoundingClientRect().top);
-  expect(Math.abs(before - 130)).toBeLessThan(60);
-  await page.getByRole('button', { name: 'Switch language' }).click();
+  expect(Math.abs(before - 90)).toBeLessThan(60);
+  await page.getByRole('button', { name: 'Reading settings' }).click();
+  await page.getByRole('radio', { name: 'മലയാളം' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'ml');
   await expect(page).toHaveURL(/\/book\/c5/);
   await expect(page.getByRole('heading', { level: 1 })).not.toContainText('Caring for your child');
   await page.waitForTimeout(600);
   const after = await page.evaluate(() => document.querySelector('[data-b="20"]')!.getBoundingClientRect().top);
-  expect(Math.abs(after - 130)).toBeLessThan(60);
-  await page.getByRole('button', { name: 'ഭാഷ മാറ്റുക' }).click();
+  expect(Math.abs(after - 90)).toBeLessThan(60);
+  await page.getByRole('radio', { name: 'English' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 
@@ -80,7 +81,7 @@ test('6. the app loads offline', async () => {
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
   await ctx.setOffline(true);
   await page.reload();
-  await expect(page.getByRole('heading', { name: 'Ammu', level: 1 })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/book/c10');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Your body');
   await ctx.setOffline(false);

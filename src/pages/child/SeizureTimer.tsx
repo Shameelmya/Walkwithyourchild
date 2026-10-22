@@ -10,6 +10,7 @@ import { BlockView } from '../../components/Blocks';
 import { alarm } from '../../lib/audio';
 import { startRecording, type Rec } from '../../lib/media';
 import { fmtDur } from '../../lib/util';
+import { LangButton } from '../../components/LangButton';
 
 export default function SeizureTimer() {
   const { t, lang } = useT();
@@ -63,8 +64,8 @@ export default function SeizureTimer() {
   return (
     <main id="main" className={`min-h-screen flex flex-col ${over ? 'bg-[var(--urt)]' : 'bg-bg'}`}>
       <div className="flex items-center justify-between px-3 pt-3">
-        <button className="icon-btn" onClick={() => nav(-1)} aria-label={t('cancel')}><X /></button>
-        <a href="tel:108" className="btn-danger px-4"><Phone size={18} aria-hidden /> {t('call108')}</a>
+        <button className="icon-chip" onClick={() => nav(-1)} aria-label={t('cancel')}><X /></button>
+        <div className="flex gap-2"><LangButton /><a href="tel:108" className="btn-danger px-4"><Phone size={18} aria-hidden /> {t('call108')}</a></div>
       </div>
       <section className="text-center px-4 pt-2" aria-live="off">
         <p className="font-bold text-muted">{t('seizureTimer')}</p>
