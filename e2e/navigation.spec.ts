@@ -61,6 +61,12 @@ test('settings: check for updates and set a PIN', async ({ page }) => {
   await page.getByLabel('Type the PIN again').fill('2468');
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('The app asks for your PIN when it opens.')).toBeVisible({ timeout: 15000 });
+  // A quick refresh stays open; opening again after a while asks for the PIN.
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Check for updates' })).toBeVisible();
+  await page.goto('about:blank'); await page.waitForTimeout(5500);
+  await page.goto('/');
+  await expect(page.getByText('Enter your PIN')).toBeVisible();
 });
 
 test('header: dark mode and text size in one tap', async ({ page }) => {

@@ -78,3 +78,32 @@ test('a phone without a Malayalam voice speaks English instead and says how to a
   await expect(page.getByLabel('English', { exact: true })).toBeVisible();
   await expect(page.getByText(/ഈ ഫോണിൽ മലയാളം ശബ്ദം/).first()).toBeVisible();
 });
+
+test('a phone that refuses a named voice still speaks with a simpler request', async ({ page }) => {
+  await page.addInitScript(() => {
+    const said: string[] = [];
+    (window as unknown as { __said: typeof said }).__said = said;
+    let n = 0;
+    const fake = { speaking: false, pending: false, paused: false, getVoices: () => [], cancel() {}, resume() {}, addEventListener() {}, removeEventListener() {},
+      speak(u: SpeechSynthesisUtterance) {
+        n++;
+        // The first request fails like some Android phones do; the retry speaks.
+        if (n === 1) setTimeout(() => u.onerror?.({ error: 'synthesis-failed' } as SpeechSynthesisErrorEvent), 10);
+        else { said.push(u.text); setTimeout(() => u.onstart?.(new Event('start') as SpeechSynthesisEvent), 10); }
+      } };
+    Object.defineProperty(window, 'speechSynthesis', { value: fake, configurable: true });
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: /English/ }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByLabel("Child's name *").fill('Ammu');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
+  await page.goto('/talk');
+  await page.getByRole('button', { name: 'Water', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __said: string[] }).__said)).toEqual(['I want some water.']);
+  await expect(page.getByText(/did not speak/)).toHaveCount(0);
+});
