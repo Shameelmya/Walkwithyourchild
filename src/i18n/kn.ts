@@ -160,4 +160,6 @@ export const kn: Record<keyof typeof en, string> = {
   voiceFailed: "ಫೋನ್ ಮಾತಾಡಲಿಲ್ಲ ({why}).",
   useChrome: "ಈ ಆ್ಯಪ್ Samsung Internet ನಲ್ಲಿ ತೆರೆದಿದೆ, ಅದರಲ್ಲಿ ಧ್ವನಿ ಬರುವುದಿಲ್ಲ. ಆ್ಯಪ್ ಲಿಂಕ್ ಅನ್ನು Google Chrome ನಲ್ಲಿ ತೆರೆದು ಅಲ್ಲಿಂದ ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಸೇರಿಸಿ.",
   voiceCheckVolume: "ಮೀಡಿಯಾ ವಾಲ್ಯೂಮ್ ಹೆಚ್ಚಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ. ಮೊದಲ ಬಾರಿ ಕೆಲವು ಸೆಕೆಂಡ್ ಬೇಕಾಗಬಹುದು.",
+  darkMode: "ಡಾರ್ಕ್ ಮೋಡ್",
+  textSize: "ಅಕ್ಷರ ಗಾತ್ರ",
 };

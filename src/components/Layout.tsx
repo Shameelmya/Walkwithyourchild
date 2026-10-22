@@ -5,6 +5,7 @@ import { useT, type TKey } from '../i18n';
 import { cx } from '../lib/util';
 import { ChildSwitcher } from './ChildSwitcher';
 import { LangButton } from './LangButton';
+import { ThemeButton, TextSizeButton } from './HeaderTools';
 import { meta } from '../lib/content';
 import { PathMotif } from './Path';
 import { usePresence } from '../lib/hooks';
@@ -81,9 +82,11 @@ export function Layout({ children }: { children: ReactNode }) {
       <div className="flex-1 min-w-0">
         {!reader && (
           <header className="sticky top-0 z-30 bg-bg/85 backdrop-blur-md">
-            <div className="mx-auto max-w-6xl px-4 h-[68px] flex items-center gap-2">
-              <button className="icon-chip lg:hidden" onClick={() => setDrawer(true)} aria-label={t('openMenu')}><Menu size={21} /></button>
+            <div className="mx-auto max-w-6xl px-3 sm:px-4 h-[68px] flex items-center gap-1.5">
+              <button className="icon-chip lg:hidden !w-[44px] !h-[44px] shrink-0" onClick={() => setDrawer(true)} aria-label={t('openMenu')}><Menu size={21} /></button>
               <div className="flex-1 min-w-0"><ChildSwitcher /></div>
+              <TextSizeButton />
+              <ThemeButton />
               <LangButton />
             </div>
           </header>

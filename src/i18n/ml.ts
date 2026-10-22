@@ -203,4 +203,6 @@ export const ml: Record<keyof typeof en, string> = {
   voiceFailed: "ഫോൺ സംസാരിച്ചില്ല ({why}).",
   useChrome: "ഈ ആപ്പ് Samsung Internet-ലാണ് തുറന്നിരിക്കുന്നത്, അതിൽ ശബ്ദം വരില്ല. ആപ്പ് ലിങ്ക് Google Chrome-ൽ തുറന്ന് അവിടെ നിന്ന് ഹോം സ്ക്രീനിലേക്ക് ചേർക്കൂ.",
   voiceCheckVolume: "മീഡിയ ശബ്ദം കൂട്ടി വീണ്ടും ശ്രമിക്കൂ. ആദ്യ തവണ കുറച്ച് സെക്കൻഡ് എടുക്കാം.",
+  darkMode: "ഇരുണ്ട മോഡ്",
+  textSize: "അക്ഷര വലുപ്പം",
 };

@@ -223,4 +223,6 @@ export const en = {
   voiceFailed: "The phone did not speak ({why}).",
   useChrome: "This app is open in Samsung Internet, which does not speak aloud. Open the app link in Google Chrome and add it to the home screen from there.",
   voiceCheckVolume: "Turn up the media volume and try again. The first time can take a few seconds.",
+  darkMode: "Dark mode",
+  textSize: "Text size",
 };

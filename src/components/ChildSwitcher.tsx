@@ -15,9 +15,9 @@ export function ChildSwitcher() {
   const nav = useNavigate();
   return (
     <>
-      <button className="flex items-center gap-2.5 min-h-[48px] rounded-2xl pr-2 pl-1 hover:bg-surface2 min-w-0 max-w-full" onClick={() => setOpen(true)} aria-label={t('switchChild')}>
-        <Avatar blobId={child?.photoBlobId} name={child?.name} size={42} />
-        <span className="min-w-0 text-left leading-tight"><span className="block text-[0.7rem] font-bold text-muted">{t('caringFor')}</span><span className="block font-extrabold truncate">{child?.name ?? ''}</span></span>
+      <button className="flex items-center gap-2 min-h-[48px] rounded-2xl pr-1 pl-0.5 hover:bg-surface2 min-w-0 max-w-full" onClick={() => setOpen(true)} aria-label={t('switchChild')}>
+        <Avatar blobId={child?.photoBlobId} name={child?.name} size={40} />
+        <span className="min-w-0 text-left leading-tight"><span className="block text-[11px] font-bold text-muted truncate">{t('caringFor')}</span><span className="block text-[16px] font-extrabold truncate">{child?.name ?? ''}</span></span>
         <ChevronDown size={16} aria-hidden className="shrink-0 text-muted" />
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title={t('switchChild')}>
