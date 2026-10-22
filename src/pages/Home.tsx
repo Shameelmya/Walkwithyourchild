@@ -56,7 +56,7 @@ export default function Home() {
         </Link>
       )}
 
-      <div className="grid lg:grid-cols-[1.35fr_1fr] gap-4 mb-7">
+      <div className="mb-7">
         <Link to={`/book/${chId}`} style={{ ['--pc' as string]: pc.c, ['--pt' as string]: pc.t }} className="tile t-blue !rounded-3xl !p-5 sm:!p-6 flex gap-4 min-h-[190px] transition duration-300 active:scale-[0.98] hover:-translate-y-0.5">
           <div className="flex-1 min-w-0 flex flex-col relative z-[1]">
             <p className="text-[0.78rem] font-bold text-white/85">{loc(meta.reader.continue, lang)}{part ? ` · ${meta.partLabel[lang]} ${part.n}` : ''}</p>
@@ -75,10 +75,6 @@ export default function Home() {
             </div>
           </div>
         </Link>
-        <section className="card p-5 flex flex-col">
-          <div className="flex items-center justify-between gap-2"><h2 className="font-extrabold text-lg">{t('journey')}</h2><span className="chip chip-on !min-h-[30px] !px-3 text-xs">{Math.round(pct * 100)}%</span></div>
-          <Link to="/book" aria-label={t('openContents')} className="block mt-auto"><PathMotif filled={pct} active={ch.part} height={92} labels={toc.parts.map((p) => loc(p.title, lang))} /></Link>
-        </section>
       </div>
 
       <section className="mb-7">
