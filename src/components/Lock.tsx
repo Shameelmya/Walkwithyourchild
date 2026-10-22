@@ -22,7 +22,7 @@ export function useAutoLock(enabled: boolean, lock: () => void) {
 }
 
 /** Phone-style PIN keypad with dots. Works with the on-screen keys or a keyboard. */
-export function Keypad({ onSubmit, error, busy, title, sub, length = 4 }: { onSubmit: (pin: string) => void; error?: string; busy?: boolean; title: string; sub?: string; length?: number }) {
+export function Keypad({ onSubmit, error, busy, title, sub, length = 4, fill = false }: { onSubmit: (pin: string) => void; error?: string; busy?: boolean; title: string; sub?: string; length?: number; fill?: boolean }) {
   const { t } = useT();
   const [pin, setPin] = useState('');
   const [shake, setShake] = useState(0);
@@ -40,7 +40,9 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4 }: { onSu
     addEventListener('keydown', k); return () => removeEventListener('keydown', k);
   });
   return (
-    <div className="w-full max-w-[320px] mx-auto text-center">
+    <div className={cx('w-full max-w-[340px] mx-auto text-center', fill && 'flex-1 flex flex-col')}>
+      {/* With fill, the title sits in the free space and the keys rest in the thumb zone at the bottom. */}
+      <div className={cx(fill && 'flex-1 flex flex-col items-center justify-center')}>
       <span className="w-14 h-14 rounded-2xl t-blue text-white inline-flex items-center justify-center shadow-lift mb-4"><Lock size={24} aria-hidden /></span>
       <h1 className="text-2xl font-extrabold">{title}</h1>
       {sub && <p className="text-muted mt-1">{sub}</p>}
@@ -48,6 +50,7 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4 }: { onSu
         {Array.from({ length }, (_, i) => <span key={i} className={cx('w-4 h-4 rounded-full transition', i < pin.length ? 'bg-[rgb(var(--accent))] scale-110' : 'bg-line')} />)}
       </div>
       <p role="alert" className="text-danger font-bold min-h-[1.6em] -mt-3 mb-2">{busy ? <span className="inline-flex items-center gap-2 text-muted font-semibold"><span className="w-4 h-4 rounded-full border-2 border-line border-t-[rgb(var(--accent))] animate-spin" aria-hidden /> {t('checking')}</span> : error ?? ''}</p>
+      </div>
       <div className="grid grid-cols-3 gap-3">
         {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => <button key={d} type="button" onClick={() => press(d)} className="h-16 rounded-3xl bg-surface shadow-card border border-line/50 text-2xl font-bold active:scale-95 transition hover:bg-surface2">{d}</button>)}
         <span />
@@ -64,15 +67,15 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
   const [err, setErr] = useState<string>();
   const [busy, setBusy] = useState(false);
   return (
-    <main id="main" className="min-h-screen flex flex-col items-center px-6 py-6 gap-6">
+    <main id="main" className="min-h-[100dvh] flex flex-col items-center px-6 pt-6 pb-[max(1.25rem,env(safe-area-inset-bottom))] gap-4">
       <div className="w-full max-w-md flex items-center justify-between"><p className="font-display font-bold text-lg">{meta.appTitle[lang]}</p><LangButton /></div>
       <div className="w-full max-w-xs"><PathMotif height={44} filled={1} /></div>
-      <Keypad title={t('enterPin')} sub={t('welcomeBack')} error={err} busy={busy} onSubmit={async (p) => {
+      <Keypad fill title={t('enterPin')} sub={t('welcomeBack')} error={err} busy={busy} onSubmit={async (p) => {
         setBusy(true); setErr(undefined); const h = await getSetting<PinHash | null>('pin', null);
         if (h && (await verifyPin(p, h))) onUnlock(); else setErr(t('wrongPin'));
         setBusy(false);
       }} />
-      <a className="btn-danger" href="tel:108"><Phone size={18} aria-hidden /> {t('call108')}</a>
+      <a className="btn-danger w-full max-w-[340px] !min-h-[56px]" href="tel:108"><Phone size={18} aria-hidden /> {t('call108')}</a>
     </main>
   );
 }
