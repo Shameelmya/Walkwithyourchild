@@ -80,3 +80,21 @@ test('header: dark mode and text size in one tap', async ({ page }) => {
   await page.getByRole('radio', { name: '130%' }).click();
   await expect.poll(() => page.evaluate(() => document.documentElement.style.fontSize)).toBe('20.8px');
 });
+
+test('Home continue card shows the chapter being read and opens at that place', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.getByRole('link', { name: /Read now|Continue reading/ }).first().click();
+  await page.mouse.wheel(0, 30000); await page.waitForTimeout(800);
+  await page.getByRole('button', { name: /Next chapter/ }).click(); await page.waitForTimeout(1000);
+  await page.mouse.wheel(0, 800); await page.waitForTimeout(1500);
+  await page.goBack(); // next chapter replaced the page, so back leaves the book
+  await page.goto('/book/c0'); await page.waitForTimeout(500); // just passing through
+  await page.goto('/');
+  const card = page.locator('a[href^="/book/c"]').first();
+  await expect(card).toContainText('The search for a name');
+  await card.click();
+  await expect(page).toHaveURL(/\/book\/c1/);
+  await page.waitForTimeout(1200);
+  expect(await page.evaluate(() => scrollY)).toBeGreaterThan(200);
+});

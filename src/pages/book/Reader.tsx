@@ -149,9 +149,11 @@ export default function Reader() {
       if (best !== cur.current) { cur.current = best; clearTimeout(h); h = window.setTimeout(() => void savePosition(chapter, best), 500); }
     };
     addEventListener('scroll', onScroll, { passive: true });
-    void savePosition(chapter, cur.current);
-    // Keep the exact spot even when leaving the chapter right after scrolling.
-    return () => { removeEventListener('scroll', onScroll); clearTimeout(h); if (inSync.current) void savePosition(chapter, cur.current); };
+    // A chapter only becomes "where I am reading" once it is actually read: scrolled, or open for a few seconds.
+    // Just passing through (e.g. going back) does not move the place on the Home card.
+    const start = cur.current;
+    const dwell = window.setTimeout(() => void savePosition(chapter, cur.current), 4000);
+    return () => { removeEventListener('scroll', onScroll); clearTimeout(h); clearTimeout(dwell); if (inSync.current && cur.current !== start) void savePosition(chapter, cur.current); };
   }, [ch, chapter, ready]);
 
   useEffect(() => () => { stopSpeaking(); setSpeaking(false); }, [chapter, lang]);
@@ -206,8 +208,8 @@ export default function Reader() {
                 </div>
               ))}
               <nav className="grid sm:grid-cols-2 gap-3 mt-14 font-ui" aria-label={t('chapterNav')}>
-                {prev ? <button className="card p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`)}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
-                {next ? <button className="tile t-blue !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`)}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
+                {prev ? <button className="card p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`, { replace: true })}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
+                {next ? <button className="tile t-blue !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`, { replace: true })}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
               </nav>
             </article>
           )}
