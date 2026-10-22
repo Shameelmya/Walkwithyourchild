@@ -197,4 +197,6 @@ export const en = {
   stopAndSave: "Stop timer and save",
   seizureHistory: "Seizure history",
   appVersion: "Version {v}",
+  stoppedSaved: "Stopped and saved",
+  saving: "Saving…",
 };

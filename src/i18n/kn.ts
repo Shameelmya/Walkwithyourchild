@@ -134,4 +134,6 @@ export const kn: Record<keyof typeof en, string> = {
   stopAndSave: "ಟೈಮರ್ ನಿಲ್ಲಿಸಿ ಉಳಿಸಿ",
   seizureHistory: "ಮೂರ್ಛೆ ಇತಿಹಾಸ",
   appVersion: "ಆವೃತ್ತಿ {v}",
+  stoppedSaved: "ನಿಲ್ಲಿಸಿ ಉಳಿಸಲಾಗಿದೆ",
+  saving: "ಉಳಿಸಲಾಗುತ್ತಿದೆ…",
 };

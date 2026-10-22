@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, Video, Square, X, History, ChevronRight } from 'lucide-react';
+import { Phone, Video, Square, X, History, ChevronRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useT } from '../../i18n';
@@ -30,14 +30,16 @@ export default function SeizureTimer() {
   const [aid, setAid] = useState<Block[]>([]);
   const preview = useRef<HTMLVideoElement>(null);
   const recRef = useRef<Rec | null>(null);
-  useWakeLock(true);
+  const [stoppedAt, setStoppedAt] = useState<number | null>(null);
+  const [savedId, setSavedId] = useState<number>();
+  useWakeLock(!stoppedAt);
 
   useEffect(() => { const h = setInterval(() => setNow(Date.now()), 250); return () => clearInterval(h); }, []);
   useEffect(() => { (async () => setRescueMin(child?.rescueMinutes ?? (await getSetting('defaultRescue', 5))))(); }, [child]);
   useEffect(() => { const a = toc.anchors.firstAid; loadBook(lang).then((b) => setAid(b.chapters.find((c) => c.id === a.c)?.blocks.slice(a.from, a.to + 1) ?? [])); }, [lang]);
-  const sec = (now - start) / 1000;
+  const sec = ((stoppedAt ?? now) - start) / 1000;
   useEffect(() => {
-    if (!alerted && sec >= rescueMin * 60) {
+    if (!alerted && !stoppedAt && sec >= rescueMin * 60) {
       setAlerted(true); setShowAlert(true);
       try { navigator.vibrate?.([600, 300, 600, 300, 600, 300, 1200]); } catch { /* */ }
       try { alarm(); } catch { /* */ }
@@ -53,14 +55,19 @@ export default function SeizureTimer() {
       if (preview.current) { preview.current.srcObject = r.stream; void preview.current.play(); }
     } catch { setRecErr(t('cameraNotAvailable')); }
   };
-  const stopVideo = async () => { const r = recRef.current; if (!r) return; recRef.current = null; setRec(null); const b = await r.stop(); const id = await putBlob(b, childId, 'seizure-video'); setVideoId(id); return id; };
+  const stopVideo = async () => { const r = recRef.current; if (!r) return; recRef.current = null; setRec(null); // Some phones never finish closing the camera; don't let that block saving.
+    const b = await Promise.race([r.stop(), new Promise<Blob | null>((res) => setTimeout(() => res(null), 2500))]); if (!b) return undefined; const id = await putBlob(b, childId, 'seizure-video'); setVideoId(id); return id; };
 
   const stopped = async () => {
+    if (stoppedAt) return;
+    // Freeze the clock the moment Stop is tapped, then save.
     const end = Date.now();
+    setStoppedAt(end); setShowAlert(false);
+    try { navigator.vibrate?.(60); } catch { /* */ }
     let vid = videoId;
     if (recRef.current) vid = await stopVideo();
     const id = await db.seizures.add({ childId, start, end, durationSec: Math.round((end - start) / 1000), videoBlobId: vid, rescue: '' });
-    nav(`/seizures?saved=${id}`, { replace: true });
+    setSavedId(id);
   };
   const over = sec >= rescueMin * 60;
   const recent = useLiveQuery(() => db.seizures.where('childId').equals(childId).reverse().sortBy('start').then((l) => l.slice(0, 5)), [childId]) ?? [];
@@ -79,11 +86,13 @@ export default function SeizureTimer() {
         <div className="relative my-3" style={{ width: 260, height: 260 }}>
           <svg viewBox="0 0 260 260" className="absolute inset-0 -rotate-90" aria-hidden>
             <circle cx="130" cy="130" r={R} fill="none" stroke="rgb(var(--border))" strokeWidth="14" />
-            <circle cx="130" cy="130" r={R} fill="none" stroke={over ? 'rgb(var(--danger))' : 'rgb(var(--accent))'} strokeWidth="14" strokeLinecap="round" strokeDasharray={`${frac * C} ${C}`} style={{ transition: 'stroke-dasharray 0.25s linear' }} />
+            <circle cx="130" cy="130" r={R} fill="none" stroke={stoppedAt ? 'var(--p2)' : over ? 'rgb(var(--danger))' : 'rgb(var(--accent))'} strokeWidth="14" strokeLinecap="round" strokeDasharray={`${frac * C} ${C}`} style={{ transition: 'stroke-dasharray 0.25s linear' }} />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <p className="font-extrabold tabular-nums leading-none text-[4.2rem]" role="timer" aria-label={t('elapsed')}>{fmtDur(sec)}</p>
-            <p className="text-sm text-muted mt-2">{t('rescueAt', { m: rescueMin })}</p>
+            {stoppedAt
+              ? <p className="text-sm font-bold mt-2 text-[var(--p2)] flex items-center gap-1.5" role="status"><Check size={16} aria-hidden /> {savedId ? t('stoppedSaved') : t('saving')}</p>
+              : <p className="text-sm text-muted mt-2">{t('rescueAt', { m: rescueMin })}</p>}
           </div>
         </div>
       </section>
@@ -92,7 +101,7 @@ export default function SeizureTimer() {
           <p className="text-lg font-extrabold">1. {t('aidSide')}</p>
           <p className="text-lg font-extrabold mt-1">2. {t('aidMouth')}</p>
         </div>
-        {rec ? (
+        {stoppedAt ? null : rec ? (
           <div className="rounded-3xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" />
             <button className="btn-danger absolute bottom-2 left-1/2 -translate-x-1/2" onClick={stopVideo}><Square size={18} aria-hidden /> {t('stopVideo')}</button></div>
         ) : videoId ? <p className="text-center font-bold text-[var(--p2)]">{t('videoSaved')}</p> : (
@@ -113,7 +122,14 @@ export default function SeizureTimer() {
         </section>
       </div>
       <BottomBar bare>
-        <button className="btn-danger w-full !min-h-[76px] !rounded-3xl text-xl" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopAndSave')}</button>
+        {!stoppedAt ? (
+          <button className="btn-danger w-full !min-h-[76px] !rounded-3xl text-xl" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopAndSave')}</button>
+        ) : (
+          <div className="w-full grid grid-cols-2 gap-2.5 anim-sheet">
+            <button className="btn-outline !min-h-[60px]" onClick={() => nav(-1)}>{t('done')}</button>
+            <button className="btn-primary !min-h-[60px]" disabled={!savedId} onClick={() => nav(`/seizures?saved=${savedId}`, { replace: true })}>{t('addDetailsLater')}</button>
+          </div>
+        )}
       </BottomBar>
       {showAlert && (
         <div role="alertdialog" aria-modal="true" aria-labelledby="rescue-title" className="fixed inset-0 z-50 bg-danger text-ondanger flex flex-col items-center justify-center p-6 gap-5 text-center">
