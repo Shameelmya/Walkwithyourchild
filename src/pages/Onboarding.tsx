@@ -6,9 +6,9 @@ import { LANGS, useUI } from '../lib/store';
 import { meta } from '../lib/content';
 import { db, putBlob, setSetting } from '../lib/db';
 import { hashPin } from '../lib/crypto';
-import { compressImage } from '../lib/media';
 import { FileButton } from '../components/ui';
 import { Keypad } from '../components/Lock';
+import { PhotoCrop } from '../components/PhotoCrop';
 import { LangButton } from '../components/LangButton';
 import { useInstall } from '../components/Install';
 import { cx } from '../lib/util';
@@ -22,6 +22,7 @@ export default function Onboarding() {
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [photo, setPhoto] = useState<Blob | null>(null);
+  const [crop, setCrop] = useState<Blob | null>(null);
   const [pin1, setPin1] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
@@ -80,8 +81,9 @@ export default function Onboarding() {
     </div>,
     <div key="child">
       <div className="pt-10"><Title>{t('aboutChild')}</Title></div>
+      {crop && <PhotoCrop file={crop} onCancel={() => setCrop(null)} onDone={(b) => { setCrop(null); setPhoto(b); }} />}
       <div className="flex justify-center my-10">
-        <FileButton className="relative w-28 h-28 rounded-full bg-surface border border-line/70 flex items-center justify-center overflow-hidden" accept="image/*" onFile={async (f) => setPhoto(await compressImage(f, 600))}>
+        <FileButton className="relative w-28 h-28 rounded-full bg-surface border border-line/70 flex items-center justify-center overflow-hidden" accept="image/*" onFile={(f) => setCrop(f)}>
           {photo ? <img src={URL.createObjectURL(photo)} alt="" className="w-full h-full object-cover" /> : <Camera size={28} className="text-muted" aria-label={t('photoOptional')} />}
         </FileButton>
       </div>

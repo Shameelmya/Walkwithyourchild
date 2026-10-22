@@ -98,3 +98,18 @@ test('Home continue card shows the chapter being read and opens at that place', 
   await page.waitForTimeout(1200);
   expect(await page.evaluate(() => scrollY)).toBeGreaterThan(200);
 });
+
+test('child photo can be zoomed, moved, turned and cropped before saving', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.goto('/child/profile');
+  await page.locator('input[type=file]').first().setInputFiles({ name: 'kid.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAFAAAAA8CAIAAAB+RarbAAAAY0lEQVR4nO3PAQ3AIADAMEAmSpCIrLv4k71VsM179viT9XXA2wzXGa4zXGe4znCd4TrDdYbrDNcZrjNcZ7jOcJ3hOsN1husM1xmuM1xnuM5wneE6w3WG6wzXGa4zXGe4znDdA+9nAhJXh013AAAAAElFTkSuQmCC', 'base64') });
+  const dlg = page.getByRole('dialog', { name: 'Adjust photo' });
+  await expect(dlg).toBeVisible();
+  await dlg.getByRole('button', { name: 'Zoom in' }).click();
+  await dlg.getByRole('button', { name: 'Turn' }).click();
+  await page.mouse.move(195, 400); await page.mouse.down(); await page.mouse.move(230, 420, { steps: 5 }); await page.mouse.up();
+  await dlg.getByRole('button', { name: 'Use photo' }).click();
+  await expect(dlg).toHaveCount(0);
+  await expect(page.locator('main img').first()).toBeVisible();
+});

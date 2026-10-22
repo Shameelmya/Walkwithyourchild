@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Camera } from 'lucide-react';
+import { PhotoCrop } from '../../components/PhotoCrop';
 import { useT } from '../../i18n';
 import { Avatar, FileButton, Page, PageHeader, useToast, BottomBar } from '../../components/ui';
 import { db, putBlob, getSetting } from '../../lib/db';
 import { useChild } from '../../lib/hooks';
 import { useUI } from '../../lib/store';
-import { compressImage } from '../../lib/media';
 import { useBack } from '../../lib/nav';
 
 export default function Profile() {
@@ -17,6 +17,7 @@ export default function Profile() {
   const back = useBack();
   const toast = useToast((s) => s.show);
   const setActive = useUI((s) => s.setActiveChild);
+  const [crop, setCrop] = useState<Blob | null>(null);
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [rescue, setRescue] = useState(5);
@@ -34,10 +35,11 @@ export default function Profile() {
   return (
     <Page>
       <PageHeader title={isNew ? t('addChild') : t('editProfile')} />
+      {crop && <PhotoCrop file={crop} onCancel={() => setCrop(null)} onDone={async (b) => { setCrop(null); setPhotoId(await putBlob(b, child?.id ?? 0, 'photo')); }} />}
       <div className="card p-4 grid gap-4">
         <div className="flex items-center gap-4">
           <Avatar blobId={photoId} name={name} size={72} />
-          <FileButton className="chip" accept="image/*" onFile={async (f) => setPhotoId(await putBlob(await compressImage(f, 600), child?.id ?? 0, 'photo'))}><Camera size={16} aria-hidden /> {t('changePhoto')}</FileButton>
+          <FileButton className="chip" accept="image/*" onFile={(f) => setCrop(f)}><Camera size={16} aria-hidden /> {t('changePhoto')}</FileButton>
         </div>
         <div><label className="label" htmlFor="p-name">{t('childName')} *</label><input id="p-name" className="input" value={name} onChange={(e) => setName(e.target.value)} /></div>
         <div><label className="label" htmlFor="p-dob">{t('dobOptional')}</label><input id="p-dob" type="date" className="input" value={dob} onChange={(e) => setDob(e.target.value)} /></div>
