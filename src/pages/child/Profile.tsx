@@ -1,0 +1,50 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Camera } from 'lucide-react';
+import { useT } from '../../i18n';
+import { Avatar, FileButton, Page, PageHeader, useToast } from '../../components/ui';
+import { db, putBlob, getSetting } from '../../lib/db';
+import { useChild } from '../../lib/hooks';
+import { useUI } from '../../lib/store';
+import { compressImage } from '../../lib/media';
+
+export default function Profile() {
+  const { t } = useT();
+  const [sp] = useSearchParams();
+  const isNew = sp.get('new') === '1';
+  const child = useChild();
+  const nav = useNavigate();
+  const toast = useToast((s) => s.show);
+  const setActive = useUI((s) => s.setActiveChild);
+  const [name, setName] = useState('');
+  const [dob, setDob] = useState('');
+  const [rescue, setRescue] = useState(5);
+  const [photoId, setPhotoId] = useState<number>();
+  useEffect(() => {
+    if (isNew) { getSetting('defaultRescue', 5).then(setRescue); return; }
+    if (child) { setName(child.name); setDob(child.dob ?? ''); setRescue(child.rescueMinutes ?? 5); setPhotoId(child.photoBlobId); }
+  }, [child, isNew]);
+  const save = async () => {
+    if (!name.trim()) return toast(t('nameNeeded'));
+    if (isNew) { const id = await db.children.add({ name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue, createdAt: Date.now() }); setActive(id); }
+    else if (child?.id) await db.children.update(child.id, { name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue });
+    toast(t('saved')); nav('/child');
+  };
+  return (
+    <Page>
+      <PageHeader title={isNew ? t('addChild') : t('editProfile')} />
+      <div className="card p-4 grid gap-4">
+        <div className="flex items-center gap-4">
+          <Avatar blobId={photoId} name={name} size={80} />
+          <FileButton accept="image/*" onFile={async (f) => setPhotoId(await putBlob(await compressImage(f, 600), child?.id ?? 0, 'photo'))}><Camera size={18} aria-hidden /> {t('changePhoto')}</FileButton>
+        </div>
+        <div><label className="label" htmlFor="p-name">{t('childName')} *</label><input id="p-name" className="input" value={name} onChange={(e) => setName(e.target.value)} /></div>
+        <div><label className="label" htmlFor="p-dob">{t('dobOptional')}</label><input id="p-dob" type="date" className="input" value={dob} onChange={(e) => setDob(e.target.value)} /></div>
+        <div><label className="label" htmlFor="p-rescue">{t('rescueTime')}</label>
+          <div className="flex items-center gap-3"><input id="p-rescue" type="number" min={1} max={30} className="input w-28" value={rescue} onChange={(e) => setRescue(Math.max(1, Math.min(30, +e.target.value || 5)))} /><span>{t('minutes')}</span></div>
+          <p className="text-sm text-muted mt-1">{t('rescueHint')}</p></div>
+        <button className="btn-primary" onClick={save}>{t('save')}</button>
+      </div>
+    </Page>
+  );
+}
