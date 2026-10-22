@@ -41,7 +41,7 @@ export const useUI = create<UI>()(
     (set) => ({
       lang: 'en',
       theme: initialTheme(),
-      fontScale: 1,
+      fontScale: FONT_STEPS[0],
       activeChildId: 0,
       brightness: 1,
       setBrightness: (brightness) => set({ brightness }),
@@ -62,9 +62,10 @@ export const useUI = create<UI>()(
     }),
     {
       name: 'wwyc-ui',
-      version: 1,
+      version: 2,
       // v1: the soft white theme became the default look; move earlier installs off the old default.
-      migrate: (state, from) => { const s = state as UI; if (from < 1 && s.theme === 'paper') s.theme = 'white'; return s; },
+      // v2: the smallest text size is the default; move earlier installs off the old default.
+      migrate: (state, from) => { const s = state as UI; if (from < 1 && s.theme === 'paper') s.theme = 'white'; if (from < 2 && s.fontScale === 1) s.fontScale = FONT_STEPS[0]; return s; },
     },
   ),
 );
