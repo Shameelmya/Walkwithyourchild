@@ -67,7 +67,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const reader = /^\/book\/(?!search|bookmarks)/.test(loc.pathname);
   return (
     <div className="min-h-screen lg:flex">
-      <aside className="hidden lg:flex lg:flex-col w-72 shrink-0 h-screen sticky top-0 bg-surface border-r border-line/60">
+      <aside className={cx('hidden w-72 shrink-0 h-screen sticky top-0 bg-surface border-r border-line/60', !reader && 'lg:flex lg:flex-col')}>
         <div className="px-5 pt-5 pb-3">
           <p className="font-display text-xl font-bold leading-tight">{meta.appTitle[lang]}</p>
           <PathMotif height={34} filled={1} />
@@ -101,7 +101,7 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <nav aria-label={t('mainNav')} className="lg:hidden fixed bottom-0 inset-x-0 z-40 px-3 pb-[max(10px,env(safe-area-inset-bottom))] pointer-events-none">
+      {!reader && <nav aria-label={t('mainNav')} className="lg:hidden fixed bottom-0 inset-x-0 z-40 px-3 pb-[max(10px,env(safe-area-inset-bottom))] pointer-events-none">
         <div className="relative mx-auto max-w-md bg-surface rounded-[28px] shadow-nav border border-line/60 h-[70px] grid grid-cols-5 items-center pointer-events-auto">
           {MAIN.slice(0, 2).map((it) => <Tab key={it.to} {...it} />)}
           <div className="flex justify-center">
@@ -111,7 +111,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
           {MAIN.slice(2).map((it) => <Tab key={it.to} {...it} />)}
         </div>
-      </nav>
+      </nav>}
     </div>
   );
 }

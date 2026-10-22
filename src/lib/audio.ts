@@ -113,3 +113,26 @@ export function drum(kind: Drum, vol = 0.6) {
 }
 export function pop(vol = 0.5) { hiss(vol, 0.07, 1800); tone(700 + Math.random() * 500, 0.25, vol * 0.6); }
 export function shaker(vol = 0.5) { hiss(vol * 0.7, 0.12, 6000, 'highpass'); }
+
+/** Read a list of paragraphs aloud. Everything is queued at once: chaining from onend breaks on Android Chrome.
+ *  Long paragraphs are split into sentences because some engines stop after ~15 seconds of one utterance. */
+export function speakQueue(texts: string[], lang: string, onDone: () => void) {
+  if (!('speechSynthesis' in window)) return false;
+  const ss = speechSynthesis;
+  const v = bestVoice(lang);
+  if (!v && lang !== 'en') return false;
+  ss.cancel(); ss.resume();
+  const parts = texts.flatMap((t) => t.match(/[^.!?।]+[.!?।]?\s*/g) ?? [t]).map((s) => s.trim()).filter(Boolean);
+  if (!parts.length) return false;
+  parts.forEach((p, i) => {
+    const u = new SpeechSynthesisUtterance(p);
+    if (v) u.voice = v;
+    u.lang = v?.lang ?? `${lang}-IN`; u.rate = 0.95;
+    live.push(u);
+    u.onend = () => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (i === parts.length - 1) onDone(); };
+    u.onerror = (e) => { const k = live.indexOf(u); if (k >= 0) live.splice(k, 1); if (e.error !== 'interrupted' && e.error !== 'canceled' && i === parts.length - 1) onDone(); };
+    ss.speak(u);
+  });
+  return true;
+}
+export function stopSpeaking() { if ('speechSynthesis' in window) speechSynthesis.cancel(); live.length = 0; }

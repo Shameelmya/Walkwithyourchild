@@ -51,6 +51,8 @@ function Gate() {
   const [locked, setLocked] = useState<boolean | null>(null);
   useEffect(() => { if (pin !== undefined && locked === null) setLocked(!!pin); }, [pin, locked]);
   useAutoLock(!!pin, () => setLocked(true));
+  // Every new page opens at the top (the reader restores its own reading position).
+  useEffect(() => { if (!loc.pathname.startsWith('/book/c') && !loc.pathname.startsWith('/book/appendix')) window.scrollTo(0, 0); }, [loc.pathname]);
   useEffect(() => {
     if (children && !activeChildId) db.children.toCollection().first().then((c) => c?.id && setActiveChild(c.id));
   }, [children, activeChildId, setActiveChild]);
