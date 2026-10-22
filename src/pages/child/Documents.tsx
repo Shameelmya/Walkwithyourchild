@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Camera, Upload, Share2, Trash2, FileText } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, FileButton, Modal, Confirm, useToast } from '../../components/ui';
+import { Page, PageHeader, Empty, FileButton, Modal, Confirm, useToast, BottomBar } from '../../components/ui';
 import { db, putBlob, type DocumentRec } from '../../lib/db';
 import { useBlobUrl, useChildId } from '../../lib/hooks';
 import { sheetById, loc } from '../../lib/content';
@@ -42,10 +42,6 @@ export default function Documents() {
       <div className="card p-4 mb-6 grid gap-3">
         <label className="label" htmlFor="doc-cat">{t('category')}</label>
         <select id="doc-cat" className="input" value={cat} onChange={(e) => setCat(+e.target.value)}>{groups.map((g) => <option key={g.i} value={g.i}>{g.title}</option>)}</select>
-        <div className="flex flex-wrap gap-2">
-          <FileButton className="btn-primary" accept="image/*" capture="environment" onFile={(f) => add(f, cat)}><Camera size={18} aria-hidden /> {t('takePhoto')}</FileButton>
-          <FileButton className="btn-outline" accept="image/*,application/pdf" multiple onFile={(f) => add(f, cat)}><Upload size={18} aria-hidden /> {t('uploadFile')}</FileButton>
-        </div>
       </div>
       {!docs.length ? <Empty kind="doc" title={t('noDocuments')} text={t('noDocumentsText')} /> : groups.filter((g) => docs.some((d) => d.category === g.i)).map((g) => (
         <section key={g.i} className="mb-6">
@@ -53,6 +49,10 @@ export default function Documents() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">{docs.filter((d) => d.category === g.i).map((d) => <DocTile key={d.id} d={d} onOpen={() => setView(d)} />)}</div>
         </section>
       ))}
+      <BottomBar>
+        <FileButton className="btn-primary flex-1" accept="image/*" capture="environment" onFile={(f) => add(f, cat)}><Camera size={18} aria-hidden /> {t('takePhoto')}</FileButton>
+        <FileButton className="btn-outline flex-1" accept="image/*,application/pdf" multiple onFile={(f) => add(f, cat)}><Upload size={18} aria-hidden /> {t('uploadFile')}</FileButton>
+      </BottomBar>
       <Modal open={!!view} onClose={() => setView(null)} title={view?.title} full>
         {view && (<>
           {view.type.startsWith('image/') ? <img src={url} alt={view.title} className="w-full rounded-xl" /> : <a className="btn-outline" href={url} target="_blank" rel="noreferrer"><FileText aria-hidden /> {t('openFile')}</a>}

@@ -8,7 +8,7 @@ import { useChild, useChildId, useWakeLockSafe } from '../lib/hooks';
 import { sheetById, loc, callTel, extractPhone } from '../lib/content';
 import { isActive } from '../lib/meds';
 import { ageFrom } from '../lib/util';
-import { Avatar } from '../components/ui';
+import { Avatar, BottomBar } from '../components/ui';
 import { LangButton } from '../components/LangButton';
 
 export default function SOS() {
@@ -37,18 +37,10 @@ export default function SOS() {
   const row = (label: string, v?: string) => v ? <div className="py-2 border-b border-line/60"><p className="text-sm font-bold text-muted">{label}</p><p className="text-xl font-bold whitespace-pre-wrap">{v}</p></div> : null;
   return (
     <main id="main" className="min-h-screen bg-bg">
-      <div className="t-rose text-white px-4 pt-4 pb-6 rounded-b-[32px] shadow-lift">
-        <div className="flex items-center justify-between"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><div className="flex gap-2"><LangButton light /><button className="glass !w-12 !h-12" onClick={() => nav(-1)} aria-label={t('close')}><X /></button></div></div>
-        <div className="grid gap-3 mt-3 max-w-xl mx-auto">
-          <a href="tel:108" className="btn bg-white text-danger text-2xl !min-h-[72px]"><Phone aria-hidden /> {t('call108')}</a>
-          {contact && <a href={callTel(contact)} className="btn bg-white/15 border-2 border-white text-white text-lg !min-h-[60px]"><Phone aria-hidden /> {t('callMainContact')}</a>}
-          <button onClick={share} className="btn bg-white/15 border-2 border-white text-white !min-h-[56px]"><MapPin aria-hidden /> {t('shareLocation')}</button>
-          {locErr && <p role="alert" className="font-bold">{locErr}</p>}
-          {loc0 && <a className="underline break-all text-sm" href={loc0}>{loc0}</a>}
-        </div>
+      <div className="t-rose text-white px-4 pt-4 pb-5 rounded-b-[32px] shadow-lift">
+        <div className="flex items-center justify-between gap-2"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><div className="flex gap-2"><LangButton light /><button className="glass !w-12 !h-12" onClick={() => nav(-1)} aria-label={t('close')}><X /></button></div></div>
       </div>
       <div className="max-w-xl mx-auto px-4 py-4">
-        <button className="btn-outline w-full mb-4" onClick={() => nav('/seizure')}><Activity aria-hidden /> {t('startSeizureTimer')}</button>
         <section className="card p-4" lang={lang}>
           <div className="flex items-center gap-3 mb-2"><Avatar blobId={child?.photoBlobId} name={child?.name} size={64} />
             <div><p className="text-3xl font-extrabold">{child?.name}</p>{age && <p className="text-lg text-muted">{t('ageYm', { y: age.y, m: age.m })}</p>}</div></div>
@@ -58,7 +50,20 @@ export default function SOS() {
           {sheet.fields!.map((f) => <div key={f.id}>{row(loc(f.label, lang), d?.card[f.id])}</div>)}
           {!d?.card.plan && <button className="btn-ghost mt-3" onClick={() => nav('/notebook/emergency')}><Pencil size={18} aria-hidden /> {t('fillEmergencyCard')}</button>}
         </section>
+        {locErr && <p role="alert" className="font-bold text-danger mt-3">{locErr}</p>}
+        {loc0 && <a className="underline break-all text-sm block mt-3" href={loc0}>{loc0}</a>}
       </div>
+      {/* Thumb zone: every emergency action sits at the bottom of the screen. */}
+      <BottomBar bare>
+        <div className="w-full grid gap-2.5">
+          <div className={contact ? 'grid grid-cols-2 gap-2.5' : 'grid gap-2.5'}>
+            <button onClick={share} className="btn-outline !min-h-[56px]"><MapPin size={20} aria-hidden /> {t('shareLocation')}</button>
+            {contact && <a href={callTel(contact)} className="btn-outline !min-h-[56px]"><Phone size={20} aria-hidden /> {t('callMainContact')}</a>}
+          </div>
+          <button className="btn-outline !min-h-[56px]" onClick={() => nav('/seizure')}><Activity size={20} aria-hidden /> {t('startSeizureTimer')}</button>
+          <a href="tel:108" className="btn-danger text-2xl !min-h-[76px] !rounded-3xl"><Phone aria-hidden /> {t('call108')}</a>
+        </div>
+      </BottomBar>
     </main>
   );
 }

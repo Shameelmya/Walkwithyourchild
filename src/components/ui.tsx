@@ -51,7 +51,7 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
   if (!mounted) return null;
   // Portal to <body>: a blurred parent (like the sticky header) would otherwise trap a fixed overlay inside it.
   return createPortal(
-    <div className={cx('fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/35 backdrop-blur-[2px]', closing ? 'anim-fade-out' : 'anim-fade')} onClick={onClose}>
+    <div className={cx('fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/30 backdrop-blur-md', closing ? 'anim-fade-out' : 'anim-fade')} onClick={onClose}>
       <div ref={ref} role="dialog" aria-modal="true" className={cx('bg-surface text-ink w-full shadow-2xl overflow-y-auto', closing ? 'anim-sheet-out' : 'anim-sheet', full ? 'h-full sm:h-auto sm:max-h-[92vh] sm:max-w-2xl sm:rounded-[28px]' : 'max-h-[92vh] sm:max-w-lg rounded-t-[28px] sm:rounded-[28px]')} onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-surface z-10 flex items-center gap-2 px-5 pt-3 pb-3">
           <span className="absolute left-1/2 -translate-x-1/2 top-2 w-10 h-1.5 rounded-full bg-line sm:hidden" aria-hidden />
@@ -76,11 +76,13 @@ export function Empty({ kind, title, text, action }: { kind?: Parameters<typeof 
   );
 }
 
-interface ToastS { msg: string | null; show: (m: string) => void }
-export const useToast = create<ToastS>((set) => ({ msg: null, show: (msg) => { set({ msg }); setTimeout(() => set({ msg: null }), 3200); } }));
+interface ToastS { msg: string | null; action?: { label: string; to: string }; show: (m: string, action?: { label: string; to: string }) => void }
+let toastTimer: number | undefined;
+export const useToast = create<ToastS>((set) => ({ msg: null, show: (msg, action) => { set({ msg, action }); clearTimeout(toastTimer); toastTimer = window.setTimeout(() => set({ msg: null, action: undefined }), action ? 4500 : 3200); } }));
 export function Toaster() {
-  const msg = useToast((s) => s.msg);
-  return <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 bottom-32 lg:bottom-8 z-[60] pointer-events-none">{msg && <div className="anim-sheet rounded-2xl bg-ink text-bg px-5 py-3 font-bold shadow-lift max-w-[90vw] text-center">{msg}</div>}</div>;
+  const { msg, action } = useToast();
+  const nav = useNavigate();
+  return <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 bottom-32 lg:bottom-8 z-[60] pointer-events-none">{msg && <div className="anim-sheet rounded-2xl bg-ink text-bg pl-5 pr-2 py-2 min-h-[52px] font-bold shadow-lift max-w-[92vw] flex items-center gap-3 pointer-events-auto"><span className="py-1">{msg}</span>{action && <button className="rounded-xl bg-bg/15 px-3 min-h-[40px] font-extrabold" onClick={() => { useToast.setState({ msg: null }); nav(action.to); }}>{action.label}</button>}</div>}</div>;
 }
 
 export function Confirm({ open, text, onYes, onNo, danger = false, yes }: { open: boolean; text: string; onYes: () => void; onNo: () => void; danger?: boolean; yes?: string }) {
@@ -183,4 +185,29 @@ export function LongPress({ ms = 2000, onDone, children, label, className = '' }
       {children}
     </button>
   );
+}
+
+/** Primary actions live in the thumb zone: a bar pinned above the bottom navigation on phones (or the screen edge on full-screen pages). */
+export function BottomBar({ children, bare = false }: { children: ReactNode; bare?: boolean }) {
+  return (
+    <>
+      <div aria-hidden className={cx('lg:hidden', bare ? 'h-28' : 'h-24')} />
+      <div className={cx('fixed inset-x-0 z-30 px-4 pt-6 pointer-events-none', bare ? 'bottom-0 pb-[max(16px,env(safe-area-inset-bottom))]' : 'bottom-[88px] pb-2 lg:bottom-0 lg:pb-6 lg:left-72')}
+        style={{ background: 'linear-gradient(to top, rgb(var(--bg)) 55%, rgb(var(--bg) / 0))' }}>
+        <div className="mx-auto max-w-3xl flex gap-2 pointer-events-auto">{children}</div>
+      </div>
+    </>
+  );
+}
+
+/** Save/confirm row that stays visible at the bottom of a sheet while its form scrolls. */
+export function SheetActions({ children }: { children: ReactNode }) {
+  return <div className="sticky bottom-0 -mx-5 px-5 pt-3 pb-1 mt-5 bg-surface flex gap-2 justify-end [&>*]:flex-1">{children}</div>;
+}
+
+/** Dimmed, blurred backdrop for anything that floats over the page. Rendered on <body> so blurred parents can't trap it. */
+export function Scrim({ open, onClose, z = 'z-40' }: { open: boolean; onClose: () => void; z?: string }) {
+  const { mounted, closing } = usePresence(open);
+  if (!mounted) return null;
+  return createPortal(<div aria-hidden onClick={onClose} className={cx('fixed inset-0 bg-black/30 backdrop-blur-md', z, closing ? 'anim-fade-out' : 'anim-fade')} />, document.body);
 }

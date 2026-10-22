@@ -6,7 +6,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { useT } from '../../i18n';
 import { db, getSetting, putBlob } from '../../lib/db';
 import { useChild, useChildId } from '../../lib/hooks';
-import { useWakeLock } from '../../components/ui';
+import { useWakeLock, BottomBar } from '../../components/ui';
 import { loadBook, toc, type Block } from '../../lib/content';
 import { BlockView } from '../../components/Blocks';
 import { alarm } from '../../lib/audio';
@@ -88,7 +88,6 @@ export default function SeizureTimer() {
         </div>
       </section>
       <div className="px-4 pb-10 grid gap-4 max-w-xl w-full mx-auto">
-        <button className="btn-danger !min-h-[72px] !rounded-3xl text-xl" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopAndSave')}</button>
         <div className="card !rounded-3xl p-4 border-2 !border-[var(--ur)]">
           <p className="text-lg font-extrabold">1. {t('aidSide')}</p>
           <p className="text-lg font-extrabold mt-1">2. {t('aidMouth')}</p>
@@ -113,6 +112,9 @@ export default function SeizureTimer() {
           )}
         </section>
       </div>
+      <BottomBar bare>
+        <button className="btn-danger w-full !min-h-[76px] !rounded-3xl text-xl" onClick={stopped}><Square aria-hidden fill="currentColor" /> {t('stopAndSave')}</button>
+      </BottomBar>
       {showAlert && (
         <div role="alertdialog" aria-modal="true" aria-labelledby="rescue-title" className="fixed inset-0 z-50 bg-danger text-ondanger flex flex-col items-center justify-center p-6 gap-5 text-center">
           <p id="rescue-title" className="text-3xl font-extrabold">{t('rescueTitle', { m: rescueMin })}</p>

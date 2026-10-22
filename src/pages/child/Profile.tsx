@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Camera } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Avatar, FileButton, Page, PageHeader, useToast } from '../../components/ui';
+import { Avatar, FileButton, Page, PageHeader, useToast, BottomBar } from '../../components/ui';
 import { db, putBlob, getSetting } from '../../lib/db';
 import { useChild } from '../../lib/hooks';
 import { useUI } from '../../lib/store';
@@ -43,8 +43,8 @@ export default function Profile() {
         <div><label className="label" htmlFor="p-rescue">{t('rescueTime')}</label>
           <div className="flex items-center gap-3"><input id="p-rescue" type="number" min={1} max={30} className="input w-28" value={rescue} onChange={(e) => setRescue(Math.max(1, Math.min(30, +e.target.value || 5)))} /><span>{t('minutes')}</span></div>
           <p className="text-sm text-muted mt-1">{t('rescueHint')}</p></div>
-        <button className="btn-primary" onClick={save}>{t('save')}</button>
       </div>
+      <BottomBar><button className="btn-primary w-full" onClick={save}>{t('save')}</button></BottomBar>
     </Page>
   );
 }

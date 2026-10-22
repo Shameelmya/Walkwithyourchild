@@ -90,7 +90,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
       {dp.mounted && (
         <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label={t('openMenu')}>
-          <div className={cx('absolute inset-0 bg-black/35 backdrop-blur-[2px]', dp.closing ? 'anim-fade-out' : 'anim-fade')} onClick={() => setDrawer(false)} />
+          <div className={cx('absolute inset-0 bg-black/30 backdrop-blur-md', dp.closing ? 'anim-fade-out' : 'anim-fade')} onClick={() => setDrawer(false)} />
           <div className={cx('absolute inset-y-0 left-0 w-[86%] max-w-sm bg-surface shadow-2xl flex flex-col rounded-r-[28px]', dp.closing ? 'anim-drawer-out' : 'anim-drawer')}>
             <div className="flex items-center gap-2 px-4 pt-4 pb-2">
               <p className="flex-1 font-display text-lg font-bold leading-tight">{meta.appTitle[lang]}</p>

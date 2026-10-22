@@ -11,6 +11,7 @@ test('every game opens, responds to taps and keys, and exits with a long press',
   await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Skip for now' }).click();
   await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/play');
   const names = ['Colouring book', 'Finger paint', 'Bubbles', 'Fireworks', 'Colour lights', 'Music pad', 'Drums', 'Xylophone', 'Wind chimes', 'Maracas', 'Balloons', 'Find the picture', 'Rolling ball', 'Follow the star', 'Peekaboo', 'Quiet sea'];
   for (const n of names) {

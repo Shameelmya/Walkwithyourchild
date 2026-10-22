@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Camera, Trash2 } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, FileButton, Section, Confirm, useToast } from '../../components/ui';
+import { Page, PageHeader, Empty, Modal, FileButton, Section, Confirm, useToast, BottomBar, SheetActions } from '../../components/ui';
 import { Thumb } from '../../components/Attachments';
 import { LineChart, BarChart } from '../../components/Charts';
 import { db, putBlob, type Progress } from '../../lib/db';
@@ -28,7 +28,7 @@ export default function ProgressPage() {
   const weights = list.filter((p) => p.weight).map((p) => ({ x: x(p.date), y: p.weight! }));
   return (
     <Page>
-      <PageHeader title={t('navProgress')} actions={<button className="btn-primary px-4" onClick={() => setEdit({ childId, date: isoDate(), scores: {} })}><Plus size={18} aria-hidden /> {t('checkIn')}</button>} />
+      <PageHeader title={t('navProgress')} />
       {!list.length && <Empty kind="chart" title={t('noCheckIns')} text={t('noCheckInsText')} />}
       {list.length > 0 && (
         <Section title={t('changesOverTime')}>
@@ -85,10 +85,11 @@ export default function ProgressPage() {
             <div><label className="label" htmlFor="pg-w">{t('weightKg')}</label><input id="pg-w" type="number" inputMode="decimal" step="0.1" className="input w-40" value={edit.weight ?? ''} onChange={(e) => setEdit({ ...edit, weight: e.target.value ? +e.target.value : undefined })} /></div>
             <div><label className="label" htmlFor="pg-n">{t('notes')}</label><textarea id="pg-n" className="input min-h-[80px]" value={edit.notes ?? ''} onChange={(e) => setEdit({ ...edit, notes: e.target.value })} /></div>
             <div className="flex items-center gap-3">{edit.photoBlobId && <Thumb id={edit.photoBlobId} />}<FileButton accept="image/*" onFile={async (f) => setEdit({ ...edit, photoBlobId: await putBlob(await compressImage(f), childId, 'progress') })}><Camera size={18} aria-hidden /> {t('addPhoto')}</FileButton></div>
-            <button className="btn-primary" onClick={save}>{t('save')}</button>
+            <SheetActions><button className="btn-primary" onClick={save}>{t('save')}</button></SheetActions>
           </div>
         )}
       </Modal>
+      <BottomBar><button className="btn-primary w-full" onClick={() => setEdit({ childId, date: isoDate(), scores: {} })}><Plus size={18} aria-hidden /> {t('checkIn')}</button></BottomBar>
       <Confirm open={!!del} danger text={t('deleteEntryQ')} onNo={() => setDel(null)} onYes={async () => { await db.progress.delete(del!.id!); setDel(null); }} />
     </Page>
   );

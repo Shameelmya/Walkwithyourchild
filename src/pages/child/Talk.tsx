@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Maximize2, Minimize2, Pencil, Plus, Mic, Square, Play, Camera, ChevronLeft, ChevronRight, EyeOff, Trash2 } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Modal, FileButton, Seg, useToast } from '../../components/ui';
+import { Page, PageHeader, Modal, FileButton, Seg, useToast, SheetActions } from '../../components/ui';
 import { db, putBlob, type TalkCard } from '../../lib/db';
 import { useBlobUrl, useChildId } from '../../lib/hooks';
 import { meta, L } from '../../lib/content';
@@ -170,11 +170,11 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
           </div>
           <p className="text-sm text-muted mt-1">{t('voiceHint')}</p>
         </div>
-        <div className="flex flex-wrap gap-2 justify-between">
+        <SheetActions>
           {card.builtin !== undefined ? <button className="btn-ghost" onClick={() => save(true)}><EyeOff size={18} aria-hidden /> {t('hideCard')}</button>
             : card.rec?.id ? <button className="btn-ghost text-danger" onClick={async () => { await db.talkCards.delete(card.rec!.id!); onClose(); }}><Trash2 size={18} aria-hidden /> {t('delete')}</button> : <span />}
           <button className="btn-primary" disabled={!label.trim()} onClick={() => save(false)}>{t('save')}</button>
-        </div>
+        </SheetActions>
       </div>
     </Modal>
   );

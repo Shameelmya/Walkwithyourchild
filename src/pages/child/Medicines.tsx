@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Pencil, Trash2, Check, X, Clock, Bell } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, Confirm, Section, useToast } from '../../components/ui';
+import { Page, PageHeader, Empty, Modal, Confirm, Section, useToast, BottomBar, SheetActions } from '../../components/ui';
 import { db, type Medicine, type DoseStatus } from '../../lib/db';
 import { useChildId } from '../../lib/hooks';
 import { isActive, logDose, todaySlots, undoDose } from '../../lib/meds';
@@ -32,7 +32,7 @@ export default function Medicines() {
   const past = meds.filter((m) => !isActive(m));
   return (
     <Page>
-      <PageHeader title={t('navMedicines')} actions={<button className="btn-primary px-4" onClick={() => setEdit(blank(childId))}><Plus size={18} aria-hidden /> {t('add')}</button>} />
+      <PageHeader title={t('navMedicines')} />
       {perm === 'default' && (
         <button className="card w-full p-3 mb-4 flex items-center gap-3 text-left" onClick={async () => setPerm(await Notification.requestPermission())}>
           <Bell className="text-accent" aria-hidden /><span className="flex-1"><b>{t('enableReminders')}</b><br /><span className="text-sm text-muted">{t('remindersHonest')}</span></span>
@@ -56,7 +56,7 @@ export default function Medicines() {
         )}
       </Section>
       <Section title={t('allMedicines')}>
-        {!meds.length ? <Empty kind="pills" title={t('noMedicines')} text={t('noMedicinesText')} action={<button className="btn-primary" onClick={() => setEdit(blank(childId))}><Plus size={18} aria-hidden /> {t('addMedicine')}</button>} /> : (
+        {!meds.length ? <Empty kind="pills" title={t('noMedicines')} text={t('noMedicinesText')} /> : (
           <ul className="grid gap-2">
             {[...active, ...past].map((m) => (
               <li key={m.id} className={cx('card p-3 flex gap-3', !isActive(m) && 'opacity-70')}>
@@ -95,10 +95,11 @@ export default function Medicines() {
               <div><label className="label" htmlFor="m-stop">{t('stopDate')}</label><input id="m-stop" type="date" className="input" value={edit.stop ?? ''} onChange={(e) => setEdit({ ...edit, stop: e.target.value })} /></div>
             </div>
             <div><label className="label" htmlFor="m-notes">{t('medNotes')}</label><textarea id="m-notes" className="input min-h-[80px]" value={edit.notes} onChange={(e) => setEdit({ ...edit, notes: e.target.value })} /></div>
-            <button className="btn-primary" onClick={save}>{t('save')}</button>
+            <SheetActions><button className="btn-primary" onClick={save}>{t('save')}</button></SheetActions>
           </div>
         )}
       </Modal>
+      <BottomBar><button className="btn-primary w-full" onClick={() => setEdit(blank(childId))}><Plus size={18} aria-hidden /> {t('addMedicine')}</button></BottomBar>
       <Confirm open={!!del} danger text={t('deleteMedQ')} onNo={() => setDel(null)} onYes={async () => { await db.medicines.delete(del!.id!); setDel(null); }} />
     </Page>
   );

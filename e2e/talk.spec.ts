@@ -15,6 +15,7 @@ test('talk board speaks the full sentence right from the tap, in the chosen lang
   await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Skip for now' }).click();
   await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/talk');
   await page.getByRole('button', { name: 'Food', exact: true }).click();
   await expect.poll(() => page.evaluate(() => (window as unknown as { __said: { text: string }[] }).__said.map((s) => s.text))).toContain('I want food, please.');
