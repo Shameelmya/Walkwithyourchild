@@ -121,7 +121,7 @@ export default function Talk() {
   );
   return (
     <Page wide>
-      <PageHeader title={t('navTalk')} sub={t('talkIntro')} actions={<button className="icon-btn" onClick={toggleFull} aria-label={t('fullScreen')}><Maximize2 /></button>} />
+      <PageHeader title={t('navTalk')} actions={<button className="icon-btn" onClick={toggleFull} aria-label={t('fullScreen')}><Maximize2 /></button>} />
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <Seg label={t('gridSize')} value={n} onChange={(v) => { setTalkGrid(v); setPage(0); }} options={[{ v: 2, l: '2×2' }, { v: 3, l: '3×3' }, { v: 4, l: '4×4' }]} />
         <button className={cx('chip', editMode && 'chip-on')} aria-pressed={editMode} onClick={() => setEditMode(!editMode)}><Pencil size={16} aria-hidden /> {t('editCards')}</button>

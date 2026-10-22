@@ -12,7 +12,7 @@ export function A4({ lang, children, footer }: { lang: Lang; children: ReactNode
   return (
     <div className="a4" lang={lang} style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `3px solid ${GOLD}`, paddingBottom: 8, marginBottom: 18, fontSize: 12, color: '#6b5a3c' }}>
-        <b style={{ fontFamily: 'Nunito, Manjari, sans-serif', fontSize: 14 }}>{meta.appTitle[lang]}</b>
+        <b style={{ fontFamily: "'Google Sans', 'Noto Sans Malayalam', 'Noto Sans Kannada', sans-serif", fontSize: 14 }}>{meta.appTitle[lang]}</b>
         <span>{workbook.title[lang] ?? workbook.title.en}</span>
       </div>
       <div style={{ flex: 1 }}>{children}</div>
@@ -27,7 +27,7 @@ export function PrintSheet({ sheet, data, lang, blank }: { sheet: Sheet; data?: 
   const head = (
     <div style={{ marginBottom: 14 }}>
       <span style={{ display: 'inline-block', background: GOLD, color: '#fff', borderRadius: 999, padding: '2px 12px', fontSize: 12, fontWeight: 800 }}>{tr(lang, 'sheetN', { n: sheet.n })}</span>
-      <h2 style={{ fontSize: 26, fontWeight: 800, margin: '8px 0 4px', color: '#3b3127', fontFamily: 'Nunito, Manjari, sans-serif' }}>{L(sheet.title)}</h2>
+      <h2 style={{ fontSize: 26, fontWeight: 800, margin: '8px 0 4px', color: '#3b3127', fontFamily: "'Google Sans', 'Noto Sans Malayalam', 'Noto Sans Kannada', sans-serif" }}>{L(sheet.title)}</h2>
       {sheet.hint && <p style={{ margin: 0, color: '#555', fontSize: 13 }}>{L(sheet.hint)}</p>}
     </div>
   );

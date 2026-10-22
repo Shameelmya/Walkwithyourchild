@@ -12,8 +12,8 @@ export default {
       fontFamily: {
         ui: ['"Plus Jakarta Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
         head: ['"Plus Jakarta Sans"', 'Manjari', '"Noto Sans Kannada"', '"Noto Sans Malayalam"', 'system-ui', 'sans-serif'],
-        display: ['"Source Serif 4"', '"Noto Serif Malayalam"', '"Noto Serif Kannada"', 'Georgia', 'serif'],
-        read: ['"Source Serif 4"', '"Noto Serif Malayalam"', '"Noto Serif Kannada"', 'Georgia', 'serif'],
+        display: ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
+        read: ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', 'system-ui', 'sans-serif'],
       },
       borderRadius: { xl2: '1.25rem' },
       boxShadow: { card: '0 1px 2px rgb(var(--shadow) / 0.05), 0 12px 32px -14px rgb(var(--shadow) / 0.22)', lift: '0 18px 40px -16px rgb(var(--shadow) / 0.45)', nav: '0 -6px 30px -10px rgb(var(--shadow) / 0.25)' },

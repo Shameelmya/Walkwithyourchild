@@ -59,7 +59,7 @@ export default function Memory() {
   if (pin && !unlocked) return <Page><PageHeader title={t('navMemory')} /><div className="py-10"><PinPad title={t('memoryPin')} error={err} onSubmit={async (p) => { if (await verifyPin(p, pin)) setUnlocked(true); else setErr(t('wrongPin')); }} /></div></Page>;
   return (
     <Page wide>
-      <PageHeader title={t('navMemory')} sub={t('memorySub')} />
+      <PageHeader title={t('navMemory')} />
       <div className="flex flex-wrap gap-2 mb-6">
         <FileButton accept="image/*" onFile={async (f) => add('photo', await compressImage(f, 2000, 0.85))}><Camera size={18} aria-hidden /> {t('photo')}</FileButton>
         <FileButton accept="image/*" capture="environment" onFile={async (f) => add('handprint', await compressImage(f, 2000, 0.85), t('handprint'))}><Hand size={18} aria-hidden /> {t('handprint')}</FileButton>

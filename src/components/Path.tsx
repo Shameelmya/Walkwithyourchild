@@ -14,7 +14,7 @@ export function PathMotif({ filled = 0, active, onStop, labels, className = '', 
         return (
           <g key={n} onClick={onStop ? () => onStop(n) : undefined} style={{ cursor: onStop ? 'pointer' : undefined }}>
             <circle cx={x} cy={y} r={on ? 17 : 13} fill={`var(--p${n})`} stroke="rgb(var(--surface))" strokeWidth="4" />
-            <text x={x} y={y + 5} textAnchor="middle" fontSize="14" fontWeight="800" fill="#fff" fontFamily="Nunito">{n}</text>
+            <text x={x} y={y + 5} textAnchor="middle" fontSize="14" fontWeight="800" fill="#fff" fontFamily="Google Sans, sans-serif">{n}</text>
             {labels && <title>{labels[i]}</title>}
           </g>
         );

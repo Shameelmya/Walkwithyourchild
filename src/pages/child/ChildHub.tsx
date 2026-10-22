@@ -47,16 +47,16 @@ export default function ChildHub() {
         </div>
       </section>
       <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
-        {TILES.map(({ to, k, s, I, g }) => (
-          <li key={to}><Link to={to} className={cx('tile min-h-[138px] flex flex-col justify-between h-full', g)}>
+        {TILES.map(({ to, k, I, g }) => (
+          <li key={to}><Link to={to} className={cx('tile min-h-[118px] flex flex-col justify-between h-full', g)}>
             <span className="glass relative z-[1]"><I size={21} aria-hidden /></span>
-            <span className="relative z-[1]"><span className="block font-extrabold leading-tight">{t(k)}</span><span className="block text-[0.75rem] opacity-90 line-clamp-2 mt-0.5">{t(s)}</span></span>
+            <span className="relative z-[1]"><span className="block font-extrabold leading-tight">{t(k)}</span></span>
           </Link></li>
         ))}
       </ul>
       <Link to="/notebook/my-child" className="card p-4 flex items-center gap-4">
         <span className="w-12 h-12 rounded-2xl bg-[var(--pit)] text-[var(--pi)] flex items-center justify-center shrink-0"><Baby aria-hidden /></span>
-        <span className="flex-1"><b className="block">{t('myChildPage')}</b><span className="text-sm text-muted">{t('myChildPageSub')}</span></span>
+        <span className="flex-1"><b className="block">{t('myChildPage')}</b></span>
         <ChevronRight className="text-muted" aria-hidden />
       </Link>
     </Page>

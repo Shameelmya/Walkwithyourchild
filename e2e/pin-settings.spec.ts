@@ -27,3 +27,20 @@ test('PIN fields in settings keep focus while typing', async ({ page }) => {
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
   await expect(page.getByText('PIN saved')).toBeVisible();
 });
+
+test('child switcher dialog covers the screen, not just the header', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: /English/ }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'I understand' }).click();
+  await page.getByLabel("Child's name *").fill('Abc');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Skip for now' }).click();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await page.getByRole('button', { name: 'Switch child' }).click();
+  await page.waitForTimeout(800);
+  const box = await page.getByRole('dialog').boundingBox();
+  expect(box!.y).toBeGreaterThan(300);
+  expect(box!.y + box!.height).toBeLessThanOrEqual(845);
+});

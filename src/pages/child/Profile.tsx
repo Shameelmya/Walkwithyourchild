@@ -35,8 +35,8 @@ export default function Profile() {
       <PageHeader title={isNew ? t('addChild') : t('editProfile')} />
       <div className="card p-4 grid gap-4">
         <div className="flex items-center gap-4">
-          <Avatar blobId={photoId} name={name} size={80} />
-          <FileButton accept="image/*" onFile={async (f) => setPhotoId(await putBlob(await compressImage(f, 600), child?.id ?? 0, 'photo'))}><Camera size={18} aria-hidden /> {t('changePhoto')}</FileButton>
+          <Avatar blobId={photoId} name={name} size={72} />
+          <FileButton className="chip" accept="image/*" onFile={async (f) => setPhotoId(await putBlob(await compressImage(f, 600), child?.id ?? 0, 'photo'))}><Camera size={16} aria-hidden /> {t('changePhoto')}</FileButton>
         </div>
         <div><label className="label" htmlFor="p-name">{t('childName')} *</label><input id="p-name" className="input" value={name} onChange={(e) => setName(e.target.value)} /></div>
         <div><label className="label" htmlFor="p-dob">{t('dobOptional')}</label><input id="p-dob" type="date" className="input" value={dob} onChange={(e) => setDob(e.target.value)} /></div>

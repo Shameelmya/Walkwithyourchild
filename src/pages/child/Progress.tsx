@@ -28,7 +28,7 @@ export default function ProgressPage() {
   const weights = list.filter((p) => p.weight).map((p) => ({ x: x(p.date), y: p.weight! }));
   return (
     <Page>
-      <PageHeader title={t('navProgress')} sub={t('progressSub')} actions={<button className="btn-primary px-4" onClick={() => setEdit({ childId, date: isoDate(), scores: {} })}><Plus size={18} aria-hidden /> {t('checkIn')}</button>} />
+      <PageHeader title={t('navProgress')} actions={<button className="btn-primary px-4" onClick={() => setEdit({ childId, date: isoDate(), scores: {} })}><Plus size={18} aria-hidden /> {t('checkIn')}</button>} />
       {!list.length && <Empty kind="chart" title={t('noCheckIns')} text={t('noCheckInsText')} />}
       {list.length > 0 && (
         <Section title={t('changesOverTime')}>

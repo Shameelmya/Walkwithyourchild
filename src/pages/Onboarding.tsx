@@ -57,7 +57,7 @@ export default function Onboarding() {
         </div>
       </div>
       <h2 className="text-xl font-extrabold mb-1">{t('chooseLanguage')}</h2>
-      <p className="text-muted mb-4">{t('changeLanguageLater')}</p>
+      <div className="mb-4" />
       <div className="grid gap-3">
         {LANGS.map((l) => (
           <button key={l.v} lang={l.v} onClick={() => { setLang(l.v); next(); }} className={cx('card flex items-center gap-4 p-4 text-left transition active:scale-[0.98]', lang === l.v && '!border-[rgb(var(--accent))] ring-4 ring-[rgb(var(--accent)/0.12)]')}>

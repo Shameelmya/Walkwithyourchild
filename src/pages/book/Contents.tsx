@@ -19,12 +19,11 @@ export function TocList({ current, onPick }: { current?: string; onPick?: () => 
       {groups.map((g) => {
         const p = toc.parts.find((x) => x.n === g.part);
         const col = partColor(g.part);
-        const gc = g.part >= 1 && g.part <= 5 ? g.part : g.part === 0 ? 'i' : 5;
         return (
           <section key={g.part + ':' + g.items[0].id} style={{ ['--pc' as string]: col.c, ['--pt' as string]: col.t }} className="card !rounded-[26px] overflow-hidden">
-            <div id={p ? `part-${p.n}` : undefined} className={cx('tile !rounded-none !shadow-none px-5 py-4', `grad-${gc}`)}>
+            <div id={p ? `part-${p.n}` : undefined} className="cover !rounded-none !shadow-none !border-0 px-5 py-4">
               <div className="relative z-[1]">
-                <p className="text-[0.75rem] font-bold opacity-90">{p ? `${meta.partLabel[lang]} ${p.n}` : g.part === 0 ? t('introduction') : t('appendix')}</p>
+                <p className="text-[0.75rem] font-bold text-[var(--pc)]">{p ? `${meta.partLabel[lang]} ${p.n}` : g.part === 0 ? t('introduction') : t('appendix')}</p>
                 <h2 className="font-display text-xl font-bold leading-snug">{p ? loc(p.title, lang) : loc(g.items[0].title, lang)}</h2>
               </div>
             </div>
@@ -57,7 +56,6 @@ export default function Contents() {
   return (
     <Page>
       <section className="pt-1 pb-5">
-        <p className="eyebrow">{meta.kicker[lang]}</p>
         <h1 className="font-display text-[1.9rem] font-bold leading-tight mt-1">{meta.appTitle[lang]}</h1>
       </section>
       <div className="flex gap-2 mb-5">

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { create } from 'zustand';
 import { ArrowLeft, X, User } from 'lucide-react';
 import { useT, type TKey } from '../i18n';
 import { Illus } from './Illus';
-import { useBlobUrl } from '../lib/hooks';
+import { useBlobUrl, usePresence } from '../lib/hooks';
 import { cx } from '../lib/util';
 
 export function PageHeader({ title, back = true, actions, sub, color, eyebrow }: { title: ReactNode; back?: boolean | string; actions?: ReactNode; sub?: ReactNode; color?: string; eyebrow?: ReactNode }) {
@@ -46,10 +47,12 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
     ref.current?.querySelector<HTMLElement>('input,textarea,select,button')?.focus();
     return () => removeEventListener('keydown', k);
   }, [open]);
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40" onClick={onClose}>
-      <div ref={ref} role="dialog" aria-modal="true" className={cx('bg-surface text-ink w-full shadow-2xl anim-sheet overflow-y-auto', full ? 'h-full sm:h-auto sm:max-h-[92vh] sm:max-w-2xl sm:rounded-[28px]' : 'max-h-[92vh] sm:max-w-lg rounded-t-[28px] sm:rounded-[28px]')} onClick={(e) => e.stopPropagation()}>
+  const { mounted, closing } = usePresence(open);
+  if (!mounted) return null;
+  // Portal to <body>: a blurred parent (like the sticky header) would otherwise trap a fixed overlay inside it.
+  return createPortal(
+    <div className={cx('fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/35 backdrop-blur-[2px]', closing ? 'anim-fade-out' : 'anim-fade')} onClick={onClose}>
+      <div ref={ref} role="dialog" aria-modal="true" className={cx('bg-surface text-ink w-full shadow-2xl overflow-y-auto', closing ? 'anim-sheet-out' : 'anim-sheet', full ? 'h-full sm:h-auto sm:max-h-[92vh] sm:max-w-2xl sm:rounded-[28px]' : 'max-h-[92vh] sm:max-w-lg rounded-t-[28px] sm:rounded-[28px]')} onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-surface z-10 flex items-center gap-2 px-5 pt-3 pb-3">
           <span className="absolute left-1/2 -translate-x-1/2 top-2 w-10 h-1.5 rounded-full bg-line sm:hidden" aria-hidden />
           <h2 className="flex-1 text-xl font-extrabold pt-2">{title}</h2>
@@ -57,7 +60,8 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
         </div>
         <div className="px-5 pb-8 pt-1">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

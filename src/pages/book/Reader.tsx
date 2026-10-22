@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Languages, Info, Clock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine } from 'lucide-react';
 import { useT } from '../../i18n';
 import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/content';
 import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
@@ -11,6 +11,7 @@ import { Modal, useToast } from '../../components/ui';
 import { TocList } from './Contents';
 import { speak, voicesFor } from '../../lib/audio';
 import { cx } from '../../lib/util';
+import { usePresence } from '../../lib/hooks';
 
 function useHasVoice(lang: string) {
   const [has, setHas] = useState(() => voicesFor(lang).length > 0);
@@ -29,10 +30,11 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
   const { t, lang } = useT();
   const { theme, setTheme, fontScale, setFontScale, setLang, brightness, setBrightness } = useUI();
   const idx = Math.max(0, FONT_STEPS.findIndex((f) => f === fontScale));
-  if (!open) return null;
+  const { mounted, closing } = usePresence(open, 200);
+  useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open, onClose]);
+  if (!mounted) return null;
   return (
-    <div role="dialog" aria-label={t('readingSettings')} className="fixed z-50 right-3 left-3 sm:left-auto sm:w-[360px] bottom-[96px] lg:bottom-24 lg:right-6 card !rounded-[28px] p-5 anim-sheet shadow-2xl">
-      <div className="flex items-center justify-between mb-4"><p className="font-extrabold text-lg">{t('readingSettings')}</p><button className="icon-btn !min-w-[40px] !min-h-[40px]" onClick={onClose} aria-label={t('close')}><X size={20} /></button></div>
+    <div role="dialog" aria-label={t('readingSettings')} className={cx('fixed z-50 right-4 left-4 sm:left-auto sm:w-[340px] bottom-[164px] lg:bottom-[92px] lg:right-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right', closing ? 'anim-zoom-out' : 'anim-zoom')}>
       <div className="grid gap-5">
         <div>
           <p className="label flex items-center gap-1.5"><Sun size={14} aria-hidden /> {t('screenLight')}</p>
@@ -58,7 +60,7 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
           </div>
         </div>
         <div>
-          <p className="label flex items-center gap-1.5"><Languages size={14} aria-hidden /> {meta.reader.language[lang]}</p>
+          <p className="label flex items-center gap-1.5"><Globe size={14} aria-hidden /> {meta.reader.language[lang]}</p>
           <div role="radiogroup" aria-label={meta.reader.language[lang]} className="grid grid-cols-3 gap-2 p-1 rounded-2xl bg-surface2">
             {LANGS.map((l) => <button key={l.v} role="radio" aria-checked={lang === l.v} lang={l.v} onClick={() => setLang(l.v)} className={cx('min-h-[44px] rounded-xl font-bold text-sm transition', lang === l.v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>{l.native}</button>)}
           </div>
@@ -96,7 +98,6 @@ export default function Reader() {
   const prev = toc.toc[idx - 1], next = toc.toc[idx + 1];
   const part = ch?.part ?? toc.toc[idx]?.part ?? 0;
   const col = partColor(part);
-  const g = part >= 1 && part <= 5 ? part : part === 0 ? 'i' : 5;
 
   const scrollTo = useCallback((i: number) => {
     if (i === 0) { window.scrollTo({ top: 0 }); return; }
@@ -171,12 +172,12 @@ export default function Reader() {
         <main id="main" className="px-5 pb-40 lg:pb-20">
           {!ch ? <div className="py-20 text-center text-muted" aria-busy="true">…</div> : (
             <article className="prose-read mx-auto anim-in" key={lang + chapter}>
-              <header className={cx('tile !rounded-[28px] !p-6 mt-5 mb-8 font-ui', `grad-${g}`)}>
+              <header className="cover rounded-[28px] p-6 mt-5 mb-8 font-ui">
                 <div className="relative z-[1]">
-                  <p className="text-[0.8rem] font-bold opacity-90">{partTitle ? `${meta.partLabel[lang]} ${partTitle.n} · ${loc(partTitle.title, lang)}` : ch.id === 'appendix' ? t('appendix') : t('introduction')}</p>
-                  {ch.id !== 'appendix' && ch.n > 0 && <p className="font-display text-6xl font-bold leading-none mt-4 opacity-95">{String(ch.n).padStart(2, '0')}</p>}
+                  <p className="text-[0.8rem] font-bold text-[var(--pc)]">{partTitle ? `${meta.partLabel[lang]} ${partTitle.n} · ${loc(partTitle.title, lang)}` : ch.id === 'appendix' ? t('appendix') : t('introduction')}</p>
+                  {ch.id !== 'appendix' && ch.n > 0 && <p className="font-display text-6xl font-bold leading-none mt-4 text-[var(--pc)]">{String(ch.n).padStart(2, '0')}</p>}
                   <h1 className="font-display text-[1.8rem] font-bold mt-3 leading-tight">{ch.title}</h1>
-                  <p className="text-[0.8rem] font-semibold opacity-90 mt-4 flex items-center gap-1.5"><Clock size={14} aria-hidden /> {t('minRead', { n: minutes })}</p>
+                  <p className="text-[0.8rem] font-semibold text-muted mt-4 flex items-center gap-1.5"><Clock size={14} aria-hidden /> {t('minRead', { n: minutes })}</p>
                 </div>
               </header>
               {book?.fallback && <p className="card !rounded-2xl p-4 mb-6 text-[0.95rem] font-ui flex gap-3"><Info size={18} className="shrink-0 mt-1 text-[rgb(var(--accent))]" aria-hidden />{t('bookNotTranslated')}</p>}
@@ -190,8 +191,11 @@ export default function Reader() {
         </main>
       </div>
       <button onClick={() => setPanel(!panel)} aria-expanded={panel} aria-label={t('readingSettings')}
-        className={cx('fixed z-50 right-4 bottom-[100px] lg:bottom-6 lg:right-6 h-14 rounded-full shadow-lift flex items-center gap-2 px-5 font-extrabold transition active:scale-95', panel ? 'bg-ink text-bg' : 't-blue text-white')}>
-        {panel ? <X size={20} aria-hidden /> : <><span className="font-display text-xl leading-none">Aa</span><Sun size={16} aria-hidden /><Languages size={16} aria-hidden /></>}
+        className={cx('fixed z-50 right-4 bottom-[100px] lg:bottom-6 lg:right-6 w-14 h-14 rounded-full shadow-lift glass-panel border border-line/60 flex items-center justify-center transition duration-300 active:scale-90', panel ? 'text-ink' : 'text-[rgb(var(--accent))]')}>
+        <span className="relative w-6 h-6" aria-hidden>
+          <PenLine size={24} className={cx('absolute inset-0 transition duration-300', panel ? 'opacity-0 rotate-90 scale-50' : 'opacity-100')} />
+          <X size={24} className={cx('absolute inset-0 transition duration-300', panel ? 'opacity-100' : 'opacity-0 -rotate-90 scale-50')} />
+        </span>
       </button>
       <ReadingPanel open={panel} onClose={() => setPanel(false)} speaking={speaking} onSpeak={readAloud} hasVoice={hasVoice} />
       <Modal open={showToc} onClose={() => setShowToc(false)} title={meta.reader.contents[lang]}><TocList current={chapter} onPick={() => setShowToc(false)} /></Modal>
