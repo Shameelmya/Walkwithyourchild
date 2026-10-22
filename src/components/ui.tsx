@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { create } from 'zustand';
 import { ArrowLeft, X, User } from 'lucide-react';
 import { useT, type TKey } from '../i18n';
@@ -48,7 +49,8 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
   }, [open]);
   const { mounted, closing } = usePresence(open);
   if (!mounted) return null;
-  return (
+  // Portal to <body>: a blurred parent (like the sticky header) would otherwise trap a fixed overlay inside it.
+  return createPortal(
     <div className={cx('fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/35 backdrop-blur-[2px]', closing ? 'anim-fade-out' : 'anim-fade')} onClick={onClose}>
       <div ref={ref} role="dialog" aria-modal="true" className={cx('bg-surface text-ink w-full shadow-2xl overflow-y-auto', closing ? 'anim-sheet-out' : 'anim-sheet', full ? 'h-full sm:h-auto sm:max-h-[92vh] sm:max-w-2xl sm:rounded-[28px]' : 'max-h-[92vh] sm:max-w-lg rounded-t-[28px] sm:rounded-[28px]')} onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-surface z-10 flex items-center gap-2 px-5 pt-3 pb-3">
@@ -58,7 +60,8 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
         </div>
         <div className="px-5 pb-8 pt-1">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
