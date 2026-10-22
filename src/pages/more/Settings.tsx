@@ -163,6 +163,7 @@ export default function Settings() {
       <Section title={t('dangerZone')}>
         <div className="card p-4"><p className="mb-3">{t('deleteAllExplain')}</p><button className="btn-danger" onClick={() => setDel1(true)}><Trash2 size={18} aria-hidden /> {t('deleteAll')}</button></div>
       </Section>
+      <p className="text-center text-xs text-muted mt-2">{t('appVersion', { v: __APP_VERSION__ })}</p>
       <Confirm open={del1} danger text={t('deleteAllQ1')} yes={t('continue')} onNo={() => setDel1(false)} onYes={() => { setDel1(false); setDel2(true); }} />
       <Confirm open={del2} danger text={t('deleteAllQ2')} yes={t('deleteAll')} onNo={() => setDel2(false)} onYes={async () => { await db.delete(); try { localStorage.clear(); } catch { /* */ } location.href = '/'; }} />
     </Page>

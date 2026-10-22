@@ -57,7 +57,7 @@ test('4. seizure timer starts, stops and creates a log', async () => {
   await expect(page.getByRole('timer')).toBeVisible();
   await page.waitForTimeout(2200);
   await expect(page.getByRole('timer')).not.toHaveText('0:00');
-  await page.getByRole('button', { name: 'Seizure stopped' }).first().click();
+  await page.getByRole('button', { name: 'Stop timer and save' }).click();
   await expect(page).toHaveURL(/\/seizures/);
   await page.keyboard.press('Escape');
   await expect(page.getByText(/Lasted 0:0[1-9]/)).toBeVisible();

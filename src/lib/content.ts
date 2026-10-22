@@ -29,7 +29,7 @@ export const L = (v: { en: string; ml: string; kn?: string }, lang: Lang) => v[l
 
 export function partColor(part: number) {
   if (part >= 1 && part <= 5) return { c: `var(--p${part})`, t: `var(--p${part}t)` };
-  if (part === 0) return { c: 'var(--pi)', t: 'var(--pit)' };
+  if (part === 0) return { c: 'var(--pb)', t: 'var(--pbt)' };
   return { c: 'var(--pp)', t: 'var(--ppt)' };
 }
 

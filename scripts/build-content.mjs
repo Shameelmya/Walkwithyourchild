@@ -121,7 +121,17 @@ for (const lang of Object.keys(books)) {
 }
 for (const lang of LANGS) {
   // A language without a translated book falls back to English (flagged so the reader can say so).
-  const b = books[lang] ?? { ...books.en, fallback: true };
+  let b = books[lang];
+  if (!b) {
+    b = { ...books.en, fallback: true };
+    // Safety-critical first-aid steps may be translated on their own (content/<lang>/firstaid.json).
+    const fa = path.join(C, lang, 'firstaid.json');
+    if (fs.existsSync(fa)) {
+      const { chapter, blocks } = JSON.parse(fs.readFileSync(fa, 'utf8'));
+      const a = anchors.firstAid;
+      b.chapters = b.chapters.map((c) => c.id !== chapter ? c : { ...c, blocks: c.blocks.map((x, i) => (i >= a.from && i <= a.to && blocks[i - a.from] ? { ...x, html: blocks[i - a.from], text: strip(blocks[i - a.from]), lang } : x)) });
+    }
+  }
   fs.writeFileSync(path.join(OUT, `book.${lang}.json`), JSON.stringify(b));
 }
 const kn = books.kn;

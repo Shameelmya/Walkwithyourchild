@@ -48,16 +48,29 @@ export function bestVoice(lang: string): SpeechSynthesisVoice | undefined {
     (v.lang.toLowerCase().includes('in') ? 4 : 0) + (/natural|neural|online|enhanced|premium/i.test(v.name) ? 3 : 0) + (/google/i.test(v.name) ? 2 : 0) + (v.localService ? 1 : 0);
   return vs.sort((a, b) => score(b) - score(a))[0];
 }
-export function speak(text: string, lang: string, onend?: () => void, opts: { rate?: number; pitch?: number } = {}) {
+// Android Chrome drops utterances that are garbage-collected, started after a cancel, or queued while paused; keep references and resume first.
+const live: SpeechSynthesisUtterance[] = [];
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) { speechSynthesis.getVoices(); speechSynthesis.addEventListener?.('voiceschanged', () => speechSynthesis.getVoices()); }
+export function speak(text: string, lang: string, onend?: () => void, opts: { rate?: number; pitch?: number; force?: boolean; fallback?: string } = {}) {
   if (!('speechSynthesis' in window)) return false;
+  const ss = speechSynthesis;
   const v = bestVoice(lang);
-  if (!v && lang !== 'en') return false;
+  if (!v && lang !== 'en' && !opts.force) return false;
+  if (ss.speaking || ss.pending) ss.cancel();
+  ss.resume();
   const u = new SpeechSynthesisUtterance(text);
   if (v) u.voice = v;
   u.lang = v?.lang ?? `${lang}-IN`;
-  u.rate = opts.rate ?? 0.92; u.pitch = opts.pitch ?? 1;
-  if (onend) u.onend = onend;
-  speechSynthesis.speak(u);
+  u.rate = opts.rate ?? 0.92; u.pitch = opts.pitch ?? 1; u.volume = 1;
+  const done = () => { const i = live.indexOf(u); if (i >= 0) live.splice(i, 1); };
+  u.onend = () => { done(); onend?.(); };
+  u.onerror = (e) => {
+    done();
+    // No engine for this language: say it in English so the child is still heard.
+    if (opts.fallback && lang !== 'en' && e.error !== 'interrupted' && e.error !== 'canceled') speak(opts.fallback, 'en', onend, { rate: opts.rate, pitch: opts.pitch });
+  };
+  live.push(u);
+  ss.speak(u);
   return true;
 }
 

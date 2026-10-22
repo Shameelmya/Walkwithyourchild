@@ -131,4 +131,7 @@ export const kn: Record<keyof typeof en, string> = {
   gameRub: "ಚಿತ್ರ ಹುಡುಕಿ",
   gameTilt: "ಉರುಳುವ ಚೆಂಡು",
   gameStar: "ನಕ್ಷತ್ರವನ್ನು ಹಿಂಬಾಲಿಸಿ",
+  stopAndSave: "ಟೈಮರ್ ನಿಲ್ಲಿಸಿ ಉಳಿಸಿ",
+  seizureHistory: "ಮೂರ್ಛೆ ಇತಿಹಾಸ",
+  appVersion: "ಆವೃತ್ತಿ {v}",
 };
