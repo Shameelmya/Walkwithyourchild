@@ -6,6 +6,22 @@ import { useT } from '../i18n';
 // Screens where a sudden reload would interrupt something important.
 const BUSY = /^\/(seizure|sos|onboarding|play)/;
 
+let registration: ServiceWorkerRegistration | undefined;
+/** Used by Settings → Check for updates. Resolves to what happened; a found update installs and the app reloads itself. */
+export async function checkForUpdates(): Promise<'latest' | 'updating' | 'offline' | 'error'> {
+  if (!navigator.onLine) return 'offline';
+  const reg = registration ?? (await navigator.serviceWorker?.getRegistration());
+  if (!reg) return 'error';
+  try { await reg.update(); } catch { return 'error'; }
+  if (reg.installing || reg.waiting) {
+    const sw = reg.waiting;
+    if (sw) sw.postMessage({ type: 'SKIP_WAITING' });
+    setTimeout(() => location.reload(), 4000); // in case the switch-over event is missed
+    return 'updating';
+  }
+  return 'latest';
+}
+
 /** Keeps the installed app current: checks for a new version on open, on return to the app and every 30 minutes,
  *  and switches to it straight away unless an emergency screen is open (then it waits and offers a button). */
 export function UpdatePrompt() {
@@ -16,6 +32,7 @@ export function UpdatePrompt() {
     immediate: true,
     onRegisteredSW(_url, reg) {
       if (!reg) return;
+      registration = reg;
       const check = () => { if (navigator.onLine) void reg.update().catch(() => {}); };
       setInterval(check, 30 * 60_000);
       document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && check());

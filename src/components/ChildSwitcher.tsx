@@ -29,8 +29,8 @@ export function ChildSwitcher() {
           ))}
         </ul>
         <div className="flex gap-2 flex-wrap">
-          <button className="btn-ghost" onClick={() => { setOpen(false); nav('/child/profile?new=1'); }}><Plus size={18} /> {t('addChild')}</button>
-          <button className="btn-outline" onClick={() => { setOpen(false); nav('/child/profile'); }}>{t('editProfile')}</button>
+          <button className="btn-ghost" onClick={() => { setOpen(false); nav('/child/profile?new=1', { replace: true }); }}><Plus size={18} /> {t('addChild')}</button>
+          <button className="btn-outline" onClick={() => { setOpen(false); nav('/child/profile', { replace: true }); }}>{t('editProfile')}</button>
         </div>
       </Modal>
     </>

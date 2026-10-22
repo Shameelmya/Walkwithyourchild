@@ -6,16 +6,17 @@ import { ArrowLeft, X, User, Check } from 'lucide-react';
 import { useT, type TKey } from '../i18n';
 import { Illus } from './Illus';
 import { useBlobUrl, usePresence } from '../lib/hooks';
+import { useBack, useBackToClose } from '../lib/nav';
 import { cx } from '../lib/util';
 
 export function PageHeader({ title, back = true, actions, sub, color, eyebrow }: { title: ReactNode; back?: boolean | string; actions?: ReactNode; sub?: ReactNode; color?: string; eyebrow?: ReactNode }) {
-  const nav = useNavigate();
+  const back_ = useBack();
   const { t } = useT();
   return (
     <header className="pt-2 pb-5">
       <div className="flex items-center gap-3">
         {back && (
-          <button className="icon-chip shrink-0" aria-label={t('back')} onClick={() => (typeof back === 'string' ? nav(back) : history.length > 1 ? nav(-1) : nav('/'))}>
+          <button className="icon-chip shrink-0" aria-label={t('back')} onClick={() => back_(typeof back === 'string' ? back : undefined)}>
             <ArrowLeft size={21} />
           </button>
         )}
@@ -39,6 +40,7 @@ export function Modal({ open, onClose, title, children, full = false }: { open: 
   const ref = useRef<HTMLDivElement>(null);
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
+  useBackToClose(open, onClose);
   // Focus the first field only when the dialog opens; re-running this on every render would steal focus while typing.
   useEffect(() => {
     if (!open) return;

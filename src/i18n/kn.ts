@@ -140,4 +140,12 @@ export const kn: Record<keyof typeof en, string> = {
   addQuestionQ: "ವೈದ್ಯರನ್ನು ಕೇಳುವ ಪಟ್ಟಿಗೆ ಈ ಪ್ರಶ್ನೆ ಸೇರಿಸಬೇಕೇ?",
   myQuestions: "ನನ್ನ ಪ್ರಶ್ನೆಗಳು",
   wellDone: "ಭೇಷ್!",
+  emergencyCard: "ತುರ್ತು ಕಾರ್ಡ್",
+  editEmergencyCard: "ತುರ್ತು ಕಾರ್ಡ್ ಬದಲಿಸಿ",
+  appUpdates: "ಆ್ಯಪ್ ನವೀಕರಣ",
+  checkUpdates: "ನವೀಕರಣ ಪರಿಶೀಲಿಸಿ",
+  checkingUpdates: "ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…",
+  upToDate: "ನಿಮ್ಮಲ್ಲಿ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿ ಇದೆ.",
+  updatingNow: "ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ… ಆ್ಯಪ್ ಕ್ಷಣದಲ್ಲಿ ಮತ್ತೆ ತೆರೆಯುತ್ತದೆ.",
+  updateOffline: "ಇಂಟರ್ನೆಟ್ ಇಲ್ಲ. ಆನ್‌ಲೈನ್ ಆದಾಗ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
 };

@@ -11,6 +11,7 @@ import { useUI } from '../../lib/store';
 import { speak, chime } from '../../lib/audio';
 import { compressImage, startRecording, type Rec } from '../../lib/media';
 import { cx } from '../../lib/util';
+import { useBackToClose } from '../../lib/nav';
 
 const EMOJI = ['🍚', '💧', '🤕', '🚽', '👩', '👨', '🎵', '😴', '👍', '👎', '➕', '✋', '🔥', '❄️', '🤗', '🌳'];
 const COLORS = ['t-blue', 't-violet', 't-mint', 't-coral', 't-amber', 't-green'];
@@ -38,6 +39,7 @@ export default function Talk() {
   const [page, setPage] = useState(0);
   const [focus, setFocus] = useState(-1);
   const [full, setFull] = useState(false);
+  useBackToClose(full, () => setFull(false));
   const [active, setActive] = useState<string>();
   const [editing, setEditing] = useState<Card | null>(null);
   const [editMode, setEditMode] = useState(false);

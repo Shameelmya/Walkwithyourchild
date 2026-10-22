@@ -16,6 +16,8 @@ import { pdfFromNode } from '../../lib/printing';
 import { loadSheetData } from '../../lib/sheets';
 import { PrintSheet } from '../../components/sheets/PrintSheet';
 import { loadSummary, SummaryDoc } from '../../components/SummaryDoc';
+import { checkForUpdates } from '../../components/UpdatePrompt';
+import { RefreshCw } from 'lucide-react';
 
 function PinSettings() {
   const { t } = useT();
@@ -24,12 +26,18 @@ function PinSettings() {
   const [mode, setMode] = useState<'' | 'set' | 'off'>('');
   const [a, setA] = useState(''); const [b, setB] = useState(''); const [old, setOld] = useState(''); const [err, setErr] = useState('');
   const close = () => { setMode(''); setA(''); setB(''); setOld(''); setErr(''); };
+  const [saving, setSaving] = useState(false);
   const submit = async () => {
+    if (saving) return;
+    setErr('');
+    setSaving(true);
+    try {
     if (pin && !(await verifyPin(old, pin))) return setErr(t('wrongPin'));
     if (mode === 'off') { await setSetting('pin', null); toast(t('pinRemoved')); return close(); }
     if (a.length !== 4) return setErr(t('pinShort'));
     if (a !== b) return setErr(t('pinMismatch'));
     await setSetting('pin', await hashPin(a)); toast(t('pinSaved')); close();
+    } finally { setSaving(false); }
   };
   const inp = (id: string, v: string, s: (x: string) => void, l: string) => <div><label className="label" htmlFor={id}>{l}</label><input id={id} className="input" type="password" inputMode="numeric" maxLength={4} value={v} onChange={(e) => s(e.target.value.replace(/\D/g, ''))} /></div>;
   return (
@@ -45,7 +53,7 @@ function PinSettings() {
           {pin && inp('pin-old', old, setOld, t('currentPin'))}
           {mode === 'set' && <>{inp('pin-a', a, setA, t('newPin'))}{inp('pin-b', b, setB, t('repeatPin'))}</>}
           {err && <p role="alert" className="text-danger font-bold">{err}</p>}
-          <button className="btn-primary" onClick={submit}>{t('save')}</button>
+          <button className="btn-primary" onClick={submit} disabled={saving} aria-busy={saving}>{saving ? <><span className="w-5 h-5 rounded-full border-[3px] border-white/40 border-t-white animate-spin" aria-hidden /> {t('saving')}</> : t('save')}</button>
         </div>
       </Modal>
     </div>
@@ -96,6 +104,22 @@ function Backup() {
           <button className="btn-primary" disabled={busy || !pw} onClick={mode === 'make' ? make : restore}>{busy ? t('preparing') : mode === 'make' ? t('makeBackup') : t('restoreBackup')}</button>
         </div>
       </Modal>
+    </div>
+  );
+}
+
+function UpdateCheck() {
+  const { t } = useT();
+  const [state, setState] = useState<'' | 'checking' | 'latest' | 'updating' | 'offline' | 'error'>('');
+  return (
+    <div className="card p-4 flex items-center gap-3">
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold">{t('appVersion', { v: __APP_VERSION__ })}</p>
+        <p className="text-sm text-muted" aria-live="polite">{state === 'checking' ? t('checkingUpdates') : state === 'latest' ? t('upToDate') : state === 'updating' ? t('updatingNow') : state === 'offline' ? t('updateOffline') : state === 'error' ? t('somethingWrong') : ''}</p>
+      </div>
+      <button className="btn-outline shrink-0" disabled={state === 'checking' || state === 'updating'} onClick={async () => { setState('checking'); setState(await checkForUpdates()); }}>
+        <RefreshCw size={18} className={state === 'checking' || state === 'updating' ? 'animate-spin' : ''} aria-hidden /> {t('checkUpdates')}
+      </button>
     </div>
   );
 }
@@ -163,7 +187,7 @@ export default function Settings() {
       <Section title={t('dangerZone')}>
         <div className="card p-4"><p className="mb-3">{t('deleteAllExplain')}</p><button className="btn-danger" onClick={() => setDel1(true)}><Trash2 size={18} aria-hidden /> {t('deleteAll')}</button></div>
       </Section>
-      <p className="text-center text-xs text-muted mt-2">{t('appVersion', { v: __APP_VERSION__ })}</p>
+      <Section title={t('appUpdates')}><UpdateCheck /></Section>
       <Confirm open={del1} danger text={t('deleteAllQ1')} yes={t('continue')} onNo={() => setDel1(false)} onYes={() => { setDel1(false); setDel2(true); }} />
       <Confirm open={del2} danger text={t('deleteAllQ2')} yes={t('deleteAll')} onNo={() => setDel2(false)} onYes={async () => { await db.delete(); try { localStorage.clear(); } catch { /* */ } location.href = '/'; }} />
     </Page>

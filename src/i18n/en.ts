@@ -203,4 +203,12 @@ export const en = {
   addQuestionQ: "Add this question to your list for the doctor?",
   myQuestions: "My questions",
   wellDone: "Well done!",
+  emergencyCard: "Emergency card",
+  editEmergencyCard: "Edit the emergency card",
+  appUpdates: "App updates",
+  checkUpdates: "Check for updates",
+  checkingUpdates: "Checking…",
+  upToDate: "You have the latest version.",
+  updatingNow: "Updating… the app will reopen in a moment.",
+  updateOffline: "No internet. Try again when you are online.",
 };

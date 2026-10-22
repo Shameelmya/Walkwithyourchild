@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil, ChevronRight } from 'lucide-react';
+import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil, ChevronRight, Siren } from 'lucide-react';
 import { useT, type TKey } from '../../i18n';
 import { Avatar, Page } from '../../components/ui';
 import { useChild, useChildId } from '../../lib/hooks';
@@ -8,6 +8,7 @@ import { ageFrom, cx } from '../../lib/util';
 import { db } from '../../lib/db';
 
 const TILES: { to: string; k: TKey; s: TKey; I: typeof Pill; g: string }[] = [
+  { to: '/notebook/emergency', k: 'emergencyCard', s: 'medsSub', I: Siren, g: 't-rose' },
   { to: '/medicines', k: 'navMedicines', s: 'medsSub', I: Pill, g: 't-mint' },
   { to: '/seizures', k: 'navSeizures', s: 'seizuresSub', I: Activity, g: 't-rose' },
   { to: '/visits', k: 'navVisits', s: 'visitsSub', I: Stethoscope, g: 't-blue' },

@@ -10,10 +10,12 @@ import { isActive } from '../lib/meds';
 import { ageFrom } from '../lib/util';
 import { Avatar, BottomBar } from '../components/ui';
 import { LangButton } from '../components/LangButton';
+import { useBack } from '../lib/nav';
 
 export default function SOS() {
   const { t, lang } = useT();
   const nav = useNavigate();
+  const back = useBack();
   const child = useChild();
   const childId = useChildId();
   useWakeLockSafe();
@@ -38,7 +40,7 @@ export default function SOS() {
   return (
     <main id="main" className="min-h-screen bg-bg">
       <div className="t-rose text-white px-4 pt-4 pb-5 rounded-b-[32px] shadow-lift">
-        <div className="flex items-center justify-between gap-2"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><div className="flex gap-2"><LangButton light /><button className="glass !w-12 !h-12" onClick={() => nav(-1)} aria-label={t('close')}><X /></button></div></div>
+        <div className="flex items-center justify-between gap-2"><p className="text-2xl font-extrabold">{loc(sheet.banner, lang)}</p><div className="flex gap-2"><LangButton light /><button className="glass !w-12 !h-12" onClick={() => back('/')} aria-label={t('close')}><X /></button></div></div>
       </div>
       <div className="max-w-xl mx-auto px-4 py-4">
         <section className="card p-4" lang={lang}>
@@ -48,7 +50,7 @@ export default function SOS() {
           {row(loc(sheetById('my-child')!.fields!.find((f) => f.id === 'allergies')!.label, lang), d?.me.allergies)}
           {d?.meds.length ? row(t('currentMedicines'), d.meds.map((m) => `${m.name} – ${m.dose} (${m.times.join(', ')})`).join('\n')) : null}
           {sheet.fields!.map((f) => <div key={f.id}>{row(loc(f.label, lang), d?.card[f.id])}</div>)}
-          {!d?.card.plan && <button className="btn-ghost mt-3" onClick={() => nav('/notebook/emergency')}><Pencil size={18} aria-hidden /> {t('fillEmergencyCard')}</button>}
+          <button className="btn-ghost mt-3" onClick={() => nav('/notebook/emergency')}><Pencil size={18} aria-hidden /> {d?.card.plan || d?.card.contact ? t('editEmergencyCard') : t('fillEmergencyCard')}</button>
         </section>
         {locErr && <p role="alert" className="font-bold text-danger mt-3">{locErr}</p>}
         {loc0 && <a className="underline break-all text-sm block mt-3" href={loc0}>{loc0}</a>}
