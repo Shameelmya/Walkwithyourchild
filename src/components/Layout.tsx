@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, NotebookPen, Baby, Menu, Siren, Pill, Activity, Stethoscope, FolderHeart, MessageSquareHeart, HeartHandshake, Settings, Newspaper, Users, FileText, LineChart, Gamepad2, ClipboardList, Archive, Info, X } from 'lucide-react';
+import { Home, BookOpen, NotebookPen, Baby, Menu, Siren, Pill, Activity, Stethoscope, FolderHeart, MessageSquareHeart, HeartHandshake, Settings, Newspaper, Users, FileText, LineChart, Gamepad2, ClipboardList, Archive, Info, X, HeartPulse } from 'lucide-react';
 import { useT, type TKey } from '../i18n';
 import { cx } from '../lib/util';
 import { ChildSwitcher } from './ChildSwitcher';
@@ -20,6 +20,7 @@ const MAIN: Item[] = [
 ];
 const CARE: Item[] = [
   { to: '/notebook/emergency', k: 'emergencyCard', I: Siren, c: 'var(--tr2)' },
+  { to: '/care', k: 'careGuide', I: HeartPulse, c: 'var(--tr2)' },
   { to: '/medicines', k: 'navMedicines', I: Pill, c: 'var(--tm2)' },
   { to: '/seizures', k: 'navSeizures', I: Activity, c: 'var(--tr2)' },
   { to: '/visits', k: 'navVisits', I: Stethoscope, c: 'var(--tb2)' },

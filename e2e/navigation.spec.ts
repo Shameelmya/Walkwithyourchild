@@ -113,3 +113,27 @@ test('child photo can be zoomed, moved, turned and cropped before saving', async
   await expect(dlg).toHaveCount(0);
   await expect(page.locator('main img').first()).toBeVisible();
 });
+
+test('care guide: book steps, episode timer, team plan and who helps', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.getByRole('link', { name: /Care guide/ }).first().click();
+  await expect(page).toHaveURL(/\/care$/);
+  await page.getByRole('link', { name: /Pain, crying and sleep/ }).click();
+  await expect(page.getByText('Children who cannot speak still feel pain.', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Start timer' }).click();
+  await page.waitForTimeout(1300);
+  await page.getByRole('button', { name: 'Stop' }).click();
+  await page.getByLabel('What happened? What helped?').fill('Cried after lunch, eased after changing position');
+  await page.getByLabel("Our team's plan for Ammu").fill('Check for constipation first');
+  await expect(page.getByText('Physiotherapist')).toHaveCount(0);
+  await expect(page.getByText('Palliative or supportive care team')).toBeVisible();
+  await page.waitForTimeout(400);
+  await page.reload();
+  await expect(page.getByText('Cried after lunch, eased after changing position')).toBeVisible();
+  await expect(page.getByLabel("Our team's plan for Ammu")).toHaveValue('Check for constipation first');
+  await page.goto('/care/stiffness');
+  await expect(page.getByText(/does not have a separate section/)).toBeVisible();
+  await page.goto('/care/seizure');
+  await expect(page).toHaveURL(/\/seizure$/);
+});

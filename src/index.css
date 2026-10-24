@@ -176,3 +176,4 @@ html:not([lang="en"]) .text-\[1\.05rem\] { font-size: 0.98rem; }
   html:not([lang="en"]) .sm\:text-3xl { font-size: 1.65rem; }
 }
 html:not([lang="en"]) :is(h1, h2, h3, .font-display, .tile, .card) { overflow-wrap: anywhere; }
+.care-book > :first-child, .care-book > :first-child > :first-child { margin-top: 0 !important; padding-top: 0 !important; }
