@@ -4,7 +4,7 @@ import { ExternalLink, Search, Phone, Plus, Trash2 } from 'lucide-react';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Modal, SheetActions } from '../../components/ui';
 import { getSetting, setSetting } from '../../lib/db';
-import { SCHEMES, ORGS, REVIEWED, searchUrl, type HelpItem } from '../../lib/help';
+import { SCHEMES, ORGS, FINDERS, REVIEWED, searchUrl, type HelpItem } from '../../lib/help';
 import { HELP_SRC } from '../../lib/care';
 import { ct } from '../../lib/careText';
 import { cx, fmtDate } from '../../lib/util';
@@ -45,6 +45,7 @@ export default function Help() {
       <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar" role="tablist">
         {(['all', 'india', 'kerala', 'karnataka'] as Where[]).map((w) => <button key={w} role="tab" aria-selected={where === w} className={cx('chip shrink-0', where === w && 'chip-on')} onClick={() => setWhere(w)}>{w === 'all' ? '✦' : L(w)}</button>)}
       </div>
+      <section className="mb-6"><h2 className="font-extrabold mb-2">{L('finders')}</h2><ul className="card divide-y divide-line/60">{FINDERS.map((x) => <Item key={x.id} x={x} />)}</ul></section>
       <section className="mb-6"><h2 className="font-extrabold mb-2">{L('schemes')}</h2><ul className="card divide-y divide-line/60">{show(SCHEMES).map((x) => <Item key={x.id} x={x} />)}</ul></section>
       <section className="mb-6"><h2 className="font-extrabold mb-2">{L('orgs')}</h2><ul className="card divide-y divide-line/60">{show(ORGS).map((x) => <Item key={x.id} x={x} />)}</ul></section>
       <section className="mb-6">

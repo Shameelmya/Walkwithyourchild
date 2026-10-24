@@ -180,7 +180,8 @@ test('care plan, therapy play and schemes', async ({ page }) => {
   await page.goto('/help');
   await expect(page.getByText('UDID card (Unique Disability ID)')).toBeVisible();
   await page.getByRole('tab', { name: 'Kerala' }).click();
-  await expect(page.getByText('Kerala Social Security Mission')).toBeVisible();
+  await expect(page.getByText('Thalolam (Kerala Social Security Mission)')).toBeVisible();
+  await expect(page.getByText('Haqdarshak', { exact: true })).toBeVisible();
   await expect(page.getByText(/Karnataka: Department/)).toHaveCount(0);
   await page.reload();
   await page.goto('/care/plan');
