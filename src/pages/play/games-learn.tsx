@@ -1,20 +1,16 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Volume2 } from 'lucide-react';
-import { PENTA, tone, play, midi, speak } from '../../lib/audio';
+import { PENTA, tone, play, midi, speak, animal } from '../../lib/audio';
 import { useUI, type Lang } from '../../lib/store';
 import { HUES, shuffle } from './shared';
 import { Celebrate } from './games-colour';
 import { Score } from './games-tilt';
 import { UI_TEXT } from './text';
+import { ANIMALS as ANIMAL_LIST } from './animals';
 
 type Name = Record<Lang, string>;
 const w = (en: string, ml: string, kn: string): Name => ({ en, ml, kn });
-const ANIMALS: [string, Name][] = [
-  ['🐱', w('cat', 'പൂച്ച', 'ಬೆಕ್ಕು')], ['🐶', w('dog', 'നായ', 'ನಾಯಿ')], ['🐄', w('cow', 'പശു', 'ಹಸು')], ['🐘', w('elephant', 'ആന', 'ಆನೆ')],
-  ['🦁', w('lion', 'സിംഹം', 'ಸಿಂಹ')], ['🐒', w('monkey', 'കുരങ്ങൻ', 'ಕೋತಿ')], ['🐟', w('fish', 'മീൻ', 'ಮೀನು')], ['🐦', w('bird', 'പക്ഷി', 'ಹಕ್ಕಿ')],
-  ['🐰', w('rabbit', 'മുയൽ', 'ಮೊಲ')], ['🐴', w('horse', 'കുതിര', 'ಕುದುರೆ')], ['🦆', w('duck', 'താറാവ്', 'ಬಾತುಕೋಳಿ')], ['🐯', w('tiger', 'കടുവ', 'ಹುಲಿ')],
-  ['🐐', w('goat', 'ആട്', 'ಮೇಕೆ')], ['🐔', w('hen', 'കോഴി', 'ಕೋಳಿ')], ['🐢', w('tortoise', 'ആമ', 'ಆಮೆ')], ['🦋', w('butterfly', 'പൂമ്പാറ്റ', 'ಚಿಟ್ಟೆ')],
-];
+const ANIMALS: [string, Name][] = ANIMAL_LIST.map((x) => [x.e, x.name]);
 const FOOD: [string, Name][] = [
   ['🍎', w('apple', 'ആപ്പിൾ', 'ಸೇಬು')], ['🍌', w('banana', 'പഴം', 'ಬಾಳೆಹಣ್ಣು')], ['🥭', w('mango', 'മാങ്ങ', 'ಮಾವಿನಹಣ್ಣು')], ['🍇', w('grapes', 'മുന്തിരി', 'ದ್ರಾಕ್ಷಿ')],
   ['🍉', w('watermelon', 'തണ്ണിമത്തൻ', 'ಕಲ್ಲಂಗಡಿ')], ['🍊', w('orange', 'ഓറഞ്ച്', 'ಕಿತ್ತಳೆ')], ['🥥', w('coconut', 'തേങ്ങ', 'ತೆಂಗಿನಕಾಯಿ')], ['🥛', w('milk', 'പാൽ', 'ಹಾಲು')],
@@ -95,9 +91,11 @@ export function Quiz({ vol, kind }: { vol: number; kind: QuizKind }) {
   useEffect(() => { if (first.current) { first.current = false; const h = setTimeout(() => say(cur.current), 400); return () => clearTimeout(h); } next(); }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
   const choose = (o: Opt) => {
     if (right) return;
+    // Animals call out when tapped, right or wrong, so the child learns the sounds too.
+    if (kind === 'animals') { const an = ANIMAL_LIST.find((x) => x.e === o.key); if (an) animal(an.id, vol); }
     if (o.key === round.answer) {
       setRight(true); const s = stars + 1; setStars(s);
-      tone(PENTA[5], 0.6, vol); tone(PENTA[7], 0.7, vol, 'sine', 0.12); tone(PENTA[9], 1, vol, 'sine', 0.24);
+      if (kind !== 'animals') { tone(PENTA[5], 0.6, vol); tone(PENTA[7], 0.7, vol, 'sine', 0.12); tone(PENTA[9], 1, vol, 'sine', 0.24); }
       if (s % 5 === 0) setParty((p) => p + 1);
       setTimeout(() => speak(round.praise[0], round.praise[1], undefined, { force: true }), 350);
       setTimeout(() => next(), 1700);

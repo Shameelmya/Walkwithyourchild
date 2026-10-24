@@ -17,6 +17,7 @@ import { Piano } from './games-music';
 import { SongTiles } from './games-songs';
 import { Quiz, Memory, Simon, type QuizKind } from './games-learn';
 import { Watercolour } from './games-art';
+import { AnimalSounds } from './games-animals';
 import { Rubik, Slide } from './games-puzzle';
 import { askMotion } from './shared';
 import { GAME_TEXT, UI_TEXT } from './text';
@@ -49,6 +50,7 @@ const GAMES: Game[] = [
   { id: 'star', e: '⭐', cat: 'move', tile: 't-violet', C: StarFollow, snd: ['glass', 'japanese', 60] },
   { id: 'peek', e: '🐘', cat: 'move', tile: 't-green', C: Peek, snd: ['kalimba', 'pentatonic', 60] },
   { id: 'sea', e: '🐠', cat: 'move', tile: 't-mint', C: Sea, snd: ['pad', 'japanese', 55] },
+  { id: 'animal-sounds', e: '🐮', cat: 'sound', tile: 't-green', C: AnimalSounds, snd: ['kalimba'], essential: true },
   { id: 'q-animals', e: '🦁', cat: 'learn', tile: 't-amber', C: quiz('animals'), snd: ['kalimba', 'major', 60] },
   { id: 'q-food', e: '🍎', cat: 'learn', tile: 't-coral', C: quiz('food'), snd: ['kalimba', 'major', 60] },
   { id: 'q-colours', e: '🎨', cat: 'learn', tile: 't-violet', C: quiz('colours'), snd: ['kalimba', 'major', 60] },

@@ -120,17 +120,24 @@ test('care guide: book steps, episode timer, team plan and who helps', async ({ 
   await page.getByRole('link', { name: /Care guide/ }).first().click();
   await expect(page).toHaveURL(/\/care$/);
   await page.getByRole('link', { name: /Pain, crying and sleep/ }).click();
-  await expect(page.getByText('Children who cannot speak still feel pain.', { exact: false })).toBeVisible();
+  await expect(page.getByText('Children who cannot speak still feel pain.', { exact: false }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Start timer' }).click();
   await page.waitForTimeout(1300);
   await page.getByRole('button', { name: 'Stop' }).click();
   await page.getByLabel('What happened? What helped?').fill('Cried after lunch, eased after changing position');
+  await page.getByText("Our team's plan for Ammu").click();
   await page.getByLabel("Our team's plan for Ammu").fill('Check for constipation first');
+  await page.getByText('Who in the team can help').click();
   await expect(page.getByText('Physiotherapist')).toHaveCount(0);
   await expect(page.getByText('Palliative or supportive care team')).toBeVisible();
+  // Steps one at a time
+  await expect(page.getByText('Step 1 of')).toBeVisible();
+  await page.getByRole('button', { name: 'Next →' }).click();
+  await expect(page.getByText('Step 2 of')).toBeVisible();
   await page.waitForTimeout(400);
   await page.reload();
   await expect(page.getByText('Cried after lunch, eased after changing position')).toBeVisible();
+  await page.getByText("Our team's plan for Ammu").click();
   await expect(page.getByLabel("Our team's plan for Ammu")).toHaveValue('Check for constipation first');
   await page.goto('/care/stiffness');
   await expect(page.getByText(/does not have a separate section/)).toBeVisible();
@@ -186,4 +193,16 @@ test('care plan, therapy play and schemes', async ({ page }) => {
   await page.reload();
   await page.goto('/care/plan');
   await expect(page.getByText('Dr Meera')).toBeVisible();
+});
+
+test('animal sounds board: each animal calls out', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.goto('/play/animal-sounds');
+  await page.getByRole('button', { name: "Let's play" }).click();
+  await page.getByRole('button', { name: 'cat', exact: true }).click();
+  await expect(page.getByText('Meow!')).toBeVisible();
+  await page.getByRole('tab', { name: /Birds/ }).click();
+  await page.getByRole('button', { name: 'owl' }).click();
+  await expect(page.getByText('Hoo hoo!')).toBeVisible();
 });

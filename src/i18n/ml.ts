@@ -236,4 +236,11 @@ export const ml: Record<keyof typeof en, string> = {
   carePlanNav: "ഞങ്ങളുടെ പരിചരണ പദ്ധതി",
   therapyNav: "തെറാപ്പി കളി",
   helpNav: "പദ്ധതികളും സഹായവും",
+  removeRecording: "റെക്കോർഡിംഗ് ഒഴിവാക്കുക",
+  careGuideShort: "എന്താണ് സംഭവിക്കുന്നതെന്ന് തൊടൂ, പിന്നെ ഓരോ ഘട്ടവും പിന്തുടരൂ.",
+  whatIsHappening: "എന്താണ് സംഭവിക്കുന്നത്?",
+  getHelpNow: "ഉടൻ സഹായം തേടുക",
+  whyItMatters: "ഇത് എന്തിന്",
+  askYourTeam: "ചികിത്സാസംഘത്തോട് ചോദിക്കൂ",
+  readInBook: "പുസ്തകത്തിൽ വായിക്കാം",
 };

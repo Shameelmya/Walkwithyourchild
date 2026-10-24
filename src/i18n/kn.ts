@@ -193,4 +193,11 @@ export const kn: Record<keyof typeof en, string> = {
   carePlanNav: "ನಮ್ಮ ಆರೈಕೆ ಯೋಜನೆ",
   therapyNav: "ಥೆರಪಿ ಆಟ",
   helpNav: "ಯೋಜನೆಗಳು ಮತ್ತು ನೆರವು",
+  removeRecording: "ರೆಕಾರ್ಡಿಂಗ್ ತೆಗೆದುಹಾಕಿ",
+  careGuideShort: "ಏನಾಗುತ್ತಿದೆ ಎಂಬುದನ್ನು ಒತ್ತಿ, ನಂತರ ಹಂತಗಳನ್ನು ಒಂದೊಂದಾಗಿ ಅನುಸರಿಸಿ.",
+  whatIsHappening: "ಏನಾಗುತ್ತಿದೆ?",
+  getHelpNow: "ತಕ್ಷಣ ಸಹಾಯ ಪಡೆಯಿರಿ",
+  whyItMatters: "ಇದು ಏಕೆ ಮುಖ್ಯ",
+  askYourTeam: "ನಿಮ್ಮ ತಂಡವನ್ನು ಕೇಳಿ",
+  readInBook: "ಪುಸ್ತಕದಲ್ಲಿ ಓದಿ",
 };
