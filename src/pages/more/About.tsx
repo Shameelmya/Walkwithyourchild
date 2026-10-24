@@ -1,3 +1,4 @@
+import CREDITS from '../play/animal-credits.json';
 import { Phone } from 'lucide-react';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Section } from '../../components/ui';
@@ -25,6 +26,11 @@ export default function About() {
       </Section>
       <p className="text-center text-muted italic">{meta.storiesNote[lang]}</p>
       <p className="text-center text-muted mt-4">{meta.backPage[lang]}</p>
+      <details className="card p-4 mt-6 text-sm">
+        <summary className="font-bold cursor-pointer min-h-[40px]">🔊 Animal sound recordings</summary>
+        <p className="text-muted mt-2">From freesound.org, via the ESC-50 dataset (K. J. Piczak). Used under each recording's licence.</p>
+        <ul className="mt-2 grid gap-1">{CREDITS.map((c) => <li key={c.id}><b className="capitalize">{c.id}</b>: <a className="underline" href={c.url} target="_blank" rel="noopener noreferrer">{c.title}</a> by {c.author} ({c.license})</li>)}</ul>
+      </details>
     </Page>
   );
 }

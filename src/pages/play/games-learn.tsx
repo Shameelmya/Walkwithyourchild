@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Volume2 } from 'lucide-react';
-import { PENTA, tone, play, midi, speak, animal } from '../../lib/audio';
+import { PENTA, tone, play, midi, speak, animal, preloadAnimals } from '../../lib/audio';
 import { useUI, type Lang } from '../../lib/store';
 import { HUES, shuffle } from './shared';
 import { Celebrate } from './games-colour';
@@ -78,6 +78,7 @@ function makeRound(kind: QuizKind, n: number, lang: Lang, last: string): Round {
 export function Quiz({ vol, kind }: { vol: number; kind: QuizKind }) {
   const lang = useUI((s) => s.lang);
   const [n, setN] = useState(4);
+  useEffect(() => { if (kind === 'animals') preloadAnimals(); }, [kind]);
   const [round, setRound] = useState<Round>(() => makeRound(kind, 4, lang, ''));
   const [wrong, setWrong] = useState<string[]>([]);
   const [right, setRight] = useState(false);
