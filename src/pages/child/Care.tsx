@@ -162,14 +162,18 @@ function StepCards({ src, kind }: { src: Src[]; kind: string }) {
       if (s0.on) setDx(ddx * ((k === 0 && ddx > 0) || (k === n - 1 && ddx < 0) ? 0.3 : 1));
     },
     onTouchEnd: () => { const s0 = sw.current; sw.current = null; if (s0?.on && Math.abs(dx) > 60) go(dx < 0 ? 1 : -1); setDx(0); },
+    // The phone may take over the touch (scrolling, a system gesture): always settle back.
+    onTouchCancel: () => { sw.current = null; setDx(0); },
   };
+  const slide = { transform: dx ? `translateX(${dx}px)` : undefined, opacity: dx ? Math.max(0.35, 1 - Math.abs(dx) / 400) : 1, transition: dx ? 'none' : 'transform .3s var(--ease), opacity .3s' };
   return (
-    <section {...touch} className="card !rounded-3xl p-5 flex flex-col items-center text-center gap-3 overflow-hidden touch-pan-y select-none" aria-roledescription="carousel"
-      style={{ transform: dx ? `translateX(${dx}px) rotate(${dx / 60}deg)` : undefined, transition: dx ? 'none' : 'transform .3s var(--ease)' }}>
+    <section {...touch} className="card !rounded-3xl p-5 flex flex-col items-center text-center gap-3 overflow-hidden touch-pan-y select-none" aria-roledescription="carousel">
       <p className="text-xs font-bold text-muted uppercase tracking-wide">{t('stepOf', { n: k + 1, all: n })}</p>
-      <span key={k} className="anim-zoom w-28 h-28 rounded-full bg-soft flex items-center justify-center text-[3.6rem]" aria-hidden>{pic}</span>
-      {st.head && <p className="text-sm font-bold text-[rgb(var(--accent))]">{st.head}</p>}
-      <div key={'t' + k} className="anim-in text-lg leading-relaxed min-h-[5.5rem] prose-step" dangerouslySetInnerHTML={{ __html: st.html }} />
+      <div className="w-full flex flex-col items-center gap-3" style={slide}>
+        <span key={k} className="anim-zoom w-28 h-28 rounded-full bg-soft flex items-center justify-center text-[3.6rem]" aria-hidden>{pic}</span>
+        {st.head && <p className="text-sm font-bold text-[rgb(var(--accent))]">{st.head}</p>}
+        <div key={'t' + k} className="anim-in text-lg leading-relaxed min-h-[5.5rem] prose-step" dangerouslySetInnerHTML={{ __html: st.html }} />
+      </div>
       <div className="flex gap-1.5 flex-wrap justify-center" aria-hidden>{parts.steps.map((_, j) => <span key={j} className={cx('h-2 rounded-full transition-all', j === k ? 'w-6 bg-[rgb(var(--accent))]' : 'w-2 bg-line')} />)}</div>
       <div className="grid grid-cols-2 gap-2.5 w-full mt-1">
         <button className="btn-outline !min-h-[56px]" disabled={k === 0} onClick={() => go(-1)}>← {t('back')}</button>
