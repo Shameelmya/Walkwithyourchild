@@ -303,8 +303,30 @@ function breath(env: Pt[], vol: number, type: BiquadFilterType, freq: number, q 
   const g = a.createGain(); path(g.gain, env.map(([x, v]) => [x, v * vol] as Pt), t);
   s.connect(f).connect(g).connect(out()); s.start(t); s.stop(t + end + 0.05);
 }
+/** Real recordings (freesound.org, CC0 / CC BY) for these animals; the rest use the made-up calls below. */
+const REAL = new Set(['dog', 'rooster', 'pig', 'cow', 'frog', 'cat', 'hen', 'bee', 'sheep', 'crow', 'bird']);
+const recCache = new Map<string, Promise<AudioBuffer | null>>();
+const loadRec = (id: string) => {
+  if (!recCache.has(id)) recCache.set(id, fetch(`/sounds/animals/${id}.mp3`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject())).then((b) => ac().decodeAudioData(b)).catch(() => null));
+  return recCache.get(id)!;
+};
+let recNow: AudioBufferSourceNode | null = null;
+/** Load the recordings early so the first tap sounds at once. */
+export function preloadAnimals() { REAL.forEach((id) => void loadRec(id)); }
 export function animal(id: string, vol = 0.7) {
   if (vol <= 0) return;
+  if (REAL.has(id)) {
+    void loadRec(id).then((buf) => {
+      if (!buf) return synthAnimal(id, vol);
+      try { recNow?.stop(); } catch { /* */ }
+      const a = ac(); const s = a.createBufferSource(); const g = a.createGain(); g.gain.value = Math.min(1.5, vol * 1.6);
+      s.buffer = buf; s.connect(g).connect(out()); s.start(); recNow = s;
+    });
+    return;
+  }
+  synthAnimal(id, vol);
+}
+function synthAnimal(id: string, vol: number) {
   const E = (len: number, peak = 1, att = 0.05): Pt[] => [[0, 0], [att, peak], [len * 0.7, peak * 0.8], [len, 0]];
   switch (id) {
     case 'cat': voice('sawtooth', [[0, 520], [0.25, 780], [0.7, 560]], E(0.75, 0.5, 0.08), vol, { bp: [1400, 1.2], vib: [6, 8] }); break;

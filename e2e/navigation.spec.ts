@@ -199,7 +199,9 @@ test('animal sounds board: each animal calls out', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await onboard(page);
   await page.goto('/play/animal-sounds');
+  const rec = page.waitForResponse((r) => r.url().endsWith('/sounds/animals/cat.mp3') && r.status() === 200);
   await page.getByRole('button', { name: "Let's play" }).click();
+  await rec; // the real recording is there
   await page.getByRole('button', { name: 'cat', exact: true }).click();
   await expect(page.getByText('Meow!')).toBeVisible();
   await page.getByRole('tab', { name: /Birds/ }).click();

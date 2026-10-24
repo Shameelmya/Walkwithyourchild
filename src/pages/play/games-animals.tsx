@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { animal } from '../../lib/audio';
+import { useEffect, useState } from 'react';
+import { animal, preloadAnimals } from '../../lib/audio';
 import { useUI } from '../../lib/store';
 import { cx } from '../../lib/util';
 import { ANIMALS, GROUPS, type Group } from './animals';
@@ -9,6 +9,7 @@ import { HUES, useAnyInput } from './shared';
 export function AnimalSounds({ vol }: { vol: number }) {
   const lang = useUI((s) => s.lang);
   const [g, setG] = useState<Group>('farm');
+  useEffect(() => { preloadAnimals(); }, []);
   const [on, setOn] = useState<{ id: string; k: number } | null>(null);
   const list = ANIMALS.filter((a) => a.g === g);
   const call = (id: string) => { animal(id, vol); setOn({ id, k: Date.now() }); try { navigator.vibrate?.(30); } catch { /* */ } };
