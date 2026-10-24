@@ -176,6 +176,7 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
             {rec ? <button className="btn-danger" onClick={async () => { const b = await rec.stop(); setRec(null); setVoice(await putBlob(b, childId, 'voice')); }}><Square size={18} aria-hidden /> {t('stopRecording')}</button>
               : <button className="btn-ghost" onClick={async () => { try { setRec(await startRecording('audio', 15000, async (b) => { setRec(null); setVoice(await putBlob(b, childId, 'voice')); })); } catch { useToast.getState().show(t('micNotAvailable')); } }}><Mic size={18} aria-hidden /> {voice ? t('recordAgain') : t('recordYourVoice')}</button>}
             {voiceUrl && !rec && <button className="chip" onClick={() => void new Audio(voiceUrl).play()}><Play size={16} aria-hidden /> {t('play')}</button>}
+            {voice && !rec && <button className="chip text-danger" onClick={() => setVoice(undefined)}><Trash2 size={16} aria-hidden /> {t('removeRecording')}</button>}
           </div>
           <p className="text-sm text-muted mt-1">{t('voiceHint')}</p>
         </div>
@@ -196,7 +197,7 @@ function RecordAll({ cards, childId, count, onClose }: { cards: Card[]; childId:
   const [rec, setRec] = useState<Rec | null>(null);
   const [fresh, setFresh] = useState<Record<string, number>>({});
   const c = cards[i];
-  const voice = c ? fresh[c.key] ?? c.voice : undefined;
+  const voice = c ? (c.key in fresh ? fresh[c.key] || undefined : c.voice) : undefined;
   const url = useBlobUrl(voice);
   const keep = async (b: Blob) => {
     const id = await putBlob(b, childId, 'voice');
@@ -210,7 +211,7 @@ function RecordAll({ cards, childId, count, onClose }: { cards: Card[]; childId:
     <Modal open onClose={() => { void rec?.stop(); onClose(); }} title={t('recordVoices')}>
       <div className="grid gap-4 text-center">
         <p className="text-sm text-muted">{t('recordVoicesHint')}</p>
-        <div className="flex items-center justify-center gap-1 flex-wrap" aria-hidden>{cards.map((x, k) => <span key={x.key} className={cx('w-2 h-2 rounded-full', k === i ? 'bg-[rgb(var(--accent))] scale-125' : fresh[x.key] ?? x.voice ? 'bg-[var(--p2)]' : 'bg-line')} />)}</div>
+        <div className="flex items-center justify-center gap-1 flex-wrap" aria-hidden>{cards.map((x, k) => <span key={x.key} className={cx('w-2 h-2 rounded-full', k === i ? 'bg-[rgb(var(--accent))] scale-125' : (x.key in fresh ? fresh[x.key] : x.voice) ? 'bg-[var(--p2)]' : 'bg-line')} />)}</div>
         <div className="mx-auto w-24 h-24 rounded-full bg-surface2 flex items-center justify-center text-5xl">{c.emoji ?? '💬'}</div>
         <p className="text-sm font-bold text-muted">{c.label}</p>
         <p className="text-2xl font-extrabold leading-snug">“{c.phrase}”</p>
@@ -220,6 +221,7 @@ function RecordAll({ cards, childId, count, onClose }: { cards: Card[]; childId:
             : <button className="btn-primary !min-h-[64px] !px-6 text-lg" onClick={async () => { try { setRec(await startRecording('audio', 15000, async (b) => { setRec(null); await keep(b); })); } catch { useToast.getState().show(t('micNotAvailable')); } }}><Mic size={20} aria-hidden /> {voice ? t('recordAgain') : t('recordYourVoice')}</button>}
           {url && !rec && <button className="icon-chip" aria-label={t('play')} onClick={() => void new Audio(url).play()}><Play size={20} /></button>}
           {voice && !rec && <span className="text-[var(--p2)]" aria-label={t('saved')}><Check /></span>}
+          {voice && !rec && <button className="icon-chip text-danger" aria-label={t('removeRecording')} onClick={async () => { const r = await db.talkCards.where('childId').equals(childId).filter((x) => (c.builtin !== undefined ? x.builtin === c.builtin : x.id === c.rec?.id)).first(); if (r?.id) await db.talkCards.update(r.id, { voiceBlobId: undefined }); setFresh((f) => ({ ...f, [c.key]: 0 })); }}><Trash2 size={18} /></button>}
         </div>
         <SheetActions>
           <button className="btn-ghost" disabled={i === 0 || !!rec} onClick={() => setI(i - 1)}><ChevronLeft size={18} aria-hidden /> {t('previous')}</button>

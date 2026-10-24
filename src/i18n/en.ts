@@ -256,4 +256,11 @@ export const en = {
   carePlanNav: "Our care plan",
   therapyNav: "Therapy play",
   helpNav: "Schemes and help",
+  removeRecording: "Remove recording",
+  careGuideShort: "Tap what is happening, then follow the steps one by one.",
+  whatIsHappening: "What is happening?",
+  getHelpNow: "Get help now",
+  whyItMatters: "Why it matters",
+  askYourTeam: "Ask your team",
+  readInBook: "Read it in the book",
 };

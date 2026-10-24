@@ -278,3 +278,64 @@ export function hold(freq: number, inst: HoldInst, vol = 0.6): () => void {
     nodes.forEach((o) => { try { o.stop(n + release * 3); } catch { /* */ } });
   };
 }
+
+/* Animal calls, made from the same sound engine (no recordings needed, works offline). */
+type Pt = [number, number]; // [seconds, value]
+function path(p: AudioParam, pts: Pt[], t: number, exp = false) {
+  p.setValueAtTime(pts[0][1], t + pts[0][0]);
+  for (const [s, v] of pts.slice(1)) exp ? p.exponentialRampToValueAtTime(Math.max(0.0001, v), t + s) : p.linearRampToValueAtTime(v, t + s);
+}
+function voice(type: OscillatorType, f: Pt[], env: Pt[], vol: number, o: { lp?: number; bp?: [number, number]; vib?: [number, number]; trem?: [number, number]; when?: number } = {}) {
+  const a = ac(); const t = a.currentTime + (o.when ?? 0); const end = env[env.length - 1][0];
+  const osc = a.createOscillator(); osc.type = type; path(osc.frequency, f, t, true);
+  const g = a.createGain(); path(g.gain, env.map(([s, v]) => [s, v * vol] as Pt), t);
+  let node: AudioNode = osc;
+  if (o.lp) { const fl = a.createBiquadFilter(); fl.type = 'lowpass'; fl.frequency.value = o.lp; node.connect(fl); node = fl; }
+  if (o.bp) { const fl = a.createBiquadFilter(); fl.type = 'bandpass'; fl.frequency.value = o.bp[0]; fl.Q.value = o.bp[1]; node.connect(fl); node = fl; }
+  if (o.vib) { const l = a.createOscillator(); const lg = a.createGain(); l.frequency.value = o.vib[0]; lg.gain.value = o.vib[1]; l.connect(lg).connect(osc.frequency); l.start(t); l.stop(t + end + 0.1); }
+  if (o.trem) { const l = a.createOscillator(); const lg = a.createGain(); const tg = a.createGain(); tg.gain.value = 1 - o.trem[1]; l.frequency.value = o.trem[0]; lg.gain.value = o.trem[1]; l.connect(lg).connect(tg.gain); node.connect(tg); node = tg; l.start(t); l.stop(t + end + 0.1); }
+  node.connect(g).connect(out()); osc.start(t); osc.stop(t + end + 0.1);
+}
+function breath(env: Pt[], vol: number, type: BiquadFilterType, freq: number, q = 1, when = 0) {
+  const a = ac(); const t = a.currentTime + when; const end = env[env.length - 1][0];
+  const s = a.createBufferSource(); s.buffer = noise(); s.loop = true;
+  const f = a.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+  const g = a.createGain(); path(g.gain, env.map(([x, v]) => [x, v * vol] as Pt), t);
+  s.connect(f).connect(g).connect(out()); s.start(t); s.stop(t + end + 0.05);
+}
+export function animal(id: string, vol = 0.7) {
+  if (vol <= 0) return;
+  const E = (len: number, peak = 1, att = 0.05): Pt[] => [[0, 0], [att, peak], [len * 0.7, peak * 0.8], [len, 0]];
+  switch (id) {
+    case 'cat': voice('sawtooth', [[0, 520], [0.25, 780], [0.7, 560]], E(0.75, 0.5, 0.08), vol, { bp: [1400, 1.2], vib: [6, 8] }); break;
+    case 'dog': for (const w of [0, 0.32]) { voice('sawtooth', [[0, 380], [0.13, 210]], E(0.16, 0.8, 0.01), vol, { lp: 1300, when: w }); breath(E(0.12, 0.25, 0.005), vol, 'bandpass', 900, 1, w); } break;
+    case 'cow': voice('sawtooth', [[0, 110], [0.3, 140], [1.3, 105]], E(1.4, 0.7, 0.15), vol, { lp: 700, vib: [4, 2] }); break;
+    case 'goat': case 'sheep': voice('sawtooth', [[0, id === 'goat' ? 430 : 330], [0.8, id === 'goat' ? 380 : 300]], E(0.85, 0.5, 0.06), vol, { bp: [1100, 1], vib: [9, 40] }); break;
+    case 'horse': voice('sawtooth', [[0, 1100], [0.3, 900], [1.2, 420]], E(1.25, 0.45, 0.05), vol, { bp: [1500, 1.5], vib: [18, 60] }); break;
+    case 'donkey': [0, 0.55, 1.1].forEach((w, i) => voice('sawtooth', i % 2 ? [[0, 280], [0.45, 240]] : [[0, 650], [0.45, 560]], E(0.5, 0.5, 0.05), vol, { bp: [1000, 1], when: w })); break;
+    case 'pig': for (const w of [0, 0.3]) { voice('sawtooth', [[0, 220], [0.2, 180]], E(0.22, 0.6, 0.02), vol, { bp: [700, 3], when: w, trem: [40, 0.6] }); } break;
+    case 'hen': [0, 0.18, 0.36, 0.6].forEach((w, i) => voice('square', [[0, i === 3 ? 900 : 650], [0.12, i === 3 ? 1200 : 500]], E(i === 3 ? 0.3 : 0.12, 0.35, 0.01), vol, { bp: [1300, 3], when: w })); break;
+    case 'rooster': ([[0, 700, 0.2], [0.22, 900, 0.18], [0.42, 1000, 0.2], [0.65, 1150, 0.7]] as const).forEach(([w, f, l]) => voice('sawtooth', [[0, f], [l, f * 0.85]], E(l, 0.45, 0.03), vol, { bp: [1600, 2], vib: [7, 15], when: w })); break;
+    case 'duck': for (const w of [0, 0.28]) voice('square', [[0, 520], [0.18, 380]], E(0.2, 0.45, 0.01), vol, { bp: [1200, 4], when: w }); break;
+    case 'mouse': [0, 0.15, 0.3].forEach((w) => voice('sine', [[0, 3200], [0.08, 3800]], E(0.09, 0.35, 0.005), vol, { when: w })); break;
+    case 'lion': voice('sawtooth', [[0, 120], [0.4, 150], [1.6, 80]], E(1.7, 0.9, 0.2), vol, { lp: 650, trem: [28, 0.5] }); breath(E(1.6, 0.5, 0.2), vol, 'lowpass', 500); break;
+    case 'tiger': case 'bear': voice('sawtooth', [[0, id === 'bear' ? 90 : 140], [1.0, id === 'bear' ? 75 : 110]], E(1.1, 0.8, 0.1), vol, { lp: 550, trem: [35, 0.6] }); breath(E(1.0, 0.4, 0.1), vol, 'lowpass', 450); break;
+    case 'elephant': voice('sawtooth', [[0, 450], [0.15, 700], [0.9, 620]], E(1.0, 0.6, 0.04), vol, { bp: [1800, 0.8], vib: [6, 20] }); breath(E(0.9, 0.3, 0.04), vol, 'highpass', 2000); break;
+    case 'monkey': [0, 0.22, 0.44, 0.75, 1.0].forEach((w, i) => voice('sawtooth', i < 3 ? [[0, 500], [0.15, 750]] : [[0, 900], [0.2, 1300]], E(0.18, 0.45, 0.02), vol, { bp: [1500, 1.5], when: w })); break;
+    case 'wolf': voice('triangle', [[0, 380], [0.6, 700], [2.0, 520]], E(2.1, 0.6, 0.3), vol, { vib: [5, 10] }); break;
+    case 'snake': breath([[0, 0], [0.1, 0.6], [1.3, 0.5], [1.5, 0]], vol, 'highpass', 4000); break;
+    case 'frog': for (const w of [0, 0.45]) voice('square', [[0, 260], [0.2, 220]], E(0.22, 0.5, 0.01), vol, { lp: 900, trem: [30, 0.9], when: w }); break;
+    case 'bee': voice('sawtooth', [[0, 210], [1.3, 230]], E(1.4, 0.3, 0.1), vol, { lp: 1600, vib: [7, 12] }); break;
+    case 'crow': for (const w of [0, 0.42]) { voice('sawtooth', [[0, 760], [0.3, 640]], E(0.32, 0.55, 0.02), vol, { bp: [1300, 2], when: w }); breath(E(0.3, 0.2, 0.02), vol, 'bandpass', 1500, 2, w); } break;
+    case 'bird': case 'chick': [0, 0.14, 0.28, 0.6, 0.74].forEach((w) => voice('sine', id === 'chick' ? [[0, 2800], [0.1, 3400]] : [[0, 3600], [0.07, 5200]], E(0.09, 0.35, 0.005), vol, { when: w })); break;
+    case 'parrot': voice('sawtooth', [[0, 1400], [0.1, 2000], [0.4, 1200]], E(0.45, 0.4, 0.01), vol, { bp: [2200, 2] }); voice('sine', [[0, 3000], [0.1, 4000]], E(0.12, 0.3, 0.005), vol, { when: 0.55 }); break;
+    case 'owl': for (const w of [0, 0.55, 0.85]) voice('sine', [[0, 420], [0.3, 380]], E(0.32, 0.6, 0.06), vol, { when: w }); break;
+    case 'peacock': voice('sawtooth', [[0, 900], [0.35, 1150]], E(0.4, 0.5, 0.03), vol, { bp: [1700, 2], when: 0 }); voice('sawtooth', [[0, 1100], [0.4, 800]], E(0.45, 0.5, 0.03), vol, { bp: [1500, 2], when: 0.45 }); break;
+    case 'eagle': voice('sawtooth', [[0, 2400], [0.15, 3000], [0.9, 1800]], E(1.0, 0.35, 0.02), vol, { bp: [2600, 3], vib: [25, 120] }); break;
+    case 'pigeon': [0, 0.5].forEach((w) => voice('sine', [[0, 420], [0.2, 480], [0.45, 380]], E(0.45, 0.5, 0.05), vol, { trem: [12, 0.4], when: w })); break;
+    case 'fish': [0, 0.18, 0.4].forEach((w, i) => play(500 + i * 200, 'bubble', vol * 0.8, 0.3, w)); break;
+    case 'dolphin': [0, 0.35, 0.7].forEach((w) => voice('sine', [[0, 5000], [0.1, 8000], [0.25, 6000]], E(0.28, 0.3, 0.01), vol, { when: w })); break;
+    case 'whale': voice('sine', [[0, 180], [1.0, 320], [2.2, 150]], E(2.3, 0.7, 0.4), vol, { vib: [3, 6] }); break;
+    default: play(660, 'kalimba', vol, 0.6);
+  }
+}
