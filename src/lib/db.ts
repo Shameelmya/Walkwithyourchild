@@ -11,6 +11,8 @@ export interface Medicine { id?: number; childId: number; name: string; purpose:
 export type DoseStatus = 'given' | 'skipped' | 'late';
 export interface DoseLog { id?: number; childId: number; medicineId: number; date: string; time: string; status: DoseStatus; at: number }
 export interface Seizure { id?: number; childId: number; start: number; end: number; durationSec: number; looked?: string; helped?: string; rescue?: 'yes' | 'no' | ''; notes?: string; videoBlobId?: number }
+/** A timed or noted episode from the care guide (pain, stiffness, choking...). */
+export interface Episode { id?: number; childId: number; kind: string; start: number; end: number; durationSec: number; note?: string }
 export interface BlobRec { id?: number; childId: number; blob: Blob; type: string; name: string; createdAt: number }
 export interface Visit { id?: number; childId: number; date: string; time?: string; doctor: string; hospital: string; purpose: string; done?: boolean; notifiedAt?: number }
 export interface GenericRecord { id?: number; childId: number; date: string; [k: string]: unknown }
@@ -42,6 +44,7 @@ export class WDB extends Dexie {
   talkCards!: Table<TalkCard, number>;
   memories!: Table<Memory, number>;
   selfCare!: Table<SelfCare, number>;
+  episodes!: Table<Episode, number>;
 
   constructor() {
     super('wwyc');
@@ -79,6 +82,8 @@ export class WDB extends Dexie {
           await tx.table(t).toCollection().modify((r: GenericRecord) => { if (!r.date) r.date = new Date().toISOString().slice(0, 10); });
         }
       });
+    // v3: care guide episodes.
+    this.version(3).stores({ episodes: '++id, childId, kind, start' });
   }
 }
 

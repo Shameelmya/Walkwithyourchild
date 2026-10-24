@@ -31,6 +31,8 @@ const ProgressPage = L(() => import('./pages/child/Progress'));
 const Summary = L(() => import('./pages/child/Summary'));
 const Documents = L(() => import('./pages/child/Documents'));
 const Talk = L(() => import('./pages/child/Talk'));
+const CareGuide = L(() => import('./pages/child/Care').then((m) => ({ default: m.CareGuide })));
+const CareDetail = L(() => import('./pages/child/Care').then((m) => ({ default: m.CareDetail })));
 const Play = L(() => import('./pages/play/Play'));
 const ForMe = L(() => import('./pages/more/ForMe'));
 const Memory = L(() => import('./pages/more/Memory'));
@@ -88,6 +90,8 @@ function Gate() {
         <Route path="/summary" element={<Summary />} />
         <Route path="/documents" element={<Documents />} />
         <Route path="/talk" element={<Talk />} />
+        <Route path="/care" element={<CareGuide />} />
+        <Route path="/care/:id" element={<CareDetail />} />
         <Route path="/play" element={<Play />} />
         <Route path="/play/:game" element={<Play />} />
         <Route path="/me" element={<ForMe />} />
