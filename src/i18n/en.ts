@@ -253,4 +253,7 @@ export const en = {
   whatToDoBook: "What to do (from the book)",
   nearestTopic: "The book does not have a separate section for this. Below is what it says on the nearest topic. Ask your team for a plan made for your child.",
   careSub: "What to do, step by step",
+  carePlanNav: "Our care plan",
+  therapyNav: "Therapy play",
+  helpNav: "Schemes and help",
 };

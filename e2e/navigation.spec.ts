@@ -137,3 +137,52 @@ test('care guide: book steps, episode timer, team plan and who helps', async ({ 
   await page.goto('/care/seizure');
   await expect(page).toHaveURL(/\/seizure$/);
 });
+
+test('care plan, therapy play and schemes', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  // Interdisciplinary care plan
+  await page.goto('/care');
+  await page.getByRole('link', { name: /Our care plan/ }).click();
+  await page.getByRole('button', { name: 'Add a team member' }).click();
+  await page.getByRole('dialog').getByLabel('Role').selectOption('physio');
+  await page.getByRole('dialog').getByLabel('Name', { exact: true }).fill('Dr Meera');
+  await page.getByRole('dialog').getByLabel('Phone').fill('9876543210');
+  await page.getByRole('dialog').getByRole('button', { name: 'Make main contact' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Dr Meera')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Call Dr Meera' })).toHaveAttribute('href', 'tel:9876543210');
+  await page.getByRole('button', { name: 'Add a goal' }).click();
+  await page.getByRole('dialog').getByLabel('Goal', { exact: true }).fill('Sit with support for 10 minutes');
+  await page.getByRole('dialog').getByLabel('What we do at home').fill('Supported sitting after breakfast');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await page.getByRole('button', { name: 'Working on it' }).click();
+  await expect(page.getByRole('button', { name: 'Working on it' })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Add a meeting' }).click();
+  await page.getByRole('dialog').getByLabel('What we decided').fill('Start daily stretches');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByText('Start daily stretches')).toBeVisible();
+  await expect(page.getByText('A short written summary of the diagnosis', { exact: false })).toBeVisible();
+  // Therapy play
+  await page.goto('/therapy');
+  await page.getByRole('button', { name: 'Add an exercise' }).click();
+  await page.getByRole('dialog').getByLabel('Exercise name (as your therapist calls it)').fill('Leg stretch');
+  await page.getByRole('dialog').getByLabel('How many').fill('3');
+  await page.getByRole('dialog').getByRole('button', { name: 'rocket' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await page.getByRole('button', { name: 'Play' }).click();
+  const tapBtn = page.getByRole('button', { name: /Tap for each one/ });
+  for (let i = 0; i < 3; i++) await tapBtn.click();
+  await expect(page.getByText('Well done!')).toBeVisible();
+  await page.getByRole('button', { name: '✓' }).click();
+  await expect(page.getByText(/Today: ⭐/)).toBeVisible();
+  // Schemes and help
+  await page.goto('/help');
+  await expect(page.getByText('UDID card (Unique Disability ID)')).toBeVisible();
+  await page.getByRole('tab', { name: 'Kerala' }).click();
+  await expect(page.getByText('Kerala Social Security Mission')).toBeVisible();
+  await expect(page.getByText(/Karnataka: Department/)).toHaveCount(0);
+  await page.reload();
+  await page.goto('/care/plan');
+  await expect(page.getByText('Dr Meera')).toBeVisible();
+});

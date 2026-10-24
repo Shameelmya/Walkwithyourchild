@@ -26,6 +26,11 @@ export const ROLES: Record<string, N> = {
   pharm: n('Pharmacist', 'ഫാർമസിസ്റ്റ്', 'ಫಾರ್ಮಸಿಸ್ಟ್'),
   palliative: n('Palliative or supportive care team', 'പാലിയേറ്റീവ് / സഹായ പരിചരണ സംഘം', 'ಉಪಶಾಮಕ / ಬೆಂಬಲ ಆರೈಕೆ ತಂಡ'),
   team: n('Your care team', 'നിങ്ങളുടെ ചികിത്സാസംഘം', 'ನಿಮ್ಮ ಆರೈಕೆ ತಂಡ'),
+  social: n('Medical social worker', 'മെഡിക്കൽ സോഷ്യൽ വർക്കർ', 'ವೈದ್ಯಕೀಯ ಸಮಾಜ ಕಾರ್ಯಕರ್ತ'),
+  psych: n('Psychologist or counsellor', 'സൈക്കോളജിസ്റ്റ് / കൗൺസിലർ', 'ಮನಶ್ಶಾಸ್ತ್ರಜ್ಞ / ಆಪ್ತಸಲಹೆಗಾರ'),
+  local: n('Local doctor or PHC', 'നാട്ടിലെ ഡോക്ടർ / പ്രാഥമികാരോഗ്യ കേന്ദ്രം', 'ಸ್ಥಳೀಯ ವೈದ್ಯರು / ಪ್ರಾಥಮಿಕ ಆರೋಗ್ಯ ಕೇಂದ್ರ'),
+  asha: n('ASHA worker', 'ആശാ പ്രവർത്തക', 'ಆಶಾ ಕಾರ್ಯಕರ್ತೆ'),
+  family: n('Family member', 'കുടുംബാംഗം', 'ಕುಟುಂಬದ ಸದಸ್ಯರು'),
 };
 export const CONDITIONS: Condition[] = [
   { id: 'seizure', e: '⚡', tile: 't-rose', name: n('Seizure', 'ഫിറ്റ്സ് (അപസ്മാരം)', 'ಮೂರ್ಛೆ (ಫಿಟ್ಸ್)'), src: [{ c: 'c5', h: 0 }], roles: ['doctor'], emergency: true, to: '/seizure' },
@@ -49,3 +54,12 @@ export function section(book: Book, s: Src): { b: Block; i: number; c: string }[
   const to = hs[s.h + 1] ?? ch.blocks.length;
   return ch.blocks.slice(from, to).map((b, k) => ({ b, i: from + k, c: s.c }));
 }
+
+/** The roles a family can put in their team, in the order the book lists them. */
+export const TEAM_ROLES = ['doctor', 'palliative', 'nurse', 'social', 'physio', 'ot', 'speech', 'diet', 'psych', 'local', 'asha', 'pharm', 'family'];
+/** The book's checklist "Before you leave hospital: your care plan". */
+export const PLAN_SRC: Src[] = [{ c: 'c9', h: 2 }, { c: 'c9', h: 3 }];
+/** The book on exercises: gently, every day, and the right amount. */
+export const EXERCISE_SRC: Src[] = [{ c: 'c5', h: 3 }];
+/** The book on money, papers and help. */
+export const HELP_SRC: Src[] = [{ c: 'c8', h: 0 }, { c: 'c8', h: 4 }, { c: 'c8', h: 5 }];
