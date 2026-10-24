@@ -10,6 +10,7 @@ import { useChild, useChildId } from '../../lib/hooks';
 import { loadBook, meta, partColor, type Book } from '../../lib/content';
 import { CONDITIONS, ROLES, TEAM_SRC, section, type Src } from '../../lib/care';
 import { cx, fmtDate, fmtDur, fmtTime } from '../../lib/util';
+import { ct } from '../../lib/careText';
 
 function useBook() {
   const { lang } = useT();
@@ -18,7 +19,7 @@ function useBook() {
   return book;
 }
 /** The book's own words for these sections. */
-function FromBook({ src }: { src: Src[] }) {
+export function FromBook({ src }: { src: Src[] }) {
   const { lang } = useT();
   const book = useBook();
   if (!book) return null;
@@ -140,6 +141,15 @@ export function CareGuide() {
         ))}
       </div>
       <a href="tel:108" className="btn-danger w-full !min-h-[56px] mb-6"><Phone size={18} aria-hidden /> {t('call108')}</a>
+      <div className="grid gap-2.5 mb-5">
+        {([['/care/plan', '🧩', 'carePlan', 'carePlanSub', 't-blue'], ['/therapy', '🎯', 'therapy', 'therapySub', 't-green'], ['/help', '🤝', 'help', 'helpSub', 't-amber']] as const).map(([to, e, k, s2, c]) => (
+          <Link key={to} to={to} className={cx('tile !p-4 flex items-center gap-3', c)}>
+            <span className="relative z-[1] w-12 h-12 rounded-2xl bg-white/25 flex items-center justify-center text-2xl shrink-0" aria-hidden>{e}</span>
+            <span className="relative z-[1] flex-1 min-w-0"><b className="block">{ct(lang, k)}</b><span className="text-sm opacity-90">{ct(lang, s2)}</span></span>
+            <ChevronRight className="relative z-[1]" aria-hidden />
+          </Link>
+        ))}
+      </div>
       <ul className="card divide-y divide-line/60 mb-6">
         {CONDITIONS.filter((c) => !c.emergency).map((c) => (
           <li key={c.id}><Link to={`/care/${c.id}`} className="flex items-center gap-3 p-3 min-h-[64px]">

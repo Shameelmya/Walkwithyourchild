@@ -32,6 +32,9 @@ const Summary = L(() => import('./pages/child/Summary'));
 const Documents = L(() => import('./pages/child/Documents'));
 const Talk = L(() => import('./pages/child/Talk'));
 const CareGuide = L(() => import('./pages/child/Care').then((m) => ({ default: m.CareGuide })));
+const CarePlan = L(() => import('./pages/child/CarePlan'));
+const Therapy = L(() => import('./pages/child/Therapy'));
+const Help = L(() => import('./pages/more/Help'));
 const CareDetail = L(() => import('./pages/child/Care').then((m) => ({ default: m.CareDetail })));
 const Play = L(() => import('./pages/play/Play'));
 const ForMe = L(() => import('./pages/more/ForMe'));
@@ -91,7 +94,10 @@ function Gate() {
         <Route path="/documents" element={<Documents />} />
         <Route path="/talk" element={<Talk />} />
         <Route path="/care" element={<CareGuide />} />
+        <Route path="/care/plan" element={<CarePlan />} />
         <Route path="/care/:id" element={<CareDetail />} />
+        <Route path="/therapy" element={<Therapy />} />
+        <Route path="/help" element={<Help />} />
         <Route path="/play" element={<Play />} />
         <Route path="/play/:game" element={<Play />} />
         <Route path="/me" element={<ForMe />} />
