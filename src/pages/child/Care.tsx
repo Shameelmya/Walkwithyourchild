@@ -143,6 +143,8 @@ function StepCards({ src, kind }: { src: Src[]; kind: string }) {
   const book = useBook();
   const [en, setEn] = useState<Book | null>(null);
   const [i, setI] = useState(0);
+  const [dx, setDx] = useState(0);
+  const sw = useRef<{ x: number; y: number; on: boolean } | null>(null);
   useEffect(() => { loadBook('en').then(setEn); }, []);
   useEffect(() => setI(0), [kind, lang]);
   if (!book || !en) return null;
@@ -150,16 +152,28 @@ function StepCards({ src, kind }: { src: Src[]; kind: string }) {
   const n = parts.steps.length; if (!n) return null;
   const k = Math.min(i, n - 1); const st = parts.steps[k];
   const pic = picFor(enParts.steps[k]?.html ?? '');
+  // Swipe left for the next step, right for the previous one; vertical scrolling still works.
+  const go = (d: number) => { const j = Math.max(0, Math.min(n - 1, k + d)); if (j !== k) { setI(j); try { navigator.vibrate?.(10); } catch { /* */ } } };
+  const touch = {
+    onTouchStart: (e: React.TouchEvent) => { const p = e.touches[0]; sw.current = { x: p.clientX, y: p.clientY, on: false }; },
+    onTouchMove: (e: React.TouchEvent) => {
+      const s0 = sw.current; if (!s0) return; const p = e.touches[0]; const ddx = p.clientX - s0.x, ddy = p.clientY - s0.y;
+      if (!s0.on && Math.abs(ddx) > 12 && Math.abs(ddx) > Math.abs(ddy) * 1.3) s0.on = true;
+      if (s0.on) setDx(ddx * ((k === 0 && ddx > 0) || (k === n - 1 && ddx < 0) ? 0.3 : 1));
+    },
+    onTouchEnd: () => { const s0 = sw.current; sw.current = null; if (s0?.on && Math.abs(dx) > 60) go(dx < 0 ? 1 : -1); setDx(0); },
+  };
   return (
-    <section className="card !rounded-3xl p-5 flex flex-col items-center text-center gap-3" aria-roledescription="carousel">
+    <section {...touch} className="card !rounded-3xl p-5 flex flex-col items-center text-center gap-3 overflow-hidden touch-pan-y select-none" aria-roledescription="carousel"
+      style={{ transform: dx ? `translateX(${dx}px) rotate(${dx / 60}deg)` : undefined, transition: dx ? 'none' : 'transform .3s var(--ease)' }}>
       <p className="text-xs font-bold text-muted uppercase tracking-wide">{t('stepOf', { n: k + 1, all: n })}</p>
       <span key={k} className="anim-zoom w-28 h-28 rounded-full bg-soft flex items-center justify-center text-[3.6rem]" aria-hidden>{pic}</span>
       {st.head && <p className="text-sm font-bold text-[rgb(var(--accent))]">{st.head}</p>}
       <div key={'t' + k} className="anim-in text-lg leading-relaxed min-h-[5.5rem] prose-step" dangerouslySetInnerHTML={{ __html: st.html }} />
       <div className="flex gap-1.5 flex-wrap justify-center" aria-hidden>{parts.steps.map((_, j) => <span key={j} className={cx('h-2 rounded-full transition-all', j === k ? 'w-6 bg-[rgb(var(--accent))]' : 'w-2 bg-line')} />)}</div>
       <div className="grid grid-cols-2 gap-2.5 w-full mt-1">
-        <button className="btn-outline !min-h-[56px]" disabled={k === 0} onClick={() => setI(k - 1)}>← {t('back')}</button>
-        {k < n - 1 ? <button className="btn-primary !min-h-[56px]" onClick={() => setI(k + 1)}>{t('next')} →</button>
+        <button className="btn-outline !min-h-[56px]" disabled={k === 0} onClick={() => go(-1)}>← {t('back')}</button>
+        {k < n - 1 ? <button className="btn-primary !min-h-[56px]" onClick={() => go(1)}>{t('next')} →</button>
           : <button className="btn-primary !min-h-[56px]" onClick={() => setI(0)}>✓ {t('done')}</button>}
       </div>
     </section>

@@ -206,3 +206,26 @@ test('animal sounds board: each animal calls out', async ({ page }) => {
   await page.getByRole('button', { name: 'owl' }).click();
   await expect(page.getByText('Hoo hoo!')).toBeVisible();
 });
+
+test('care guide steps: swipe left for next, right for previous', async ({ browser }) => {
+  const ctx = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await onboard(page);
+  await page.goto('/care/eating');
+  await expect(page.getByText('Step 1 of')).toBeVisible();
+  const cdp = await ctx.newCDPSession(page);
+  const swipe = async (from: number, to: number) => {
+    const y = 420;
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: from, y }] });
+    for (let k = 1; k <= 8; k++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: from + ((to - from) * k) / 8, y }] });
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await page.waitForTimeout(350);
+  };
+  await swipe(320, 80);
+  await expect(page.getByText('Step 2 of')).toBeVisible();
+  await swipe(320, 80);
+  await expect(page.getByText('Step 3 of')).toBeVisible();
+  await swipe(80, 320);
+  await expect(page.getByText('Step 2 of')).toBeVisible();
+  await ctx.close();
+});
