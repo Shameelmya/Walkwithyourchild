@@ -15,7 +15,7 @@ const en = {
   tap: 'Tap for each one', start: 'Start', pause: 'Pause', well: 'Well done!', rightAmount: 'From the book: the right amount', physio: 'Physiotherapy', ot: 'Occupational therapy', speech: 'Speech and swallowing', other: 'Other',
   help: 'Schemes and help', helpSub: 'Welfare schemes and organisations',
   helpIntro: 'Schemes, amounts and rules change and differ from state to state. Always check the details with the hospital social worker.',
-  schemes: 'Government schemes', orgs: 'Organisations and support groups', myContacts: 'Our own contacts', addContact: 'Add a contact', open: 'Open website', find: 'Find online', call: 'Call',
+  schemes: 'Government schemes', finders: 'Find every scheme you qualify for', orgs: 'Organisations and support groups', myContacts: 'Our own contacts', addContact: 'Add a contact', open: 'Open website', find: 'Find online', call: 'Call',
   india: 'All India', kerala: 'Kerala', karnataka: 'Karnataka', reviewed: 'List checked {d}. Tell us if something has changed.', fromBookHelp: 'From the book: money, papers and help', whatFor: 'What it helps with',
 };
 type K = keyof typeof en;
@@ -34,7 +34,7 @@ const ml: Record<K, string> = {
   tap: 'ഓരോന്നിനും തൊടൂ', start: 'തുടങ്ങുക', pause: 'നിർത്തുക', well: 'മിടുക്കൻ!', rightAmount: 'പുസ്തകത്തിൽ നിന്ന്: ശരിയായ അളവ്', physio: 'ഫിസിയോതെറാപ്പി', ot: 'ഒക്യുപേഷണൽ തെറാപ്പി', speech: 'സംസാരവും വിഴുങ്ങലും', other: 'മറ്റുള്ളവ',
   help: 'പദ്ധതികളും സഹായവും', helpSub: 'ക്ഷേമ പദ്ധതികളും സംഘടനകളും',
   helpIntro: 'പദ്ധതികളും തുകകളും നിയമങ്ങളും മാറിക്കൊണ്ടിരിക്കും, ഓരോ സംസ്ഥാനത്തും വ്യത്യസ്തവുമാണ്. വിശദാംശങ്ങൾ എപ്പോഴും ആശുപത്രിയിലെ സോഷ്യൽ വർക്കറോട് ഉറപ്പാക്കൂ.',
-  schemes: 'സർക്കാർ പദ്ധതികൾ', orgs: 'സംഘടനകളും സഹായ ഗ്രൂപ്പുകളും', myContacts: 'ഞങ്ങളുടെ സ്വന്തം ബന്ധങ്ങൾ', addContact: 'ബന്ധം ചേർക്കുക', open: 'വെബ്സൈറ്റ് തുറക്കുക', find: 'ഓൺലൈനിൽ തിരയുക', call: 'വിളിക്കുക',
+  schemes: 'സർക്കാർ പദ്ധതികൾ', finders: 'അർഹതയുള്ള എല്ലാ പദ്ധതികളും കണ്ടെത്താം', orgs: 'സംഘടനകളും സഹായ ഗ്രൂപ്പുകളും', myContacts: 'ഞങ്ങളുടെ സ്വന്തം ബന്ധങ്ങൾ', addContact: 'ബന്ധം ചേർക്കുക', open: 'വെബ്സൈറ്റ് തുറക്കുക', find: 'ഓൺലൈനിൽ തിരയുക', call: 'വിളിക്കുക',
   india: 'ഇന്ത്യ മുഴുവൻ', kerala: 'കേരളം', karnataka: 'കർണാടക', reviewed: '{d}-ൽ പരിശോധിച്ച പട്ടിക. എന്തെങ്കിലും മാറിയിട്ടുണ്ടെങ്കിൽ അറിയിക്കൂ.', fromBookHelp: 'പുസ്തകത്തിൽ നിന്ന്: പണം, രേഖകൾ, സഹായം', whatFor: 'എന്തിന് സഹായിക്കും',
 };
 const kn: Record<K, string> = {
@@ -52,7 +52,7 @@ const kn: Record<K, string> = {
   tap: 'ಪ್ರತಿಯೊಂದಕ್ಕೂ ಒತ್ತಿ', start: 'ಆರಂಭ', pause: 'ನಿಲ್ಲಿಸಿ', well: 'ಶಭಾಷ್!', rightAmount: 'ಪುಸ್ತಕದಿಂದ: ಸರಿಯಾದ ಪ್ರಮಾಣ', physio: 'ಫಿಸಿಯೋಥೆರಪಿ', ot: 'ಆಕ್ಯುಪೇಷನಲ್ ಥೆರಪಿ', speech: 'ಮಾತು ಮತ್ತು ನುಂಗುವಿಕೆ', other: 'ಇತರೆ',
   help: 'ಯೋಜನೆಗಳು ಮತ್ತು ನೆರವು', helpSub: 'ಕಲ್ಯಾಣ ಯೋಜನೆಗಳು ಮತ್ತು ಸಂಸ್ಥೆಗಳು',
   helpIntro: 'ಯೋಜನೆಗಳು, ಮೊತ್ತಗಳು ಮತ್ತು ನಿಯಮಗಳು ಬದಲಾಗುತ್ತವೆ ಮತ್ತು ರಾಜ್ಯದಿಂದ ರಾಜ್ಯಕ್ಕೆ ಬೇರೆ. ವಿವರಗಳನ್ನು ಯಾವಾಗಲೂ ಆಸ್ಪತ್ರೆಯ ಸಮಾಜ ಕಾರ್ಯಕರ್ತರೊಂದಿಗೆ ಖಚಿತಪಡಿಸಿ.',
-  schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', orgs: 'ಸಂಸ್ಥೆಗಳು ಮತ್ತು ಬೆಂಬಲ ಗುಂಪುಗಳು', myContacts: 'ನಮ್ಮ ಸ್ವಂತ ಸಂಪರ್ಕಗಳು', addContact: 'ಸಂಪರ್ಕ ಸೇರಿಸಿ', open: 'ವೆಬ್‌ಸೈಟ್ ತೆರೆಯಿರಿ', find: 'ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಹುಡುಕಿ', call: 'ಕರೆ ಮಾಡಿ',
+  schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', finders: 'ಅರ್ಹವಾದ ಎಲ್ಲಾ ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ', orgs: 'ಸಂಸ್ಥೆಗಳು ಮತ್ತು ಬೆಂಬಲ ಗುಂಪುಗಳು', myContacts: 'ನಮ್ಮ ಸ್ವಂತ ಸಂಪರ್ಕಗಳು', addContact: 'ಸಂಪರ್ಕ ಸೇರಿಸಿ', open: 'ವೆಬ್‌ಸೈಟ್ ತೆರೆಯಿರಿ', find: 'ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಹುಡುಕಿ', call: 'ಕರೆ ಮಾಡಿ',
   india: 'ಇಡೀ ಭಾರತ', kerala: 'ಕೇರಳ', karnataka: 'ಕರ್ನಾಟಕ', reviewed: '{d} ರಲ್ಲಿ ಪರಿಶೀಲಿಸಿದ ಪಟ್ಟಿ. ಏನಾದರೂ ಬದಲಾಗಿದ್ದರೆ ತಿಳಿಸಿ.', fromBookHelp: 'ಪುಸ್ತಕದಿಂದ: ಹಣ, ದಾಖಲೆಗಳು ಮತ್ತು ನೆರವು', whatFor: 'ಯಾವುದಕ್ಕೆ ನೆರವು',
 };
 export const CT = { en, ml, kn } as Record<Lang, Record<K, string>>;
