@@ -60,8 +60,10 @@ export const ORGS: HelpItem[] = [
     what: n('Free mental health support for you, 24 hours, in many languages.', 'നിങ്ങൾക്കുള്ള സൗജന്യ മാനസികാരോഗ്യ പിന്തുണ, 24 മണിക്കൂറും, പല ഭാഷകളിൽ.', 'ನಿಮಗಾಗಿ ಉಚಿತ ಮಾನಸಿಕ ಆರೋಗ್ಯ ಬೆಂಬಲ, 24 ಗಂಟೆ, ಹಲವು ಭಾಷೆಗಳಲ್ಲಿ.') },
   { id: 'nimhans', e: '🏥', where: 'karnataka', name: 'NIMHANS, Bengaluru', url: 'https://nimhans.ac.in',
     what: n('National institute for neurology and mental health, where this book was developed.', 'ഈ പുസ്തകം രൂപപ്പെടുത്തിയ, നാഡീരോഗങ്ങൾക്കും മാനസികാരോഗ്യത്തിനുമുള്ള ദേശീയ സ്ഥാപനം.', 'ಈ ಪುಸ್ತಕವನ್ನು ರೂಪಿಸಿದ, ನರವಿಜ್ಞಾನ ಮತ್ತು ಮಾನಸಿಕ ಆರೋಗ್ಯದ ರಾಷ್ಟ್ರೀಯ ಸಂಸ್ಥೆ.') },
-  { id: 'ordi', e: '🧬', where: 'india', name: 'Organization for Rare Diseases India (ORDI)', url: 'https://ordindia.in',
+  { id: 'ordi', e: '🧬', where: 'india', name: 'Organization for Rare Diseases India (ORDI) · contactus@ordindia.in', url: 'https://ordindia.in/patients/patient-advocacy-groups/', phone: '+918892555000',
     what: n('Information, a helpline and connections for families living with rare diseases.', 'അപൂർവ രോഗങ്ങളുള്ള കുടുംബങ്ങൾക്ക് വിവരങ്ങൾ, ഹെൽപ്‌ലൈൻ, ബന്ധങ്ങൾ.', 'ಅಪರೂಪದ ಕಾಯಿಲೆಗಳಿರುವ ಕುಟುಂಬಗಳಿಗೆ ಮಾಹಿತಿ, ಸಹಾಯವಾಣಿ ಮತ್ತು ಸಂಪರ್ಕಗಳು.') },
+  { id: 'iord', e: '🧬', where: 'india', name: 'Indian Organization for Rare Diseases (IORD) · indiaord@gmail.com', phone: '+919666438880',
+    what: n('Support and information for families with rare diseases (separate from ORDI).', 'അപൂർവ രോഗങ്ങളുള്ള കുടുംബങ്ങൾക്ക് സഹായവും വിവരങ്ങളും (ORDI-യിൽ നിന്ന് വേറിട്ടത്).', 'ಅಪರೂಪದ ಕಾಯಿಲೆಗಳ ಕುಟುಂಬಗಳಿಗೆ ನೆರವು ಮತ್ತು ಮಾಹಿತಿ (ORDI ಯಿಂದ ಪ್ರತ್ಯೇಕ).') },
   { id: 'lsdss', e: '🤲', where: 'india', name: 'Lysosomal Storage Disorders Support Society (LSDSS)',
     what: n('Parent-led support group for lysosomal storage disorders.', 'ലൈസോസോമൽ സ്റ്റോറേജ് രോഗങ്ങൾക്കായി മാതാപിതാക്കൾ നയിക്കുന്ന സഹായ സംഘം.', 'ಲೈಸೋಸೋಮಲ್ ಸ್ಟೋರೇಜ್ ಕಾಯಿಲೆಗಳಿಗಾಗಿ ಪೋಷಕರು ನಡೆಸುವ ಬೆಂಬಲ ಗುಂಪು.') },
   { id: 'curesma', e: '💪', where: 'india', name: 'Cure SMA Foundation of India',
@@ -74,3 +76,15 @@ export const ORGS: HelpItem[] = [
     what: n('Palliative care training and services, linked with community palliative care networks in Kerala.', 'പാലിയേറ്റീവ് പരിചരണ സേവനങ്ങളും പരിശീലനവും, കേരളത്തിലെ സാമൂഹിക പാലിയേറ്റീവ് ശൃംഖലകളുമായി ബന്ധം.', 'ಉಪಶಾಮಕ ಆರೈಕೆ ಸೇವೆ ಮತ್ತು ತರಬೇತಿ, ಕೇರಳದ ಸಮುದಾಯ ಉಪಶಾಮಕ ಜಾಲಗಳೊಂದಿಗೆ ಸಂಪರ್ಕ.') },
 ];
 export const searchUrl = (q: string) => `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+
+const iapc = (slug: string) => `https://www.palliativecare.in/palliative-care-centres-${slug}/`;
+const pc = (id: string, where: HelpItem['where'], state: string, slug: string): HelpItem => ({ id, e: '🌿', where, name: `${state}: palliative care centres (IAPC list)`, url: iapc(slug),
+  what: n('Names, addresses and phone numbers of palliative care centres in this state, from the Indian Association of Palliative Care. Call before you go: some details may be old.', 'ഇന്ത്യൻ അസോസിയേഷൻ ഓഫ് പാലിയേറ്റീവ് കെയർ തയ്യാറാക്കിയ, ഈ സംസ്ഥാനത്തെ പാലിയേറ്റീവ് കേന്ദ്രങ്ങളുടെ പേര്, വിലാസം, ഫോൺ. പോകും മുമ്പ് വിളിച്ചുറപ്പാക്കൂ: ചില വിവരങ്ങൾ പഴയതാകാം.', 'ಭಾರತೀಯ ಉಪಶಾಮಕ ಆರೈಕೆ ಸಂಘದ, ಈ ರಾಜ್ಯದ ಉಪಶಾಮಕ ಕೇಂದ್ರಗಳ ಹೆಸರು, ವಿಳಾಸ ಮತ್ತು ಫೋನ್. ಹೋಗುವ ಮೊದಲು ಕರೆ ಮಾಡಿ: ಕೆಲವು ವಿವರಗಳು ಹಳೆಯದಿರಬಹುದು.') });
+/** Palliative care centre directories by state (Indian Association of Palliative Care). */
+export const PALLIATIVE: HelpItem[] = [
+  pc('pc-kl', 'kerala', 'Kerala', 'kerala'), pc('pc-ka', 'karnataka', 'Karnataka', 'karnataka'),
+  pc('pc-dl', 'india', 'Delhi', 'delhi'), pc('pc-gj', 'india', 'Gujarat', 'gujarat'), pc('pc-ap', 'india', 'Andhra Pradesh', 'andhra-pradesh'),
+  pc('pc-mp', 'india', 'Madhya Pradesh', 'madhya-pradesh'), pc('pc-up', 'india', 'Uttar Pradesh', 'uttar-pradesh'), pc('pc-as', 'india', 'Assam', 'assam'), pc('pc-jk', 'india', 'Jammu and Kashmir', 'jammu-kashmir'),
+  { id: 'pc-all', e: '🗺️', where: 'india', name: 'Indian Association of Palliative Care: all states', url: 'https://www.palliativecare.in',
+    what: n('Find palliative care centres in other states on the IAPC website.', 'മറ്റു സംസ്ഥാനങ്ങളിലെ പാലിയേറ്റീവ് കേന്ദ്രങ്ങൾ IAPC വെബ്സൈറ്റിൽ കണ്ടെത്താം.', 'ಇತರ ರಾಜ್ಯಗಳ ಉಪಶಾಮಕ ಕೇಂದ್ರಗಳನ್ನು IAPC ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಹುಡುಕಿ.') },
+];
