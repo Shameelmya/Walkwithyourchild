@@ -279,3 +279,19 @@ test('daily living skills and parent distress tools', async ({ page }) => {
   await expect(page.getByText('Name 5 things you can see.', { exact: false })).toBeVisible();
   await expect(page.getByText('Your feelings', { exact: true })).toBeVisible();
 });
+
+test('family place suggests the nearest palliative centre', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.goto('/child/profile');
+  await page.getByLabel('State').selectOption('Kerala');
+  await page.getByLabel('District').selectOption('Malappuram');
+  await page.getByLabel('PIN code').fill('676101');
+  await page.getByRole('button', { name: 'Save' }).click();
+  await page.goto('/');
+  await expect(page.getByText('Nearest palliative centre')).toBeVisible();
+  await expect(page.getByRole('link', { name: /^Call .*Tirur|^Call (Karuna|Palliative Care Clinic)/ })).toHaveAttribute('href', /^tel:\+91/);
+  await page.goto('/help/palliative');
+  await expect(page.getByText('📍 Nearest to you').first()).toBeVisible();
+  await expect(page.locator('li').first()).toContainText('676101');
+});

@@ -8,6 +8,8 @@ import { db, putBlob, setSetting } from '../lib/db';
 import { hashPin } from '../lib/crypto';
 import { FileButton } from '../components/ui';
 import { Keypad } from '../components/Lock';
+import { PlaceFields } from '../components/PlaceFields';
+import type { Place } from '../lib/db';
 import { PhotoCrop } from '../components/PhotoCrop';
 import { LangButton } from '../components/LangButton';
 import { useInstall } from '../components/Install';
@@ -23,6 +25,7 @@ export default function Onboarding() {
   const [dob, setDob] = useState('');
   const [photo, setPhoto] = useState<Blob | null>(null);
   const [crop, setCrop] = useState<Blob | null>(null);
+  const [place, setPlace] = useState<Place>();
   const [pin1, setPin1] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
@@ -34,7 +37,7 @@ export default function Onboarding() {
     if (!name.trim()) { setErr(t('nameNeeded')); return; }
     setBusy(true);
     const photoBlobId = photo ? await putBlob(photo, 0, 'photo') : undefined;
-    const id = await db.children.add({ name: name.trim(), dob: dob || undefined, photoBlobId, rescueMinutes: 5, createdAt: Date.now() });
+    const id = await db.children.add({ name: name.trim(), dob: dob || undefined, photoBlobId, rescueMinutes: 5, place, createdAt: Date.now() });
     if (photoBlobId) await db.blobs.update(photoBlobId, { childId: id });
     setActive(id); setBusy(false);
     next();
@@ -90,6 +93,7 @@ export default function Onboarding() {
       <div className="grid gap-5">
         <div><label className="label" htmlFor="ob-name">{t('childName')} *</label><input id="ob-name" className="input text-lg" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off" /></div>
         <div><label className="label" htmlFor="ob-dob">{t('dobOptional')}</label><input id="ob-dob" type="date" className="input" value={dob} onChange={(e) => setDob(e.target.value)} /></div>
+        <PlaceFields value={place} onChange={setPlace} />
       </div>
       {err && <p role="alert" className="text-danger font-semibold mt-4">{err}</p>}
       <div className="mt-auto sticky bottom-0 pt-6 pb-[max(20px,env(safe-area-inset-bottom))] bg-bg grid gap-3"><button className="btn-primary w-full" disabled={busy} onClick={saveChild}>{t('continue')}</button></div>

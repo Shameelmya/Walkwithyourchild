@@ -23,6 +23,7 @@ const en = {
   editSteps: 'Change the steps', stepsHint: 'One step per line.', addTask: 'Add your own task', taskName: 'Task name', useOriginal: 'Use the original steps', skillsPace: 'Go at your child\'s pace. Needing help is not failing.', changesBook: 'From the book: changes you may see', allSteps: 'All steps done!',
   tooMuch: 'When it feels too much', thermo: 'How are you right now?', thermoHint: '0 = calm, 10 = the most upset you have felt', thermoHigh: 'That is a lot to carry. Please talk to someone today.', logIt: 'Save',
   ground: '5-4-3-2-1: come back to now', g5: 'Look around. Name 5 things you can see.', g4: 'Name 4 things you can touch.', g3: 'Listen. Name 3 things you can hear.', g2: 'Name 2 things you can smell.', g1: 'Name 1 thing you can taste, or one kind thing about yourself.', next: 'Next', fromBookCare: 'From the book: looking after yourself',
+  whereLive: 'Where do you live? (optional)', town: 'Town or village', pinCode: 'PIN code', placeHint: 'Stays on this phone. Used only to show the nearest palliative care centres first.', nearYou: 'Nearest to you', nearest: 'Nearest palliative centre', setPlace: 'Add your place in the child\'s profile to see the nearest centres first.',
 };
 type K = keyof typeof en;
 const ml: Record<K, string> = {
@@ -48,6 +49,7 @@ const ml: Record<K, string> = {
   editSteps: 'ചുവടുകൾ മാറ്റുക', stepsHint: 'ഒരു വരിയിൽ ഒരു ചുവട്.', addTask: 'സ്വന്തം കാര്യം ചേർക്കുക', taskName: 'കാര്യത്തിന്റെ പേര്', useOriginal: 'ആദ്യത്തെ ചുവടുകൾ ഉപയോഗിക്കുക', skillsPace: 'കുട്ടിയുടെ വേഗത്തിൽ പോകൂ. സഹായം വേണ്ടിവരുന്നത് പരാജയമല്ല.', changesBook: 'പുസ്തകത്തിൽ നിന്ന്: കാണാവുന്ന മാറ്റങ്ങൾ', allSteps: 'എല്ലാ ചുവടുകളും കഴിഞ്ഞു!',
   tooMuch: 'എല്ലാം അമിതമാകുമ്പോൾ', thermo: 'ഇപ്പോൾ നിങ്ങൾക്ക് എങ്ങനെയുണ്ട്?', thermoHint: '0 = ശാന്തം, 10 = ഏറ്റവും കൂടുതൽ വിഷമം', thermoHigh: 'ഇത് ഒരുപാട് ഭാരമാണ്. ഇന്നുതന്നെ ആരോടെങ്കിലും സംസാരിക്കൂ.', logIt: 'സേവ് ചെയ്യുക',
   ground: '5-4-3-2-1: ഈ നിമിഷത്തിലേക്ക് തിരികെ', g5: 'ചുറ്റും നോക്കൂ. കാണുന്ന 5 കാര്യങ്ങൾ പറയൂ.', g4: 'തൊടാൻ കഴിയുന്ന 4 കാര്യങ്ങൾ പറയൂ.', g3: 'ശ്രദ്ധിക്കൂ. കേൾക്കുന്ന 3 ശബ്ദങ്ങൾ പറയൂ.', g2: 'മണക്കാൻ കഴിയുന്ന 2 കാര്യങ്ങൾ പറയൂ.', g1: 'രുചിക്കാൻ കഴിയുന്ന 1 കാര്യം, അല്ലെങ്കിൽ നിങ്ങളെക്കുറിച്ച് ഒരു നല്ല കാര്യം പറയൂ.', next: 'അടുത്തത്', fromBookCare: 'പുസ്തകത്തിൽ നിന്ന്: നിങ്ങളെ സ്വയം നോക്കാൻ',
+  whereLive: 'നിങ്ങൾ എവിടെയാണ് താമസം? (നിർബന്ധമില്ല)', town: 'സ്ഥലം / ഗ്രാമം', pinCode: 'പിൻ കോഡ്', placeHint: 'ഈ ഫോണിൽ മാത്രം സൂക്ഷിക്കും. ഏറ്റവും അടുത്തുള്ള പാലിയേറ്റീവ് കേന്ദ്രങ്ങൾ ആദ്യം കാണിക്കാൻ മാത്രം.', nearYou: 'ഏറ്റവും അടുത്ത്', nearest: 'ഏറ്റവും അടുത്തുള്ള പാലിയേറ്റീവ് കേന്ദ്രം', setPlace: 'അടുത്തുള്ള കേന്ദ്രങ്ങൾ ആദ്യം കാണാൻ കുട്ടിയുടെ പ്രൊഫൈലിൽ സ്ഥലം ചേർക്കുക.',
 };
 const kn: Record<K, string> = {
   findCentre: 'ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರ ಹುಡುಕಿ', state: 'ರಾಜ್ಯ', district: 'ಜಿಲ್ಲೆ', allDistricts: 'ಎಲ್ಲಾ ಜಿಲ್ಲೆಗಳು', searchCentres: 'ಸ್ಥಳ ಅಥವಾ ಹೆಸರು ಹುಡುಕಿ', nCentres: '{n} ಕೇಂದ್ರಗಳು', narrowDown: 'ಇನ್ನಷ್ಟು ನೋಡಲು ಜಿಲ್ಲೆ ಆರಿಸಿ ಅಥವಾ ಹುಡುಕಿ.', iapcNote: 'ಭಾರತೀಯ ಉಪಶಾಮಕ ಆರೈಕೆ ಸಂಘದ ಪಟ್ಟಿಯಿಂದ. ಹೋಗುವ ಮೊದಲು ಕರೆ ಮಾಡಿ: ಕೆಲವು ಸಂಖ್ಯೆಗಳು ಬದಲಾಗಿರಬಹುದು.', rareGroups: 'ಪ್ರತಿ ಕಾಯಿಲೆಗೆ ಬೆಂಬಲ ಗುಂಪುಗಳು (ORDI ಸದಸ್ಯರು)', findCentreBtn: 'ಹತ್ತಿರದ ಕೇಂದ್ರ ಹುಡುಕಿ', palliativeShort: 'ಉಪಶಾಮಕ ತಂಡ', palliativeSub: 'ಹತ್ತಿರದವರ ಹೆಸರು ಮತ್ತು ಫೋನ್ ಸಂಖ್ಯೆ',
@@ -72,6 +74,7 @@ const kn: Record<K, string> = {
   editSteps: 'ಹೆಜ್ಜೆಗಳನ್ನು ಬದಲಿಸಿ', stepsHint: 'ಒಂದು ಸಾಲಿಗೆ ಒಂದು ಹೆಜ್ಜೆ.', addTask: 'ನಿಮ್ಮ ಕೆಲಸ ಸೇರಿಸಿ', taskName: 'ಕೆಲಸದ ಹೆಸರು', useOriginal: 'ಮೂಲ ಹೆಜ್ಜೆಗಳನ್ನು ಬಳಸಿ', skillsPace: 'ಮಗುವಿನ ವೇಗದಲ್ಲಿ ಹೋಗಿ. ಸಹಾಯ ಬೇಕಾಗುವುದು ಸೋಲಲ್ಲ.', changesBook: 'ಪುಸ್ತಕದಿಂದ: ನೀವು ಕಾಣಬಹುದಾದ ಬದಲಾವಣೆಗಳು', allSteps: 'ಎಲ್ಲಾ ಹೆಜ್ಜೆಗಳು ಮುಗಿದವು!',
   tooMuch: 'ಎಲ್ಲವೂ ಅತಿಯಾದಾಗ', thermo: 'ಈಗ ನೀವು ಹೇಗಿದ್ದೀರಿ?', thermoHint: '0 = ಶಾಂತ, 10 = ಅತಿ ಹೆಚ್ಚು ನೋವು', thermoHigh: 'ಇದು ತುಂಬಾ ಭಾರ. ಇಂದೇ ಯಾರೊಂದಿಗಾದರೂ ಮಾತನಾಡಿ.', logIt: 'ಉಳಿಸಿ',
   ground: '5-4-3-2-1: ಈ ಕ್ಷಣಕ್ಕೆ ಹಿಂತಿರುಗಿ', g5: 'ಸುತ್ತಲೂ ನೋಡಿ. ಕಾಣುವ 5 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g4: 'ಮುಟ್ಟಬಹುದಾದ 4 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g3: 'ಕೇಳಿ. ಕೇಳಿಸುವ 3 ಶಬ್ದಗಳನ್ನು ಹೇಳಿ.', g2: 'ವಾಸನೆ ಬರುವ 2 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g1: 'ರುಚಿ ನೋಡಬಹುದಾದ 1 ವಸ್ತು, ಅಥವಾ ನಿಮ್ಮ ಬಗ್ಗೆ ಒಂದು ಒಳ್ಳೆಯ ಮಾತು ಹೇಳಿ.', next: 'ಮುಂದೆ', fromBookCare: 'ಪುಸ್ತಕದಿಂದ: ನಿಮ್ಮನ್ನು ನೋಡಿಕೊಳ್ಳುವುದು',
+  whereLive: 'ನೀವು ಎಲ್ಲಿ ವಾಸಿಸುತ್ತೀರಿ? (ಐಚ್ಛಿಕ)', town: 'ಊರು / ಹಳ್ಳಿ', pinCode: 'ಪಿನ್ ಕೋಡ್', placeHint: 'ಈ ಫೋನ್‌ನಲ್ಲಿ ಮಾತ್ರ ಇರುತ್ತದೆ. ಹತ್ತಿರದ ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರಗಳನ್ನು ಮೊದಲು ತೋರಿಸಲು ಮಾತ್ರ.', nearYou: 'ನಿಮಗೆ ಹತ್ತಿರ', nearest: 'ಹತ್ತಿರದ ಉಪಶಾಮಕ ಕೇಂದ್ರ', setPlace: 'ಹತ್ತಿರದ ಕೇಂದ್ರಗಳನ್ನು ಮೊದಲು ನೋಡಲು ಮಗುವಿನ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಸ್ಥಳ ಸೇರಿಸಿ.',
 };
 export const CT = { en, ml, kn } as Record<Lang, Record<K, string>>;
 export const ct = (lang: Lang, k: K, v: Record<string, string | number> = {}) => CT[lang][k].replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? ''));

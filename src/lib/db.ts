@@ -1,6 +1,8 @@
 import Dexie, { type Table } from 'dexie';
 
-export interface Child { id?: number; name: string; dob?: string; photoBlobId?: number; rescueMinutes?: number; createdAt: number }
+/** Where the family lives, kept on this phone only; used to suggest the nearest palliative care centres. */
+export interface Place { state: string; district?: string; town?: string; pin?: string }
+export interface Child { id?: number; name: string; dob?: string; photoBlobId?: number; rescueMinutes?: number; place?: Place; createdAt: number }
 export interface Setting { key: string; value: unknown; childId?: number }
 export interface Bookmark { chapter: string; blockIndex: number; at: number }
 export interface ReadingState { id: string; childId: number; chapter: string; blockIndex: number; bookmarks: Bookmark[]; progress: Record<string, number>; updatedAt: number }
