@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Activity, NotebookPen, MessageSquareHeart, Pill, Stethoscope, CloudUpload, ChevronRight, Check, Gamepad2, Wind, Phone, BookOpen, ArrowRight, HelpCircle, HeartPulse } from 'lucide-react';
+import { Activity, NotebookPen, MessageSquareHeart, Pill, Stethoscope, CloudUpload, ChevronRight, Check, Gamepad2, Wind, Phone, BookOpen, ArrowRight, HelpCircle, HeartPulse, HeartHandshake } from 'lucide-react';
+import { ct } from '../lib/careText';
 import { useT } from '../i18n';
 import { Page } from '../components/ui';
 import { PathMotif } from '../components/Path';
@@ -82,6 +83,11 @@ export default function Home() {
         <Link to="/care" className="card flex items-center gap-3 p-4 mb-3">
           <span className="w-12 h-12 rounded-2xl t-coral text-white flex items-center justify-center shrink-0"><HeartPulse size={22} aria-hidden /></span>
           <span className="flex-1 min-w-0"><b className="block">{t('careGuide')}</b><span className="text-sm text-muted">{t('careSub')}</span></span>
+          <ChevronRight aria-hidden />
+        </Link>
+        <Link to="/help/palliative" className="card flex items-center gap-3 p-4 mb-3">
+          <span className="w-12 h-12 rounded-2xl t-green text-white flex items-center justify-center shrink-0"><HeartHandshake size={22} aria-hidden /></span>
+          <span className="flex-1 min-w-0"><b className="block">{ct(lang, 'findCentre')}</b><span className="text-sm text-muted">{ct(lang, 'palliativeSub')}</span></span>
           <ChevronRight aria-hidden />
         </Link>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">

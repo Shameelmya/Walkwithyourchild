@@ -245,3 +245,14 @@ test('palliative centre finder: state, district, search and call', async ({ page
   await page.getByPlaceholder('Search by place or name').fill('Karunashraya');
   await expect(page.getByRole('link', { name: /Call \+91/ }).first()).toBeVisible();
 });
+
+test('palliative centres one tap from Home and SOS, district remembered', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.getByRole('link', { name: /Find a palliative care centre/ }).click();
+  await page.getByLabel('District').selectOption('Thrissur');
+  await page.goto('/sos');
+  await page.getByRole('button', { name: 'Palliative team' }).click();
+  await expect(page.getByLabel('District')).toHaveValue('Thrissur');
+  await expect(page.getByRole('link', { name: /Call \+91/ }).first()).toBeVisible();
+});

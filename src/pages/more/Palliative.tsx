@@ -15,7 +15,8 @@ export default function Palliative() {
   const { lang } = useT();
   const L = (k: Parameters<typeof ct>[1], v?: Record<string, string | number>) => ct(lang, k, v);
   const [st, setSt] = useState(() => { try { return localStorage.getItem(KEY) || 'Kerala'; } catch { return 'Kerala'; } });
-  const [d, setD] = useState('');
+  const [d, setDraw] = useState(() => { try { return localStorage.getItem(KEY + '-d') || ''; } catch { return ''; } });
+  const setD = (v: string) => { setDraw(v); try { localStorage.setItem(KEY + '-d', v); } catch { /* */ } };
   const [q, setQ] = useState('');
   const inState = useMemo(() => ALL.filter((x) => x.s === st), [st]);
   const districts = useMemo(() => [...new Set(inState.map((x) => x.d).filter(Boolean))].sort(), [inState]);
