@@ -38,8 +38,7 @@ export const en = {
   manageMedicines: 'Open medicines', openSeizureDiary: 'Open seizure diary', openEmergencyCard: 'Open emergency card', inLocker: 'Saved in the documents locker', openLocker: 'Open documents locker',
   myNotes: 'My notes', myNotesSub: 'Free pages for anything on your mind.', newNote: 'New note', noNotes: 'No notes yet', noNotesText: 'Write what you know, what you still want to ask, and who you can talk to.',
   untitled: 'Untitled', deleteNoteQ: 'Delete this note?',
-  helpMsgEn: 'Hello {who}, could you help me with {need} this week? It would mean a lot to us. Thank you.',
-  helpMsgMl: 'നമസ്കാരം {who}, ഈ ആഴ്ച {need} എന്ന കാര്യത്തിൽ ഒന്ന് സഹായിക്കാമോ? ഞങ്ങൾക്ക് അത് വലിയ ആശ്വാസമാകും. നന്ദി.',
+  helpMsg: 'Hello {who}, could you help me with {need} this week? It would mean a lot to us. Thank you.',
   selfCareNote: 'Tick what was true this week. There is no right or wrong.', lowMoodTitle: 'You have had two hard weeks', lowMoodText: 'You matter too. Please talk to someone you trust, or to your care team. Tele-MANAS is free and open all day and night.',
   callTeleManas: 'Call Tele-MANAS 14416',
   // medicines
@@ -145,7 +144,6 @@ export const en = {
   groupCare: "Care and records",
   groupChild: "For your child",
   groupYou: "For you",
-  helpMsgKn: "ನಮಸ್ಕಾರ {who}, ಈ ವಾರ {need} ವಿಷಯದಲ್ಲಿ ಸ್ವಲ್ಪ ಸಹಾಯ ಮಾಡುತ್ತೀರಾ? ನಮಗೆ ತುಂಬಾ ಸಮಾಧಾನವಾಗುತ್ತದೆ. ಧನ್ಯವಾದಗಳು.",
   homeHeadline: "One gentle step at a time, together.",
   medsSub: "Doses and reminders",
   minRead: "About {n} min read",

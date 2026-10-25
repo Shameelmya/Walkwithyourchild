@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { meta, workbook, type Sheet } from '../../lib/content';
+import { meta, workbook, type Sheet, type L10n } from '../../lib/content';
 import type { SheetData } from '../../lib/sheets';
 import type { Lang } from '../../lib/store';
 import { tr } from '../../i18n';
@@ -22,7 +22,7 @@ export function A4({ lang, children, footer }: { lang: Lang; children: ReactNode
 }
 
 export function PrintSheet({ sheet, data, lang, blank }: { sheet: Sheet; data?: SheetData; lang: Lang; blank: boolean }) {
-  const L = (v?: { en: string; ml: string; kn?: string }) => (v ? v[lang] ?? v.en : '');
+  const L = (v?: L10n) => (v ? v[lang] ?? v.en : '');
   const d = blank ? undefined : data;
   const head = (
     <div style={{ marginBottom: 14 }}>

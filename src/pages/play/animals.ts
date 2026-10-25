@@ -1,6 +1,6 @@
 import type { Lang } from '../../lib/store';
 
-type N = Record<Lang, string>;
+type N = { en: string } & Partial<Record<Lang, string>>;
 const n = (en: string, ml: string, kn: string): N => ({ en, ml, kn });
 export type Group = 'farm' | 'wild' | 'birds' | 'water';
 export interface Animal { id: string; e: string; g: Group; name: N; says: N }

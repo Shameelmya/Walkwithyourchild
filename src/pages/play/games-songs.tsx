@@ -5,7 +5,7 @@ import { useUI, type Lang } from '../../lib/store';
 import { getSetting, setSetting } from '../../lib/db';
 import { HUES, useAnyInput } from './shared';
 import { Celebrate } from './games-colour';
-import { UI_TEXT, SONG_TEXT } from './text';
+import { songText } from './text';
 
 /* Note name, ' = octave up, , = octave down, /n = length in beats (default 1). */
 const parse = (s: string) => s.trim().split(/\s+/).map((tok) => {
@@ -14,7 +14,7 @@ const parse = (s: string) => s.trim().split(/\s+/).map((tok) => {
   return { m: base + (n.includes('#') ? 1 : 0) + (n.includes("'") ? 12 : 0) - (n.includes(',') ? 12 : 0), d: d ? +d : 1 };
 });
 type Note = { m: number; d: number };
-export interface Song { id: string; e: string; name: Record<Lang, string> | string; notes: Note[]; bar: number; mine?: boolean }
+export interface Song { id: string; e: string; name: ({ en: string } & Partial<Record<Lang, string>>) | string; notes: Note[]; bar: number; mine?: boolean }
 /** Public domain melodies only. */
 const SONGS: Song[] = [
   { id: 'twinkle', e: '⭐', bar: 4, name: { en: 'Twinkle Twinkle', ml: 'ട്വിങ്കിൾ ട്വിങ്കിൾ', kn: 'ಟ್ವಿಂಕಲ್ ಟ್ವಿಂಕಲ್' }, notes: parse("C C G G A A G/2 F F E E D D C/2 G G F F E E D/2 G G F F E E D/2 C C G G A A G/2 F F E E D D C/2") },
@@ -33,14 +33,14 @@ const LETTER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 const SPEEDS = [{ e: '🐢', bpm: 50 }, { e: '🐇', bpm: 72 }, { e: '🚀', bpm: 100 }];
 const PPB = 110; // pixels per beat
 const EARLY = 0.5; // a key may be hit up to half a beat before its tile reaches the line
-const nameOf = (s: Song, l: Lang) => (typeof s.name === 'string' ? s.name : s.name[l]);
+const nameOf = (s: Song, l: Lang) => (typeof s.name === 'string' ? s.name : (s.name[l] ?? s.name.en));
 const click = (accent: boolean, vol: number) => { tone(accent ? 1760 : 1175, 0.045, vol * (accent ? 0.55 : 0.35), 'triangle'); };
 
 /** Tiles fall in time with the song while a soft metronome keeps the beat. Tap the glowing key as a tile meets the line;
  *  if the child is not ready, the song and the metronome wait. */
 export function SongTiles({ vol }: { vol: number }) {
   const lang = useUI((s) => s.lang);
-  const tx = { ...UI_TEXT[lang], ...SONG_TEXT[lang] };
+  const tx = songText(lang);
   const [mine, setMine] = useState<Song[]>([]);
   const [song, setSong] = useState<Song | null>(null);
   const [making, setMaking] = useState(false);
@@ -194,7 +194,7 @@ const EMOJI = ['🎵', '🎶', '🎤', '🎧', '💃', '🌸', '🌙', '🌴'];
 /** Play any tune on the keys; the timing is kept, so it becomes a song with falling tiles. */
 function Recorder({ vol, onSave, onCancel }: { vol: number; onSave: (s: Song) => void; onCancel: () => void }) {
   const lang = useUI((s) => s.lang);
-  const tx = { ...UI_TEXT[lang], ...SONG_TEXT[lang] };
+  const tx = songText(lang);
   const [base, setBase] = useState(60);
   const [rec, setRec] = useState(false);
   const [taken, setTaken] = useState<{ m: number; at: number }[]>([]);

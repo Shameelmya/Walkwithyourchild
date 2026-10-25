@@ -1,6 +1,6 @@
 import type { Lang } from '../../lib/store';
 
-type T = Record<Lang, [string, string]>; // [name, how to play]
+type T = { en: [string, string] } & Partial<Record<Lang, [string, string]>>; // [name, how to play]
 /** Game names and one-line "how to play" in each language. */
 export const GAME_TEXT: Record<string, T> = {
   colouring: { en: ['Colouring book', 'Choose a colour at the bottom, then tap a part of the picture to fill it. Use the arrows for a new picture.'], ml: ['നിറം കൊടുക്കാം', 'താഴെ നിന്ന് ഒരു നിറം തിരഞ്ഞെടുത്ത്, ചിത്രത്തിന്റെ ഒരു ഭാഗത്ത് തൊടൂ. പുതിയ ചിത്രത്തിന് അമ്പടയാളം അമർത്തൂ.'], kn: ['ಬಣ್ಣ ಹಚ್ಚೋಣ', 'ಕೆಳಗಿನಿಂದ ಒಂದು ಬಣ್ಣ ಆರಿಸಿ, ಚಿತ್ರದ ಒಂದು ಭಾಗವನ್ನು ಒತ್ತಿ. ಹೊಸ ಚಿತ್ರಕ್ಕೆ ಬಾಣದ ಗುರುತು ಒತ್ತಿ.'] },
@@ -40,14 +40,19 @@ export const GAME_TEXT: Record<string, T> = {
   memory: { en: ['Memory pairs', 'Turn over two cards at a time and find the matching pairs.'], ml: ['ജോടി കണ്ടെത്താം', 'ഒരേ സമയം രണ്ട് കാർഡുകൾ മറിച്ച് ഒരുപോലെയുള്ള ജോടികൾ കണ്ടെത്തൂ.'], kn: ['ಜೋಡಿ ಹುಡುಕಿ', 'ಒಮ್ಮೆಗೆ ಎರಡು ಕಾರ್ಡ್ ತಿರುಗಿಸಿ ಒಂದೇ ರೀತಿಯ ಜೋಡಿಗಳನ್ನು ಹುಡುಕಿ.'] },
 };
 
-export const UI_TEXT: Record<Lang, Record<'howToPlay' | 'letsPlay' | 'sound' | 'catLearn' | 'findThe' | 'howMany' | 'findLetter' | 'chooseSong' | 'again' | 'on' | 'off', string>> = {
+export const UI_TEXT: Partial<Record<Lang, Record<'howToPlay' | 'letsPlay' | 'sound' | 'catLearn' | 'findThe' | 'howMany' | 'findLetter' | 'chooseSong' | 'again' | 'on' | 'off', string>>> & { en: Record<'howToPlay' | 'letsPlay' | 'sound' | 'catLearn' | 'findThe' | 'howMany' | 'findLetter' | 'chooseSong' | 'again' | 'on' | 'off', string> } = {
   en: { howToPlay: 'How to play', letsPlay: "Let's play", sound: 'Sound', catLearn: 'Learning', findThe: 'Find the {x}', howMany: 'How many?', findLetter: 'Find the letter {x}', chooseSong: 'Choose a song', again: 'Play again', on: 'On', off: 'Off' },
   ml: { howToPlay: 'എങ്ങനെ കളിക്കാം', letsPlay: 'കളിക്കാം', sound: 'ശബ്ദം', catLearn: 'പഠിക്കാം', findThe: '{x} എവിടെ?', howMany: 'എത്ര എണ്ണം?', findLetter: '{x} എന്ന അക്ഷരം എവിടെ?', chooseSong: 'ഒരു പാട്ട് തിരഞ്ഞെടുക്കൂ', again: 'വീണ്ടും കളിക്കാം', on: 'ഓൺ', off: 'ഓഫ്' },
   kn: { howToPlay: 'ಹೇಗೆ ಆಡುವುದು', letsPlay: 'ಆಡೋಣ', sound: 'ಶಬ್ದ', catLearn: 'ಕಲಿಯೋಣ', findThe: '{x} ಎಲ್ಲಿದೆ?', howMany: 'ಎಷ್ಟು ಇವೆ?', findLetter: '{x} ಅಕ್ಷರ ಎಲ್ಲಿದೆ?', chooseSong: 'ಒಂದು ಹಾಡು ಆರಿಸಿ', again: 'ಮತ್ತೆ ಆಡೋಣ', on: 'ಆನ್', off: 'ಆಫ್' },
 };
 
-export const SONG_TEXT: Record<Lang, Record<'metronome' | 'perfect' | 'good' | 'makeSong' | 'makeHint' | 'songName' | 'startRec' | 'stopRec' | 'recAgain' | 'listen' | 'saveSong' | 'mySong' | 'deleteSong', string>> = {
+export const SONG_TEXT: Partial<Record<Lang, Record<'metronome' | 'perfect' | 'good' | 'makeSong' | 'makeHint' | 'songName' | 'startRec' | 'stopRec' | 'recAgain' | 'listen' | 'saveSong' | 'mySong' | 'deleteSong', string>>> & { en: Record<'metronome' | 'perfect' | 'good' | 'makeSong' | 'makeHint' | 'songName' | 'startRec' | 'stopRec' | 'recAgain' | 'listen' | 'saveSong' | 'mySong' | 'deleteSong', string> } = {
   en: { metronome: 'Beat', perfect: 'Perfect!', good: 'Good', makeSong: 'Make your own song', makeHint: 'Press record and play any tune you know on the keys, in its own rhythm. It becomes a song with falling tiles. Songs stay on this phone.', songName: 'Song name', startRec: 'Record', stopRec: 'Stop', recAgain: 'Record again', listen: 'Listen', saveSong: 'Save song', mySong: 'My song', deleteSong: 'Delete' },
   ml: { metronome: 'താളം', perfect: 'കൃത്യം!', good: 'നല്ലത്', makeSong: 'സ്വന്തം പാട്ട് ഉണ്ടാക്കാം', makeHint: 'റെക്കോർഡ് അമർത്തി, അറിയാവുന്ന ഏത് ഈണവും അതിന്റെ താളത്തിൽ കീകളിൽ വായിക്കൂ. അത് വീഴുന്ന കട്ടകളുള്ള പാട്ടാകും. പാട്ടുകൾ ഈ ഫോണിൽ മാത്രം.', songName: 'പാട്ടിന്റെ പേര്', startRec: 'റെക്കോർഡ്', stopRec: 'നിർത്തുക', recAgain: 'വീണ്ടും റെക്കോർഡ്', listen: 'കേൾക്കൂ', saveSong: 'പാട്ട് സൂക്ഷിക്കുക', mySong: 'എന്റെ പാട്ട്', deleteSong: 'ഒഴിവാക്കുക' },
   kn: { metronome: 'ತಾಳ', perfect: 'ಸರಿಯಾಗಿ!', good: 'ಚೆನ್ನಾಗಿದೆ', makeSong: 'ನಿಮ್ಮ ಸ್ವಂತ ಹಾಡು ಮಾಡಿ', makeHint: 'ರೆಕಾರ್ಡ್ ಒತ್ತಿ, ನಿಮಗೆ ಗೊತ್ತಿರುವ ಯಾವುದೇ ರಾಗವನ್ನು ಅದರ ತಾಳದಲ್ಲಿ ಕೀಲಿಗಳ ಮೇಲೆ ನುಡಿಸಿ. ಅದು ಬೀಳುವ ಟೈಲ್‌ಗಳ ಹಾಡಾಗುತ್ತದೆ. ಹಾಡುಗಳು ಈ ಫೋನ್‌ನಲ್ಲೇ ಉಳಿಯುತ್ತವೆ.', songName: 'ಹಾಡಿನ ಹೆಸರು', startRec: 'ರೆಕಾರ್ಡ್', stopRec: 'ನಿಲ್ಲಿಸಿ', recAgain: 'ಮತ್ತೆ ರೆಕಾರ್ಡ್', listen: 'ಕೇಳಿ', saveSong: 'ಹಾಡು ಉಳಿಸಿ', mySong: 'ನನ್ನ ಹಾಡು', deleteSong: 'ಅಳಿಸಿ' },
 };
+
+/** A game's name and how-to-play line in the reader's language, or English. */
+export const gameText = (id: string, lang: Lang) => GAME_TEXT[id][lang] ?? GAME_TEXT[id].en;
+export const uiText = (lang: Lang) => UI_TEXT[lang] ?? UI_TEXT.en;
+export const songText = (lang: Lang) => ({ ...UI_TEXT.en, ...SONG_TEXT.en, ...UI_TEXT[lang], ...SONG_TEXT[lang] });

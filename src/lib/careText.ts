@@ -76,5 +76,5 @@ const kn: Record<K, string> = {
   ground: '5-4-3-2-1: ಈ ಕ್ಷಣಕ್ಕೆ ಹಿಂತಿರುಗಿ', g5: 'ಸುತ್ತಲೂ ನೋಡಿ. ಕಾಣುವ 5 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g4: 'ಮುಟ್ಟಬಹುದಾದ 4 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g3: 'ಕೇಳಿ. ಕೇಳಿಸುವ 3 ಶಬ್ದಗಳನ್ನು ಹೇಳಿ.', g2: 'ವಾಸನೆ ಬರುವ 2 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g1: 'ರುಚಿ ನೋಡಬಹುದಾದ 1 ವಸ್ತು, ಅಥವಾ ನಿಮ್ಮ ಬಗ್ಗೆ ಒಂದು ಒಳ್ಳೆಯ ಮಾತು ಹೇಳಿ.', next: 'ಮುಂದೆ', fromBookCare: 'ಪುಸ್ತಕದಿಂದ: ನಿಮ್ಮನ್ನು ನೋಡಿಕೊಳ್ಳುವುದು',
   whereLive: 'ನೀವು ಎಲ್ಲಿ ವಾಸಿಸುತ್ತೀರಿ? (ಐಚ್ಛಿಕ)', town: 'ಊರು / ಹಳ್ಳಿ', pinCode: 'ಪಿನ್ ಕೋಡ್', placeHint: 'ಈ ಫೋನ್‌ನಲ್ಲಿ ಮಾತ್ರ ಇರುತ್ತದೆ. ಹತ್ತಿರದ ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರಗಳನ್ನು ಮೊದಲು ತೋರಿಸಲು ಮಾತ್ರ.', nearYou: 'ನಿಮಗೆ ಹತ್ತಿರ', nearest: 'ಹತ್ತಿರದ ಉಪಶಾಮಕ ಕೇಂದ್ರ', setPlace: 'ಹತ್ತಿರದ ಕೇಂದ್ರಗಳನ್ನು ಮೊದಲು ನೋಡಲು ಮಗುವಿನ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಸ್ಥಳ ಸೇರಿಸಿ.',
 };
-export const CT = { en, ml, kn } as Record<Lang, Record<K, string>>;
-export const ct = (lang: Lang, k: K, v: Record<string, string | number> = {}) => CT[lang][k].replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? ''));
+export const CT: Partial<Record<Lang, Partial<Record<K, string>>>> = { en, ml, kn };
+export const ct = (lang: Lang, k: K, v: Record<string, string | number> = {}) => (CT[lang]?.[k] ?? en[k]).replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? ''));

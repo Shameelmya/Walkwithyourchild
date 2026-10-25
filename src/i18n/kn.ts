@@ -1,6 +1,6 @@
 import type { en } from './en';
 
-export const kn: Record<keyof typeof en, string> = {
+export const kn: Partial<Record<keyof typeof en, string>> = {
   back: 'ಹಿಂದೆ', close: 'ಮುಚ್ಚಿ', cancel: 'ಬೇಡ', save: 'ಉಳಿಸಿ', saved: 'ಉಳಿಸಲಾಗಿದೆ', delete: 'ಅಳಿಸಿ', edit: 'ಬದಲಿಸಿ', add: 'ಸೇರಿಸಿ', done: 'ಆಯಿತು', yes: 'ಹೌದು', no: 'ಇಲ್ಲ', dash: '—',
   continue: 'ಮುಂದುವರಿಸಿ', later: 'ನಂತರ', update: 'ನವೀಕರಿಸಿ', pleaseConfirm: 'ಖಚಿತವೇ?', search: 'ಹುಡುಕಿ', share: 'ಹಂಚಿಕೊಳ್ಳಿ', print: 'ಪ್ರಿಂಟ್ ಮಾಡಿ', downloadPdf: 'PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
   preparing: 'ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…', somethingWrong: 'ಏನೋ ತೊಂದರೆಯಾಯಿತು. ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.', nothingYet: 'ಇಲ್ಲಿ ಇನ್ನೂ ಏನೂ ಇಲ್ಲ', title: 'ಶೀರ್ಷಿಕೆ', note: 'ಟಿಪ್ಪಣಿ', notes: 'ಟಿಪ್ಪಣಿಗಳು',
@@ -33,9 +33,7 @@ export const kn: Record<keyof typeof en, string> = {
   manageMedicines: 'ಔಷಧಿಗಳನ್ನು ತೆರೆಯಿರಿ', openSeizureDiary: 'ಮೂರ್ಛೆ ದಿನಚರಿ ತೆರೆಯಿರಿ', openEmergencyCard: 'ತುರ್ತು ಕಾರ್ಡ್ ತೆರೆಯಿರಿ', inLocker: 'ದಾಖಲೆ ಪೆಟ್ಟಿಗೆಯಲ್ಲಿ ಇದೆ', openLocker: 'ದಾಖಲೆ ಪೆಟ್ಟಿಗೆ ತೆರೆಯಿರಿ',
   myNotes: 'ನನ್ನ ಟಿಪ್ಪಣಿಗಳು', myNotesSub: 'ಮನಸ್ಸಿನಲ್ಲಿರುವುದನ್ನು ಬರೆಯಲು ಖಾಲಿ ಪುಟಗಳು.', newNote: 'ಹೊಸ ಟಿಪ್ಪಣಿ', noNotes: 'ಟಿಪ್ಪಣಿಗಳಿಲ್ಲ', noNotesText: 'ನಿಮಗೆ ತಿಳಿದಿರುವುದು, ಇನ್ನೂ ಕೇಳಬೇಕಾದ್ದು, ಯಾರೊಂದಿಗೆ ಮಾತನಾಡಬಹುದು ಎಂಬುದನ್ನು ಇಲ್ಲಿ ಬರೆಯಿರಿ.',
   untitled: 'ಹೆಸರಿಲ್ಲದ್ದು', deleteNoteQ: 'ಈ ಟಿಪ್ಪಣಿ ಅಳಿಸಬೇಕೇ?',
-  helpMsgEn: 'Hello {who}, could you help me with {need} this week? It would mean a lot to us. Thank you.',
-  helpMsgMl: 'നമസ്കാരം {who}, ഈ ആഴ്ച {need} എന്ന കാര്യത്തിൽ ഒന്ന് സഹായിക്കാമോ? ഞങ്ങൾക്ക് അത് വലിയ ആശ്വാസമാകും. നന്ദി.',
-  helpMsgKn: 'ನಮಸ್ಕಾರ {who}, ಈ ವಾರ {need} ವಿಷಯದಲ್ಲಿ ಸ್ವಲ್ಪ ಸಹಾಯ ಮಾಡುತ್ತೀರಾ? ನಮಗೆ ತುಂಬಾ ಸಮಾಧಾನವಾಗುತ್ತದೆ. ಧನ್ಯವಾದಗಳು.',
+  helpMsg: 'ನಮಸ್ಕಾರ {who}, ಈ ವಾರ {need} ವಿಷಯದಲ್ಲಿ ಸ್ವಲ್ಪ ಸಹಾಯ ಮಾಡುತ್ತೀರಾ? ನಮಗೆ ತುಂಬಾ ಸಮಾಧಾನವಾಗುತ್ತದೆ. ಧನ್ಯವಾದಗಳು.',
   selfCareNote: 'ಈ ವಾರ ನಿಜವಾದದ್ದನ್ನು ಟಿಕ್ ಮಾಡಿ. ಇಲ್ಲಿ ಸರಿ ತಪ್ಪು ಇಲ್ಲ.', lowMoodTitle: 'ಕಳೆದ ಎರಡು ವಾರ ನಿಮಗೆ ಕಷ್ಟವಾಗಿತ್ತು', lowMoodText: 'ನೀವೂ ಮುಖ್ಯ. ನಂಬಿಕೆಯ ಯಾರೊಂದಿಗಾದರೂ ಅಥವಾ ಚಿಕಿತ್ಸಾ ತಂಡದೊಂದಿಗೆ ಮಾತನಾಡಿ. ಟೆಲಿ-ಮಾನಸ ಉಚಿತ, ಹಗಲು ರಾತ್ರಿ ಲಭ್ಯ.',
   callTeleManas: 'ಟೆಲಿ-ಮಾನಸ 14416 ಗೆ ಕರೆ ಮಾಡಿ',
   todaySchedule: 'ಇಂದಿನ ವೇಳಾಪಟ್ಟಿ', allMedicines: 'ಎಲ್ಲಾ ಔಷಧಿಗಳು', addMedicine: 'ಔಷಧಿ ಸೇರಿಸಿ', editMedicine: 'ಔಷಧಿ ಬದಲಿಸಿ', noMedicines: 'ಇನ್ನೂ ಔಷಧಿ ಸೇರಿಸಿಲ್ಲ',

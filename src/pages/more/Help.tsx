@@ -8,7 +8,7 @@ import { getSetting, setSetting } from '../../lib/db';
 import { SCHEMES, ORGS, FINDERS, PALLIATIVE, RARE_GROUPS, REVIEWED, searchUrl, type HelpItem } from '../../lib/help';
 import { HELP_SRC } from '../../lib/care';
 import { ct } from '../../lib/careText';
-import { cx, fmtDate } from '../../lib/util';
+import { cx, fmtDate, pick } from '../../lib/util';
 import { FromBook } from '../child/Care';
 
 interface Contact { id: number; name: string; phone: string; what: string }
@@ -29,7 +29,7 @@ export default function Help() {
         <div className="flex-1 min-w-0">
           <b className="block leading-snug">{x.name}</b>
           <span className="text-[11px] font-bold text-muted">{L(x.where)}</span>
-          <p className="text-sm mt-1">{x.what[lang]}</p>
+          <p className="text-sm mt-1">{pick(x.what, lang)}</p>
           <div className="flex flex-wrap gap-2 mt-2.5">
             {x.phone && <a className="chip" href={`tel:${x.phone}`}><Phone size={15} aria-hidden /> {L('call')} {x.phone}</a>}
             {x.url ? <a className="chip" href={x.url} target="_blank" rel="noopener noreferrer"><ExternalLink size={15} aria-hidden /> {L('open')}</a>

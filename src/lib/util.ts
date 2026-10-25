@@ -35,3 +35,7 @@ export async function shareOrDownload(blob: Blob, name: string, title: string) {
   }
   download(blob, name); return 'downloaded';
 }
+
+/** A text in the reader's language, or English when that language has no translation of it yet. */
+export type Tx = { en: string } & Partial<Record<Lang, string>>;
+export const pick = <T,>(o: { en: T } & Partial<Record<Lang, T>>, l: Lang): T => o[l] ?? o.en;

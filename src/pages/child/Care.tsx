@@ -10,7 +10,7 @@ import { useChild, useChildId } from '../../lib/hooks';
 import { loadBook, meta, partColor, type Book } from '../../lib/content';
 import { CONDITIONS, ROLES, TEAM_SRC, section, type Src } from '../../lib/care';
 import { toParts, picFor } from '../../lib/careSteps';
-import { cx, fmtDate, fmtDur, fmtTime } from '../../lib/util';
+import { cx, fmtDate, fmtDur, fmtTime, pick } from '../../lib/util';
 import { ct } from '../../lib/careText';
 
 function useBook() {
@@ -214,7 +214,7 @@ export function CareGuide() {
       <div className="grid grid-cols-2 gap-2.5 mb-3">
         {CONDITIONS.filter((c) => c.emergency).map((c) => (
           <Link key={c.id} to={c.to ?? `/care/${c.id}`} className={cx('tile min-h-[110px] flex flex-col justify-between', c.tile)}>
-            <span className="relative z-[1] text-4xl" aria-hidden>{c.e}</span><b className="relative z-[1] leading-tight">{c.name[lang]}</b>
+            <span className="relative z-[1] text-4xl" aria-hidden>{c.e}</span><b className="relative z-[1] leading-tight">{pick(c.name, lang)}</b>
           </Link>
         ))}
       </div>
@@ -224,7 +224,7 @@ export function CareGuide() {
         {CONDITIONS.filter((c) => !c.emergency).map((c) => (
           <Link key={c.id} to={`/care/${c.id}`} className="card !rounded-3xl p-4 min-h-[118px] flex flex-col gap-2 active:scale-[0.98] transition">
             <span className={cx('w-12 h-12 rounded-2xl flex items-center justify-center text-2xl', c.tile)} aria-hidden>{c.e}</span>
-            <b className="leading-snug text-[0.95rem]">{c.name[lang]}</b>
+            <b className="leading-snug text-[0.95rem]">{pick(c.name, lang)}</b>
           </Link>
         ))}
       </div>
@@ -239,7 +239,7 @@ export function CareGuide() {
         <section className="mb-6">
           <h2 className="font-extrabold mb-2">{t('recentEpisodes')}</h2>
           <ul className="card divide-y divide-line/60">{recent.map((e) => { const c = CONDITIONS.find((x) => x.id === e.kind); return (
-            <li key={e.id}><Link to={`/care/${e.kind}`} className="flex items-center gap-3 p-3 min-h-[56px]"><span aria-hidden className="text-xl">{c?.e}</span><span className="flex-1 min-w-0"><b className="block text-sm truncate">{c?.name[lang]}</b><span className="text-xs text-muted">{fmtDate(e.start, lang, { day: 'numeric', month: 'short' })} · {fmtTime(e.start, lang)}</span></span>{e.durationSec > 0 && <span className="chip !min-h-[30px] tabular-nums">{fmtDur(e.durationSec)}</span>}</Link></li>
+            <li key={e.id}><Link to={`/care/${e.kind}`} className="flex items-center gap-3 p-3 min-h-[56px]"><span aria-hidden className="text-xl">{c?.e}</span><span className="flex-1 min-w-0"><b className="block text-sm truncate">{c ? pick(c.name, lang) : null}</b><span className="text-xs text-muted">{fmtDate(e.start, lang, { day: 'numeric', month: 'short' })} · {fmtTime(e.start, lang)}</span></span>{e.durationSec > 0 && <span className="chip !min-h-[30px] tabular-nums">{fmtDur(e.durationSec)}</span>}</Link></li>
           ); })}</ul>
         </section>
       )}
@@ -261,7 +261,7 @@ export function CareDetail() {
   if (!c) return <Page><PageHeader title={t('careGuide')} /></Page>;
   return (
     <Page>
-      <PageHeader title={c.name[lang]} />
+      <PageHeader title={pick(c.name, lang)} />
       <div className="grid gap-4">
         {(urgent || c.emergency) && (
           <section className="rounded-3xl p-4 border-2 border-[var(--ur)] bg-[var(--urt)] grid gap-3">

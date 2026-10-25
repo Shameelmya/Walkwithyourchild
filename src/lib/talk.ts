@@ -1,5 +1,6 @@
+import type { Lang } from './store';
 /** What each talk-board card says aloud: a short, natural sentence in the child's voice. Same order as meta.talkBoardCards. */
-export const PHRASES: { en: string; ml: string; kn: string }[] = [
+export const PHRASES: ({ en: string } & Partial<Record<Lang, string>>)[] = [
   { en: 'I want food, please.', ml: 'എനിക്ക് ഭക്ഷണം വേണം.', kn: 'ನನಗೆ ಊಟ ಬೇಕು.' },
   { en: 'I want some water.', ml: 'എനിക്ക് വെള്ളം വേണം.', kn: 'ನನಗೆ ನೀರು ಬೇಕು.' },
   { en: 'I am in pain.', ml: 'എനിക്ക് വേദനിക്കുന്നു.', kn: 'ನನಗೆ ನೋವಾಗುತ್ತಿದೆ.' },

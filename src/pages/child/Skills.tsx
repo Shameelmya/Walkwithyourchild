@@ -10,7 +10,7 @@ import { ct } from '../../lib/careText';
 import { SKILLS } from '../../lib/skills';
 import { play, midi } from '../../lib/audio';
 import { useUI, type Lang } from '../../lib/store';
-import { cx } from '../../lib/util';
+import { cx, pick } from '../../lib/util';
 import { FromBook } from './Care';
 import { Celebrate } from '../play/games-colour';
 
@@ -26,7 +26,7 @@ const LEVELS: { v: Level; e: string; k: 'fullHelp' | 'someHelp' | 'byMyself'; c:
 const tasks = (lang: Lang, saved: Saved): Task[] => [
   ...SKILLS.map((s) => {
     const ed = saved.edits[s.id];
-    return { id: s.id, e: s.e, kind: s.kind, name: s.name[lang], edited: !!ed, steps: ed ? ed.map((t, i) => ({ e: s.steps[i]?.e ?? '•', t })) : s.steps.map((x) => ({ e: x.e, t: x.t[lang] })) };
+    return { id: s.id, e: s.e, kind: s.kind, name: pick(s.name, lang), edited: !!ed, steps: ed ? ed.map((t, i) => ({ e: s.steps[i]?.e ?? '•', t })) : s.steps.map((x) => ({ e: x.e, t: pick(x.t, lang) })) };
   }),
   ...saved.own.map((o) => ({ id: o.id, e: '✨', kind: 'own' as const, name: o.name, edited: true, steps: o.steps.map((t) => ({ e: '•', t })) })),
 ];

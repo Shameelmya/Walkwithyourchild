@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Trash2, Phone, Check, ExternalLink, MessageCircle } from 'lucide-react';
-import { useT } from '../../i18n';
+import { useT, tr } from '../../i18n';
+import { LANGS, type Lang } from '../../lib/store';
 import { loc, callTel, extractPhone, type Field, type Sheet } from '../../lib/content';
 import { useSheet, useChildId } from '../../lib/hooks';
 import { db } from '../../lib/db';
@@ -105,12 +106,10 @@ function SupportActions({ row, need }: { row: Row; need: string }) {
   const { t } = useT();
   const phone = extractPhone(row.phone);
   if (!phone) return null;
-  const wa = (l: 'en' | 'ml' | 'kn') => `https://wa.me/${phone.length === 10 ? '91' + phone : phone.replace('+', '')}?text=${encodeURIComponent(t(l === 'en' ? 'helpMsgEn' : l === 'kn' ? 'helpMsgKn' : 'helpMsgMl', { who: row.who ?? '', need }))}`;
+  const wa = (l: Lang) => `https://wa.me/${phone.length === 10 ? '91' + phone : phone.replace('+', '')}?text=${encodeURIComponent(tr(l, 'helpMsg', { who: row.who ?? '', need }))}`;
   return (
     <>
-      <a className="chip" href={wa('ml')} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> മലയാളം</a>
-      <a className="chip" href={wa('kn')} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> ಕನ್ನಡ</a>
-      <a className="chip" href={wa('en')} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> English</a>
+      {LANGS.map((l) => <a key={l.v} className="chip" lang={l.v} href={wa(l.v)} target="_blank" rel="noreferrer"><MessageCircle size={16} aria-hidden /> {l.native}</a>)}
       <a className="icon-btn" href={callTel(phone)} aria-label={t('callNumber', { n: phone })}><Phone size={20} /></a>
     </>
   );

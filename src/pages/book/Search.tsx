@@ -9,13 +9,13 @@ import { loadBook, loc, toc, type Book } from '../../lib/content';
 export default function Search() {
   const { t, lang } = useT();
   const [q, setQ] = useState('');
-  const [books, setBooks] = useState<{ en?: Book; ml?: Book; kn?: Book }>({});
-  useEffect(() => { Promise.all([loadBook('en'), loadBook('ml'), loadBook('kn')]).then(([en, ml, kn]) => setBooks({ en, ml, kn: kn.fallback ? undefined : kn })); }, []);
+  const [books, setBooks] = useState<Partial<Record<Lang, Book>>>({});
+  useEffect(() => { Promise.all(LANGS.map((x) => loadBook(x.v))).then((all) => setBooks(Object.fromEntries(LANGS.map((x, i) => [x.v, all[i].fallback ? undefined : all[i]])))); }, []);
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (s.length < 2) return [];
     const out: { l: Lang; c: string; b: number; text: string }[] = [];
-    for (const l of ['en', 'ml', 'kn'] as const) for (const c of books[l]?.chapters ?? []) c.blocks.forEach((b, i) => {
+    for (const { v: l } of LANGS) for (const c of books[l]?.chapters ?? []) c.blocks.forEach((b, i) => {
       const at = b.text.toLowerCase().indexOf(s);
       if (at >= 0) out.push({ l, c: c.id, b: i, text: (at > 40 ? '…' : '') + b.text.slice(Math.max(0, at - 40), at + 120) });
     });

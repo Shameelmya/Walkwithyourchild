@@ -1,6 +1,6 @@
 import type { Lang } from './store';
 
-type N = Record<Lang, string>;
+type N = { en: string } & Partial<Record<Lang, string>>;
 const n = (en: string, ml: string, kn: string): N => ({ en, ml, kn });
 export interface SkillStep { e: string; t: N }
 export interface Skill { id: string; e: string; kind: 'adl' | 'iadl'; name: N; steps: SkillStep[] }
