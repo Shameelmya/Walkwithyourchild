@@ -10,6 +10,7 @@ export const LANGS: { v: Lang; native: string; short: string }[] = [
   { v: 'ml', native: 'മലയാളം', short: 'മ' },
   { v: 'kn', native: 'ಕನ್ನಡ', short: 'ಕ' },
   { v: 'ta', native: 'தமிழ்', short: 'த' },
+  { v: 'te', native: 'తెలుగు', short: 'తె' },
 ];
 export const indic = (l: Lang) => l !== 'en';
 export type Theme = 'white' | 'paper' | 'comfort' | 'night';
