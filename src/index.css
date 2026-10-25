@@ -33,15 +33,15 @@
 
 html { -webkit-text-size-adjust: 100%; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
 /* Malayalam and Kannada: real font weights only (no faux bold), a touch lighter than Latin so the letters stay open and clear */
-:is(html[lang='ml'], html[lang='kn']) :is(.font-extrabold, .font-black) { font-weight: 700; }
-:is(html[lang='ml'], html[lang='kn']) .font-bold { font-weight: 600; }
-:is(html[lang='ml'], html[lang='kn']) .prose-read strong { font-weight: 600; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) :is(.font-extrabold, .font-black) { font-weight: 700; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) .font-bold { font-weight: 600; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) .prose-read strong { font-weight: 600; }
 body { font-feature-settings: 'ss01'; background: rgb(var(--bg)); color: rgb(var(--text)); font-family: theme('fontFamily.ui'); line-height: 1.6; -webkit-tap-highlight-color: transparent; }
 html[lang='ml'] body, html[lang='kn'] body { line-height: 1.78; }
-:is(html[lang='ml'], html[lang='kn']) :is(em, i, .italic) { font-style: normal; }
-:is(html[lang='ml'], html[lang='kn']) * { letter-spacing: normal !important; text-transform: none !important; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) :is(em, i, .italic) { font-style: normal; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) * { letter-spacing: normal !important; text-transform: none !important; }
 h1, h2, h3, .font-head { font-family: theme('fontFamily.head'); }
-:is(html[lang='ml'], html[lang='kn']) :is(h1, h2, h3) { line-height: 1.5; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) :is(h1, h2, h3) { line-height: 1.5; }
 
 :focus-visible { outline: 3px solid rgb(var(--accent)); outline-offset: 2px; border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
@@ -69,7 +69,7 @@ h1, h2, h3, .font-head { font-family: theme('fontFamily.head'); }
 
 /* Reader typography */
 .prose-read { font-family: theme('fontFamily.read'); font-size: 1.125rem; line-height: 1.68; max-width: 68ch; }
-:is(html[lang='ml'], html[lang='kn']) .prose-read { line-height: 1.85; font-size: 1.06rem; }
+:is(html[lang='ml'], html[lang='kn'], html[lang='ta']) .prose-read { line-height: 1.85; font-size: 1.06rem; }
 .prose-read p { margin: 0 0 1em; }
 .prose-read ul, .prose-read ol { margin: 0 0 1em; padding-left: 1.4em; }
 .prose-read ul { list-style: disc; } .prose-read ol { list-style: decimal; }

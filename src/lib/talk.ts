@@ -1,6 +1,7 @@
 import type { Lang } from './store';
+import { EXTRA_PHRASES } from '../i18n/phrases';
 /** What each talk-board card says aloud: a short, natural sentence in the child's voice. Same order as meta.talkBoardCards. */
-export const PHRASES: ({ en: string } & Partial<Record<Lang, string>>)[] = [
+const BASE: ({ en: string } & Partial<Record<Lang, string>>)[] = [
   { en: 'I want food, please.', ml: 'എനിക്ക് ഭക്ഷണം വേണം.', kn: 'ನನಗೆ ಊಟ ಬೇಕು.' },
   { en: 'I want some water.', ml: 'എനിക്ക് വെള്ളം വേണം.', kn: 'ನನಗೆ ನೀರು ಬೇಕು.' },
   { en: 'I am in pain.', ml: 'എനിക്ക് വേദനിക്കുന്നു.', kn: 'ನನಗೆ ನೋವಾಗುತ್ತಿದೆ.' },
@@ -18,3 +19,5 @@ export const PHRASES: ({ en: string } & Partial<Record<Lang, string>>)[] = [
   { en: 'Give me a hug.', ml: 'എന്നെ ഒന്ന് കെട്ടിപ്പിടിക്കൂ.', kn: 'ನನ್ನನ್ನು ಅಪ್ಪಿಕೋ.' },
   { en: 'I want to go outside.', ml: 'എനിക്ക് പുറത്ത് പോകണം.', kn: 'ನನಗೆ ಹೊರಗೆ ಹೋಗಬೇಕು.' },
 ];
+
+export const PHRASES = BASE.map((p, i) => ({ ...p, ...Object.fromEntries(Object.entries(EXTRA_PHRASES).map(([l, a]) => [l, a![i]]).filter(([, t]) => t)) } as { en: string } & Partial<Record<Lang, string>>));
