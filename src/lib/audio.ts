@@ -2,17 +2,13 @@ import { useUI } from './store';
 let ctx: AudioContext | null = null;
 let bus: GainNode | null = null;
 
-/** Shared audio graph: a soft master bus with a gentle echo so tones sound warm, not like beeps. */
+/** Shared audio graph: one master volume and a gentle top-end filter. No echo or reverb: every sound is heard dry and clear. */
 export function ac() {
   if (!ctx) {
     ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
     bus = ctx.createGain(); bus.gain.value = 0.9;
-    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 5200;
-    const delay = ctx.createDelay(1); delay.delayTime.value = 0.23;
-    const fb = ctx.createGain(); fb.gain.value = 0.28;
-    const wet = ctx.createGain(); wet.gain.value = 0.32;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 9000;
     bus.connect(lp).connect(ctx.destination);
-    lp.connect(delay); delay.connect(fb).connect(delay); delay.connect(wet).connect(ctx.destination);
   }
   if (ctx.state === 'suspended') void ctx.resume();
   return ctx;
