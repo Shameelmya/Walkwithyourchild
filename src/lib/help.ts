@@ -88,3 +88,27 @@ export const PALLIATIVE: HelpItem[] = [
   { id: 'pc-all', e: '🗺️', where: 'india', name: 'Indian Association of Palliative Care: all states', url: 'https://www.palliativecare.in',
     what: n('Find palliative care centres in other states on the IAPC website.', 'മറ്റു സംസ്ഥാനങ്ങളിലെ പാലിയേറ്റീവ് കേന്ദ്രങ്ങൾ IAPC വെബ്സൈറ്റിൽ കണ്ടെത്താം.', 'ಇತರ ರಾಜ್ಯಗಳ ಉಪಶಾಮಕ ಕೇಂದ್ರಗಳನ್ನು IAPC ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಹುಡುಕಿ.') },
 ];
+
+/** Patient support groups listed as members on ORDI's Patient Advocacy Groups page, by condition. */
+export const RARE_GROUPS: HelpItem[] = [
+  { id: 'g-cmt', e: '🤝', where: 'india', name: "The Charcot Marie Tooth Foundation of India", what: n("Charcot-Marie-Tooth (CMT)", "Charcot-Marie-Tooth (CMT)", "Charcot-Marie-Tooth (CMT)") },
+  { id: 'g-dmd', e: '🤝', where: 'india', name: "BharathMD Foundation", what: n("Duchenne muscular dystrophy (DMD)", "Duchenne muscular dystrophy (DMD)", "Duchenne muscular dystrophy (DMD)") },
+  { id: 'g-pompe', e: '🤝', where: 'india', name: "Pompe Foundation", what: n("Pompe disease", "Pompe disease", "Pompe disease") },
+  { id: 'g-als', e: '🤝', where: 'india', name: "ALS Care and Support group", url: "http://alslifemanagement.weebly.com/", what: n("ALS (motor neurone disease)", "ALS (motor neurone disease)", "ALS (motor neurone disease)") },
+  { id: 'g-hd', e: '🤝', where: 'india', name: "Huntington Disease Society of India", what: n("Huntington disease", "Huntington disease", "Huntington disease") },
+  { id: 'g-ms', e: '🤝', where: 'india', name: "Multiple Sclerosis Society of India", url: "https://www.mssocietyindia.org", what: n("Multiple sclerosis", "Multiple sclerosis", "Multiple sclerosis") },
+  { id: 'g-tsc', e: '🤝', where: 'india', name: "TSC Alliance India", what: n("Tuberous sclerosis complex (TSC)", "Tuberous sclerosis complex (TSC)", "Tuberous sclerosis complex (TSC)") },
+  { id: 'g-cdkl5', e: '🤝', where: 'india', name: "CDKL5 South Asia", what: n("CDKL5 deficiency disorder", "CDKL5 deficiency disorder", "CDKL5 deficiency disorder") },
+  { id: 'g-angelman', e: '🤝', where: 'india', name: "Angelman Foundation India", what: n("Angelman syndrome", "Angelman syndrome", "Angelman syndrome") },
+  { id: 'g-fragx', e: '🤝', where: 'india', name: "Fragile X Society India", what: n("Fragile X syndrome", "Fragile X syndrome", "Fragile X syndrome") },
+  { id: 'g-merd', e: '🤝', where: 'india', name: "MERD India Foundation", what: n("Inborn errors of metabolism", "Inborn errors of metabolism", "Inborn errors of metabolism") },
+  { id: 'g-mngie', e: '🤝', where: 'india', name: "MNGIE India", url: "http://www.facebook.com/Mngieindia", what: n("MNGIE (mitochondrial disease)", "MNGIE (mitochondrial disease)", "MNGIE (mitochondrial disease)") },
+  { id: 'g-iih', e: '🤝', where: 'india', name: "IIH Warriors India", what: n("Idiopathic intracranial hypertension", "Idiopathic intracranial hypertension", "Idiopathic intracranial hypertension") },
+  { id: 'g-fop', e: '🤝', where: 'india', name: "FOP Trust of India", what: n("Fibrodysplasia ossificans progressiva (FOP)", "Fibrodysplasia ossificans progressiva (FOP)", "Fibrodysplasia ossificans progressiva (FOP)") },
+  { id: 'g-thal', e: '🤝', where: 'india', name: "Thalassemics India", what: n("Thalassemia", "Thalassemia", "Thalassemia") },
+  { id: 'g-ahus', e: '🤝', where: 'india', name: "aHUS India Foundation", what: n("Atypical HUS", "Atypical HUS", "Atypical HUS") },
+  { id: 'g-sclero', e: '🤝', where: 'india', name: "Scleroderma Trust", what: n("Scleroderma", "Scleroderma", "Scleroderma") },
+  { id: 'g-bengal', e: '🤝', where: 'india', name: "Rare Warriors of Bengal Association", what: n("Children with rare diseases (West Bengal)", "Children with rare diseases (West Bengal)", "Children with rare diseases (West Bengal)") },
+  { id: 'g-goa', e: '🤝', where: 'india', name: "Novi Survat Goa", what: n("Children with disability or chronic illness (Goa)", "Children with disability or chronic illness (Goa)", "Children with disability or chronic illness (Goa)") },
+  { id: 'g-saranam', e: '🤝', where: 'india', name: "Saranam", what: n("Palliative and end-of-life care", "Palliative and end-of-life care", "Palliative and end-of-life care") },
+];
