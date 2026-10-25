@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Phone, Play, Square, ChevronRight, NotebookPen, Timer, PenLine, Trash2, BookOpen } from 'lucide-react';
@@ -144,35 +144,47 @@ function StepCards({ src, kind }: { src: Src[]; kind: string }) {
   const [en, setEn] = useState<Book | null>(null);
   const [i, setI] = useState(0);
   const [dx, setDx] = useState(0);
+  const [h, setH] = useState<number>();
   const sw = useRef<{ x: number; y: number; on: boolean } | null>(null);
+  const slides = useRef<(HTMLDivElement | null)[]>([]);
   useEffect(() => { loadBook('en').then(setEn); }, []);
   useEffect(() => setI(0), [kind, lang]);
+  // The strip is as tall as the step being shown, and follows it as it changes.
+  useLayoutEffect(() => {
+    const el = slides.current[i]; if (!el) return;
+    const fit = () => setH(el.offsetHeight); fit();
+    const ro = new ResizeObserver(fit); ro.observe(el); return () => ro.disconnect();
+  }, [i, book, en]);
   if (!book || !en) return null;
   const parts = toParts(book, src); const enParts = toParts(en, src);
   const n = parts.steps.length; if (!n) return null;
-  const k = Math.min(i, n - 1); const st = parts.steps[k];
-  const pic = picFor(enParts.steps[k]?.html ?? '');
-  // Swipe left for the next step, right for the previous one; vertical scrolling still works.
+  const k = Math.min(i, n - 1);
+  // All steps sit side by side: swiping moves the strip, so the next step slides in as the current one leaves.
   const go = (d: number) => { const j = Math.max(0, Math.min(n - 1, k + d)); if (j !== k) { setI(j); try { navigator.vibrate?.(10); } catch { /* */ } } };
   const touch = {
     onTouchStart: (e: React.TouchEvent) => { const p = e.touches[0]; sw.current = { x: p.clientX, y: p.clientY, on: false }; },
     onTouchMove: (e: React.TouchEvent) => {
       const s0 = sw.current; if (!s0) return; const p = e.touches[0]; const ddx = p.clientX - s0.x, ddy = p.clientY - s0.y;
-      if (!s0.on && Math.abs(ddx) > 12 && Math.abs(ddx) > Math.abs(ddy) * 1.3) s0.on = true;
-      if (s0.on) setDx(ddx * ((k === 0 && ddx > 0) || (k === n - 1 && ddx < 0) ? 0.3 : 1));
+      if (!s0.on && Math.abs(ddx) > 10 && Math.abs(ddx) > Math.abs(ddy) * 1.2) s0.on = true;
+      if (s0.on) setDx(ddx * ((k === 0 && ddx > 0) || (k === n - 1 && ddx < 0) ? 0.25 : 1));
     },
-    onTouchEnd: () => { const s0 = sw.current; sw.current = null; if (s0?.on && Math.abs(dx) > 60) go(dx < 0 ? 1 : -1); setDx(0); },
+    onTouchEnd: () => { const s0 = sw.current; sw.current = null; if (s0?.on && Math.abs(dx) > 50) go(dx < 0 ? 1 : -1); setDx(0); },
     // The phone may take over the touch (scrolling, a system gesture): always settle back.
     onTouchCancel: () => { sw.current = null; setDx(0); },
   };
-  const slide = { transform: dx ? `translateX(${dx}px)` : undefined, opacity: dx ? Math.max(0.35, 1 - Math.abs(dx) / 400) : 1, transition: dx ? 'none' : 'transform .3s var(--ease), opacity .3s' };
   return (
     <section {...touch} className="card !rounded-3xl p-5 flex flex-col items-center text-center gap-3 overflow-hidden touch-pan-y select-none" aria-roledescription="carousel">
       <p className="text-xs font-bold text-muted uppercase tracking-wide">{t('stepOf', { n: k + 1, all: n })}</p>
-      <div className="w-full flex flex-col items-center gap-3" style={slide}>
-        <span key={k} className="anim-zoom w-28 h-28 rounded-full bg-soft flex items-center justify-center text-[3.6rem]" aria-hidden>{pic}</span>
-        {st.head && <p className="text-sm font-bold text-[rgb(var(--accent))]">{st.head}</p>}
-        <div key={'t' + k} className="anim-in text-lg leading-relaxed min-h-[5.5rem] prose-step" dangerouslySetInnerHTML={{ __html: st.html }} />
+      <div className="-mx-5 w-[calc(100%+2.5rem)] overflow-hidden transition-[height] duration-300" style={{ height: h }}>
+        <div className="flex items-start" style={{ transform: `translateX(calc(${-k * 100}% + ${dx}px))`, transition: dx ? 'none' : 'transform .35s cubic-bezier(.22,.8,.3,1)' }}>
+          {parts.steps.map((st, j) => (
+            <div key={j} ref={(el) => { slides.current[j] = el; }} className="w-full shrink-0 px-5 flex flex-col items-center gap-3" aria-hidden={j !== k}>
+              <span className="w-28 h-28 rounded-full bg-soft flex items-center justify-center text-[3.6rem]" aria-hidden>{picFor(enParts.steps[j]?.html ?? '')}</span>
+              {st.head && <p className="text-sm font-bold text-[rgb(var(--accent))]">{st.head}</p>}
+              <div className="text-lg leading-relaxed min-h-[5.5rem] prose-step" dangerouslySetInnerHTML={{ __html: st.html }} />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="flex gap-1.5 flex-wrap justify-center" aria-hidden>{parts.steps.map((_, j) => <span key={j} className={cx('h-2 rounded-full transition-all', j === k ? 'w-6 bg-[rgb(var(--accent))]' : 'w-2 bg-line')} />)}</div>
       <div className="grid grid-cols-2 gap-2.5 w-full mt-1">
