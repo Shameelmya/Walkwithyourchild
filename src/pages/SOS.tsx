@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Phone, MapPin, X, Activity, Pencil } from 'lucide-react';
+import { Phone, MapPin, X, Activity, Pencil, HeartHandshake } from 'lucide-react';
+import { ct } from '../lib/careText';
 import { useT } from '../i18n';
 import { db, getSheet } from '../lib/db';
 import { useChild, useChildId, useWakeLockSafe } from '../lib/hooks';
@@ -62,7 +63,10 @@ export default function SOS() {
             <button onClick={share} className="btn-outline !min-h-[56px]"><MapPin size={20} aria-hidden /> {t('shareLocation')}</button>
             {contact && <a href={callTel(contact)} className="btn-outline !min-h-[56px]"><Phone size={20} aria-hidden /> {t('callMainContact')}</a>}
           </div>
-          <button className="btn-outline !min-h-[56px]" onClick={() => nav('/seizure')}><Activity size={20} aria-hidden /> {t('startSeizureTimer')}</button>
+          <div className="grid grid-cols-2 gap-2.5">
+            <button className="btn-outline !min-h-[56px]" onClick={() => nav('/seizure')}><Activity size={20} aria-hidden /> {t('startSeizureTimer')}</button>
+            <button className="btn-outline !min-h-[56px]" onClick={() => nav('/help/palliative')}><HeartHandshake size={20} aria-hidden /> {ct(lang, 'palliativeShort')}</button>
+          </div>
           <a href="tel:108" className="btn-danger text-2xl !min-h-[76px] !rounded-3xl"><Phone aria-hidden /> {t('call108')}</a>
         </div>
       </BottomBar>
