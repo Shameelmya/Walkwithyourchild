@@ -256,3 +256,26 @@ test('palliative centres one tap from Home and SOS, district remembered', async 
   await expect(page.getByLabel('District')).toHaveValue('Thrissur');
   await expect(page.getByRole('link', { name: /Call \+91/ }).first()).toBeVisible();
 });
+
+test('daily living skills and parent distress tools', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.goto('/care');
+  await page.getByRole('link', { name: /Daily living skills/ }).click();
+  await page.getByRole('button', { name: /^Drinking from a cup/ }).click();
+  for (const l of ['Full help', 'Some help', 'By myself', 'By myself']) await page.getByRole('button', { name: l }).click();
+  await expect(page.getByText('All steps done!')).toBeVisible();
+  await page.getByRole('button', { name: '✓' }).click();
+  await expect(page.getByText('Last time: 2 of 4 by myself')).toBeVisible();
+  await page.getByRole('button', { name: 'Add your own task' }).click();
+  await page.getByRole('dialog').getByLabel('Task name').fill('Feed the cat');
+  await page.getByRole('dialog').getByLabel('One step per line.').fill('Open the tin\nFill the bowl');
+  await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByRole('button', { name: /^Feed the cat/ })).toBeVisible();
+  await page.goto('/me');
+  await page.getByRole('button', { name: '8', exact: true }).click();
+  await expect(page.getByText('That is a lot to carry.', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: '5-4-3-2-1: come back to now' }).click();
+  await expect(page.getByText('Name 5 things you can see.', { exact: false })).toBeVisible();
+  await expect(page.getByText('Your feelings', { exact: true })).toBeVisible();
+});

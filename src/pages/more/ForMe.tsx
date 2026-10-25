@@ -7,7 +7,11 @@ import { WeeklyEditor } from '../../components/sheets/Weekly';
 import { BlockView } from '../../components/Blocks';
 import { loadBook, toc, type Block } from '../../lib/content';
 import { useSheet } from '../../lib/hooks';
-import { fmtDate, isoDate } from '../../lib/util';
+import { cx, fmtDate, isoDate } from '../../lib/util';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { getSetting, setSetting } from '../../lib/db';
+import { ct } from '../../lib/careText';
+import { FromBook } from '../child/Care';
 
 function Breathing() {
   const { t } = useT();
@@ -52,6 +56,52 @@ function GoodMoments() {
   );
 }
 
+/** A 0–10 feelings check; a high score points straight to someone to talk to. */
+function Thermometer() {
+  const { t, lang } = useT();
+  const L = (k: Parameters<typeof ct>[1]) => ct(lang, k);
+  const log = useLiveQuery(() => getSetting<{ at: number; v: number }[]>('distress', []), []) ?? [];
+  const [v, setV] = useState<number | null>(null);
+  const [saved, setSaved] = useState(false);
+  const hue = (n: number) => `hsl(${140 - n * 14} 60% 45%)`;
+  return (
+    <div className="card p-4">
+      <p className="font-bold mb-1">{L('thermo')}</p>
+      <p className="text-sm text-muted mb-3">{L('thermoHint')}</p>
+      <div className="grid grid-cols-11 gap-1 mb-3">{Array.from({ length: 11 }, (_, n) => (
+        <button key={n} aria-pressed={v === n} className={cx('h-12 rounded-xl font-extrabold tabular-nums text-sm transition', v === n ? 'text-white scale-110' : 'bg-surface2')} style={v === n ? { background: hue(n) } : undefined} onClick={() => { setV(n); setSaved(false); }}>{n}</button>
+      ))}</div>
+      {v !== null && !saved && <button className="btn-primary w-full" onClick={() => { void setSetting('distress', [...log, { at: Date.now(), v }].slice(-60)); setSaved(true); }}>{L('logIt')}</button>}
+      {v !== null && v >= 7 && (
+        <div className="rounded-2xl bg-[var(--p1t)] p-3 mt-3">
+          <p className="font-bold mb-2">{L('thermoHigh')}</p>
+          <a href="tel:14416" className="btn-primary w-full"><Phone size={18} aria-hidden /> {t('teleManas')}</a>
+        </div>
+      )}
+      {log.length > 0 && <div className="flex items-end gap-1 h-12 mt-4" aria-hidden>{log.slice(-14).map((x) => <span key={x.at} className="flex-1 rounded-t" style={{ height: `${10 + x.v * 9}%`, background: hue(x.v) }} />)}</div>}
+    </div>
+  );
+}
+
+/** 5-4-3-2-1 grounding, one prompt at a time. */
+function Grounding() {
+  const { lang } = useT();
+  const L = (k: Parameters<typeof ct>[1]) => ct(lang, k);
+  const steps = ['g5', 'g4', 'g3', 'g2', 'g1'] as const;
+  const [i, setI] = useState(-1);
+  return (
+    <div className="card p-4 text-center">
+      {i < 0 ? <button className="btn-outline w-full" onClick={() => setI(0)}>{L('ground')}</button> : (
+        <>
+          <p className="text-5xl font-extrabold mb-2 text-accent" aria-hidden>{5 - Math.min(i, 4)}</p>
+          <p className="text-lg font-bold mb-4 min-h-[3.5rem]" aria-live="polite">{L(steps[Math.min(i, 4)])}</p>
+          <button className="btn-primary w-full" onClick={() => setI(i >= 4 ? -1 : i + 1)}>{i >= 4 ? '✓' : L('next')}</button>
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function ForMe() {
   const { t, lang } = useT();
   const [relax, setRelax] = useState<Block[]>([]);
@@ -63,8 +113,10 @@ export default function ForMe() {
         <span className="w-14 h-14 rounded-full bg-[var(--p1)] text-white flex items-center justify-center shrink-0"><Phone aria-hidden /></span>
         <span><b className="text-lg block">{t('teleManas')}</b><span className="text-sm">{t('teleManasSub')}</span></span>
       </a>
+      <Section title={ct(lang, 'tooMuch')}><div className="grid gap-3"><Thermometer /><Grounding /></div></Section>
       <Section title={t('breathing')}><Breathing /></Section>
       <Section title={t('relaxation')}><div className="card p-4 prose-read" style={{ ['--pc' as string]: 'var(--p3)', ['--pt' as string]: 'var(--p3t)' }}>{relax.map((b, i) => <BlockView key={i} b={b} chapter="c10" index={toc.anchors.relax.from + i} />)}</div></Section>
+      <Section title={ct(lang, 'fromBookCare')}><FromBook src={[2, 4, 6, 7].map((h) => ({ c: 'c10', h }))} /></Section>
       <Section title={t('weeklyCheck')}><WeeklyEditor currentOnly /></Section>
       <Section title={t('goodMoments')}><GoodMoments /></Section>
       <Section title={t('supportCircle')}><Link to="/notebook/support" className="btn-outline w-full">{t('openSupportCircle')}</Link><p className="text-sm text-muted mt-2">{t('supportCircleHint')}</p></Section>
