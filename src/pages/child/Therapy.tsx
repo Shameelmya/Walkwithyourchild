@@ -16,9 +16,9 @@ import { FromBook } from './Care';
 import { Celebrate } from '../play/games-colour';
 
 type Area = 'physio' | 'ot' | 'speech' | 'other';
-type Theme = 'balloon' | 'rocket' | 'flower' | 'turtle';
+type Theme = 'balloon' | 'rocket' | 'flower' | 'turtle' | 'fish' | 'train' | 'rainbow' | 'butterfly' | 'tree' | 'car' | 'stars' | 'kite';
 interface Exercise { id: number; name: string; area: Area; kind: 'count' | 'hold'; target: number; theme: Theme; note: string }
-const THEMES: { v: Theme; e: string }[] = [{ v: 'balloon', e: '🎈' }, { v: 'rocket', e: '🚀' }, { v: 'flower', e: '🌻' }, { v: 'turtle', e: '🐢' }];
+const THEMES: { v: Theme; e: string }[] = [{ v: 'balloon', e: '🎈' }, { v: 'rocket', e: '🚀' }, { v: 'flower', e: '🌻' }, { v: 'turtle', e: '🐢' }, { v: 'fish', e: '🐠' }, { v: 'train', e: '🚂' }, { v: 'rainbow', e: '🌈' }, { v: 'butterfly', e: '🦋' }, { v: 'tree', e: '🌳' }, { v: 'car', e: '🚗' }, { v: 'stars', e: '⭐' }, { v: 'kite', e: '🪁' }];
 const AREA_C: Record<Area, string> = { physio: 't-blue', ot: 't-violet', speech: 't-amber', other: 't-mint' };
 const NOTES = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24];
 
@@ -88,7 +88,7 @@ function Editor({ x: x0, onSave, onClose, onDelete }: { x: Exercise; onSave: (x:
         <div><span className="label">{L('exArea')}</span><div className="flex flex-wrap gap-2">{(['physio', 'ot', 'speech', 'other'] as Area[]).map((a) => <button key={a} aria-pressed={x.area === a} className={cx('chip', x.area === a && 'chip-on')} onClick={() => setX({ ...x, area: a })}>{L(a)}</button>)}</div></div>
         <div><span className="label">{L('exKind')}</span><div className="flex flex-wrap gap-2">{(['count', 'hold'] as const).map((k) => <button key={k} aria-pressed={x.kind === k} className={cx('chip', x.kind === k && 'chip-on')} onClick={() => setX({ ...x, kind: k, target: k === 'hold' ? 10 : 10 })}>{L(k)}</button>)}</div></div>
         <label><span className="label">{L('target')}</span><input className="input w-32" type="number" inputMode="numeric" min={1} max={300} value={x.target} onChange={(e) => setX({ ...x, target: Math.max(1, Math.min(300, +e.target.value || 1)) })} /></label>
-        <div><span className="label">{L('theme')}</span><div className="flex gap-2">{THEMES.map((t) => <button key={t.v} aria-label={t.v} aria-pressed={x.theme === t.v} className={cx('w-14 h-14 rounded-2xl text-3xl border-2', x.theme === t.v ? 'border-[rgb(var(--accent))] bg-soft' : 'border-line')} onClick={() => setX({ ...x, theme: t.v })}>{t.e}</button>)}</div></div>
+        <div><span className="label">{L('theme')}</span><div className="flex flex-wrap gap-2">{THEMES.map((t) => <button key={t.v} aria-label={t.v} aria-pressed={x.theme === t.v} className={cx('w-14 h-14 rounded-2xl text-3xl border-2', x.theme === t.v ? 'border-[rgb(var(--accent))] bg-soft' : 'border-line')} onClick={() => setX({ ...x, theme: t.v })}>{t.e}</button>)}</div></div>
         <label><span className="label">{L('exNote')}</span><textarea className="input min-h-[80px]" value={x.note} onChange={(e) => setX({ ...x, note: e.target.value })} /></label>
         <SheetActions>
           {onDelete ? <button className="btn-ghost text-danger" onClick={onDelete}><Trash2 size={18} aria-hidden /> {L('delete')}</button> : <span />}
@@ -132,10 +132,19 @@ function PlayRun({ x, onClose, onDone }: { x: Exercise; onClose: () => void; onD
       case 'rocket': return <><span className="absolute left-1/2 text-[5.5rem] transition-all duration-500 ease-out" style={{ bottom: `${6 + p * 70}%`, transform: 'translateX(-50%)' }}>🚀</span><span className="absolute top-[6%] left-1/2 -translate-x-1/2 text-6xl">🌙</span></>;
       case 'flower': return <span className="absolute left-1/2 bottom-[8%] -translate-x-1/2 transition-all duration-500 leading-none" style={{ fontSize: `${4 + p * 6}rem` }}>{p < 0.4 ? '🌱' : p < 1 ? '🌷' : '🌻'}</span>;
       case 'turtle': return <><span className="absolute bottom-[30%] text-[4.5rem] transition-all duration-500" style={{ left: `${4 + p * 66}%` }}>🐢</span><span className="absolute bottom-[30%] end-[4%] text-6xl">🏁</span></>;
+      case 'fish': return <><span className="absolute bottom-[30%] text-[4.5rem] transition-all duration-500" style={{ left: `${4 + p * 66}%` }}>🐠</span><span className="absolute bottom-[26%] end-[4%] text-6xl">🪸</span><span className="absolute top-[18%] start-[20%] text-4xl opacity-70">🫧</span></>;
+      case 'train': return <><span className="absolute bottom-[22%] text-[4.5rem] transition-all duration-500" style={{ left: `${2 + p * 64}%` }}>🚂</span><span className="absolute bottom-[22%] end-[3%] text-6xl">🏠</span><span className="absolute bottom-[18%] inset-x-0 h-2 bg-[#8a6b4a]" /></>;
+      case 'rainbow': return <div className="absolute inset-x-0 top-[12%] flex flex-col items-center gap-2">{['#e74c3c', '#f39c12', '#f1c40f', '#2ecc71', '#3498db', '#6c5ce7', '#a55eea'].map((c, i) => <span key={c} className="h-6 rounded-full transition-all duration-500" style={{ width: `${80 - i * 8}%`, background: c, opacity: p * 7 > i ? 1 : 0.12 }} />)}{finished && <span className="text-7xl mt-4">☀️</span>}</div>;
+      case 'butterfly': return <><span className="absolute left-1/2 text-[4.5rem] transition-all duration-500" style={{ bottom: `${8 + p * 62}%`, transform: `translateX(${-50 + Math.sin(p * 12) * 60}%)` }}>🦋</span><span className="absolute top-[6%] left-1/2 -translate-x-1/2 text-6xl">🌺</span></>;
+      case 'tree': return <div className="absolute left-1/2 bottom-[8%] -translate-x-1/2 flex flex-col items-center"><div className="flex flex-wrap justify-center w-36 gap-1 mb-[-6.5rem] z-[1]">{Array.from({ length: 8 }, (_, i) => <span key={i} className="text-3xl transition-all duration-500" style={{ opacity: p * 8 > i ? 1 : 0, transform: `scale(${p * 8 > i ? 1 : 0.3})` }}>🍎</span>)}</div><span className="text-[9rem] leading-none">🌳</span></div>;
+      case 'car': return <><span className="absolute bottom-[24%] text-[4.5rem] transition-all duration-500 -scale-x-100" style={{ left: `${2 + p * 66}%` }}>🚗</span><span className="absolute bottom-[24%] end-[3%] text-6xl">🏡</span><span className="absolute bottom-[20%] inset-x-0 h-3 bg-[#555]" /></>;
+      case 'stars': return <div className="absolute inset-[8%] grid grid-cols-4 place-items-center">{Array.from({ length: 12 }, (_, i) => <span key={i} className="text-5xl transition-all duration-500" style={{ opacity: p * 12 > i ? 1 : 0.15, transform: `scale(${p * 12 > i ? 1 : 0.6})` }}>⭐</span>)}</div>;
+      case 'kite': return <><span className="absolute text-[4.5rem] transition-all duration-500" style={{ bottom: `${10 + p * 62}%`, left: `${20 + p * 40}%` }}>🪁</span><span className="absolute top-[6%] end-[8%] text-6xl">☁️</span></>;
       default: return finished ? <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem]">🎉</span> : <span className="absolute left-1/2 top-[45%] transition-transform duration-500 leading-none" style={{ fontSize: '6rem', transform: `translate(-50%,-50%) scale(${0.5 + p * 1.3})` }}>🎈</span>;
     }
   };
-  const sky = x.theme === 'rocket' ? 'linear-gradient(#1d2a55,#3a4f8f 70%,#6b86c9)' : x.theme === 'turtle' ? 'linear-gradient(#bfe6ff,#e9f7ff 60%,#bfe3a8 60%)' : x.theme === 'flower' ? 'linear-gradient(#e9f6ff,#fff7e0 70%,#cdeaa8 70%)' : 'linear-gradient(#fde7f0,#e9f2ff)';
+  const SKY: Partial<Record<Theme, string>> = { fish: 'linear-gradient(#8fd3f4,#3a8fc7 70%,#e9d8a6 70%)', train: 'linear-gradient(#cfeaff,#f2fbff 70%,#bfe3a8 70%)', rainbow: 'linear-gradient(#bfe6ff,#f2fbff)', butterfly: 'linear-gradient(#fff3e0,#e8f7e4)', tree: 'linear-gradient(#d8f0ff,#f4fbff 72%,#bfe3a8 72%)', car: 'linear-gradient(#cfeaff,#f2fbff 72%,#bfe3a8 72%)', stars: 'linear-gradient(#141c3a,#2c3b70 60%,#a9bdf0)', kite: 'linear-gradient(#9fd4ff,#e9f6ff)' };
+  const sky = SKY[x.theme] ?? (x.theme === 'rocket' ? 'linear-gradient(#1d2a55,#3a4f8f 70%,#6b86c9)' : x.theme === 'turtle' ? 'linear-gradient(#bfe6ff,#e9f7ff 60%,#bfe3a8 60%)' : x.theme === 'flower' ? 'linear-gradient(#e9f6ff,#fff7e0 70%,#cdeaa8 70%)' : 'linear-gradient(#fde7f0,#e9f2ff)');
   return createPortal(
     <div className="fixed inset-0 z-[80] flex flex-col select-none" style={{ background: sky }} role="dialog" aria-modal="true" aria-label={x.name}>
       <div className="flex items-center gap-2 p-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
