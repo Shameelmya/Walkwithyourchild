@@ -6,11 +6,12 @@ import { ta } from './ta';
 import { te } from './te';
 import { bn } from './bn';
 import { ur } from './ur';
+import { hi } from './hi';
 import { useUI, type Lang } from '../lib/store';
 import { fill } from '../lib/util';
 
 export type TKey = keyof typeof en;
-export const dict: Partial<Record<Lang, Partial<Record<TKey, string>>>> = { en, ml, kn, ta, te, bn, ur };
+export const dict: Partial<Record<Lang, Partial<Record<TKey, string>>>> = { en, ml, kn, hi, ta, te, bn, ur };
 export const tr = (lang: Lang, k: TKey, v?: Record<string, string | number>) => {
   const s = dict[lang]?.[k] ?? en[k] ?? k;
   return v ? fill(s, v) : s;

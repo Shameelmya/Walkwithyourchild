@@ -9,6 +9,7 @@ export const LANGS: { v: Lang; native: string; short: string }[] = [
   { v: 'en', native: 'English', short: 'EN' },
   { v: 'ml', native: 'മലയാളം', short: 'മ' },
   { v: 'kn', native: 'ಕನ್ನಡ', short: 'ಕ' },
+  { v: 'hi', native: 'हिन्दी', short: 'हि' },
   { v: 'ta', native: 'தமிழ்', short: 'த' },
   { v: 'te', native: 'తెలుగు', short: 'తె' },
   { v: 'bn', native: 'বাংলা', short: 'বা' },
