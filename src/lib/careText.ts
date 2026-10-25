@@ -1,4 +1,5 @@
 import type { Lang } from './store';
+import { EXTRA_CARE } from '../i18n/careText';
 
 const en = {
   findCentre: 'Find a palliative care centre', state: 'State', district: 'District', allDistricts: 'All districts', searchCentres: 'Search by place or name', nCentres: '{n} centres', narrowDown: 'Choose a district or search to see more.', iapcNote: 'From the Indian Association of Palliative Care list. Call before you go: some numbers may have changed.', rareGroups: 'Support groups for each condition (ORDI members)', findCentreBtn: 'Find a centre near you', palliativeShort: 'Palliative team', palliativeSub: 'Names and phone numbers near you',
@@ -25,7 +26,7 @@ const en = {
   ground: '5-4-3-2-1: come back to now', g5: 'Look around. Name 5 things you can see.', g4: 'Name 4 things you can touch.', g3: 'Listen. Name 3 things you can hear.', g2: 'Name 2 things you can smell.', g1: 'Name 1 thing you can taste, or one kind thing about yourself.', next: 'Next', fromBookCare: 'From the book: looking after yourself',
   whereLive: 'Where do you live? (optional)', town: 'Town or village', pinCode: 'PIN code', placeHint: 'Stays on this phone. Used only to show the nearest palliative care centres first.', nearYou: 'Nearest to you', nearest: 'Nearest palliative centre', setPlace: 'Add your place in the child\'s profile to see the nearest centres first.',
 };
-type K = keyof typeof en;
+export type K = keyof typeof en;
 const ml: Record<K, string> = {
   findCentre: 'പാലിയേറ്റീവ് കേന്ദ്രം കണ്ടെത്താം', state: 'സംസ്ഥാനം', district: 'ജില്ല', allDistricts: 'എല്ലാ ജില്ലകളും', searchCentres: 'സ്ഥലമോ പേരോ തിരയൂ', nCentres: '{n} കേന്ദ്രങ്ങൾ', narrowDown: 'കൂടുതൽ കാണാൻ ജില്ല തിരഞ്ഞെടുക്കൂ അല്ലെങ്കിൽ തിരയൂ.', iapcNote: 'ഇന്ത്യൻ അസോസിയേഷൻ ഓഫ് പാലിയേറ്റീവ് കെയറിന്റെ പട്ടികയിൽ നിന്ന്. പോകും മുമ്പ് വിളിക്കൂ: ചില നമ്പറുകൾ മാറിയിട്ടുണ്ടാകാം.', rareGroups: 'ഓരോ രോഗത്തിനുമുള്ള സഹായ ഗ്രൂപ്പുകൾ (ORDI അംഗങ്ങൾ)', findCentreBtn: 'അടുത്തുള്ള കേന്ദ്രം കണ്ടെത്താം', palliativeShort: 'പാലിയേറ്റീവ് സംഘം', palliativeSub: 'അടുത്തുള്ളവരുടെ പേരും ഫോൺ നമ്പറും',
   carePlan: 'ഞങ്ങളുടെ പരിചരണ പദ്ധതി', carePlanSub: 'സംഘം, ലക്ഷ്യങ്ങൾ, യോഗങ്ങൾ ഒരിടത്ത്',
@@ -76,5 +77,5 @@ const kn: Record<K, string> = {
   ground: '5-4-3-2-1: ಈ ಕ್ಷಣಕ್ಕೆ ಹಿಂತಿರುಗಿ', g5: 'ಸುತ್ತಲೂ ನೋಡಿ. ಕಾಣುವ 5 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g4: 'ಮುಟ್ಟಬಹುದಾದ 4 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g3: 'ಕೇಳಿ. ಕೇಳಿಸುವ 3 ಶಬ್ದಗಳನ್ನು ಹೇಳಿ.', g2: 'ವಾಸನೆ ಬರುವ 2 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g1: 'ರುಚಿ ನೋಡಬಹುದಾದ 1 ವಸ್ತು, ಅಥವಾ ನಿಮ್ಮ ಬಗ್ಗೆ ಒಂದು ಒಳ್ಳೆಯ ಮಾತು ಹೇಳಿ.', next: 'ಮುಂದೆ', fromBookCare: 'ಪುಸ್ತಕದಿಂದ: ನಿಮ್ಮನ್ನು ನೋಡಿಕೊಳ್ಳುವುದು',
   whereLive: 'ನೀವು ಎಲ್ಲಿ ವಾಸಿಸುತ್ತೀರಿ? (ಐಚ್ಛಿಕ)', town: 'ಊರು / ಹಳ್ಳಿ', pinCode: 'ಪಿನ್ ಕೋಡ್', placeHint: 'ಈ ಫೋನ್‌ನಲ್ಲಿ ಮಾತ್ರ ಇರುತ್ತದೆ. ಹತ್ತಿರದ ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರಗಳನ್ನು ಮೊದಲು ತೋರಿಸಲು ಮಾತ್ರ.', nearYou: 'ನಿಮಗೆ ಹತ್ತಿರ', nearest: 'ಹತ್ತಿರದ ಉಪಶಾಮಕ ಕೇಂದ್ರ', setPlace: 'ಹತ್ತಿರದ ಕೇಂದ್ರಗಳನ್ನು ಮೊದಲು ನೋಡಲು ಮಗುವಿನ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಸ್ಥಳ ಸೇರಿಸಿ.',
 };
-export const CT: Partial<Record<Lang, Partial<Record<K, string>>>> = { en, ml, kn };
+export const CT: Partial<Record<Lang, Partial<Record<K, string>>>> = { en, ml, kn, ...EXTRA_CARE };
 export const ct = (lang: Lang, k: K, v: Record<string, string | number> = {}) => (CT[lang]?.[k] ?? en[k]).replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? ''));

@@ -123,7 +123,7 @@ export const en = {
   ambulance: "Ambulance",
   appendix: "Appendix",
   introduction: "Introduction",
-  bookNotTranslated: "The book is not yet available in Kannada, so it is shown in English. The rest of the app is in Kannada.",
+  bookNotTranslated: "The book is not yet available in this language, so it is shown in English. The rest of the app is in this language.",
   bookRead: "{n}% of the book read",
   cardSentence: "What the card says",
   cardSentenceHint: "For example: I want to see Grandma",
