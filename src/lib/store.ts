@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type Lang = 'en' | 'ml' | 'kn';
+/** Every language the app can hold. Only those listed in LANGS are offered to the reader; the rest are added one at a time. */
+export type Lang = 'en' | 'ml' | 'kn' | 'hi' | 'ta' | 'te' | 'bn' | 'ur';
+export const RTL_LANGS: Lang[] = ['ur'];
+export const isRtl = (l: Lang) => RTL_LANGS.includes(l);
 export const LANGS: { v: Lang; native: string; short: string }[] = [
   { v: 'en', native: 'English', short: 'EN' },
   { v: 'ml', native: 'മലയാളം', short: 'മ' },
@@ -73,6 +76,7 @@ export const useUI = create<UI>()(
 export function applyUI(s: Pick<UI, 'lang' | 'theme' | 'fontScale'>) {
   const d = document.documentElement;
   d.lang = s.lang;
+  d.dir = isRtl(s.lang) ? 'rtl' : 'ltr';
   d.dataset.theme = s.theme;
   d.style.fontSize = `${16 * s.fontScale * (s.lang !== 'en' ? 1.05 : 1)}px`;
   const bg = getComputedStyle(d).getPropertyValue('--bg').trim().split(/\s+/).map(Number);

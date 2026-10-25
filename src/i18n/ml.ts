@@ -1,6 +1,6 @@
 import type { en } from './en';
 
-export const ml: Record<keyof typeof en, string> = {
+export const ml: Partial<Record<keyof typeof en, string>> = {
   back: 'തിരികെ', close: 'അടയ്ക്കുക', cancel: 'വേണ്ട', save: 'സേവ് ചെയ്യുക', saved: 'സേവ് ചെയ്തു', delete: 'മായ്ക്കുക', edit: 'മാറ്റം വരുത്തുക', add: 'ചേർക്കുക', done: 'കഴിഞ്ഞു', yes: 'അതെ', no: 'ഇല്ല', dash: '—',
   continue: 'തുടരുക', later: 'പിന്നീട്', update: 'പുതുക്കുക', pleaseConfirm: 'ഉറപ്പാണോ?', search: 'തിരയുക', share: 'പങ്കുവയ്ക്കുക', print: 'പ്രിന്റ് ചെയ്യുക', downloadPdf: 'PDF ഡൗൺലോഡ് ചെയ്യുക',
   preparing: 'തയ്യാറാക്കുന്നു…', somethingWrong: 'എന്തോ പ്രശ്നം വന്നു. ഒന്നുകൂടി ശ്രമിച്ചുനോക്കൂ.', nothingYet: 'ഇവിടെ ഇതുവരെ ഒന്നുമില്ല', title: 'തലക്കെട്ട്', note: 'കുറിപ്പ്', notes: 'കുറിപ്പുകൾ',
@@ -33,8 +33,7 @@ export const ml: Record<keyof typeof en, string> = {
   manageMedicines: 'മരുന്നുകൾ തുറക്കുക', openSeizureDiary: 'ഫിറ്റ്സ് ഡയറി തുറക്കുക', openEmergencyCard: 'എമർജൻസി കാർഡ് തുറക്കുക', inLocker: 'രേഖപ്പെട്ടിയിൽ സൂക്ഷിച്ചിട്ടുണ്ട്', openLocker: 'രേഖപ്പെട്ടി തുറക്കുക',
   myNotes: 'എന്റെ കുറിപ്പുകൾ', myNotesSub: 'മനസ്സിലുള്ളതെന്തും എഴുതിവെക്കാൻ ഒഴിഞ്ഞ താളുകൾ.', newNote: 'പുതിയ കുറിപ്പ്', noNotes: 'കുറിപ്പുകൾ ഒന്നുമില്ല', noNotesText: 'അറിയാവുന്നത്, ഇനിയും ചോദിക്കാനുള്ളത്, ആരോടൊക്കെ സംസാരിക്കാം എന്നെല്ലാം ഇവിടെ എഴുതാം.',
   untitled: 'പേരില്ലാത്തത്', deleteNoteQ: 'ഈ കുറിപ്പ് മായ്ക്കണോ?',
-  helpMsgEn: 'Hello {who}, could you help me with {need} this week? It would mean a lot to us. Thank you.',
-  helpMsgMl: 'നമസ്കാരം {who}, ഈ ആഴ്ച {need} എന്ന കാര്യത്തിൽ ഒന്ന് സഹായിക്കാമോ? ഞങ്ങൾക്ക് അത് വലിയ ആശ്വാസമാകും. നന്ദി.',
+  helpMsg: 'നമസ്കാരം {who}, ഈ ആഴ്ച {need} എന്ന കാര്യത്തിൽ ഒന്ന് സഹായിക്കാമോ? ഞങ്ങൾക്ക് അത് വലിയ ആശ്വാസമാകും. നന്ദി.',
   selfCareNote: 'ഈ ആഴ്ച ശരിയായത് ടിക്ക് ചെയ്യൂ. ഇതിൽ ശരിയും തെറ്റും ഇല്ല.', lowMoodTitle: 'കഴിഞ്ഞ രണ്ടാഴ്ച നിങ്ങൾക്ക് പ്രയാസമുള്ളതായിരുന്നു', lowMoodText: 'നിങ്ങളും പ്രധാനപ്പെട്ടയാളാണ്. വിശ്വാസമുള്ള ആരോടെങ്കിലും, അല്ലെങ്കിൽ ചികിത്സാസംഘത്തോട് സംസാരിക്കൂ. ടെലി-മനസ് സൗജന്യമാണ്, രാവും പകലും ലഭ്യമാണ്.',
   callTeleManas: 'ടെലി-മനസ് 14416-ൽ വിളിക്കുക',
   todaySchedule: 'ഇന്നത്തെ സമയക്രമം', allMedicines: 'എല്ലാ മരുന്നുകളും', addMedicine: 'മരുന്ന് ചേർക്കുക', editMedicine: 'മരുന്നിൽ മാറ്റം വരുത്തുക', noMedicines: 'മരുന്നുകൾ ഒന്നും ചേർത്തിട്ടില്ല',
@@ -125,7 +124,6 @@ export const ml: Record<keyof typeof en, string> = {
   groupCare: "പരിചരണവും രേഖകളും",
   groupChild: "കുട്ടിക്കായി",
   groupYou: "നിങ്ങൾക്കായി",
-  helpMsgKn: "ನಮಸ್ಕಾರ {who}, ಈ ವಾರ {need} ವಿಷಯದಲ್ಲಿ ಸ್ವಲ್ಪ ಸಹಾಯ ಮಾಡುತ್ತೀರಾ? ನಮಗೆ ತುಂಬಾ ಸಮಾಧಾನವಾಗುತ್ತದೆ. ಧನ್ಯವಾದಗಳು.",
   homeHeadline: "ഓരോ ചുവടും, ഒരുമിച്ച്, പതുക്കെ.",
   medsSub: "അളവും ഓർമ്മപ്പെടുത്തലും",
   minRead: "ഏകദേശം {n} മിനിറ്റ് വായന",

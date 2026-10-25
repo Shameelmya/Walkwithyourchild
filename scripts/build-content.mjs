@@ -80,30 +80,39 @@ function parseBook(src) {
   return { parts, chapters };
 }
 
-const LANGS = ['en', 'ml', 'kn'];
+// Every language the app knows. A language with no content/<lang>/book.md reads the English book.
+const LANGS = ['en', 'ml', 'kn', 'hi', 'ta', 'te', 'bn', 'ur'];
 const has = (lang) => fs.existsSync(path.join(C, lang, 'book.md'));
+// <!-- claude-translated --> marks text that was translated from the English for review; it is not shown to readers.
+const rd = (f) => fs.readFileSync(f, 'utf8').replace(/^[ \t]*<!--\s*claude-translated\s*-->[ \t]*\n?/gm, '');
 const books = {};
 for (const lang of LANGS.filter(has)) {
-  const b = parseBook(fs.readFileSync(path.join(C, lang, 'book.md'), 'utf8'));
-  const pro = parseBook(fs.readFileSync(path.join(C, lang, 'professionals.md'), 'utf8'));
+  const b = parseBook(rd(path.join(C, lang, 'book.md')));
+  const pro = parseBook(rd(path.join(C, lang, 'professionals.md')));
   b.chapters.push(...pro.chapters);
   books[lang] = b;
 }
 
 // Verify parallel structure and derive cross-language links from English.
-const en = books.en, ml = books.ml;
+const en = books.en;
 let warnings = 0;
+const others = Object.keys(books).filter((l) => l !== 'en');
 en.chapters.forEach((c, i) => {
-  const o = ml.chapters[i];
-  if (!o || o.id !== c.id || o.blocks.length !== c.blocks.length) { warnings++; console.warn(`! ${c.id}: en ${c.blocks.length} blocks, ml ${o && o.blocks.length}`); }
+  for (const l of others) {
+    const o = books[l].chapters[i];
+    if (!o || o.id !== c.id || o.blocks.length !== c.blocks.length) { warnings++; console.warn(`! ${c.id}: en ${c.blocks.length} blocks, ${l} ${o && o.blocks.length}`); }
+  }
   c.blocks.forEach((b, j) => {
-    const mb = o && o.blocks[j];
     if (b.t === 'callout' && b.kind === 'try') {
       const txt = strip(b.html).toLowerCase();
       b.link = txt.includes('treatment map') ? 'treatments' : txt.includes('support circle') ? 'support' : txt.includes('good moment') ? 'good-moments' : 'notes';
-      if (mb) mb.link = b.link;
     }
-    if (mb && mb.t !== b.t) { warnings++; console.warn(`! ${c.id}#${j}: type ${b.t} vs ${mb.t}`); }
+    for (const l of others) {
+      const mb = books[l].chapters[i] && books[l].chapters[i].blocks[j];
+      if (!mb) continue;
+      if (b.link) mb.link = b.link;
+      if (mb.t !== b.t) { warnings++; console.warn(`! ${c.id}#${j}: type ${b.t} vs ${l} ${mb.t}`); }
+    }
   });
 });
 
@@ -120,24 +129,21 @@ for (const lang of Object.keys(books)) {
   for (const c of b.chapters) c.blocks.forEach((x) => { x.text = strip(x.html || (x.items || []).join(' ')); });
 }
 for (const lang of LANGS) {
-  // A language without a translated book falls back to English (flagged so the reader can say so).
   let b = books[lang];
   if (!b) {
-    b = { ...books.en, fallback: true };
-    // Safety-critical first-aid steps may be translated on their own (content/<lang>/firstaid.json).
+    // Safety-critical first-aid steps may be translated on their own (content/<lang>/firstaid.json) and shown inside the English book.
     const fa = path.join(C, lang, 'firstaid.json');
-    if (fs.existsSync(fa)) {
-      const { chapter, blocks } = JSON.parse(fs.readFileSync(fa, 'utf8'));
-      const a = anchors.firstAid;
-      b.chapters = b.chapters.map((c) => c.id !== chapter ? c : { ...c, blocks: c.blocks.map((x, i) => (i >= a.from && i <= a.to && blocks[i - a.from] ? { ...x, html: blocks[i - a.from], text: strip(blocks[i - a.from]), lang } : x)) });
-    }
+    if (!fs.existsSync(fa)) continue; // no book file: the app reads the English book and says so
+    b = { ...books.en, fallback: true };
+    const { chapter, blocks } = JSON.parse(fs.readFileSync(fa, 'utf8'));
+    const a = anchors.firstAid;
+    b.chapters = b.chapters.map((c) => c.id !== chapter ? c : { ...c, blocks: c.blocks.map((x, i) => (i >= a.from && i <= a.to && blocks[i - a.from] ? { ...x, html: blocks[i - a.from], text: strip(blocks[i - a.from]), lang } : x)) });
   }
   fs.writeFileSync(path.join(OUT, `book.${lang}.json`), JSON.stringify(b));
 }
-const kn = books.kn;
 // Light table of contents for the initial bundle.
-const toc = en.chapters.map((c, i) => ({ id: c.id, n: c.n, part: c.part, blocks: c.blocks.length, title: { en: c.title, ml: ml.chapters[i]?.title ?? c.title, kn: kn?.chapters[i]?.title ?? c.title } }));
-const parts = en.parts.map((p, i) => ({ n: p.n, title: { en: p.title, ml: ml.parts[i]?.title ?? p.title, kn: kn?.parts[i]?.title ?? p.title } }));
+const toc = en.chapters.map((c, i) => ({ id: c.id, n: c.n, part: c.part, blocks: c.blocks.length, title: Object.fromEntries(LANGS.map((l) => [l, books[l]?.chapters[i]?.title ?? c.title])) }));
+const parts = en.parts.map((p, i) => ({ n: p.n, title: Object.fromEntries(LANGS.map((l) => [l, books[l]?.parts[i]?.title ?? p.title])) }));
 fs.writeFileSync(path.join(OUT, 'toc.json'), JSON.stringify({ toc, parts, anchors }));
 
 // Updates
@@ -150,15 +156,20 @@ for (const lang of LANGS) {
   }).sort((x, y) => y.date.localeCompare(x.date));
 }
 fs.writeFileSync(path.join(OUT, 'updates.json'), JSON.stringify(updates));
-// Add Kannada labels (content/kn/labels.json maps English text to Kannada) to every {en, ml} pair.
-const knLabels = fs.existsSync(path.join(C, 'kn', 'labels.json')) ? JSON.parse(fs.readFileSync(path.join(C, 'kn', 'labels.json'), 'utf8')) : {};
-const addKn = (o) => {
-  if (Array.isArray(o)) o.forEach(addKn);
+// Other languages' labels (content/<lang>/labels.json maps English text to that language) join every {en, ml} pair.
+// A language with a labels file gets every pair; where a label is missing it reads English.
+const labels = {};
+for (const l of LANGS.filter((x) => x !== 'en' && x !== 'ml')) {
+  const f = path.join(C, l, 'labels.json');
+  if (fs.existsSync(f)) labels[l] = JSON.parse(fs.readFileSync(f, 'utf8'));
+}
+const addLabels = (o) => {
+  if (Array.isArray(o)) o.forEach(addLabels);
   else if (o && typeof o === 'object') {
-    if (typeof o.en === 'string' && typeof o.ml === 'string' && !o.kn) o.kn = knLabels[o.en] ?? o.en;
-    Object.values(o).forEach(addKn);
+    if (typeof o.en === 'string' && typeof o.ml === 'string') for (const l of Object.keys(labels)) if (!o[l]) o[l] = labels[l][o.en] ?? o.en;
+    Object.values(o).forEach(addLabels);
   }
   return o;
 };
-for (const f of ['meta.json', 'workbook.json']) fs.writeFileSync(path.join(OUT, f), JSON.stringify(addKn(JSON.parse(fs.readFileSync(path.join(C, f), 'utf8')))));
+for (const f of ['meta.json', 'workbook.json']) fs.writeFileSync(path.join(OUT, f), JSON.stringify(addLabels(JSON.parse(fs.readFileSync(path.join(C, f), 'utf8')))));
 console.log(`content: ${en.chapters.length} chapters, ${en.parts.length} parts, anchors ${JSON.stringify(anchors)}, warnings ${warnings}`);

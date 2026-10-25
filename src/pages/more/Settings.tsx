@@ -146,7 +146,7 @@ function VoiceSettings() {
               </select>
               <button className="icon-chip shrink-0" aria-label={`${t('testVoice')} ${native}`} onClick={() => {
                 setHeard((h) => ({ ...h, [l]: 'trying' }));
-                speak(PHRASES[1][l], l, () => setHeard((h) => ({ ...h, [l]: 'ok' })), { force: true, rate: 0.9, onNoVoice: (why) => setHeard((h) => ({ ...h, [l]: h[l] === 'ok' ? 'ok' : why })) });
+                speak(PHRASES[1][l] ?? PHRASES[1].en, l, () => setHeard((h) => ({ ...h, [l]: 'ok' })), { force: true, rate: 0.9, onNoVoice: (why) => setHeard((h) => ({ ...h, [l]: h[l] === 'ok' ? 'ok' : why })) });
               }}><Volume2 size={20} /></button>
             </div>
             {heard[l] === 'ok' && <p className="text-sm font-semibold text-[var(--p2)] mt-1.5">✓ {t('voiceOk')}</p>}

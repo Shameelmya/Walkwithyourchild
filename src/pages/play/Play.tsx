@@ -20,7 +20,7 @@ import { Watercolour } from './games-art';
 import { AnimalSounds } from './games-animals';
 import { Rubik, Slide } from './games-puzzle';
 import { askMotion } from './shared';
-import { GAME_TEXT, UI_TEXT } from './text';
+import { gameText, uiText } from './text';
 
 type Cat = 'sound' | 'colour' | 'move' | 'learn';
 type GC = ComponentType<{ vol: number }>;
@@ -72,8 +72,8 @@ export default function Play() {
   const { t, lang } = useT();
   const nav = useNavigate();
   const { volume, setVolume, gameMuted, setGameMuted } = useUI();
-  const tx = UI_TEXT[lang];
-  const name = (g: Game) => GAME_TEXT[g.id][lang][0];
+  const tx = uiText(lang);
+  const name = (g: Game) => gameText(g.id, lang)[0];
   const { game: gid } = useParams();
   const back = useBack();
   const game = GAMES.find((g) => g.id === gid) ?? null;
@@ -128,7 +128,7 @@ export default function Play() {
                 <span className={cx('tile w-24 h-24 !rounded-full flex items-center justify-center text-5xl -mt-16 shadow-lift', game.tile)} aria-hidden>{game.e}</span>
                 <h2 id="howto" className="text-2xl font-extrabold">{name(game)}</h2>
                 <p className="eyebrow">{tx.howToPlay}</p>
-                <p className="text-lg leading-relaxed">{GAME_TEXT[game.id][lang][1]}</p>
+                <p className="text-lg leading-relaxed">{gameText(game.id, lang)[1]}</p>
                 {!game.essential && (
                   <button role="switch" aria-checked={!gameMuted} onClick={() => setGameMuted(!gameMuted)} className="chip !min-h-[48px] !px-4 gap-2">
                     {gameMuted ? <VolumeX size={20} aria-hidden /> : <Volume2 size={20} aria-hidden />} {tx.sound}: {gameMuted ? tx.off : tx.on}

@@ -51,7 +51,7 @@ export default function Talk() {
   const cards: Card[] = useMemo(() => {
     const out: Card[] = meta.talkBoardCards.map((c, i) => {
       const r = recs.find((x) => x.builtin === i);
-      return { key: `b${i}`, rec: r, builtin: i, label: r?.label || L(c, lang), phrase: r?.phrase || PHRASES[i][lang], phraseEn: PHRASES[i].en, emoji: EMOJI[i], photo: r?.photoBlobId, voice: r?.voiceBlobId };
+      return { key: `b${i}`, rec: r, builtin: i, label: r?.label || L(c, lang), phrase: r?.phrase || (PHRASES[i][lang] ?? PHRASES[i].en), phraseEn: PHRASES[i].en, emoji: EMOJI[i], photo: r?.photoBlobId, voice: r?.voiceBlobId };
     }).filter((c) => !c.rec?.hidden);
     for (const r of recs.filter((x) => x.builtin === undefined)) out.push({ key: `c${r.id}`, rec: r, label: r.label, phrase: r.phrase || r.label, phraseEn: r.phrase || r.label, emoji: r.emoji, photo: r.photoBlobId, voice: r.voiceBlobId });
     return out;

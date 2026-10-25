@@ -65,7 +65,7 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
         </div>
         <div>
           <p className="label flex items-center gap-1.5"><Globe size={14} aria-hidden /> {meta.reader.language[lang]}</p>
-          <div role="radiogroup" aria-label={meta.reader.language[lang]} className="grid grid-cols-3 gap-2 p-1 rounded-2xl bg-surface2">
+          <div role="radiogroup" aria-label={meta.reader.language[lang]} className="grid grid-cols-3 gap-1 p-1 rounded-2xl bg-surface2">
             {LANGS.map((l) => <button key={l.v} role="radio" aria-checked={lang === l.v} lang={l.v} onClick={() => setLang(l.v)} className={cx('min-h-[44px] rounded-xl font-bold text-sm transition', lang === l.v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>{l.native}</button>)}
           </div>
         </div>

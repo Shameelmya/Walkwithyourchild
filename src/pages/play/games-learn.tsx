@@ -5,10 +5,10 @@ import { useUI, type Lang } from '../../lib/store';
 import { HUES, shuffle } from './shared';
 import { Celebrate } from './games-colour';
 import { Score } from './games-tilt';
-import { UI_TEXT } from './text';
+import { UI_TEXT, uiText } from './text';
 import { ANIMALS as ANIMAL_LIST } from './animals';
 
-type Name = Record<Lang, string>;
+type Name = { en: string } & Partial<Record<Lang, string>>;
 const w = (en: string, ml: string, kn: string): Name => ({ en, ml, kn });
 const ANIMALS: [string, Name][] = ANIMAL_LIST.map((x) => [x.e, x.name]);
 const FOOD: [string, Name][] = [
@@ -44,13 +44,13 @@ const shape = (k: string, c = '#4F8FEA') => <svg viewBox="0 0 100 100" className
 const big = (s: string, font?: string) => <span className="leading-none" style={{ fontSize: 'min(20vw, 13vh)', fontFamily: font }}>{s}</span>;
 
 function makeRound(kind: QuizKind, n: number, lang: Lang, last: string): Round {
-  const tx = UI_TEXT[lang];
+  const tx = uiText(lang);
   const pick = <T,>(list: T[], key: (x: T) => string) => { const pool = shuffle(list.filter((x) => key(x) !== last)); const target = pool[0]; return { target, opts: shuffle([target, ...shuffle(list.filter((x) => key(x) !== key(target))).slice(0, n - 1)]) }; };
   const named = (list: [string, Name][], render: (k: string, i: number) => ReactNode): Round => {
     const { target, opts } = pick(list, (x) => x[0]);
     const nm = target[1];
-    return { prompt: tx.findThe.replace('{x}', nm[lang]), say: [tx.findThe.replace('{x}', nm[lang]), lang, UI_TEXT.en.findThe.replace('{x}', nm.en)], answer: target[0],
-      options: opts.map(([k, nn], i) => ({ key: k, node: render(k, i), label: nn[lang] })), praise: [nm[lang], lang] };
+    return { prompt: tx.findThe.replace('{x}', (nm[lang] ?? nm.en)), say: [tx.findThe.replace('{x}', (nm[lang] ?? nm.en)), lang, UI_TEXT.en.findThe.replace('{x}', nm.en)], answer: target[0],
+      options: opts.map(([k, nn], i) => ({ key: k, node: render(k, i), label: (nn[lang] ?? nn.en) })), praise: [(nm[lang] ?? nm.en), lang] };
   };
   switch (kind) {
     case 'animals': return named(ANIMALS, (k) => big(k));

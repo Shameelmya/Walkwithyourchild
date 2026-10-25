@@ -1,6 +1,6 @@
 import type { Lang } from './store';
 
-type N = Record<Lang, string>;
+type N = { en: string } & Partial<Record<Lang, string>>;
 const n = (en: string, ml: string, kn: string): N => ({ en, ml, kn });
 export interface HelpItem { id: string; e: string; name: string; what: N; where: 'india' | 'kerala' | 'karnataka'; url?: string; phone?: string }
 /** Schemes and organisations families can ask about. Rules, amounts and eligibility change: the page always says

@@ -1,7 +1,7 @@
 import type { Lang } from './store';
 import type { Block, Book } from './content';
 
-type N = Record<Lang, string>;
+type N = { en: string } & Partial<Record<Lang, string>>;
 /** A place in the book: the section under the n-th heading of a chapter (same in every language). */
 export interface Src { c: string; h: number }
 export interface Condition {

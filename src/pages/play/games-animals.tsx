@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { animal, preloadAnimals } from '../../lib/audio';
 import { useUI } from '../../lib/store';
-import { cx } from '../../lib/util';
+import { cx, pick } from '../../lib/util';
 import { ANIMALS, GROUPS, type Group } from './animals';
 import { HUES, useAnyInput } from './shared';
 
@@ -22,21 +22,21 @@ export function AnimalSounds({ vol }: { vol: number }) {
         {GROUPS.map((x) => (
           <button key={x.g} role="tab" aria-selected={g === x.g} onClick={() => setG(x.g)}
             className={cx('shrink-0 h-12 px-4 rounded-2xl font-extrabold text-sm flex items-center gap-1.5 transition', g === x.g ? 'bg-white shadow-card text-[#1d2430]' : 'bg-white/50 text-[#1d2430]/70')}>
-            <span className="text-xl" aria-hidden>{x.e}</span>{x.name[lang]}
+            <span className="text-xl" aria-hidden>{x.e}</span>{pick(x.name, lang)}
           </button>
         ))}
       </div>
       <div className="h-24 flex items-center justify-center px-4" aria-live="polite">
-        {a && <p key={on!.k} className="anim-zoom text-center"><span className="block text-3xl font-extrabold text-[#1d2430]">{a.says[lang]}</span><span className="block text-sm font-bold text-[#1d2430]/70 capitalize">{a.name[lang]}</span></p>}
+        {a && <p key={on!.k} className="anim-zoom text-center"><span className="block text-3xl font-extrabold text-[#1d2430]">{pick(a.says, lang)}</span><span className="block text-sm font-bold text-[#1d2430]/70 capitalize">{pick(a.name, lang)}</span></p>}
       </div>
       <div className="flex-1 overflow-y-auto px-3 pb-6">
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
           {list.map((x, i) => (
-            <button key={x.id} aria-label={x.name[lang]} onClick={() => call(x.id)}
+            <button key={x.id} aria-label={pick(x.name, lang)} onClick={() => call(x.id)}
               className="aspect-square rounded-3xl bg-white/80 shadow-card flex flex-col items-center justify-center gap-1 active:scale-95 transition"
               style={{ boxShadow: on?.id === x.id ? `0 0 0 4px ${HUES[i % HUES.length]}` : undefined }}>
               <span key={on?.id === x.id ? on.k : 0} className="text-[3.4rem] leading-none" style={{ animation: on?.id === x.id ? 'wiggle .5s' : undefined }} aria-hidden>{x.e}</span>
-              <span className="text-xs font-bold text-[#1d2430]/70 capitalize">{x.name[lang]}</span>
+              <span className="text-xs font-bold text-[#1d2430]/70 capitalize">{pick(x.name, lang)}</span>
             </button>
           ))}
         </div>

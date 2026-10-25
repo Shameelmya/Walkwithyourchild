@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import { hold, midi, type HoldInst } from '../../lib/audio';
 import { useUI, type Lang } from '../../lib/store';
+import { pick } from '../../lib/util';
 import { HUES, useAnyInput } from './shared';
 
 const WHITE = [0, 2, 4, 5, 7, 9, 11];
 const BLACK: Record<number, number> = { 0: 1, 1: 3, 3: 6, 4: 8, 5: 10 }; // white index in octave → black semitone after it
-const INSTS: { v: HoldInst; e: string; n: Record<Lang, string> }[] = [
+const INSTS: { v: HoldInst; e: string; n: { en: string } & Partial<Record<Lang, string>> }[] = [
   { v: 'piano', e: '🎹', n: { en: 'Piano', ml: 'പിയാനോ', kn: 'ಪಿಯಾನೋ' } },
   { v: 'violin', e: '🎻', n: { en: 'Violin', ml: 'വയലിൻ', kn: 'ಪಿಟೀಲು' } },
   { v: 'guitar', e: '🎸', n: { en: 'Guitar', ml: 'ഗിറ്റാർ', kn: 'ಗಿಟಾರ್' } },
@@ -71,7 +72,7 @@ export function Piano({ vol }: { vol: number }) {
           {INSTS.map((i) => (
             <button key={i.v} role="radio" aria-checked={inst === i.v} onClick={() => { setInst(i.v); const s = hold(midi(base + 12), i.v, vol * 0.7); setTimeout(s, 500); }}
               className={`shrink-0 h-12 px-3 rounded-2xl flex items-center gap-1.5 text-sm font-bold transition duration-300 ${inst === i.v ? 'bg-white text-[#1d2430] shadow-lift' : 'bg-white/10 text-white'}`}>
-              <span className="text-2xl" aria-hidden>{i.e}</span>{i.n[lang]}
+              <span className="text-2xl" aria-hidden>{i.e}</span>{pick(i.n, lang)}
             </button>
           ))}
         </div>
