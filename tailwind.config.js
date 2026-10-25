@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 // Latin first, then one Noto face for each script the app is offered in (add a face here when a language is added).
-const FONTS = ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', '"Noto Sans Tamil"', '"Noto Sans Telugu"', '"Noto Sans Bengali"', '"Noto Nastaliq Urdu"', 'system-ui', 'sans-serif'];
+const FONTS = ['"Google Sans"', '"Noto Sans Malayalam"', '"Noto Sans Kannada"', '"Noto Sans Devanagari"', '"Noto Sans Tamil"', '"Noto Sans Telugu"', '"Noto Sans Bengali"', '"Noto Nastaliq Urdu"', 'system-ui', 'sans-serif'];
 const v = (n) => `rgb(var(--${n}) / <alpha-value>)`;
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],

@@ -4,6 +4,7 @@ import { onboard, watchErrors } from './helpers';
 // One row per language offered in the app: its name in the language picker, the title of chapter 5 and the page direction.
 const LANGUAGES = [
   { code: 'kn', native: 'ಕನ್ನಡ', c5: 'ಪ್ರತಿದಿನ ನಿಮ್ಮ ಮಗುವಿನ ಆರೈಕೆ', dir: 'ltr' },
+  { code: 'hi', native: 'हिन्दी', c5: 'हर दिन अपने बच्चे की देखभाल करना', dir: 'ltr' },
   { code: 'ta', native: 'தமிழ்', c5: 'ஒவ்வொரு நாளும் உங்கள் குழந்தையைப் பராமரித்தல்', dir: 'ltr' },
   { code: 'te', native: 'తెలుగు', c5: 'ప్రతిరోజూ మీ బిడ్డను చూసుకోవడం', dir: 'ltr' },
   { code: 'bn', native: 'বাংলা', c5: 'প্রতিদিন আপনার সন্তানের যত্ন নেওয়া', dir: 'ltr' },
