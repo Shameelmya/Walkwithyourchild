@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Play, Pause, Pencil, Trash2, X, RotateCcw } from 'lucide-react';
 import { useT } from '../../i18n';
@@ -67,6 +68,7 @@ export default function Therapy() {
         ))}
       </div>
       <button className="btn-primary w-full mb-6" onClick={() => setEdit({ id: Date.now(), name: '', area: 'physio', kind: 'count', target: 10, theme: 'balloon', note: '' })}><Plus size={18} aria-hidden /> {L('addExercise')}</button>
+      <Link to="/skills" className="card !rounded-3xl p-3 flex items-center gap-3 mb-6"><span className="w-12 h-12 rounded-2xl bg-soft flex items-center justify-center text-2xl" aria-hidden>🪥</span><span className="flex-1"><b className="block">{L('skills')}</b><span className="text-sm text-muted">{L('skillsSub')}</span></span></Link>
       <section className="mb-6"><h2 className="font-extrabold mb-2">{L('rightAmount')}</h2><FromBook src={EXERCISE_SRC} /></section>
       {edit && <Editor x={edit} onClose={() => setEdit(null)} onSave={(x) => { void setSetting(key, list.some((y) => y.id === x.id) ? list.map((y) => (y.id === x.id ? x : y)) : [...list, x]); setEdit(null); }}
         onDelete={list.some((y) => y.id === edit.id) ? () => { void setSetting(key, list.filter((y) => y.id !== edit.id)); setEdit(null); } : undefined} />}

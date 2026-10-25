@@ -18,6 +18,11 @@ const en = {
   helpIntro: 'Schemes, amounts and rules change and differ from state to state. Always check the details with the hospital social worker.',
   schemes: 'Government schemes', finders: 'Find every scheme you qualify for', palliative: 'Palliative care centres near you', orgs: 'Organisations and support groups', myContacts: 'Our own contacts', addContact: 'Add a contact', open: 'Open website', find: 'Find online', call: 'Call',
   india: 'All India', kerala: 'Kerala', karnataka: 'Karnataka', reviewed: 'List checked {d}. Tell us if something has changed.', fromBookHelp: 'From the book: money, papers and help', whatFor: 'What it helps with',
+  skills: 'Daily living skills', skillsSub: 'Small steps for everyday tasks', skillsIntro: 'Practise one task at a time. For each step, tap how much help your child needed. Agree the steps with your occupational therapist and change any of them.',
+  adl: 'Looking after myself', iadl: 'Helping at home and outside', fullHelp: 'Full help', someHelp: 'Some help', byMyself: 'By myself', stepOfN: 'Step {n} of {all}', lastTime: 'Last time: {n} of {all} by myself',
+  editSteps: 'Change the steps', stepsHint: 'One step per line.', addTask: 'Add your own task', taskName: 'Task name', useOriginal: 'Use the original steps', skillsPace: 'Go at your child\'s pace. Needing help is not failing.', changesBook: 'From the book: changes you may see', allSteps: 'All steps done!',
+  tooMuch: 'When it feels too much', thermo: 'How are you right now?', thermoHint: '0 = calm, 10 = the most upset you have felt', thermoHigh: 'That is a lot to carry. Please talk to someone today.', logIt: 'Save',
+  ground: '5-4-3-2-1: come back to now', g5: 'Look around. Name 5 things you can see.', g4: 'Name 4 things you can touch.', g3: 'Listen. Name 3 things you can hear.', g2: 'Name 2 things you can smell.', g1: 'Name 1 thing you can taste, or one kind thing about yourself.', next: 'Next', fromBookCare: 'From the book: looking after yourself',
 };
 type K = keyof typeof en;
 const ml: Record<K, string> = {
@@ -38,6 +43,11 @@ const ml: Record<K, string> = {
   helpIntro: 'പദ്ധതികളും തുകകളും നിയമങ്ങളും മാറിക്കൊണ്ടിരിക്കും, ഓരോ സംസ്ഥാനത്തും വ്യത്യസ്തവുമാണ്. വിശദാംശങ്ങൾ എപ്പോഴും ആശുപത്രിയിലെ സോഷ്യൽ വർക്കറോട് ഉറപ്പാക്കൂ.',
   schemes: 'സർക്കാർ പദ്ധതികൾ', finders: 'അർഹതയുള്ള എല്ലാ പദ്ധതികളും കണ്ടെത്താം', palliative: 'അടുത്തുള്ള പാലിയേറ്റീവ് കേന്ദ്രങ്ങൾ', orgs: 'സംഘടനകളും സഹായ ഗ്രൂപ്പുകളും', myContacts: 'ഞങ്ങളുടെ സ്വന്തം ബന്ധങ്ങൾ', addContact: 'ബന്ധം ചേർക്കുക', open: 'വെബ്സൈറ്റ് തുറക്കുക', find: 'ഓൺലൈനിൽ തിരയുക', call: 'വിളിക്കുക',
   india: 'ഇന്ത്യ മുഴുവൻ', kerala: 'കേരളം', karnataka: 'കർണാടക', reviewed: '{d}-ൽ പരിശോധിച്ച പട്ടിക. എന്തെങ്കിലും മാറിയിട്ടുണ്ടെങ്കിൽ അറിയിക്കൂ.', fromBookHelp: 'പുസ്തകത്തിൽ നിന്ന്: പണം, രേഖകൾ, സഹായം', whatFor: 'എന്തിന് സഹായിക്കും',
+  skills: 'ദൈനംദിന ജീവിത നൈപുണ്യങ്ങൾ', skillsSub: 'ദിനചര്യകൾക്ക് ചെറിയ ചുവടുകൾ', skillsIntro: 'ഒരു സമയം ഒരു കാര്യം പരിശീലിക്കുക. ഓരോ ചുവടിലും കുട്ടിക്ക് എത്ര സഹായം വേണ്ടിവന്നു എന്ന് അമർത്തുക. ചുവടുകൾ ഒക്യുപേഷണൽ തെറാപ്പിസ്റ്റുമായി ചർച്ച ചെയ്ത് മാറ്റാം.',
+  adl: 'സ്വയം പരിചരണം', iadl: 'വീട്ടിലും പുറത്തും സഹായിക്കൽ', fullHelp: 'മുഴുവൻ സഹായം', someHelp: 'അല്പം സഹായം', byMyself: 'സ്വന്തമായി', stepOfN: 'ചുവട് {n} / {all}', lastTime: 'കഴിഞ്ഞ തവണ: {all}-ൽ {n} സ്വന്തമായി',
+  editSteps: 'ചുവടുകൾ മാറ്റുക', stepsHint: 'ഒരു വരിയിൽ ഒരു ചുവട്.', addTask: 'സ്വന്തം കാര്യം ചേർക്കുക', taskName: 'കാര്യത്തിന്റെ പേര്', useOriginal: 'ആദ്യത്തെ ചുവടുകൾ ഉപയോഗിക്കുക', skillsPace: 'കുട്ടിയുടെ വേഗത്തിൽ പോകൂ. സഹായം വേണ്ടിവരുന്നത് പരാജയമല്ല.', changesBook: 'പുസ്തകത്തിൽ നിന്ന്: കാണാവുന്ന മാറ്റങ്ങൾ', allSteps: 'എല്ലാ ചുവടുകളും കഴിഞ്ഞു!',
+  tooMuch: 'എല്ലാം അമിതമാകുമ്പോൾ', thermo: 'ഇപ്പോൾ നിങ്ങൾക്ക് എങ്ങനെയുണ്ട്?', thermoHint: '0 = ശാന്തം, 10 = ഏറ്റവും കൂടുതൽ വിഷമം', thermoHigh: 'ഇത് ഒരുപാട് ഭാരമാണ്. ഇന്നുതന്നെ ആരോടെങ്കിലും സംസാരിക്കൂ.', logIt: 'സേവ് ചെയ്യുക',
+  ground: '5-4-3-2-1: ഈ നിമിഷത്തിലേക്ക് തിരികെ', g5: 'ചുറ്റും നോക്കൂ. കാണുന്ന 5 കാര്യങ്ങൾ പറയൂ.', g4: 'തൊടാൻ കഴിയുന്ന 4 കാര്യങ്ങൾ പറയൂ.', g3: 'ശ്രദ്ധിക്കൂ. കേൾക്കുന്ന 3 ശബ്ദങ്ങൾ പറയൂ.', g2: 'മണക്കാൻ കഴിയുന്ന 2 കാര്യങ്ങൾ പറയൂ.', g1: 'രുചിക്കാൻ കഴിയുന്ന 1 കാര്യം, അല്ലെങ്കിൽ നിങ്ങളെക്കുറിച്ച് ഒരു നല്ല കാര്യം പറയൂ.', next: 'അടുത്തത്', fromBookCare: 'പുസ്തകത്തിൽ നിന്ന്: നിങ്ങളെ സ്വയം നോക്കാൻ',
 };
 const kn: Record<K, string> = {
   findCentre: 'ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರ ಹುಡುಕಿ', state: 'ರಾಜ್ಯ', district: 'ಜಿಲ್ಲೆ', allDistricts: 'ಎಲ್ಲಾ ಜಿಲ್ಲೆಗಳು', searchCentres: 'ಸ್ಥಳ ಅಥವಾ ಹೆಸರು ಹುಡುಕಿ', nCentres: '{n} ಕೇಂದ್ರಗಳು', narrowDown: 'ಇನ್ನಷ್ಟು ನೋಡಲು ಜಿಲ್ಲೆ ಆರಿಸಿ ಅಥವಾ ಹುಡುಕಿ.', iapcNote: 'ಭಾರತೀಯ ಉಪಶಾಮಕ ಆರೈಕೆ ಸಂಘದ ಪಟ್ಟಿಯಿಂದ. ಹೋಗುವ ಮೊದಲು ಕರೆ ಮಾಡಿ: ಕೆಲವು ಸಂಖ್ಯೆಗಳು ಬದಲಾಗಿರಬಹುದು.', rareGroups: 'ಪ್ರತಿ ಕಾಯಿಲೆಗೆ ಬೆಂಬಲ ಗುಂಪುಗಳು (ORDI ಸದಸ್ಯರು)', findCentreBtn: 'ಹತ್ತಿರದ ಕೇಂದ್ರ ಹುಡುಕಿ', palliativeShort: 'ಉಪಶಾಮಕ ತಂಡ', palliativeSub: 'ಹತ್ತಿರದವರ ಹೆಸರು ಮತ್ತು ಫೋನ್ ಸಂಖ್ಯೆ',
@@ -57,6 +67,11 @@ const kn: Record<K, string> = {
   helpIntro: 'ಯೋಜನೆಗಳು, ಮೊತ್ತಗಳು ಮತ್ತು ನಿಯಮಗಳು ಬದಲಾಗುತ್ತವೆ ಮತ್ತು ರಾಜ್ಯದಿಂದ ರಾಜ್ಯಕ್ಕೆ ಬೇರೆ. ವಿವರಗಳನ್ನು ಯಾವಾಗಲೂ ಆಸ್ಪತ್ರೆಯ ಸಮಾಜ ಕಾರ್ಯಕರ್ತರೊಂದಿಗೆ ಖಚಿತಪಡಿಸಿ.',
   schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', finders: 'ಅರ್ಹವಾದ ಎಲ್ಲಾ ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ', palliative: 'ಹತ್ತಿರದ ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರಗಳು', orgs: 'ಸಂಸ್ಥೆಗಳು ಮತ್ತು ಬೆಂಬಲ ಗುಂಪುಗಳು', myContacts: 'ನಮ್ಮ ಸ್ವಂತ ಸಂಪರ್ಕಗಳು', addContact: 'ಸಂಪರ್ಕ ಸೇರಿಸಿ', open: 'ವೆಬ್‌ಸೈಟ್ ತೆರೆಯಿರಿ', find: 'ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಹುಡುಕಿ', call: 'ಕರೆ ಮಾಡಿ',
   india: 'ಇಡೀ ಭಾರತ', kerala: 'ಕೇರಳ', karnataka: 'ಕರ್ನಾಟಕ', reviewed: '{d} ರಲ್ಲಿ ಪರಿಶೀಲಿಸಿದ ಪಟ್ಟಿ. ಏನಾದರೂ ಬದಲಾಗಿದ್ದರೆ ತಿಳಿಸಿ.', fromBookHelp: 'ಪುಸ್ತಕದಿಂದ: ಹಣ, ದಾಖಲೆಗಳು ಮತ್ತು ನೆರವು', whatFor: 'ಯಾವುದಕ್ಕೆ ನೆರವು',
+  skills: 'ದೈನಂದಿನ ಜೀವನ ಕೌಶಲ್ಯಗಳು', skillsSub: 'ದಿನದ ಕೆಲಸಗಳಿಗೆ ಸಣ್ಣ ಹೆಜ್ಜೆಗಳು', skillsIntro: 'ಒಮ್ಮೆಗೆ ಒಂದು ಕೆಲಸ ಅಭ್ಯಾಸ ಮಾಡಿ. ಪ್ರತಿ ಹೆಜ್ಜೆಯಲ್ಲಿ ಮಗುವಿಗೆ ಎಷ್ಟು ಸಹಾಯ ಬೇಕಾಯಿತು ಎಂದು ಒತ್ತಿ. ಹೆಜ್ಜೆಗಳನ್ನು ಆಕ್ಯುಪೇಷನಲ್ ಥೆರಪಿಸ್ಟ್ ಜೊತೆ ಒಪ್ಪಿ ಬದಲಿಸಬಹುದು.',
+  adl: 'ನನ್ನನ್ನು ನಾನು ನೋಡಿಕೊಳ್ಳುವುದು', iadl: 'ಮನೆಯಲ್ಲಿ ಮತ್ತು ಹೊರಗೆ ಸಹಾಯ', fullHelp: 'ಪೂರ್ಣ ಸಹಾಯ', someHelp: 'ಸ್ವಲ್ಪ ಸಹಾಯ', byMyself: 'ನಾನೇ', stepOfN: 'ಹೆಜ್ಜೆ {n} / {all}', lastTime: 'ಕಳೆದ ಬಾರಿ: {all} ರಲ್ಲಿ {n} ತಾನೇ',
+  editSteps: 'ಹೆಜ್ಜೆಗಳನ್ನು ಬದಲಿಸಿ', stepsHint: 'ಒಂದು ಸಾಲಿಗೆ ಒಂದು ಹೆಜ್ಜೆ.', addTask: 'ನಿಮ್ಮ ಕೆಲಸ ಸೇರಿಸಿ', taskName: 'ಕೆಲಸದ ಹೆಸರು', useOriginal: 'ಮೂಲ ಹೆಜ್ಜೆಗಳನ್ನು ಬಳಸಿ', skillsPace: 'ಮಗುವಿನ ವೇಗದಲ್ಲಿ ಹೋಗಿ. ಸಹಾಯ ಬೇಕಾಗುವುದು ಸೋಲಲ್ಲ.', changesBook: 'ಪುಸ್ತಕದಿಂದ: ನೀವು ಕಾಣಬಹುದಾದ ಬದಲಾವಣೆಗಳು', allSteps: 'ಎಲ್ಲಾ ಹೆಜ್ಜೆಗಳು ಮುಗಿದವು!',
+  tooMuch: 'ಎಲ್ಲವೂ ಅತಿಯಾದಾಗ', thermo: 'ಈಗ ನೀವು ಹೇಗಿದ್ದೀರಿ?', thermoHint: '0 = ಶಾಂತ, 10 = ಅತಿ ಹೆಚ್ಚು ನೋವು', thermoHigh: 'ಇದು ತುಂಬಾ ಭಾರ. ಇಂದೇ ಯಾರೊಂದಿಗಾದರೂ ಮಾತನಾಡಿ.', logIt: 'ಉಳಿಸಿ',
+  ground: '5-4-3-2-1: ಈ ಕ್ಷಣಕ್ಕೆ ಹಿಂತಿರುಗಿ', g5: 'ಸುತ್ತಲೂ ನೋಡಿ. ಕಾಣುವ 5 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g4: 'ಮುಟ್ಟಬಹುದಾದ 4 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g3: 'ಕೇಳಿ. ಕೇಳಿಸುವ 3 ಶಬ್ದಗಳನ್ನು ಹೇಳಿ.', g2: 'ವಾಸನೆ ಬರುವ 2 ವಸ್ತುಗಳನ್ನು ಹೇಳಿ.', g1: 'ರುಚಿ ನೋಡಬಹುದಾದ 1 ವಸ್ತು, ಅಥವಾ ನಿಮ್ಮ ಬಗ್ಗೆ ಒಂದು ಒಳ್ಳೆಯ ಮಾತು ಹೇಳಿ.', next: 'ಮುಂದೆ', fromBookCare: 'ಪುಸ್ತಕದಿಂದ: ನಿಮ್ಮನ್ನು ನೋಡಿಕೊಳ್ಳುವುದು',
 };
 export const CT = { en, ml, kn } as Record<Lang, Record<K, string>>;
 export const ct = (lang: Lang, k: K, v: Record<string, string | number> = {}) => CT[lang][k].replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? ''));

@@ -228,8 +228,8 @@ export function CareGuide() {
           </Link>
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-2 mb-6">
-        {([['/care/plan', '🧩', 'carePlan', 't-blue'], ['/therapy', '🎯', 'therapy', 't-green'], ['/help', '🤝', 'help', 't-amber']] as const).map(([to, e, k, c]) => (
+      <div className="grid grid-cols-2 gap-2 mb-6">
+        {([['/care/plan', '🧩', 'carePlan', 't-blue'], ['/therapy', '🎯', 'therapy', 't-green'], ['/skills', '🪥', 'skills', 't-violet'], ['/help', '🤝', 'help', 't-amber']] as const).map(([to, e, k, c]) => (
           <Link key={to} to={to} className={cx('tile !p-3 min-h-[96px] flex flex-col justify-between', c)}>
             <span className="relative z-[1] text-2xl" aria-hidden>{e}</span><b className="relative z-[1] text-sm leading-tight">{ct(lang, k)}</b>
           </Link>
