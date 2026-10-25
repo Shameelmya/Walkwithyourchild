@@ -6,6 +6,7 @@ import { useT } from '../i18n';
 import { Page } from '../components/ui';
 import { PathMotif } from '../components/Path';
 import { useChild, useChildId } from '../lib/hooks';
+import { useNearest } from '../lib/nearby';
 import { db, getSetting, getSheet } from '../lib/db';
 import { logDose, todaySlots } from '../lib/meds';
 import { chapterPct, getReading, journeyPct } from '../lib/reading';
@@ -15,6 +16,7 @@ import { addDays, fmtDate, isoDate, cx, hhmm } from '../lib/util';
 export default function Home() {
   const { t, lang } = useT();
   const child = useChild();
+  const nearest = useNearest(child?.place);
   const childId = useChildId();
   const slots = useLiveQuery(() => (childId ? todaySlots(childId) : []), [childId]) ?? [];
   const visit = useLiveQuery(() => db.visits.where('date').aboveOrEqual(isoDate()).filter((v) => v.childId === childId && !v.done).sortBy('date').then((v) => v[0]), [childId]);
@@ -85,11 +87,14 @@ export default function Home() {
           <span className="flex-1 min-w-0"><b className="block">{t('careGuide')}</b><span className="text-sm text-muted">{t('careSub')}</span></span>
           <ChevronRight aria-hidden />
         </Link>
-        <Link to="/help/palliative" className="card flex items-center gap-3 p-4 mb-3">
-          <span className="w-12 h-12 rounded-2xl t-green text-white flex items-center justify-center shrink-0"><HeartHandshake size={22} aria-hidden /></span>
-          <span className="flex-1 min-w-0"><b className="block">{ct(lang, 'findCentre')}</b><span className="text-sm text-muted">{ct(lang, 'palliativeSub')}</span></span>
-          <ChevronRight aria-hidden />
-        </Link>
+        <div className="card flex items-center gap-2 p-2 pl-4 mb-3">
+          <Link to="/help/palliative" className="flex-1 min-w-0 flex items-center gap-3 py-2">
+            <span className="w-12 h-12 rounded-2xl t-green text-white flex items-center justify-center shrink-0"><HeartHandshake size={22} aria-hidden /></span>
+            <span className="flex-1 min-w-0"><b className="block">{nearest ? ct(lang, 'nearest') : ct(lang, 'findCentre')}</b><span className="text-sm text-muted line-clamp-2">{nearest ? nearest.n : ct(lang, 'palliativeSub')}</span></span>
+            {!nearest && <ChevronRight aria-hidden />}
+          </Link>
+          {nearest && <a href={`tel:${nearest.t}`} className="w-12 h-12 rounded-2xl bg-soft text-accent flex items-center justify-center shrink-0" aria-label={`${ct(lang, 'call')} ${nearest.n}`}><Phone size={20} aria-hidden /></a>}
+        </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {quick.map(({ to, I, l, s, cls }) => (
             <Link key={to} to={to} className={cx('tile min-h-[124px] flex flex-col justify-between', cls)}>

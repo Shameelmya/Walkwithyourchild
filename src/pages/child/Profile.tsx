@@ -4,7 +4,8 @@ import { Camera } from 'lucide-react';
 import { PhotoCrop } from '../../components/PhotoCrop';
 import { useT } from '../../i18n';
 import { Avatar, FileButton, Page, PageHeader, useToast, BottomBar } from '../../components/ui';
-import { db, putBlob, getSetting } from '../../lib/db';
+import { db, putBlob, getSetting, type Place } from '../../lib/db';
+import { PlaceFields } from '../../components/PlaceFields';
 import { useChild } from '../../lib/hooks';
 import { useUI } from '../../lib/store';
 import { useBack } from '../../lib/nav';
@@ -22,14 +23,15 @@ export default function Profile() {
   const [dob, setDob] = useState('');
   const [rescue, setRescue] = useState(5);
   const [photoId, setPhotoId] = useState<number>();
+  const [place, setPlace] = useState<Place>();
   useEffect(() => {
     if (isNew) { getSetting('defaultRescue', 5).then(setRescue); return; }
-    if (child) { setName(child.name); setDob(child.dob ?? ''); setRescue(child.rescueMinutes ?? 5); setPhotoId(child.photoBlobId); }
+    if (child) { setName(child.name); setDob(child.dob ?? ''); setRescue(child.rescueMinutes ?? 5); setPhotoId(child.photoBlobId); setPlace(child.place); }
   }, [child, isNew]);
   const save = async () => {
     if (!name.trim()) return toast(t('nameNeeded'));
-    if (isNew) { const id = await db.children.add({ name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue, createdAt: Date.now() }); setActive(id); }
-    else if (child?.id) await db.children.update(child.id, { name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue });
+    if (isNew) { const id = await db.children.add({ name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue, place, createdAt: Date.now() }); setActive(id); }
+    else if (child?.id) await db.children.update(child.id, { name: name.trim(), dob: dob || undefined, photoBlobId: photoId, rescueMinutes: rescue, place });
     toast(t('saved')); back('/child');
   };
   return (
@@ -46,6 +48,7 @@ export default function Profile() {
         <div><label className="label" htmlFor="p-rescue">{t('rescueTime')}</label>
           <div className="flex items-center gap-3"><input id="p-rescue" type="number" min={1} max={30} className="input w-28" value={rescue} onChange={(e) => setRescue(Math.max(1, Math.min(30, +e.target.value || 5)))} /><span>{t('minutes')}</span></div>
           <p className="text-sm text-muted mt-1">{t('rescueHint')}</p></div>
+        <PlaceFields value={place} onChange={setPlace} />
       </div>
       <BottomBar><button className="btn-primary w-full" onClick={save}>{t('save')}</button></BottomBar>
     </Page>

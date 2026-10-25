@@ -8,6 +8,7 @@ import { db, getSheet } from '../lib/db';
 import { useChild, useChildId, useWakeLockSafe } from '../lib/hooks';
 import { sheetById, loc, callTel, extractPhone } from '../lib/content';
 import { isActive } from '../lib/meds';
+import { useNearest } from '../lib/nearby';
 import { ageFrom } from '../lib/util';
 import { Avatar, BottomBar } from '../components/ui';
 import { LangButton } from '../components/LangButton';
@@ -18,6 +19,7 @@ export default function SOS() {
   const nav = useNavigate();
   const back = useBack();
   const child = useChild();
+  const nearest = useNearest(child?.place);
   const childId = useChildId();
   useWakeLockSafe();
   const d = useLiveQuery(async () => ({ card: ((await getSheet(childId, 'emergency')).values ?? {}) as Record<string, string>, me: ((await getSheet(childId, 'my-child')).values ?? {}) as Record<string, string>, meds: (await db.medicines.where('childId').equals(childId).toArray()).filter((m) => isActive(m)) }), [childId]);
@@ -65,7 +67,8 @@ export default function SOS() {
           </div>
           <div className="grid grid-cols-2 gap-2.5">
             <button className="btn-outline !min-h-[56px]" onClick={() => nav('/seizure')}><Activity size={20} aria-hidden /> {t('startSeizureTimer')}</button>
-            <button className="btn-outline !min-h-[56px]" onClick={() => nav('/help/palliative')}><HeartHandshake size={20} aria-hidden /> {ct(lang, 'palliativeShort')}</button>
+            {nearest ? <a href={`tel:${nearest.t}`} className="btn-outline !min-h-[56px]" aria-label={`${ct(lang, 'call')} ${nearest.n}`}><HeartHandshake size={20} aria-hidden /> {ct(lang, 'palliativeShort')}</a>
+              : <button className="btn-outline !min-h-[56px]" onClick={() => nav('/help/palliative')}><HeartHandshake size={20} aria-hidden /> {ct(lang, 'palliativeShort')}</button>}
           </div>
           <a href="tel:108" className="btn-danger text-2xl !min-h-[76px] !rounded-3xl"><Phone aria-hidden /> {t('call108')}</a>
         </div>
