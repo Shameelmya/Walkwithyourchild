@@ -54,8 +54,8 @@ export default function CarePlan() {
           {plan.team.length === 0 && <li className="p-4 text-sm text-muted">{L('empty')}</li>}
           {plan.team.map((x) => (
             <li key={x.id} className="flex items-center gap-3 p-3 min-h-[64px]">
-              <button className="flex-1 min-w-0 text-left" onClick={() => setM(x)} aria-label={`${L('edit')} ${x.name}`}>
-                <span className="block text-xs font-bold text-muted">{ROLES[x.role]?.[lang]}{x.main && <span className="ml-1.5 text-[#b4842f]">★ {L('mainContactTag')}</span>}</span>
+              <button className="flex-1 min-w-0 text-start" onClick={() => setM(x)} aria-label={`${L('edit')} ${x.name}`}>
+                <span className="block text-xs font-bold text-muted">{ROLES[x.role]?.[lang]}{x.main && <span className="ms-1.5 text-[#b4842f]">★ {L('mainContactTag')}</span>}</span>
                 <b className="block truncate">{x.name}</b>{x.place && <span className="block text-sm text-muted truncate">{x.place}</span>}
               </button>
               {x.phone && <a href={`tel:${x.phone.replace(/[^\d+]/g, '')}`} className="icon-chip shrink-0" aria-label={`${L('call')} ${x.name}`}><Phone size={18} /></a>}
@@ -78,7 +78,7 @@ export default function CarePlan() {
               {x.home && <p className="text-sm mt-1.5"><span className="text-muted">{L('atHome')}: </span>{x.home}</p>}
               <div className="flex items-center gap-2 mt-3 flex-wrap">
                 {STATUS.map((s) => <button key={s} aria-pressed={x.status === s} onClick={() => save({ ...plan, goals: upsert(plan.goals, { ...x, status: s }) })} className={cx('chip !min-h-[36px] text-xs', x.status === s && STATUS_C[s], x.status === s && 'chip-on')}>{s === 'done' && '✓ '}{L(s)}</button>)}
-                {x.review && <span className="text-xs text-muted ml-auto">{L('reviewBy')}: {fmtDate(x.review, lang)}</span>}
+                {x.review && <span className="text-xs text-muted ms-auto">{L('reviewBy')}: {fmtDate(x.review, lang)}</span>}
               </div>
             </article>
           ))}
@@ -91,7 +91,7 @@ export default function CarePlan() {
         <ul className="card divide-y divide-line/60">
           {plan.meetings.length === 0 && <li className="p-4 text-sm text-muted">{L('empty')}</li>}
           {plan.meetings.slice().sort((a, b) => b.date.localeCompare(a.date)).map((x) => (
-            <li key={x.id}><button className="w-full text-left p-3 min-h-[60px]" onClick={() => setMt(x)}>
+            <li key={x.id}><button className="w-full text-start p-3 min-h-[60px]" onClick={() => setMt(x)}>
               <b className="block">{fmtDate(x.date, lang)}</b>{x.who && <span className="block text-xs text-muted">{x.who}</span>}<span className="block text-sm mt-0.5 line-clamp-3 whitespace-pre-line">{x.notes}</span>
             </button></li>
           ))}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Maximize2, Minimize2, Pencil, Plus, Mic, Square, Play, Camera, ChevronLeft, ChevronRight, EyeOff, Trash2, Check } from 'lucide-react';
+import { Maximize2, Minimize2, Pencil, Plus, Mic, Square, Play, Camera, EyeOff, Trash2, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from '../../components/icons';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Modal, FileButton, Seg, useToast, SheetActions } from '../../components/ui';
 import { db, putBlob, type TalkCard } from '../../lib/db';
@@ -98,7 +99,7 @@ export default function Talk() {
         <button key={c.key} onClick={() => (editMode ? setEditing(c) : say(c))} aria-label={c.label}
           className={cx('tile !p-3 flex flex-col items-stretch gap-2 border-4', COLORS[(page * per + i) % COLORS.length], focus === i ? 'border-white ring-4 ring-[rgb(var(--accent))]' : 'border-transparent', active === c.key && 'anim-pop ring-4 ring-white')}>
           <CardFace c={c} big={n <= 3} />
-          {editMode && <span className="absolute top-2 right-2 z-[2] bg-white text-[#2a231d] rounded-full p-1.5"><Pencil size={16} aria-hidden /></span>}
+          {editMode && <span className="absolute top-2 end-2 z-[2] bg-white text-[#2a231d] rounded-full p-1.5"><Pencil size={16} aria-hidden /></span>}
         </button>
       ))}
     </div>

@@ -1,5 +1,6 @@
 import { createElement, useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from '../../components/icons';
 import { PENTA, tone, hiss, pop } from '../../lib/audio';
 import { HUES, PAINT, nextId, rand, useAnyInput, useCanvas } from './shared';
 import { PICTURES } from './pictures';
@@ -119,7 +120,7 @@ export function Paint({ vol }: { vol: number }) {
       <canvas ref={ref} className="absolute inset-0 w-full h-full touch-none"
         onPointerDown={(e) => { (e.target as HTMLElement).setPointerCapture(e.pointerId); last.current = null; draw(e.clientX, e.clientY); tone(PENTA[Math.floor((1 - e.clientY / innerHeight) * 9)], 0.7, vol * 0.5); }}
         onPointerMove={(e) => e.buttons && draw(e.clientX, e.clientY)} onPointerUp={() => { last.current = null; }} />
-      <button aria-label="clear" onClick={clear} className="absolute top-3 left-3 w-14 h-14 rounded-full bg-black/10 flex items-center justify-center text-[#2a2f3a]"><Trash2 size={22} /></button>
+      <button aria-label="clear" onClick={clear} className="absolute top-3 start-3 w-14 h-14 rounded-full bg-black/10 flex items-center justify-center text-[#2a2f3a]"><Trash2 size={22} /></button>
       <div className="absolute bottom-4 inset-x-0 flex flex-wrap justify-center gap-2.5 px-3">
         <button aria-label="rainbow" onClick={() => setCol(-1)} className="w-12 h-12 rounded-full border-4 transition-transform duration-300" style={{ background: 'conic-gradient(#E5534B,#F4C430,#6CC48F,#4F8FEA,#7556D2,#E5534B)', borderColor: col < 0 ? '#2a2f3a' : '#fff', transform: col < 0 ? 'scale(1.15)' : undefined }} />
         {PAINT.slice(0, 10).map((c, i) => <button key={c} aria-label={c} onClick={() => setCol(i)} className="w-12 h-12 rounded-full border-4 transition-transform duration-300" style={{ background: c, borderColor: col === i ? '#2a2f3a' : '#fff', transform: col === i ? 'scale(1.15)' : undefined, boxShadow: '0 4px 12px -4px rgb(0 0 0 / .3)' }} />)}

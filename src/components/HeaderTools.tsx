@@ -46,7 +46,7 @@ export function TextSizeButton() {
             <button key={f} role="radio" aria-checked={fontScale === f} aria-label={`${Math.round(f * 100)}%`} onClick={() => setFontScale(f)}
               className={cx('w-[48px] h-[48px] rounded-2xl flex items-center justify-center font-extrabold text-ink relative', fontScale === f ? 'bg-soft text-[rgb(var(--accent))]' : 'hover:bg-surface2')}>
               <span style={{ fontSize: 13 + i * 4 }} className="leading-none">A</span>
-              {fontScale === f && <Check size={12} className="absolute bottom-1 right-1" aria-hidden />}
+              {fontScale === f && <Check size={12} className="absolute bottom-1 end-1" aria-hidden />}
             </button>
           ))}
         </div>, document.body,

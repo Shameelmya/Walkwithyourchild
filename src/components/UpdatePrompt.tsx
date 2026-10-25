@@ -70,7 +70,7 @@ export function UpdatePrompt() {
   useEffect(() => { if ((need || pending) && !BUSY.test(loc.pathname)) applyUpdate(); }, [need, pending, loc.pathname]);
   if (!pending && !need) return null;
   return (
-    <div role="status" className="fixed z-[65] left-4 right-4 top-4 lg:left-auto lg:right-6 lg:w-96 glass-panel rounded-2xl shadow-lift border border-line/60 p-3 flex items-center gap-3 anim-zoom">
+    <div role="status" className="fixed z-[65] start-4 end-4 top-4 lg:start-auto lg:end-6 lg:w-96 glass-panel rounded-2xl shadow-lift border border-line/60 p-3 flex items-center gap-3 anim-zoom">
       <p className="flex-1 text-sm font-semibold">{t('updateReady')}</p>
       <button className="btn-primary !min-h-[40px] px-4 text-sm" onClick={() => { try { sessionStorage.removeItem('wwyc-upd'); } catch { /* */ } void updateServiceWorker(false).catch(() => {}); applyUpdate(); }}>{t('update')}</button>
     </div>

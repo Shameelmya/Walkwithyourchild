@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Phone, Video, Square, X, History, ChevronRight, Check } from 'lucide-react';
+import { Phone, Video, Square, X, History, Check } from 'lucide-react';
+import { ChevronRight } from '../../components/icons';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useT } from '../../i18n';
@@ -104,7 +105,7 @@ export default function SeizureTimer() {
           <p className="text-lg font-extrabold">1. {t('aidSide')}</p>
           <p className="text-lg font-extrabold mt-1">2. {t('aidMouth')}</p>
         </div>
-        {rec && <div className="rounded-3xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" /><span className="absolute top-3 left-3 flex items-center gap-1.5 text-white text-sm font-bold"><span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />REC</span></div>}
+        {rec && <div className="rounded-3xl overflow-hidden bg-black relative"><video ref={preview} muted playsInline className="w-full max-h-56 object-cover" /><span className="absolute top-3 start-3 flex items-center gap-1.5 text-white text-sm font-bold"><span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />REC</span></div>}
         {videoId && !rec && <p className="text-center font-bold text-[var(--p2)]">{t('videoSaved')}</p>}
         {recErr && <p role="alert" className="text-danger text-center">{recErr}</p>}
         <details className="card !rounded-3xl p-4">

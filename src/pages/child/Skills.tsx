@@ -59,8 +59,8 @@ export default function Skills() {
       <section className="mb-6">
         <h2 className="font-extrabold mb-2">{title}</h2>
         <div className="grid gap-2">{g.map((t) => { const l = last(t.id); const mine = l ? l.filter((v) => v === 2).length : 0; return (
-          <div key={t.id} className="card !rounded-3xl p-2 pl-3 flex items-center gap-3">
-            <button className="flex-1 min-w-0 flex items-center gap-3 text-left min-h-[56px]" onClick={() => setRun(t)}>
+          <div key={t.id} className="card !rounded-3xl p-2 ps-3 flex items-center gap-3">
+            <button className="flex-1 min-w-0 flex items-center gap-3 text-start min-h-[56px]" onClick={() => setRun(t)}>
               <span className="w-12 h-12 rounded-2xl bg-soft flex items-center justify-center text-2xl shrink-0" aria-hidden>{t.e}</span>
               <span className="min-w-0"><b className="block leading-snug">{t.name}</b>{l && <span className="text-xs text-muted">{L('lastTime', { n: mine, all: l.length })}</span>}</span>
             </button>

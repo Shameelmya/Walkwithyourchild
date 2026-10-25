@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ct } from '../../lib/careText';
 import { useBack } from '../../lib/nav';
-import { ArrowLeft, LogOut, Volume1, Volume2, VolumeX, Music2, Palette, Move, LayoutGrid, GraduationCap, Play as PlayIcon } from 'lucide-react';
+import { LogOut, Volume1, Volume2, VolumeX, Music2, Palette, Move, LayoutGrid, GraduationCap, Play as PlayIcon } from 'lucide-react';
+import { ArrowLeft } from '../../components/icons';
 import { useT, type TKey } from '../../i18n';
 import { setSound, type Inst, type Scale } from '../../lib/audio';
 import { LongPress, useWakeLock } from '../../components/ui';
@@ -139,11 +140,11 @@ export default function Play() {
             </div>
           )}
           {ready === game.id && !game.essential && (
-            <button onClick={() => setGameMuted(!gameMuted)} aria-label={tx.sound} aria-pressed={!gameMuted} className="fixed top-3 right-[4.75rem] z-10 w-14 h-14 rounded-full bg-black/25 text-white flex items-center justify-center">
+            <button onClick={() => setGameMuted(!gameMuted)} aria-label={tx.sound} aria-pressed={!gameMuted} className="fixed top-3 end-[4.75rem] z-10 w-14 h-14 rounded-full bg-black/25 text-white flex items-center justify-center">
               {gameMuted ? <VolumeX size={20} aria-hidden /> : <Volume2 size={20} aria-hidden />}
             </button>
           )}
-          <LongPress onDone={exit} label={t('holdToExit')} className="fixed top-3 right-3 z-10 w-14 h-14 rounded-full bg-black/25 text-white flex items-center justify-center"><LogOut size={20} aria-hidden /></LongPress>
+          <LongPress onDone={exit} label={t('holdToExit')} className="fixed top-3 end-3 z-10 w-14 h-14 rounded-full bg-black/25 text-white flex items-center justify-center"><LogOut size={20} aria-hidden /></LongPress>
         </div>
       )}
     </div>

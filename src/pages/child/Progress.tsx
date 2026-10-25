@@ -55,7 +55,7 @@ export default function ProgressPage() {
           <ul className="grid gap-2">
             {[...list].reverse().map((p) => (
               <li key={p.id} className="card p-3 flex gap-2">
-                <button className="flex-1 text-left min-w-0" onClick={() => setEdit(p)}>
+                <button className="flex-1 text-start min-w-0" onClick={() => setEdit(p)}>
                   <p className="font-extrabold">{fmtDate(p.date, lang)}{p.weight ? ` · ${p.weight} kg` : ''}</p>
                   <p className="text-sm text-muted line-clamp-2">{SCALES.filter((s) => p.scores[s] !== undefined).map((s) => `${t(scaleName(s))}: ${t(scaleLabel(s, p.scores[s]!))}`).join(' · ')}</p>
                   {p.notes && <p className="text-sm mt-1">{p.notes}</p>}

@@ -74,7 +74,7 @@ export function Chimes({ vol }: { vol: number }) {
     <div className="absolute inset-0 touch-none" style={{ background: 'linear-gradient(#bfe1f2,#f3ead8)' }}
       onPointerDown={(e) => { last.current = at(e.clientX); ring(last.current); }}
       onPointerMove={(e) => { const i = at(e.clientX); if (e.buttons && i !== last.current) { last.current = i; ring(i); } }}>
-      <div className="absolute top-16 left-[6%] right-[6%] h-3 rounded-full bg-[#8b5e3c]" />
+      <div className="absolute top-16 start-[6%] end-[6%] h-3 rounded-full bg-[#8b5e3c]" />
       {Array.from({ length: N }, (_, i) => (
         <span key={i} className="absolute top-[4.6rem] origin-top transition-transform duration-700" style={{ left: `${8 + (i * 84) / (N - 1)}%`, transform: `rotate(${swing[i] ? (i % 2 ? 14 : -14) : 0}deg)` }}>
           <span className="block w-px h-6 bg-[#8b5e3c] mx-auto" />

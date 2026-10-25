@@ -12,7 +12,7 @@ import { shareOrDownload, fmtDate } from '../../lib/util';
 function DocTile({ d, onOpen }: { d: DocumentRec; onOpen: () => void }) {
   const url = useBlobUrl(d.blobId);
   return (
-    <button onClick={onOpen} className="card overflow-hidden text-left">
+    <button onClick={onOpen} className="card overflow-hidden text-start">
       <div className="aspect-[4/3] bg-surface2 flex items-center justify-center">{d.type.startsWith('image/') && url ? <img src={url} alt="" className="w-full h-full object-cover" /> : <FileText size={36} aria-hidden />}</div>
       <p className="p-2 text-sm font-bold line-clamp-2">{d.title}</p>
     </button>

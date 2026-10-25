@@ -142,7 +142,7 @@ export function ChecklistEditor({ sheet }: { sheet: Sheet }) {
           const a = auto.has(i); const on = a || checked.has(i);
           return (
             <li key={i}><button role="checkbox" aria-checked={on} disabled={a} onClick={() => { const c = new Set(checked); if (c.has(i)) c.delete(i); else c.add(i); setData({ ...data, checked: [...c] }); }}
-              className={cx('w-full flex items-start gap-3 p-3 rounded-xl text-left min-h-[56px] border-2', on ? 'border-[var(--pi)] bg-[var(--pit)]' : 'border-line bg-surface')}>
+              className={cx('w-full flex items-start gap-3 p-3 rounded-xl text-start min-h-[56px] border-2', on ? 'border-[var(--pi)] bg-[var(--pit)]' : 'border-line bg-surface')}>
               <span className={cx('w-7 h-7 rounded-lg border-2 flex items-center justify-center shrink-0', on ? 'bg-[var(--pi)] border-[var(--pi)] text-white' : 'border-muted/60')}>{on && <Check size={18} />}</span>
               <span className="flex-1">{loc(it, lang)}{a && <span className="block text-xs font-bold text-[var(--pi)] mt-1">{t('inLocker')}</span>}</span>
             </button></li>

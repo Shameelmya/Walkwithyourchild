@@ -13,7 +13,7 @@ import { fmtDate, isoDate } from '../../lib/util';
 function MemoryItem({ m, onOpen }: { m: Mem; onOpen: () => void }) {
   const url = useBlobUrl(m.blobId);
   return (
-    <button onClick={onOpen} className="card overflow-hidden text-left">
+    <button onClick={onOpen} className="card overflow-hidden text-start">
       <div className="aspect-square bg-[var(--p4t)] flex items-center justify-center">
         {(m.kind === 'photo' || m.kind === 'handprint') && url ? <img src={url} alt="" className="w-full h-full object-cover" /> : m.kind === 'video' ? <Video size={40} className="text-[var(--p4)]" aria-hidden /> : m.kind === 'voice' ? <Mic size={40} className="text-[var(--p4)]" aria-hidden /> : <p className="p-3 font-read line-clamp-6">{m.text}</p>}
       </div>

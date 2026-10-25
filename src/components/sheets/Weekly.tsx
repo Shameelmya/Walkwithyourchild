@@ -68,7 +68,7 @@ export function WeeklyEditor({ currentOnly = false }: { currentOnly?: boolean })
                     <div role="radiogroup" aria-label={loc(r.label, lang)} className="flex gap-2">{[1, 2, 3, 4, 5].map((n) => <button key={n} role="radio" aria-checked={v === n} onClick={() => set(w.week, r.id, v === n ? undefined : n)} className={cx('w-12 h-12 rounded-full border-2 font-extrabold', v === n ? 'bg-accent text-onaccent border-accent' : 'border-line')}>{n}</button>)}</div></li>
                 );
                 return (
-                  <li key={r.id}><button role="checkbox" aria-checked={!!v} onClick={() => set(w.week, r.id, !v)} className={cx('w-full flex items-center gap-3 p-2 rounded-xl text-left min-h-[48px] border-2', v ? 'border-accent bg-soft' : 'border-line')}>
+                  <li key={r.id}><button role="checkbox" aria-checked={!!v} onClick={() => set(w.week, r.id, !v)} className={cx('w-full flex items-center gap-3 p-2 rounded-xl text-start min-h-[48px] border-2', v ? 'border-accent bg-soft' : 'border-line')}>
                     <span className={cx('w-7 h-7 rounded-lg border-2 flex items-center justify-center shrink-0', v ? 'bg-accent border-accent text-onaccent' : 'border-muted/60')}>{!!v && <Check size={18} />}</span>{loc(r.label, lang)}</button></li>
                 );
               })}

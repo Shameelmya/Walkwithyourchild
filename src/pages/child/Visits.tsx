@@ -50,7 +50,7 @@ export default function Visits() {
       {up && !!questions.length && (
         <div className="mt-3 rounded-xl bg-[var(--p5t)] p-3">
           <p className="font-extrabold flex items-center gap-2 mb-1"><HelpCircle size={18} aria-hidden /> {t('questionsToAsk', { n: questions.length })}</p>
-          <ul className="list-disc pl-5 grid gap-1">{questions.map((q, i) => <li key={i}>{q.question}</li>)}</ul>
+          <ul className="list-disc ps-5 grid gap-1">{questions.map((q, i) => <li key={i}>{q.question}</li>)}</ul>
         </div>
       )}
       {!v.done && <button className="btn-outline mt-3" onClick={() => record(v)}><ClipboardCheck size={18} aria-hidden /> {t('recordVisit')}</button>}

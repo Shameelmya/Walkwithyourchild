@@ -113,17 +113,17 @@ export function SongTiles({ vol }: { vol: number }) {
     <div className="absolute inset-0 overflow-y-auto bg-[#1d2430] text-white p-4 pt-20">
       <h2 className="text-2xl font-extrabold mb-4">{tx.chooseSong}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <button onClick={() => setMaking(true)} className="min-h-[76px] rounded-3xl flex items-center gap-4 px-5 text-left font-extrabold text-lg border-2 border-dashed border-white/40 active:scale-[.98] transition">
+        <button onClick={() => setMaking(true)} className="min-h-[76px] rounded-3xl flex items-center gap-4 px-5 text-start font-extrabold text-lg border-2 border-dashed border-white/40 active:scale-[.98] transition">
           <span className="w-11 h-11 rounded-full bg-white/15 flex items-center justify-center" aria-hidden><Plus /></span>{tx.makeSong}
         </button>
         {mine.map((s) => (
           <div key={s.id} className="min-h-[76px] rounded-3xl flex items-center bg-white/10">
-            <button onClick={() => begin(s)} className="flex-1 min-h-[76px] flex items-center gap-4 px-5 text-left font-extrabold text-lg"><span className="text-4xl" aria-hidden>{s.e}</span>{nameOf(s, lang)}</button>
-            <button aria-label={`${tx.deleteSong} ${nameOf(s, lang)}`} className="w-14 h-14 mr-2 rounded-2xl flex items-center justify-center text-white/70" onClick={async () => { const l = mine.filter((x) => x.id !== s.id); setMine(l); await setSetting('mySongs', l); }}><Trash2 size={20} /></button>
+            <button onClick={() => begin(s)} className="flex-1 min-h-[76px] flex items-center gap-4 px-5 text-start font-extrabold text-lg"><span className="text-4xl" aria-hidden>{s.e}</span>{nameOf(s, lang)}</button>
+            <button aria-label={`${tx.deleteSong} ${nameOf(s, lang)}`} className="w-14 h-14 me-2 rounded-2xl flex items-center justify-center text-white/70" onClick={async () => { const l = mine.filter((x) => x.id !== s.id); setMine(l); await setSetting('mySongs', l); }}><Trash2 size={20} /></button>
           </div>
         ))}
         {SONGS.map((s, i) => (
-          <button key={s.id} onClick={() => begin(s)} className="min-h-[76px] rounded-3xl flex items-center gap-4 px-5 text-left font-extrabold text-lg text-[#1d2430] active:scale-[.98] transition duration-300" style={{ background: HUES[i % HUES.length] }}>
+          <button key={s.id} onClick={() => begin(s)} className="min-h-[76px] rounded-3xl flex items-center gap-4 px-5 text-start font-extrabold text-lg text-[#1d2430] active:scale-[.98] transition duration-300" style={{ background: HUES[i % HUES.length] }}>
             <span className="text-4xl" aria-hidden>{s.e}</span>{nameOf(s, lang)}
           </button>
         ))}
@@ -133,7 +133,7 @@ export function SongTiles({ vol }: { vol: number }) {
   const nextLane = done ? -1 : lanes.indexOf(song.notes[next].m);
   return (
     <div className="absolute inset-0 flex flex-col bg-[#141a24] text-white select-none touch-none">
-      <div className="flex items-center gap-2 p-3 pr-24">
+      <div className="flex items-center gap-2 p-3 pe-24">
         <button className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center shrink-0" aria-label={tx.chooseSong} onClick={() => setSong(null)}><ListMusic aria-hidden /></button>
         <span ref={dot} className="w-3 h-3 rounded-full bg-white shrink-0 transition-transform duration-100" aria-hidden />
         <span className="font-extrabold truncate flex-1 min-w-0">{nameOf(song, lang)}</span>
@@ -143,14 +143,14 @@ export function SongTiles({ vol }: { vol: number }) {
           {SPEEDS.map((v, i) => <button key={i} role="radio" aria-checked={speed === i} aria-label={`${v.bpm}`} onClick={() => setSpeed(i)} className={`w-11 h-10 rounded-xl text-xl ${speed === i ? 'bg-white/90' : ''}`}>{v.e}</button>)}
         </div>
         <button role="switch" aria-checked={metro} aria-label={tx.metronome} onClick={() => setMetro(!metro)} className={`h-12 px-3 rounded-2xl text-sm font-bold flex items-center gap-1.5 ${metro ? 'bg-white text-[#141a24]' : 'bg-white/10'}`}><span aria-hidden className="text-lg">🥁</span>{tx.metronome}</button>
-        <span className="ml-auto font-extrabold tabular-nums" aria-label="stars">⭐ {stars}</span>
+        <span className="ms-auto font-extrabold tabular-nums" aria-label="stars">⭐ {stars}</span>
       </div>
       <div className="h-1.5 mx-3 rounded-full bg-white/10 overflow-hidden"><div ref={bar} className="h-full bg-[#7FC8C1]" style={{ width: 0 }} /></div>
       <div className="relative flex-1 overflow-hidden mx-3">
         {/* Faint lane guides and beat lines move with the music. */}
         <div className="absolute inset-0 flex">{lanes.map((m) => <div key={m} className="flex-1 border-x border-white/[0.04]" />)}</div>
-        <div ref={track} className="absolute left-0 right-0 bottom-0 h-0 will-change-transform">
-          {Array.from({ length: Math.ceil(total) + 1 }, (_, b) => <div key={'b' + b} className="absolute left-0 right-0 h-px" style={{ bottom: b * PPB, background: b % song.bar === 0 ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)' }} />)}
+        <div ref={track} className="absolute start-0 end-0 bottom-0 h-0 will-change-transform">
+          {Array.from({ length: Math.ceil(total) + 1 }, (_, b) => <div key={'b' + b} className="absolute start-0 end-0 h-px" style={{ bottom: b * PPB, background: b % song.bar === 0 ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)' }} />)}
           {song.notes.map((n, i) => {
             const li = lanes.indexOf(n.m); const c = HUES[li % HUES.length];
             return <div key={i} ref={(el) => { tiles.current[i] = el; }} className="song-tile absolute rounded-2xl flex items-end justify-center pb-1 text-[11px] font-extrabold text-[#141a24]/70"
@@ -159,7 +159,7 @@ export function SongTiles({ vol }: { vol: number }) {
             </div>;
           })}
         </div>
-        <div className="absolute left-0 right-0 bottom-0 h-1 bg-white/60 rounded" />
+        <div className="absolute start-0 end-0 bottom-0 h-1 bg-white/60 rounded" />
         <p ref={count} className="absolute inset-x-0 top-1/3 text-center text-7xl font-extrabold opacity-80" aria-hidden />
         {say && <p key={say.k} className="absolute inset-x-0 bottom-8 text-center text-2xl font-extrabold pointer-events-none" style={{ color: say.t === tx.perfect ? '#F4C430' : '#9FB0E3', animation: 'sayUp 0.8s ease-out forwards' }} aria-hidden>{say.t}</p>}
       </div>
@@ -219,7 +219,7 @@ function Recorder({ vol, onSave, onCancel }: { vol: number; onSave: (s: Song) =>
   const ww = 100 / whites.length;
   return (
     <div className="absolute inset-0 flex flex-col bg-[#1d2430] text-white p-3 pt-4 gap-3 select-none">
-      <div className="pr-24 flex items-center gap-2">
+      <div className="pe-24 flex items-center gap-2">
         <button className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center shrink-0" aria-label={tx.chooseSong} onClick={onCancel}><ListMusic aria-hidden /></button>
         <h2 className="text-xl font-extrabold">{tx.makeSong}</h2>
       </div>

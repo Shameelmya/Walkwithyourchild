@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ChevronRight, StickyNote, Link2 } from 'lucide-react';
+import { StickyNote, Link2 } from 'lucide-react';
+import { ChevronRight } from '../../components/icons';
 import { useT } from '../../i18n';
 import { Page } from '../../components/ui';
 import { workbook, loc } from '../../lib/content';

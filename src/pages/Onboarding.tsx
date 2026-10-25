@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, Download, Camera, BookOpen, NotebookPen, HeartHandshake, ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { ShieldCheck, Download, Camera, BookOpen, NotebookPen, HeartHandshake, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from '../components/icons';
 import { useT } from '../i18n';
 import { LANGS, useUI } from '../lib/store';
 import { meta } from '../lib/content';
@@ -57,7 +58,7 @@ export default function Onboarding() {
       </div>
       <div className="grid gap-3 pb-10">
         {LANGS.map((l) => (
-          <button key={l.v} lang={l.v} onClick={() => { setLang(l.v); next(); }} className={cx('flex items-center gap-4 h-16 px-5 rounded-2xl bg-surface border text-left transition duration-300 active:scale-[0.98]', lang === l.v ? 'border-[rgb(var(--accent))]' : 'border-line/70')}>
+          <button key={l.v} lang={l.v} onClick={() => { setLang(l.v); next(); }} className={cx('flex items-center gap-4 h-16 px-5 rounded-2xl bg-surface border text-start transition duration-300 active:scale-[0.98]', lang === l.v ? 'border-[rgb(var(--accent))]' : 'border-line/70')}>
             <span className="flex-1 text-lg font-semibold">{l.native}</span>
             {lang === l.v ? <Check size={20} className="text-[rgb(var(--accent))]" aria-hidden /> : <ArrowRight size={18} className="text-muted" aria-hidden />}
           </button>

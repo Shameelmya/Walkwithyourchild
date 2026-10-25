@@ -48,10 +48,10 @@ function Timeline() {
         {kinds.map((k) => <button key={k} aria-pressed={filter === k} className={cx('chip shrink-0', filter === k && 'chip-on')} onClick={() => setFilter(k)}>{t((k === 'all' ? 'all' : k === 'seizures' ? 'navSeizures' : k === 'visits' ? 'navVisits' : k === 'progress' ? 'navProgress' : KINDS[k as Kind].label) as TKey)}</button>)}
       </div>
       {!shown.length ? <Empty kind="doc" title={t('nothingYet')} text={t('recordsEmptyText')} /> : (
-        <ol className="relative border-l-2 border-line ml-3 grid gap-3">
+        <ol className="relative border-s-2 border-line ms-3 grid gap-3">
           {shown.map((i, n) => (
-            <li key={n} className="ml-5 relative">
-              <span className="absolute -left-[29px] top-4 w-4 h-4 rounded-full border-4 border-bg" style={{ background: i.color }} aria-hidden />
+            <li key={n} className="ms-5 relative">
+              <span className="absolute -start-[29px] top-4 w-4 h-4 rounded-full border-4 border-bg" style={{ background: i.color }} aria-hidden />
               <Link to={i.to} className="card block p-3 hover:bg-surface2">
                 <p className="text-xs font-extrabold" style={{ color: i.color }}>{fmtDate(i.date, lang)} · {t((i.kind === 'seizures' ? 'navSeizures' : i.kind === 'visits' ? 'navVisits' : i.kind === 'progress' ? 'navProgress' : KINDS[i.kind as Kind].label) as TKey)}</p>
                 <p className="font-bold">{i.title}</p>{i.sub && <p className="text-sm text-muted line-clamp-2">{i.sub}</p>}

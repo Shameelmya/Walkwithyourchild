@@ -22,7 +22,7 @@ const Html = ({ html, className }: { html: string; className?: string }) => <div
 function Checklist({ items, chapter, index }: { items: string[]; chapter: string; index: number }) {
   const state = useLiveQuery(() => db.checklists.where('chapter').equals(chapter).toArray(), [chapter]) ?? [];
   return (
-    <ul className="my-4 grid gap-2 list-none !pl-0">
+    <ul className="my-4 grid gap-2 list-none !ps-0">
       {items.map((h, i) => {
         const id = `${chapter}:${index}:${i}`;
         const on = state.find((s) => s.id === id)?.checked ?? false;
@@ -54,7 +54,7 @@ function AskBox({ b, label }: { b: Extract<Block, { t: 'callout' }>; label: stri
   return (
     <aside className="callout my-5 rounded-2xl p-4 bg-[var(--pt)] font-ui" aria-label={label}>
       <p className="flex items-center gap-2 font-extrabold text-[var(--pc)] mb-2 font-head"><HelpCircle size={20} aria-hidden /> {label}</p>
-      <ul className="grid gap-2 list-none !pl-0 !m-0">
+      <ul className="grid gap-2 list-none !ps-0 !m-0">
         {(b.questions ?? []).map((x, i) => (
           <li key={i} className="!m-0 bg-surface rounded-xl p-3 flex flex-col sm:flex-row sm:items-center gap-2">
             <span className="flex-1 font-read">“{x}”</span>
@@ -105,7 +105,7 @@ export const BlockView = memo(function BlockView({ b, chapter, index }: { b: Blo
         </aside>
       );
     case 'soft':
-      return <aside className="callout my-5 border-l-4 border-[var(--ur)] pl-4 py-1"><Html html={b.html} /></aside>;
+      return <aside className="callout my-5 border-s-4 border-[var(--ur)] ps-4 py-1"><Html html={b.html} /></aside>;
     case 'note':
       return <aside className="callout my-5 text-sm text-muted flex gap-2"><Info size={16} className="shrink-0 mt-1" aria-hidden /><Html html={b.html} /></aside>;
     default:
