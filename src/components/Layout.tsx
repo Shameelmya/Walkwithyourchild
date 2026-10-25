@@ -75,7 +75,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const reader = /^\/book\/(?!search|bookmarks)/.test(loc.pathname);
   return (
     <div className="min-h-screen lg:flex">
-      <aside className={cx('hidden w-72 shrink-0 h-screen sticky top-0 bg-surface border-r border-line/60', !reader && 'lg:flex lg:flex-col')}>
+      <aside className={cx('hidden w-72 shrink-0 h-screen sticky top-0 bg-surface border-e border-line/60', !reader && 'lg:flex lg:flex-col')}>
         <div className="px-5 pt-5 pb-3">
           <p className="font-display text-xl font-bold leading-tight">{meta.appTitle[lang]}</p>
           <PathMotif height={34} filled={1} />
@@ -101,7 +101,7 @@ export function Layout({ children }: { children: ReactNode }) {
       {dp.mounted && (
         <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label={t('openMenu')}>
           <div className={cx('absolute inset-0 bg-black/30 backdrop-blur-md', dp.closing ? 'anim-fade-out' : 'anim-fade')} onClick={() => setDrawer(false)} />
-          <div className={cx('absolute inset-y-0 left-0 w-[86%] max-w-sm bg-surface shadow-2xl flex flex-col rounded-r-[28px]', dp.closing ? 'anim-drawer-out' : 'anim-drawer')}>
+          <div className={cx('absolute inset-y-0 start-0 w-[86%] max-w-sm bg-surface shadow-2xl flex flex-col rounded-e-[28px]', dp.closing ? 'anim-drawer-out' : 'anim-drawer')}>
             <div className="flex items-center gap-2 px-4 pt-4 pb-2">
               <p className="flex-1 font-display text-lg font-bold leading-tight">{meta.appTitle[lang]}</p>
               <button className="icon-btn" onClick={() => setDrawer(false)} aria-label={t('close')}><X /></button>

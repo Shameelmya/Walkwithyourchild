@@ -34,7 +34,7 @@ export default function Medicines() {
     <Page>
       <PageHeader title={t('navMedicines')} />
       {perm === 'default' && (
-        <button className="card w-full p-3 mb-4 flex items-center gap-3 text-left" onClick={async () => setPerm(await Notification.requestPermission())}>
+        <button className="card w-full p-3 mb-4 flex items-center gap-3 text-start" onClick={async () => setPerm(await Notification.requestPermission())}>
           <Bell className="text-accent" aria-hidden /><span className="flex-1"><b>{t('enableReminders')}</b><br /><span className="text-sm text-muted">{t('remindersHonest')}</span></span>
         </button>
       )}

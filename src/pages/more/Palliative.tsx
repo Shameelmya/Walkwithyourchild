@@ -41,8 +41,8 @@ export default function Palliative() {
           <select className="input" value={st} onChange={(e) => { setSt(e.target.value); setD(''); try { localStorage.setItem(KEY, e.target.value); } catch { /* */ } }}>{STATES.map((s) => <option key={s}>{s}</option>)}</select></label>
         {districts.length > 0 && <label><span className="label">{L('district')}</span>
           <select className="input" value={d} onChange={(e) => setD(e.target.value)}><option value="">{L('allDistricts')}</option>{districts.map((x) => <option key={x}>{x}</option>)}</select></label>}
-        <label className="relative"><span className="sr-only">{L('searchCentres')}</span><Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" aria-hidden />
-          <input className="input !pl-10" type="search" placeholder={L('searchCentres')} value={q} onChange={(e) => setQ(e.target.value)} /></label>
+        <label className="relative"><span className="sr-only">{L('searchCentres')}</span><Search size={18} className="absolute start-3 top-1/2 -translate-y-1/2 text-muted" aria-hidden />
+          <input className="input !ps-10" type="search" placeholder={L('searchCentres')} value={q} onChange={(e) => setQ(e.target.value)} /></label>
       </div>
       <p className="text-sm font-bold text-muted mb-2" aria-live="polite">{L('nCentres', { n: shown.length })}</p>
       <ul className="grid gap-2.5 mb-6">

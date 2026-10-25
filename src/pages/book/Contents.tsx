@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Search, Bookmark, Check, ArrowRight } from 'lucide-react';
+import { Search, Bookmark, Check } from 'lucide-react';
+import { ArrowRight } from '../../components/icons';
 import { useT } from '../../i18n';
 import { Page } from '../../components/ui';
 import { PathMotif } from '../../components/Path';
@@ -35,7 +36,7 @@ export function TocList({ current, onPick }: { current?: string; onPick?: () => 
                     <Link to={`/book/${c.id}?b=0`} onClick={onPick} aria-current={current === c.id ? 'page' : undefined} className={cx('flex items-center gap-3 p-3 rounded-2xl min-h-[60px] transition hover:bg-surface2', current === c.id && 'bg-[var(--pt)]')}>
                       <span className="w-11 h-11 rounded-2xl flex items-center justify-center font-extrabold shrink-0 bg-[var(--pt)] text-[var(--pc)]">{pct >= 0.98 ? <Check size={18} /> : c.id === 'appendix' ? '✦' : c.n}</span>
                       <span className="flex-1 min-w-0"><span className="block font-bold leading-snug">{loc(c.title, lang)}</span>
-                        <span className="flex items-center gap-2 mt-1.5" aria-hidden><span className="flex-1 h-1.5 rounded-full bg-line/60 overflow-hidden"><span className="block h-full rounded-full" style={{ width: `${pct * 100}%`, background: 'var(--pc)' }} /></span><span className="text-[0.7rem] font-bold text-muted w-8 text-right">{Math.round(pct * 100)}%</span></span></span>
+                        <span className="flex items-center gap-2 mt-1.5" aria-hidden><span className="flex-1 h-1.5 rounded-full bg-line/60 overflow-hidden"><span className="block h-full rounded-full" style={{ width: `${pct * 100}%`, background: 'var(--pc)' }} /></span><span className="text-[0.7rem] font-bold text-muted w-8 text-end">{Math.round(pct * 100)}%</span></span></span>
                     </Link>
                   </li>
                 );

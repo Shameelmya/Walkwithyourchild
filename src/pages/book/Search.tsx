@@ -25,8 +25,8 @@ export default function Search() {
     <Page>
       <PageHeader title={t('searchBook')} back="/book" />
       <div className="relative mb-4">
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" aria-hidden />
-        <input autoFocus type="search" className="input pl-11" placeholder={t('searchPlaceholder')} aria-label={t('search')} value={q} onChange={(e) => setQ(e.target.value)} />
+        <SearchIcon className="absolute start-3 top-1/2 -translate-y-1/2 text-muted" aria-hidden />
+        <input autoFocus type="search" className="input ps-11" placeholder={t('searchPlaceholder')} aria-label={t('search')} value={q} onChange={(e) => setQ(e.target.value)} />
       </div>
       {q.trim().length >= 2 && !results.length && <Empty kind="book" title={t('noResults')} />}
       <p className="sr-only" aria-live="polite">{results.length ? t('resultsCount', { n: results.length }) : ''}</p>

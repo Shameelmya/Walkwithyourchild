@@ -38,7 +38,7 @@ export function Eggs({ vol }: { vol: number }) {
   );
 }
 export function Score({ e, n }: { e: string; n: number }) {
-  return <p className="absolute top-4 left-4 z-10 px-4 h-12 rounded-full bg-white/80 shadow-card flex items-center gap-2 text-xl font-extrabold text-[#2a2f3a] tabular-nums" aria-live="polite"><span aria-hidden>{e}</span>{n}</p>;
+  return <p className="absolute top-4 start-4 z-10 px-4 h-12 rounded-full bg-white/80 shadow-card flex items-center gap-2 text-xl font-extrabold text-[#2a2f3a] tabular-nums" aria-live="polite"><span aria-hidden>{e}</span>{n}</p>;
 }
 
 const FRUIT = ['🍎', '🍌', '🍇', '🍓', '🍊', '🥭', '🍉', '🍍', '🍒'];

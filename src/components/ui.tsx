@@ -2,7 +2,8 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { create } from 'zustand';
-import { ArrowLeft, X, User, Check } from 'lucide-react';
+import { X, User, Check } from 'lucide-react';
+import { ArrowLeft } from './icons';
 import { useT, type TKey } from '../i18n';
 import { Illus } from './Illus';
 import { useBlobUrl, usePresence } from '../lib/hooks';
@@ -87,9 +88,9 @@ export function Toaster() {
   return (
     <div aria-live="polite" className="fixed left-1/2 -translate-x-1/2 top-[max(12px,env(safe-area-inset-top))] z-[80] pointer-events-none">
       {msg && (
-        <div className="anim-zoom origin-top glass-panel border border-line/60 rounded-full pl-3 pr-1.5 py-1.5 min-h-[44px] text-sm font-semibold text-ink shadow-lift max-w-[92vw] flex items-center gap-2 pointer-events-auto">
+        <div className="anim-zoom origin-top glass-panel border border-line/60 rounded-full ps-3 pe-1.5 py-1.5 min-h-[44px] text-sm font-semibold text-ink shadow-lift max-w-[92vw] flex items-center gap-2 pointer-events-auto">
           <span className="w-6 h-6 rounded-full bg-[rgb(var(--accent))] text-onaccent flex items-center justify-center shrink-0"><Check size={14} aria-hidden /></span>
-          <span className="pr-2">{msg}</span>
+          <span className="pe-2">{msg}</span>
           {action && <button className="rounded-full bg-soft text-[rgb(var(--accent))] px-3 min-h-[34px] font-bold" onClick={() => { useToast.setState({ msg: null }); nav(action.to); }}>{action.label}</button>}
         </div>
       )}
@@ -204,7 +205,7 @@ export function BottomBar({ children, bare = false }: { children: ReactNode; bar
   return (
     <>
       <div aria-hidden className={cx('lg:hidden', bare ? 'h-28' : 'h-24')} />
-      <div className={cx('fixed inset-x-0 z-30 px-4 pt-6 pointer-events-none', bare ? 'bottom-0 pb-[max(16px,env(safe-area-inset-bottom))]' : 'bottom-[88px] pb-2 lg:bottom-0 lg:pb-6 lg:left-72')}
+      <div className={cx('fixed inset-x-0 z-30 px-4 pt-6 pointer-events-none', bare ? 'bottom-0 pb-[max(16px,env(safe-area-inset-bottom))]' : 'bottom-[88px] pb-2 lg:bottom-0 lg:pb-6 lg:start-72')}
         style={{ background: 'linear-gradient(to top, rgb(var(--bg)) 55%, rgb(var(--bg) / 0))' }}>
         <div className="mx-auto max-w-3xl flex gap-2 pointer-events-auto">{children}</div>
       </div>

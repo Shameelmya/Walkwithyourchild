@@ -23,7 +23,7 @@ export default function Notes() {
       {!notes.length ? <Empty kind="leaf" title={t('noNotes')} text={t('noNotesText')} /> : (
         <ul className="grid sm:grid-cols-2 gap-3">
           {notes.map((n) => (
-            <li key={n.id}><button className="card p-4 w-full text-left min-h-[96px]" onClick={() => setEdit(n)}>
+            <li key={n.id}><button className="card p-4 w-full text-start min-h-[96px]" onClick={() => setEdit(n)}>
               <p className="font-extrabold line-clamp-1">{n.title || t('untitled')}</p>
               <p className="text-muted line-clamp-3 whitespace-pre-wrap">{n.body}</p>
               <p className="text-xs text-muted mt-2">{fmtDate(n.updatedAt, lang)}</p>

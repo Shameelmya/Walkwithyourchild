@@ -131,7 +131,7 @@ function PlayRun({ x, onClose, onDone }: { x: Exercise; onClose: () => void; onD
     switch (x.theme) {
       case 'rocket': return <><span className="absolute left-1/2 text-[5.5rem] transition-all duration-500 ease-out" style={{ bottom: `${6 + p * 70}%`, transform: 'translateX(-50%)' }}>🚀</span><span className="absolute top-[6%] left-1/2 -translate-x-1/2 text-6xl">🌙</span></>;
       case 'flower': return <span className="absolute left-1/2 bottom-[8%] -translate-x-1/2 transition-all duration-500 leading-none" style={{ fontSize: `${4 + p * 6}rem` }}>{p < 0.4 ? '🌱' : p < 1 ? '🌷' : '🌻'}</span>;
-      case 'turtle': return <><span className="absolute bottom-[30%] text-[4.5rem] transition-all duration-500" style={{ left: `${4 + p * 66}%` }}>🐢</span><span className="absolute bottom-[30%] right-[4%] text-6xl">🏁</span></>;
+      case 'turtle': return <><span className="absolute bottom-[30%] text-[4.5rem] transition-all duration-500" style={{ left: `${4 + p * 66}%` }}>🐢</span><span className="absolute bottom-[30%] end-[4%] text-6xl">🏁</span></>;
       default: return finished ? <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem]">🎉</span> : <span className="absolute left-1/2 top-[45%] transition-transform duration-500 leading-none" style={{ fontSize: '6rem', transform: `translate(-50%,-50%) scale(${0.5 + p * 1.3})` }}>🎈</span>;
     }
   };

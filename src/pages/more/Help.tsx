@@ -58,7 +58,7 @@ export default function Help() {
           {mine.length === 0 && <li className="p-4 text-sm text-muted">{L('empty')}</li>}
           {mine.map((c) => (
             <li key={c.id} className="flex items-center gap-3 p-3 min-h-[60px]">
-              <button className="flex-1 min-w-0 text-left" onClick={() => setEdit(c)}><b className="block truncate">{c.name}</b>{c.what && <span className="block text-sm text-muted line-clamp-2">{c.what}</span>}</button>
+              <button className="flex-1 min-w-0 text-start" onClick={() => setEdit(c)}><b className="block truncate">{c.name}</b>{c.what && <span className="block text-sm text-muted line-clamp-2">{c.what}</span>}</button>
               {c.phone && <a className="icon-chip shrink-0" href={`tel:${c.phone.replace(/[^\d+]/g, '')}`} aria-label={`${L('call')} ${c.name}`}><Phone size={18} /></a>}
             </li>
           ))}

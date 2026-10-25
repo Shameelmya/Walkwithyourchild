@@ -37,7 +37,7 @@ function useNoZoom() {
 export function Sideways({ children }: { children: React.ReactNode }) {
   const portrait = usePortrait();
   return (
-    <div className="absolute top-0 left-0 overflow-hidden touch-none select-none" onContextMenu={(e) => e.preventDefault()}
+    <div className="absolute top-0 start-0 overflow-hidden touch-none select-none" onContextMenu={(e) => e.preventDefault()}
       style={portrait ? { width: '100vh', height: '100vw', transform: 'rotate(90deg) translateY(-100%)', transformOrigin: 'top left', WebkitTouchCallout: 'none' } : { width: '100vw', height: '100vh', WebkitTouchCallout: 'none' }}>
       {/* The leave button sits in the phone's top-right corner: the top-left here when turned. */}
       <div className="w-full h-full flex flex-col" data-portrait={portrait || undefined}>{children}</div>
@@ -67,7 +67,7 @@ export function Piano({ vol }: { vol: number }) {
   const ww = 100 / whites.length;
   return (
     <Sideways>
-      <div className={`flex items-center gap-2 p-2 bg-[#1d2430] ${portrait ? 'pl-24' : 'pr-24'}`}>
+      <div className={`flex items-center gap-2 p-2 bg-[#1d2430] ${portrait ? 'ps-24' : 'pe-24'}`}>
         <div className="flex gap-1.5 overflow-x-auto no-scrollbar flex-1" role="radiogroup" aria-label="instrument">
           {INSTS.map((i) => (
             <button key={i.v} role="radio" aria-checked={inst === i.v} onClick={() => { setInst(i.v); const s = hold(midi(base + 12), i.v, vol * 0.7); setTimeout(s, 500); }}

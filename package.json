@@ -16,6 +16,7 @@
   "dependencies": {
     "@fontsource/google-sans": "^5.3.2",
     "@fontsource/manjari": "^5.3.0",
+    "@fontsource/noto-nastaliq-urdu": "^5.3.0",
     "@fontsource/noto-sans-bengali": "^5.3.0",
     "@fontsource/noto-sans-kannada": "^5.3.0",
     "@fontsource/noto-sans-malayalam": "^5.3.0",

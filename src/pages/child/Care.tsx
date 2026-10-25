@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Phone, Play, Square, ChevronRight, NotebookPen, Timer, PenLine, Trash2, BookOpen } from 'lucide-react';
+import { Phone, Play, Square, NotebookPen, Timer, PenLine, Trash2, BookOpen } from 'lucide-react';
+import { ChevronRight } from '../../components/icons';
 import { useT } from '../../i18n';
 import { Page, PageHeader, useWakeLock } from '../../components/ui';
 import { BlockView } from '../../components/Blocks';

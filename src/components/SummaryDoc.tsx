@@ -68,10 +68,10 @@ export function SummaryDoc({ d, lang }: { d: SummaryData; lang: Lang }) {
         <tr><td>{T('rescueGivenTimes')}</td><td>{s30.rescue}</td><td>{s90.rescue}</td></tr>
       </tbody></table>
       <H>{T('recentChanges')}</H>
-      {changes.length ? <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13 }}>{changes.map((s) => <li key={s}><b>{T(scaleName(s))}:</b> {T(scaleLabel(s, first.scores[s]!))} ({fmtDate(first.date, lang)}) → {T(scaleLabel(s, last.scores[s]!))} ({fmtDate(last.date, lang)})</li>)}</ul> : <p style={{ fontSize: 13 }}>{T('noRecentChanges')}</p>}
+      {changes.length ? <ul style={{ margin: 0, paddingInlineStart: 18, fontSize: 13 }}>{changes.map((s) => <li key={s}><b>{T(scaleName(s))}:</b> {T(scaleLabel(s, first.scores[s]!))} ({fmtDate(first.date, lang)}) → {T(scaleLabel(s, last.scores[s]!))} ({fmtDate(last.date, lang)})</li>)}</ul> : <p style={{ fontSize: 13 }}>{T('noRecentChanges')}</p>}
       {last?.notes && <p style={{ fontSize: 13 }}><b>{T('notes')}:</b> {last.notes}</p>}
       <H>{T('openQuestions')}</H>
-      {d.questions.length ? <ol style={{ margin: 0, paddingLeft: 18, fontSize: 13 }}>{d.questions.map((q, i) => <li key={i}>{q}</li>)}</ol> : <p style={{ fontSize: 13 }}>—</p>}
+      {d.questions.length ? <ol style={{ margin: 0, paddingInlineStart: 18, fontSize: 13 }}>{d.questions.map((q, i) => <li key={i}>{q}</li>)}</ol> : <p style={{ fontSize: 13 }}>—</p>}
       <H>{T('emergencyPlan')}</H>
       <table><tbody>{f6.map((f) => <tr key={f.id}><td style={{ width: '34%', fontWeight: 700, background: '#faf6ef' }}>{lab(f6, f.id)}</td><td style={{ whiteSpace: 'pre-wrap' }}>{d.card[f.id] ?? ''}</td></tr>)}</tbody></table>
     </A4>

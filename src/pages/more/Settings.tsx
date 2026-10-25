@@ -213,7 +213,7 @@ export default function Settings() {
       <Section title={t('display')}><div className="card p-4"><DisplaySettings /></div></Section>
       <Section title={t('childProfiles')}>
         <ul className="card divide-y divide-line/60">
-          {kids.map((k) => <li key={k.id}><button className="w-full flex items-center gap-3 p-3 min-h-[56px]" onClick={() => { setActive(k.id!); nav('/child/profile'); }}><Avatar blobId={k.photoBlobId} name={k.name} size={40} /><span className="flex-1 text-left font-bold">{k.name}</span>{k.id === childId && <span className="chip chip-on !min-h-[28px] text-xs">{t('active')}</span>}</button></li>)}
+          {kids.map((k) => <li key={k.id}><button className="w-full flex items-center gap-3 p-3 min-h-[56px]" onClick={() => { setActive(k.id!); nav('/child/profile'); }}><Avatar blobId={k.photoBlobId} name={k.name} size={40} /><span className="flex-1 text-start font-bold">{k.name}</span>{k.id === childId && <span className="chip chip-on !min-h-[28px] text-xs">{t('active')}</span>}</button></li>)}
         </ul>
         <button className="btn-ghost mt-2" onClick={() => nav('/child/profile?new=1')}><Plus size={18} aria-hidden /> {t('addChild')}</button>
       </Section>
@@ -229,7 +229,7 @@ export default function Settings() {
           <label className="flex items-center gap-3 min-h-[48px]"><input type="checkbox" className="w-6 h-6 accent-[rgb(var(--accent))]" checked={!!reminders} onChange={(e) => setSetting('reminders', e.target.checked)} /><Bell size={18} aria-hidden /> {t('inAppReminders')}</label>
           {perm !== 'granted' && 'Notification' in window && <button className="btn-ghost justify-self-start" onClick={async () => setPerm(await Notification.requestPermission())}>{t('allowNotifications')}</button>}
           {perm === 'denied' && <p className="text-sm text-muted">{t('notificationsBlocked')}</p>}
-          <p className="text-sm p-3 rounded-xl bg-soft"><Info size={16} className="inline mr-1" aria-hidden />{t('remindersHonest')}</p>
+          <p className="text-sm p-3 rounded-xl bg-soft"><Info size={16} className="inline me-1" aria-hidden />{t('remindersHonest')}</p>
         </div>
       </Section>
       <Section title={t('backupRestore')}><Backup /></Section>

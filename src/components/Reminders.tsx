@@ -43,9 +43,9 @@ export function Reminders() {
   if (!due.length) return null;
   const s = due[0];
   return (
-    <div role="alert" className="fixed z-[45] left-3 right-3 top-16 lg:top-4 lg:left-auto lg:right-6 lg:w-[26rem] card p-3 flex items-center gap-3 anim-in border-accent/40">
+    <div role="alert" className="fixed z-[45] start-3 end-3 top-16 lg:top-4 lg:start-auto lg:end-6 lg:w-[26rem] card p-3 flex items-center gap-3 anim-in border-accent/40">
       <BellRing className="text-accent shrink-0" aria-hidden />
-      <button className="flex-1 text-left min-w-0" onClick={() => nav('/medicines')}>
+      <button className="flex-1 text-start min-w-0" onClick={() => nav('/medicines')}>
         <p className="font-extrabold truncate">{s.med.name} · {s.time}</p>
         <p className="text-sm text-muted truncate">{s.med.dose}{due.length > 1 ? ` · +${due.length - 1}` : ''}</p>
       </button>

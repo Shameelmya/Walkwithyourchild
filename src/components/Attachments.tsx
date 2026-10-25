@@ -16,7 +16,7 @@ export function Thumb({ id, onRemove }: { id: number; onRemove?: () => void }) {
       <a href={url} target="_blank" rel="noreferrer" className="block w-full h-full" aria-label={rec?.name || 'file'}>
         {isImg && url ? <img src={url} alt="" className="w-full h-full object-cover" /> : <span className="flex w-full h-full items-center justify-center"><FileText aria-hidden /></span>}
       </a>
-      {onRemove && <button className="absolute top-0 right-0 bg-black/60 text-white rounded-bl-lg w-7 h-7 flex items-center justify-center" onClick={onRemove} aria-label="remove"><X size={16} /></button>}
+      {onRemove && <button className="absolute top-0 end-0 bg-black/60 text-white rounded-bl-lg w-7 h-7 flex items-center justify-center" onClick={onRemove} aria-label="remove"><X size={16} /></button>}
     </div>
   );
 }

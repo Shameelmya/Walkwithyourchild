@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine, Siren } from 'lucide-react';
+import { Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine, Siren } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from '../../components/icons';
 import { useT } from '../../i18n';
 import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/content';
 import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
@@ -38,7 +39,7 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
   useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open, onClose]);
   if (!mounted) return null;
   return (
-    <div role="dialog" aria-label={t('readingSettings')} style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 right-4 left-4 sm:left-auto sm:w-[21rem] bottom-[6rem] lg:right-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right [&_svg]:w-[1.1rem] [&_svg]:h-[1.1rem]', closing ? 'anim-zoom-out' : 'anim-zoom')}>
+    <div role="dialog" aria-label={t('readingSettings')} style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 end-4 start-4 sm:start-auto sm:w-[21rem] bottom-[6rem] lg:end-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right [&_svg]:w-[1.1rem] [&_svg]:h-[1.1rem]', closing ? 'anim-zoom-out' : 'anim-zoom')}>
       <div className="grid gap-5">
         <div>
           <p className="label flex items-center gap-1.5"><Sun size={14} aria-hidden /> {t('screenLight')}</p>
@@ -203,20 +204,20 @@ export default function Reader() {
               {book?.fallback && <p className="card !rounded-2xl p-4 mb-6 text-[0.95rem] font-ui flex gap-3"><Info size={18} className="shrink-0 mt-1 text-[rgb(var(--accent))]" aria-hidden />{t('bookNotTranslated')}</p>}
               {ch.blocks.map((b, i) => (
                 <div key={i} data-b={i} className="scroll-mt-[90px] relative">
-                  {marks.has(i) && <span className="absolute -left-4 top-1 w-1.5 h-6 rounded-full bg-[rgb(var(--accent))]" title={meta.reader.bookmark[lang]} aria-label={meta.reader.bookmark[lang]} />}
+                  {marks.has(i) && <span className="absolute -start-4 top-1 w-1.5 h-6 rounded-full bg-[rgb(var(--accent))]" title={meta.reader.bookmark[lang]} aria-label={meta.reader.bookmark[lang]} />}
                   <BlockView b={b} chapter={chapter} index={i} />
                 </div>
               ))}
               <nav className="grid sm:grid-cols-2 gap-3 mt-14 font-ui" aria-label={t('chapterNav')}>
-                {prev ? <button className="card p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`, { replace: true })}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
-                {next ? <button className="tile t-blue !p-4 text-left flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`, { replace: true })}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
+                {prev ? <button className="card p-4 text-start flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${prev.id}?b=0`, { replace: true })}><ArrowLeft className="shrink-0 text-muted" aria-hidden /><span className="min-w-0"><span className="eyebrow block">{t('previous')}</span><b className="line-clamp-2">{loc(prev.title, lang)}</b></span></button> : <span />}
+                {next ? <button className="tile t-blue !p-4 text-start flex items-center gap-3 min-w-0" onClick={() => nav(`/book/${next.id}?b=0`, { replace: true })}><span className="min-w-0 flex-1 relative z-[1]"><span className="text-[0.78rem] font-bold opacity-90 block">{t('nextChapter')}</span><b className="line-clamp-2">{loc(next.title, lang)}</b></span><ArrowRight className="shrink-0 relative z-[1]" aria-hidden /></button> : <span />}
               </nav>
             </article>
           )}
         </main>
       </div>
       <button onClick={() => setPanel(!panel)} aria-expanded={panel} aria-label={t('readingSettings')}
-        style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 right-4 bottom-6 lg:right-6 w-14 h-14 rounded-full shadow-lift glass-panel border border-line/60 flex items-center justify-center transition duration-300 active:scale-90', panel ? 'text-ink' : 'text-[rgb(var(--accent))]')}>
+        style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 end-4 bottom-6 lg:end-6 w-14 h-14 rounded-full shadow-lift glass-panel border border-line/60 flex items-center justify-center transition duration-300 active:scale-90', panel ? 'text-ink' : 'text-[rgb(var(--accent))]')}>
         <span className="relative w-6 h-6" aria-hidden>
           <PenLine size={24} className={cx('w-6 h-6 absolute inset-0 transition duration-300', panel ? 'opacity-0 rotate-90 scale-50' : 'opacity-100')} />
           <X size={24} className={cx('w-6 h-6 absolute inset-0 transition duration-300', panel ? 'opacity-100' : 'opacity-0 -rotate-90 scale-50')} />

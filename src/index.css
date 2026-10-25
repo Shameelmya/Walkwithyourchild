@@ -71,14 +71,14 @@ h1, h2, h3, .font-head { font-family: theme('fontFamily.head'); }
 .prose-read { font-family: theme('fontFamily.read'); font-size: 1.125rem; line-height: 1.68; max-width: 68ch; }
 :is(html[lang='ml'], html[lang='kn'], html[lang='ta'], html[lang='te'], html[lang='bn']) .prose-read { line-height: 1.85; font-size: 1.06rem; }
 .prose-read p { margin: 0 0 1em; }
-.prose-read ul, .prose-read ol { margin: 0 0 1em; padding-left: 1.4em; }
+.prose-read ul, .prose-read ol { margin: 0 0 1em; padding-inline-start: 1.4em; }
 .prose-read ul { list-style: disc; } .prose-read ol { list-style: decimal; }
 .prose-read li { margin: 0.35em 0; }
 .prose-read li::marker { color: var(--pc, rgb(var(--accent))); font-weight: 700; }
 .prose-read strong { font-weight: 700; }
 .prose-read h3 { font-family: theme('fontFamily.head'); color: var(--pc); font-size: 1.3rem; font-weight: 800; margin: 1.6em 0 0.6em; }
 .prose-read table { width: 100%; border-collapse: collapse; font-size: 0.95em; margin: 0 0 1em; display: block; overflow-x: auto; }
-.prose-read th, .prose-read td { border: 1px solid rgb(var(--border)); padding: 0.5em 0.6em; text-align: left; vertical-align: top; }
+.prose-read th, .prose-read td { border: 1px solid rgb(var(--border)); padding: 0.5em 0.6em; text-align: start; vertical-align: top; }
 .prose-read th { background: var(--pt); }
 .prose-read hr { border: 0; border-top: 1px solid rgb(var(--border)); margin: 1.5em 0; }
 .callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
@@ -118,7 +118,7 @@ a, button { transition-timing-function: var(--ease); }
 .a4 { width: 794px; min-height: 1123px; background: #fff; color: #222; padding: 48px 52px; box-sizing: border-box; font-family: theme('fontFamily.ui'); line-height: 1.5; }
 .a4[lang='ml'], .a4[lang='kn'] { line-height: 1.75; }
 .a4 table { width: 100%; border-collapse: collapse; }
-.a4 th, .a4 td { border: 1px solid #bbb; padding: 6px 8px; vertical-align: top; text-align: left; font-size: 13px; }
+.a4 th, .a4 td { border: 1px solid #bbb; padding: 6px 8px; vertical-align: top; text-align: start; font-size: 13px; }
 .a4 td { height: 34px; }
 @media print {
   @page { size: A4; margin: 0; }
@@ -177,4 +177,16 @@ html:not([lang="en"]) .text-\[1\.05rem\] { font-size: 0.98rem; }
 }
 html:not([lang="en"]) :is(h1, h2, h3, .font-display, .tile, .card) { overflow-wrap: anywhere; }
 .care-book > :first-child, .care-book > :first-child > :first-child { margin-top: 0 !important; padding-top: 0 !important; }
-.prose-step strong { font-weight: 800; } .prose-step ul { list-style: disc; padding-left: 1.2rem; text-align: left; } .prose-step p + p { margin-top: .5rem; }
+.prose-step strong { font-weight: 800; } .prose-step ul { list-style: disc; padding-inline-start: 1.2rem; text-align: start; } .prose-step p + p { margin-top: .5rem; }
+
+/* Right-to-left languages (Urdu): arrows and chevrons point the other way, the side drawer slides in from the right. */
+[dir='rtl'] .rtl-flip { scale: -1 1; }
+@keyframes drawerInRtl { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes drawerOutRtl { from { transform: none; } to { transform: translateX(100%); } }
+[dir='rtl'] .anim-drawer { animation-name: drawerInRtl; } [dir='rtl'] .anim-drawer-out { animation-name: drawerOutRtl; }
+/* Urdu is set in Nastaliq: a taller script, so it needs more line height and a little more room in buttons. */
+html[lang='ur'] .prose-read { line-height: 2.3; font-size: 1.12rem; }
+html[lang='ur'] body { line-height: 1.9; }
+html[lang='ur'] :is(h1, h2, h3, .font-head) { line-height: 1.9; }
+html[lang='ur'] :is(em, i, .italic) { font-style: normal; }
+html[lang='ur'] :is(.font-extrabold, .font-black, .font-bold) { font-weight: 700; }

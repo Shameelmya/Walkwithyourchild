@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Activity, NotebookPen, MessageSquareHeart, Pill, Stethoscope, CloudUpload, ChevronRight, Check, Gamepad2, Wind, Phone, BookOpen, ArrowRight, HelpCircle, HeartPulse, HeartHandshake } from 'lucide-react';
+import { Activity, NotebookPen, MessageSquareHeart, Pill, Stethoscope, CloudUpload, Check, Gamepad2, Wind, Phone, BookOpen, HelpCircle, HeartPulse, HeartHandshake } from 'lucide-react';
+import { ChevronRight, ArrowRight } from '../components/icons';
 import { ct } from '../lib/careText';
 import { useT } from '../i18n';
 import { Page } from '../components/ui';
@@ -71,7 +72,7 @@ export default function Home() {
             </div>
           </div>
           <div aria-hidden className="flex w-[96px] sm:w-[118px] shrink-0 self-center relative z-[1]">
-            <div className="w-full aspect-[3/4.3] rounded-r-xl rounded-l-md bg-white shadow-lift rotate-[4deg] p-2.5 flex flex-col border-l-[6px] border-[#2F6FD6]">
+            <div className="w-full aspect-[3/4.3] rounded-e-xl rounded-s-md bg-white shadow-lift rotate-[4deg] p-2.5 flex flex-col border-s-[6px] border-[#2F6FD6]">
               <BookOpen size={18} className="text-[#2a231d]/70" />
               <p className="font-display text-[0.62rem] leading-tight font-bold text-[#2a231d] mt-2 line-clamp-4">{meta.appTitle[lang]}</p>
               <div className="mt-auto"><PathMotif height={22} filled={pct} /></div>
@@ -87,7 +88,7 @@ export default function Home() {
           <span className="flex-1 min-w-0"><b className="block">{t('careGuide')}</b><span className="text-sm text-muted">{t('careSub')}</span></span>
           <ChevronRight aria-hidden />
         </Link>
-        <div className="card flex items-center gap-2 p-2 pl-4 mb-3">
+        <div className="card flex items-center gap-2 p-2 ps-4 mb-3">
           <Link to="/help/palliative" className="flex-1 min-w-0 flex items-center gap-3 py-2">
             <span className="w-12 h-12 rounded-2xl t-green text-white flex items-center justify-center shrink-0"><HeartHandshake size={22} aria-hidden /></span>
             <span className="flex-1 min-w-0"><b className="block">{nearest ? ct(lang, 'nearest') : ct(lang, 'findCentre')}</b><span className="text-sm text-muted line-clamp-2">{nearest ? nearest.n : ct(lang, 'palliativeSub')}</span></span>
@@ -115,7 +116,7 @@ export default function Home() {
               </span>); })}
           </div>
           {slots.length === 0 ? <p className="text-muted text-sm">{t('noMedsToday')}</p> : (
-            <ol className="relative grid gap-2 before:absolute before:left-[27px] before:top-3 before:bottom-3 before:w-0.5 before:bg-line">
+            <ol className="relative grid gap-2 before:absolute before:start-[27px] before:top-3 before:bottom-3 before:w-0.5 before:bg-line">
               {slots.slice(0, 5).map((s) => (
                 <li key={`${s.med.id}-${s.time}`} className="relative flex items-center gap-3">
                   <span className={cx('relative z-[1] w-14 shrink-0 text-center text-xs font-extrabold rounded-xl py-1.5', s.log ? 'bg-[var(--p2t)] text-[var(--p2)]' : s.time <= now ? 'bg-soft text-[rgb(var(--accent))]' : 'bg-surface2 text-muted')}>{s.time}</span>

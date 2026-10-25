@@ -18,7 +18,7 @@ export function AnimalSounds({ vol }: { vol: number }) {
   const bg = { farm: 'linear-gradient(#dff2ff,#f3fbe6)', wild: 'linear-gradient(#e2f5df,#f6efd8)', birds: 'linear-gradient(#e7f0ff,#fdf3ff)', water: 'linear-gradient(#d8f0ff,#c4e4f7)' }[g];
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: bg }}>
-      <div className="flex gap-2 p-3 pr-36 overflow-x-auto no-scrollbar" role="tablist">
+      <div className="flex gap-2 p-3 pe-36 overflow-x-auto no-scrollbar" role="tablist">
         {GROUPS.map((x) => (
           <button key={x.g} role="tab" aria-selected={g === x.g} onClick={() => setG(x.g)}
             className={cx('shrink-0 h-12 px-4 rounded-2xl font-extrabold text-sm flex items-center gap-1.5 transition', g === x.g ? 'bg-white shadow-card text-[#1d2430]' : 'bg-white/50 text-[#1d2430]/70')}>

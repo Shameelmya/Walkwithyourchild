@@ -161,7 +161,7 @@ export function Memory({ vol }: { vol: number }) {
   const cols = pairs === 3 ? 'grid-cols-3' : pairs === 6 ? 'grid-cols-3 sm:grid-cols-4' : 'grid-cols-4';
   return (
     <div className="absolute inset-0 flex flex-col bg-gradient-to-b from-[#f3ecff] to-[#e9f7f1] overflow-y-auto">
-      <div className="flex gap-1.5 p-3 pr-36">
+      <div className="flex gap-1.5 p-3 pe-36">
         <div className="flex gap-1.5 bg-white/70 rounded-2xl p-1" role="radiogroup" aria-label="pairs">
           {[3, 6, 8].map((v) => <button key={v} role="radio" aria-checked={pairs === v} aria-label={`${v}`} onClick={() => start(v)} className={`w-12 h-12 rounded-xl font-extrabold text-lg text-[#2a2f3a] ${pairs === v ? '!bg-[#7556D2] !text-white' : ''}`}>{v}</button>)}
         </div>
@@ -208,7 +208,7 @@ export function Simon({ vol }: { vol: number }) {
   };
   return (
     <div className="absolute inset-0 flex flex-col bg-[#1b2233]">
-      <div className="p-3 pr-36 min-h-[76px]"><Score e="🎵" n={Math.max(0, seq.length - 1)} /></div>
+      <div className="p-3 pe-36 min-h-[76px]"><Score e="🎵" n={Math.max(0, seq.length - 1)} /></div>
       <div className="grid grid-cols-2 gap-3 p-4 flex-1">
         {PADS.map((p, i) => (
           <button key={i} aria-label={`pad ${i + 1}`} onPointerDown={() => tap(i)} className="rounded-[2rem] transition duration-150"

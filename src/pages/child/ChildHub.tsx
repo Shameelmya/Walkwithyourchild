@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil, ChevronRight, Siren, HeartPulse } from 'lucide-react';
+import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil, Siren, HeartPulse } from 'lucide-react';
+import { ChevronRight } from '../../components/icons';
 import { useT, type TKey } from '../../i18n';
 import { Avatar, Page } from '../../components/ui';
 import { useChild, useChildId } from '../../lib/hooks';
