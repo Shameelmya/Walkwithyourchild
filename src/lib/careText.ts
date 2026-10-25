@@ -1,6 +1,7 @@
 import type { Lang } from './store';
 
 const en = {
+  findCentre: 'Find a palliative care centre', state: 'State', district: 'District', allDistricts: 'All districts', searchCentres: 'Search by place or name', nCentres: '{n} centres', narrowDown: 'Choose a district or search to see more.', iapcNote: 'From the Indian Association of Palliative Care list. Call before you go: some numbers may have changed.', rareGroups: 'Support groups for each condition (ORDI members)', findCentreBtn: 'Find a centre near you',
   carePlan: 'Our care plan', carePlanSub: 'Team, goals and meetings in one place',
   team: 'Our team', addMember: 'Add a team member', role: 'Role', name: 'Name', phone: 'Phone', place: 'Hospital or place', mainContactTag: 'Main contact', makeMain: 'Make main contact',
   goals: 'Goals', addGoal: 'Add a goal', area: 'Who leads this', goal: 'Goal', atHome: 'What we do at home', reviewBy: 'Review by', status: 'Status',
@@ -20,6 +21,7 @@ const en = {
 };
 type K = keyof typeof en;
 const ml: Record<K, string> = {
+  findCentre: 'പാലിയേറ്റീവ് കേന്ദ്രം കണ്ടെത്താം', state: 'സംസ്ഥാനം', district: 'ജില്ല', allDistricts: 'എല്ലാ ജില്ലകളും', searchCentres: 'സ്ഥലമോ പേരോ തിരയൂ', nCentres: '{n} കേന്ദ്രങ്ങൾ', narrowDown: 'കൂടുതൽ കാണാൻ ജില്ല തിരഞ്ഞെടുക്കൂ അല്ലെങ്കിൽ തിരയൂ.', iapcNote: 'ഇന്ത്യൻ അസോസിയേഷൻ ഓഫ് പാലിയേറ്റീവ് കെയറിന്റെ പട്ടികയിൽ നിന്ന്. പോകും മുമ്പ് വിളിക്കൂ: ചില നമ്പറുകൾ മാറിയിട്ടുണ്ടാകാം.', rareGroups: 'ഓരോ രോഗത്തിനുമുള്ള സഹായ ഗ്രൂപ്പുകൾ (ORDI അംഗങ്ങൾ)', findCentreBtn: 'അടുത്തുള്ള കേന്ദ്രം കണ്ടെത്താം',
   carePlan: 'ഞങ്ങളുടെ പരിചരണ പദ്ധതി', carePlanSub: 'സംഘം, ലക്ഷ്യങ്ങൾ, യോഗങ്ങൾ ഒരിടത്ത്',
   team: 'ഞങ്ങളുടെ സംഘം', addMember: 'സംഘാംഗത്തെ ചേർക്കുക', role: 'ചുമതല', name: 'പേര്', phone: 'ഫോൺ', place: 'ആശുപത്രി / സ്ഥലം', mainContactTag: 'പ്രധാന ബന്ധം', makeMain: 'പ്രധാന ബന്ധമാക്കുക',
   goals: 'ലക്ഷ്യങ്ങൾ', addGoal: 'ലക്ഷ്യം ചേർക്കുക', area: 'ആരാണ് നയിക്കുന്നത്', goal: 'ലക്ഷ്യം', atHome: 'വീട്ടിൽ ഞങ്ങൾ ചെയ്യുന്നത്', reviewBy: 'വിലയിരുത്തേണ്ട തീയതി', status: 'നില',
@@ -38,6 +40,7 @@ const ml: Record<K, string> = {
   india: 'ഇന്ത്യ മുഴുവൻ', kerala: 'കേരളം', karnataka: 'കർണാടക', reviewed: '{d}-ൽ പരിശോധിച്ച പട്ടിക. എന്തെങ്കിലും മാറിയിട്ടുണ്ടെങ്കിൽ അറിയിക്കൂ.', fromBookHelp: 'പുസ്തകത്തിൽ നിന്ന്: പണം, രേഖകൾ, സഹായം', whatFor: 'എന്തിന് സഹായിക്കും',
 };
 const kn: Record<K, string> = {
+  findCentre: 'ಉಪಶಾಮಕ ಆರೈಕೆ ಕೇಂದ್ರ ಹುಡುಕಿ', state: 'ರಾಜ್ಯ', district: 'ಜಿಲ್ಲೆ', allDistricts: 'ಎಲ್ಲಾ ಜಿಲ್ಲೆಗಳು', searchCentres: 'ಸ್ಥಳ ಅಥವಾ ಹೆಸರು ಹುಡುಕಿ', nCentres: '{n} ಕೇಂದ್ರಗಳು', narrowDown: 'ಇನ್ನಷ್ಟು ನೋಡಲು ಜಿಲ್ಲೆ ಆರಿಸಿ ಅಥವಾ ಹುಡುಕಿ.', iapcNote: 'ಭಾರತೀಯ ಉಪಶಾಮಕ ಆರೈಕೆ ಸಂಘದ ಪಟ್ಟಿಯಿಂದ. ಹೋಗುವ ಮೊದಲು ಕರೆ ಮಾಡಿ: ಕೆಲವು ಸಂಖ್ಯೆಗಳು ಬದಲಾಗಿರಬಹುದು.', rareGroups: 'ಪ್ರತಿ ಕಾಯಿಲೆಗೆ ಬೆಂಬಲ ಗುಂಪುಗಳು (ORDI ಸದಸ್ಯರು)', findCentreBtn: 'ಹತ್ತಿರದ ಕೇಂದ್ರ ಹುಡುಕಿ',
   carePlan: 'ನಮ್ಮ ಆರೈಕೆ ಯೋಜನೆ', carePlanSub: 'ತಂಡ, ಗುರಿಗಳು ಮತ್ತು ಸಭೆಗಳು ಒಂದೇ ಕಡೆ',
   team: 'ನಮ್ಮ ತಂಡ', addMember: 'ತಂಡದ ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ', role: 'ಪಾತ್ರ', name: 'ಹೆಸರು', phone: 'ಫೋನ್', place: 'ಆಸ್ಪತ್ರೆ / ಸ್ಥಳ', mainContactTag: 'ಮುಖ್ಯ ಸಂಪರ್ಕ', makeMain: 'ಮುಖ್ಯ ಸಂಪರ್ಕ ಮಾಡಿ',
   goals: 'ಗುರಿಗಳು', addGoal: 'ಗುರಿ ಸೇರಿಸಿ', area: 'ಯಾರು ನಡೆಸುತ್ತಾರೆ', goal: 'ಗುರಿ', atHome: 'ಮನೆಯಲ್ಲಿ ನಾವು ಮಾಡುವುದು', reviewBy: 'ಪರಿಶೀಲನೆ ದಿನಾಂಕ', status: 'ಸ್ಥಿತಿ',

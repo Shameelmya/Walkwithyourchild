@@ -231,3 +231,17 @@ test('care guide steps: swipe left for next, right for previous', async ({ brows
   await expect(page.getByText('Step 2 of')).toBeVisible();
   await ctx.close();
 });
+
+test('palliative centre finder: state, district, search and call', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await onboard(page);
+  await page.goto('/help');
+  await expect(page.getByText('BharathMD Foundation')).toBeVisible();
+  await page.getByRole('link', { name: /Find a centre near you/ }).click();
+  await expect(page).toHaveURL(/\/help\/palliative/);
+  await page.getByLabel('District').selectOption('Kozhikode');
+  await expect(page.getByText('Institute of Palliative Medicine').first()).toBeVisible();
+  await page.getByLabel('State').selectOption('Karnataka');
+  await page.getByPlaceholder('Search by place or name').fill('Karunashraya');
+  await expect(page.getByRole('link', { name: /Call \+91/ }).first()).toBeVisible();
+});
