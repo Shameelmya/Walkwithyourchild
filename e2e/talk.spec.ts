@@ -44,7 +44,6 @@ test('read aloud in the reader queues the chapter from the tap', async ({ page }
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByRole('button', { name: 'Switch child' })).toContainText('Ammu');
   await page.goto('/book/c1?b=0');
-  await page.getByRole('button', { name: 'Reading settings' }).click();
   await page.getByRole('button', { name: 'Read aloud' }).click();
   await expect.poll(() => page.evaluate(() => (window as unknown as { __said: string[] }).__said.length)).toBeGreaterThan(10);
   expect(await page.getByRole('navigation', { name: 'Main navigation' }).count()).toBe(0);

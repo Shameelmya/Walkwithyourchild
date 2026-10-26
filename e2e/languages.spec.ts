@@ -17,8 +17,8 @@ for (const L of LANGUAGES) {
     await page.setViewportSize({ width: 390, height: 844 });
     await onboard(page);
     await page.goto('/book/c5');
-    await page.getByRole('button', { name: 'Reading settings' }).click();
-    await page.getByRole('radio', { name: L.native }).click();
+    await page.getByRole('button', { name: 'Switch language' }).click();
+    await page.getByRole('menuitemradio', { name: L.native }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', L.code);
     await expect(page.locator('html')).toHaveAttribute('dir', L.dir);
     await expect(page.getByRole('heading', { level: 1 })).toContainText(L.c5);

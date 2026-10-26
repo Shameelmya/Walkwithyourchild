@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, X, Type, Globe, Info, Clock, PenLine, Siren } from 'lucide-react';
+import { Bookmark, BookmarkCheck, List, Volume2, Square, Sun, SunDim, Info, Clock, Siren, SlidersHorizontal } from 'lucide-react';
 import { ArrowLeft, ArrowRight } from '../../components/icons';
 import { useT } from '../../i18n';
 import { loadBook, loc, meta, partColor, toc, type Book } from '../../lib/content';
-import { FONT_STEPS, LANGS, useUI, type Theme } from '../../lib/store';
+import { useUI, type Theme } from '../../lib/store';
+import { LangButton } from '../../components/LangButton';
+import { TextSizeButton, ThemeButton } from '../../components/HeaderTools';
 import { getReading, savePosition, toggleBookmark } from '../../lib/reading';
 import { BlockView } from '../../components/Blocks';
 import { Modal, useToast, Scrim } from '../../components/ui';
@@ -31,27 +33,21 @@ const unscale = (f: number, lang: string) => 1 / (f * (lang !== 'en' ? 1.05 : 1)
 
 const SW: Record<Theme, string> = { white: '#ffffff', paper: '#F7F2EB', comfort: '#ECE0C9', night: '#121417' };
 
-function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: boolean; onClose: () => void; speaking: boolean; onSpeak: () => void; hasVoice: boolean }) {
+/** Screen light and the reading look. Text size, dark mode and language stay at the top, as on every other page. */
+function ReadingPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t, lang } = useT();
-  const { theme, setTheme, fontScale, setFontScale, setLang, brightness, setBrightness } = useUI();
-  const idx = Math.max(0, FONT_STEPS.findIndex((f) => f === fontScale));
+  const { theme, setTheme, fontScale, brightness, setBrightness } = useUI();
   const { mounted, closing } = usePresence(open, 200);
   useEffect(() => { if (!open) return; const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose(); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open, onClose]);
   if (!mounted) return null;
   return (
-    <div role="dialog" aria-label={t('readingSettings')} style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 end-4 start-4 sm:start-auto sm:w-[21rem] bottom-[6rem] lg:end-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right [&_svg]:w-[1.1rem] [&_svg]:h-[1.1rem]', closing ? 'anim-zoom-out' : 'anim-zoom')}>
+    <div role="dialog" aria-label={t('readingSettings')} style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 end-4 start-4 sm:start-auto sm:w-[21rem] bottom-[6.5rem] lg:end-6 glass-panel rounded-[30px] p-5 shadow-2xl border border-line/50 origin-bottom-right [&_svg]:w-[1.1rem] [&_svg]:h-[1.1rem]', closing ? 'anim-zoom-out' : 'anim-zoom')}>
       <div className="grid gap-5">
         <div>
           <p className="label flex items-center gap-1.5"><Sun size={14} aria-hidden /> {t('screenLight')}</p>
           <div className="flex items-center gap-3"><SunDim size={18} className="text-muted shrink-0" aria-hidden />
             <input type="range" className="slider flex-1" min={0.35} max={1} step={0.05} value={brightness} onChange={(e) => setBrightness(+e.target.value)} aria-label={t('screenLight')} />
             <Sun size={22} className="text-muted shrink-0" aria-hidden /></div>
-        </div>
-        <div>
-          <p className="label flex items-center gap-1.5"><Type size={14} aria-hidden /> {meta.reader.fontSize[lang]} · {Math.round(fontScale * 100)}%</p>
-          <div className="flex items-center gap-3"><span className="text-sm font-bold text-muted w-4" aria-hidden>A</span>
-            <input type="range" className="slider flex-1" min={0} max={FONT_STEPS.length - 1} step={1} value={idx} onChange={(e) => setFontScale(FONT_STEPS[+e.target.value])} aria-label={meta.reader.fontSize[lang]} aria-valuetext={`${Math.round(fontScale * 100)}%`} />
-            <span className="text-2xl font-bold text-muted w-5" aria-hidden>A</span></div>
         </div>
         <div>
           <p className="label">{meta.reader.theme[lang]}</p>
@@ -64,17 +60,17 @@ function ReadingPanel({ open, onClose, speaking, onSpeak, hasVoice }: { open: bo
             ))}
           </div>
         </div>
-        <div>
-          <p className="label flex items-center gap-1.5"><Globe size={14} aria-hidden /> {meta.reader.language[lang]}</p>
-          <div role="radiogroup" aria-label={meta.reader.language[lang]} className="grid grid-cols-3 gap-1 p-1 rounded-2xl bg-surface2">
-            {LANGS.map((l) => <button key={l.v} role="radio" aria-checked={lang === l.v} lang={l.v} onClick={() => setLang(l.v)} className={cx('min-h-[44px] rounded-xl font-bold text-sm transition', lang === l.v ? 'bg-surface shadow-card text-[rgb(var(--accent))]' : 'text-muted')}>{l.native}</button>)}
-          </div>
-        </div>
-        <div className="grid gap-2">
-        {hasVoice && <button className={speaking ? 'btn-ghost' : 'btn-outline'} onClick={onSpeak}>{speaking ? <><Square size={18} aria-hidden /> {t('stopReading')}</> : <><Volume2 size={18} aria-hidden /> {meta.reader.readAloud[lang]}</>}</button>}
-        </div>
       </div>
     </div>
+  );
+}
+
+/** One button of the bottom reading bar: icon with a short word under it, like the app's main menu. */
+function BarBtn({ label, onClick, active, children, className = '' }: { label: string; onClick: () => void; active?: boolean; children: React.ReactNode; className?: string }) {
+  return (
+    <button type="button" onClick={onClick} aria-pressed={active} className={cx('flex flex-col items-center justify-center gap-0.5 min-h-[56px] min-w-0 px-1 rounded-2xl transition active:scale-95', active ? 'text-[rgb(var(--accent))]' : 'text-muted', className)}>
+      {children}<span className="text-[0.66rem] font-bold leading-tight max-w-full truncate">{label}</span>
+    </button>
   );
 }
 
@@ -158,6 +154,9 @@ export default function Reader() {
   }, [ch, chapter, ready]);
 
   useEffect(() => () => { stopSpeaking(); setSpeaking(false); }, [chapter, lang]);
+  // The reader keeps its own place. Without this, closing a menu (which steps back in history) lets the
+  // browser jump to an old scroll position, e.g. the English one after switching language.
+  useEffect(() => { const h = history.scrollRestoration; history.scrollRestoration = 'manual'; return () => { history.scrollRestoration = h; }; }, []);
 
   const readAloud = () => {
     if (speaking) { stopSpeaking(); setSpeaking(false); return; }
@@ -182,12 +181,12 @@ export default function Reader() {
       <div className="flex-1 min-w-0">
         <div className="fixed top-0 inset-x-0 z-[31] h-[3px] bg-line/40 pointer-events-none"><div className="h-full transition-[width] duration-150" style={{ width: `${progress * 100}%`, background: 'var(--pc)' }} /></div>
         <div className={cx('fixed top-0 inset-x-0 z-30 glass-panel border-b border-line/40 transition-transform duration-500', !chrome && '-translate-y-full')} style={{ transitionTimingFunction: 'var(--ease)' }}>
-          <div className="mx-auto max-w-3xl px-3 h-[64px] flex items-center gap-2">
+          <div className="mx-auto max-w-3xl px-3 h-[68px] flex items-center gap-1.5">
             <Link to="/book" className="icon-chip" aria-label={meta.reader.contents[lang]}><ArrowLeft size={20} /></Link>
-            <p className="flex-1 min-w-0 text-center text-sm font-bold truncate px-1">{ch?.title}</p>
-            <button className="icon-chip xl:hidden" onClick={() => setShowToc(true)} aria-label={meta.reader.contents[lang]}><List size={20} /></button>
-            <Link to="/sos" className="icon-chip !text-[rgb(var(--danger))]" aria-label={t('sosLong')}><Siren size={20} /></Link>
-            <button className="icon-chip" aria-pressed={!!bookmarked} aria-label={meta.reader.bookmark[lang]} onClick={onBookmark}>{bookmarked ? <BookmarkCheck size={20} className="text-[rgb(var(--accent))]" fill="rgb(var(--accent) / 0.15)" /> : <Bookmark size={20} />}</button>
+            <p className="flex-1 min-w-0 text-sm font-bold truncate px-1">{ch?.title}</p>
+            <TextSizeButton />
+            <ThemeButton />
+            <LangButton />
           </div>
         </div>
         <main id="main" className="px-5 pt-16 pb-40 lg:pb-24" onClick={(e) => { if (!(e.target as HTMLElement).closest('a,button,input,label,summary,aside')) setChrome((c) => !c); }}>
@@ -216,15 +215,22 @@ export default function Reader() {
           )}
         </main>
       </div>
-      <button onClick={() => setPanel(!panel)} aria-expanded={panel} aria-label={t('readingSettings')}
-        style={{ zoom: unscale(fontScale, lang) }} className={cx('fixed z-50 end-4 bottom-6 lg:end-6 w-14 h-14 rounded-full shadow-lift glass-panel border border-line/60 flex items-center justify-center transition duration-300 active:scale-90', panel ? 'text-ink' : 'text-[rgb(var(--accent))]')}>
-        <span className="relative w-6 h-6" aria-hidden>
-          <PenLine size={24} className={cx('w-6 h-6 absolute inset-0 transition duration-300', panel ? 'opacity-0 rotate-90 scale-50' : 'opacity-100')} />
-          <X size={24} className={cx('w-6 h-6 absolute inset-0 transition duration-300', panel ? 'opacity-100' : 'opacity-0 -rotate-90 scale-50')} />
-        </span>
-      </button>
+      <nav aria-label={t('readingSettings')} style={{ zoom: unscale(fontScale, lang), transitionTimingFunction: 'var(--ease)' }}
+        className={cx('fixed bottom-0 inset-x-0 z-50 px-3 pb-[max(10px,env(safe-area-inset-bottom))] pointer-events-none transition-transform duration-500', !chrome && !panel && 'translate-y-[140%]')}>
+        <div className="relative mx-auto max-w-md glass-panel rounded-[28px] shadow-nav border border-line/60 h-[70px] flex items-center justify-around px-1 pointer-events-auto">
+          <BarBtn label={meta.reader.contents[lang]} onClick={() => setShowToc(true)} className="flex-1 xl:hidden"><List size={22} aria-hidden /></BarBtn>
+          <BarBtn label={meta.reader.bookmark[lang]} onClick={onBookmark} active={bookmarked} className="flex-1">{bookmarked ? <BookmarkCheck size={22} fill="rgb(var(--accent) / 0.15)" aria-hidden /> : <Bookmark size={22} aria-hidden />}</BarBtn>
+          <div className="flex-1 flex justify-center">
+            <Link to="/sos" aria-label={t('sosLong')} className="-mt-9 w-[64px] h-[64px] rounded-full t-rose text-white flex flex-col items-center justify-center shadow-lift ring-[6px] ring-bg active:scale-95 transition">
+              <Siren size={22} aria-hidden /><span className="text-[0.62rem] font-extrabold leading-none mt-0.5">SOS</span>
+            </Link>
+          </div>
+          {hasVoice && <BarBtn label={speaking ? t('stopReading') : meta.reader.readAloud[lang]} onClick={readAloud} active={speaking} className="flex-1">{speaking ? <Square size={22} aria-hidden /> : <Volume2 size={22} aria-hidden />}</BarBtn>}
+          <BarBtn label={t('screen')} onClick={() => setPanel(!panel)} active={panel} className="flex-1"><SlidersHorizontal size={22} aria-hidden /></BarBtn>
+        </div>
+      </nav>
       <Scrim open={panel} onClose={() => setPanel(false)} />
-      <ReadingPanel open={panel} onClose={() => setPanel(false)} speaking={speaking} onSpeak={readAloud} hasVoice={hasVoice} />
+      <ReadingPanel open={panel} onClose={() => setPanel(false)} />
       <Modal open={showToc} onClose={() => setShowToc(false)} title={meta.reader.contents[lang]}><TocList current={chapter} onPick={() => setShowToc(false)} /></Modal>
     </div>
   );

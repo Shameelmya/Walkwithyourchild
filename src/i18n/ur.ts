@@ -12,7 +12,7 @@ export const ur: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'ہوم', navBook: 'کتاب', navNotebook: 'نوٹ بک', navChild: 'میرا بچہ', navMore: 'مزید', navMedicines: 'دوائیں', navSeizures: 'دورے کی ڈائری',
   navVisits: 'ڈاکٹر کی ملاقات', navRecords: 'صحت کا ریکارڈ', navProgress: 'پیش رفت', navDocuments: 'کاغذات', navSummary: 'ڈاکٹر کے لیے خلاصہ', navTalk: 'بات چیت کا بورڈ',
-  navPlay: 'کھیل', navForMe: 'میرے لیے', navMemory: 'یادوں کا ڈبہ', skipToContent: 'مواد پر جائیں', moreInfo: 'مزید معلومات', navStories: 'کہانی کی کتابیں', navUpdates: 'اپ ڈیٹس', navCommunity: 'برادری', navSettings: 'سیٹنگز', about: 'تعارف',
+  navPlay: 'کھیل', navForMe: 'میرے لیے', navMemory: 'یادوں کا ڈبہ', screen: 'اسکرین', skipToContent: 'مواد پر جائیں', moreInfo: 'مزید معلومات', navStories: 'کہانی کی کتابیں', navUpdates: 'اپ ڈیٹس', navCommunity: 'برادری', navSettings: 'سیٹنگز', about: 'تعارف',
   sos: 'SOS', sosLong: 'ایمرجنسی: ایمرجنسی کارڈ کھولیں', switchChild: 'بچہ بدلیں', addChild: 'بچہ شامل کریں', editProfile: 'پروفائل میں ترمیم', myChildPage: '“میرا بچہ” صفحہ',
   // onboarding
   chooseLanguage: 'اپنی زبان چنیں', welcomeText: 'ایک شفیق رہنما، اسپتال کی ملاقاتوں کے لیے نوٹ بک، اور روزمرہ دیکھ بھال کے آسان اوزار۔ ایک وقت میں ایک قدم۔',
