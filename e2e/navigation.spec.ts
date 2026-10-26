@@ -274,7 +274,7 @@ test('daily living skills and parent distress tools', async ({ page }) => {
   await expect(page.getByRole('button', { name: /^Feed the cat/ })).toBeVisible();
   await page.goto('/me');
   await page.getByRole('button', { name: '8', exact: true }).click();
-  await expect(page.getByText('That is a lot to carry.', { exact: false })).toBeVisible();
+  await expect(page.getByText('Please talk to someone you trust today', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: '5-4-3-2-1: come back to now' }).click();
   await expect(page.getByText('Name 5 things you can see.', { exact: false })).toBeVisible();
   await expect(page.getByText('Your feelings', { exact: true })).toBeVisible();
