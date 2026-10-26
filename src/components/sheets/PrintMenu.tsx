@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Printer, FileDown } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Modal, Seg, useToast } from '../ui';
+import { Hint, Modal, Seg, useToast } from '../ui';
 import { useChildId } from '../../lib/hooks';
 import { loadSheetData } from '../../lib/sheets';
 import { workbook } from '../../lib/content';
@@ -37,7 +37,7 @@ export function PrintMenu({ sheetIds, filename }: { sheetIds: string[]; filename
       <Modal open={open} onClose={() => setOpen(false)} title={t('printOrPdf')}>
         <p className="label">{t('whatToPrint')}</p>
         <Seg label={t('whatToPrint')} value={blank ? 'b' : 'f'} onChange={(v) => setBlank(v === 'b')} options={[{ v: 'f', l: t('filledIn') }, { v: 'b', l: t('blankPages') }]} />
-        <p className="text-sm text-muted mt-3">{t('printLangNote')}</p>
+        <Hint className="mt-3">{t('printLangNote')}</Hint>
         <div className="grid sm:grid-cols-2 gap-3 mt-5">
           <button className="btn-outline" disabled={busy} onClick={() => run('print')}><Printer aria-hidden /> {t('print')}</button>
           <button className="btn-primary" disabled={busy} onClick={() => run('pdf')}><FileDown aria-hidden /> {busy ? t('preparing') : t('downloadPdf')}</button>

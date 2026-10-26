@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Plus, Wind } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Section } from '../../components/ui';
+import { Page, PageHeader, Section, Hint } from '../../components/ui';
 import { WeeklyEditor } from '../../components/sheets/Weekly';
 import { BlockView } from '../../components/Blocks';
 import { loadBook, toc, type Block } from '../../lib/content';
@@ -33,7 +33,7 @@ function Breathing() {
         <span className="relative text-white font-extrabold text-2xl drop-shadow">{on ? <>{t(phase === 'in' ? 'breatheIn' : 'breatheOut')}<br /><span className="text-4xl">{count}</span></> : ''}</span>
       </div>
       <button className={on ? 'btn-ghost' : 'btn-primary'} onClick={() => setOn(!on)}><Wind size={18} aria-hidden /> {on ? t('stop') : t('startBreathing')}</button>
-      <p className="text-sm text-muted mt-2">{t('breathingHint')}</p>
+      <Hint className="mt-2">{t('breathingHint')}</Hint>
     </div>
   );
 }

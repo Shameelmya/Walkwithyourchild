@@ -61,8 +61,7 @@ function Shelf() {
   if (!books) return null;
   return (
     <Page wide>
-      <PageHeader title={s('title')} sub={s('intro')} />
-      <div className="card p-4 mb-5 grid gap-1 text-sm"><p>💛 {s('tipChild')}</p><p className="text-muted">🌿 {s('tipCare')}</p></div>
+      <PageHeader title={s('title')} help={<><p>{s('intro')}</p><p>💛 {s('tipChild')}</p><p>🌿 {s('tipCare')}</p></>} />
       <button className="btn-primary mb-6" onClick={() => setPick(true)}><Plus size={18} aria-hidden /> {s('newBook')}</button>
       {!books.length ? <Empty kind="box" title={s('empty')} text={s('emptyText')} /> : (
         <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

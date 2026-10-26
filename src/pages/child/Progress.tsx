@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Camera, Trash2 } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, FileButton, Section, Confirm, useToast, BottomBar, SheetActions } from '../../components/ui';
+import { Page, PageHeader, Empty, Modal, FileButton, Section, Confirm, useToast, BottomBar, SheetActions, Hint } from '../../components/ui';
 import { Thumb } from '../../components/Attachments';
 import { LineChart, BarChart } from '../../components/Charts';
 import { db, putBlob, type Progress } from '../../lib/db';
@@ -71,7 +71,7 @@ export default function ProgressPage() {
         {edit && (
           <div className="grid gap-5">
             <div><label className="label" htmlFor="pg-date">{t('date')}</label><input id="pg-date" type="date" className="input" value={edit.date} onChange={(e) => setEdit({ ...edit, date: e.target.value })} /></div>
-            <p className="text-sm text-muted">{t('checkInHint')}</p>
+            <Hint>{t('checkInHint')}</Hint>
             {SCALES.map((s) => {
               const v = edit.scores[s];
               return (

@@ -7,7 +7,7 @@ import { getSetting, setSetting } from '../../lib/db';
 import { useChild, useChildId } from '../../lib/hooks';
 import { ROLES, TEAM_ROLES, PLAN_SRC } from '../../lib/care';
 import { ct } from '../../lib/careText';
-import { cx, fmtDate, isoDate, shareOrDownload } from '../../lib/util';
+import { cx, fmtDate, isoDate, pick, shareOrDownload } from '../../lib/util';
 import { FromBook } from './Care';
 
 interface Member { id: number; role: string; name: string; phone: string; place: string; main?: boolean }
@@ -33,8 +33,8 @@ export default function CarePlan() {
   const toast = useToast((s) => s.show);
   const upsert = <T extends { id: number }>(list: T[], x: T) => (list.some((y) => y.id === x.id) ? list.map((y) => (y.id === x.id ? x : y)) : [...list, x]);
   const share = async () => {
-    const lines = [`${L('carePlan')}: ${child?.name ?? ''}`, '', `${L('team')}:`, ...plan.team.map((x) => `- ${ROLES[x.role]?.[lang] ?? x.role}: ${x.name}${x.phone ? ', ' + x.phone : ''}${x.place ? ' (' + x.place + ')' : ''}${x.main ? ' ★' : ''}`), '',
-      `${L('goals')}:`, ...plan.goals.map((x) => `- [${L(x.status)}] ${x.goal} (${ROLES[x.area]?.[lang] ?? ''})${x.home ? '\n  ' + L('atHome') + ': ' + x.home : ''}${x.review ? '\n  ' + L('reviewBy') + ': ' + x.review : ''}`), '',
+    const lines = [`${L('carePlan')}: ${child?.name ?? ''}`, '', `${L('team')}:`, ...plan.team.map((x) => `- ${(ROLES[x.role] ? pick(ROLES[x.role], lang) : x.role)}: ${x.name}${x.phone ? ', ' + x.phone : ''}${x.place ? ' (' + x.place + ')' : ''}${x.main ? ' ★' : ''}`), '',
+      `${L('goals')}:`, ...plan.goals.map((x) => `- [${L(x.status)}] ${x.goal} (${pick(ROLES[x.area] ?? { en: '' }, lang)})${x.home ? '\n  ' + L('atHome') + ': ' + x.home : ''}${x.review ? '\n  ' + L('reviewBy') + ': ' + x.review : ''}`), '',
       `${L('meetings')}:`, ...plan.meetings.slice().reverse().map((x) => `- ${x.date}: ${x.notes}${x.who ? ' (' + x.who + ')' : ''}${x.next ? '\n  ' + L('nextReview') + ': ' + x.next : ''}`)];
     const text = lines.join('\n');
     try { if (navigator.share) { await navigator.share({ title: L('carePlan'), text }); return; } } catch { return; }
@@ -55,7 +55,7 @@ export default function CarePlan() {
           {plan.team.map((x) => (
             <li key={x.id} className="flex items-center gap-3 p-3 min-h-[64px]">
               <button className="flex-1 min-w-0 text-start" onClick={() => setM(x)} aria-label={`${L('edit')} ${x.name}`}>
-                <span className="block text-xs font-bold text-muted">{ROLES[x.role]?.[lang]}{x.main && <span className="ms-1.5 text-[#b4842f]">★ {L('mainContactTag')}</span>}</span>
+                <span className="block text-xs font-bold text-muted">{pick(ROLES[x.role] ?? { en: '' }, lang)}{x.main && <span className="ms-1.5 text-[#b4842f]">★ {L('mainContactTag')}</span>}</span>
                 <b className="block truncate">{x.name}</b>{x.place && <span className="block text-sm text-muted truncate">{x.place}</span>}
               </button>
               {x.phone && <a href={`tel:${x.phone.replace(/[^\d+]/g, '')}`} className="icon-chip shrink-0" aria-label={`${L('call')} ${x.name}`}><Phone size={18} /></a>}
@@ -72,7 +72,7 @@ export default function CarePlan() {
           {plan.goals.map((x) => (
             <article key={x.id} className="card p-4">
               <div className="flex items-start gap-2">
-                <div className="flex-1 min-w-0"><p className="text-xs font-bold text-muted">{ROLES[x.area]?.[lang]}</p><b className="block leading-snug">{x.goal}</b></div>
+                <div className="flex-1 min-w-0"><p className="text-xs font-bold text-muted">{pick(ROLES[x.area] ?? { en: '' }, lang)}</p><b className="block leading-snug">{x.goal}</b></div>
                 <button className="icon-btn !w-10 !h-10 shrink-0" aria-label={L('edit')} onClick={() => setG(x)}><Pencil size={16} /></button>
               </div>
               {x.home && <p className="text-sm mt-1.5"><span className="text-muted">{L('atHome')}: </span>{x.home}</p>}
@@ -107,7 +107,7 @@ export default function CarePlan() {
       {m && (
         <Modal open onClose={() => setM(null)} title={L('team')}>
           <div className="grid gap-3">
-            <label><span className="label">{L('role')}</span><select className="input" value={m.role} onChange={(e) => setM({ ...m, role: e.target.value })}>{TEAM_ROLES.map((r) => <option key={r} value={r}>{ROLES[r][lang]}</option>)}</select></label>
+            <label><span className="label">{L('role')}</span><select className="input" value={m.role} onChange={(e) => setM({ ...m, role: e.target.value })}>{TEAM_ROLES.map((r) => <option key={r} value={r}>{pick(ROLES[r], lang)}</option>)}</select></label>
             <label><span className="label">{L('name')}</span><input className="input" value={m.name} onChange={(e) => setM({ ...m, name: e.target.value })} /></label>
             <label><span className="label">{L('phone')}</span><input className="input" type="tel" inputMode="tel" value={m.phone} onChange={(e) => setM({ ...m, phone: e.target.value })} /></label>
             <label><span className="label">{L('place')}</span><input className="input" value={m.place} onChange={(e) => setM({ ...m, place: e.target.value })} /></label>
@@ -122,7 +122,7 @@ export default function CarePlan() {
       {g && (
         <Modal open onClose={() => setG(null)} title={L('goals')}>
           <div className="grid gap-3">
-            <label><span className="label">{L('area')}</span><select className="input" value={g.area} onChange={(e) => setG({ ...g, area: e.target.value })}>{TEAM_ROLES.map((r) => <option key={r} value={r}>{ROLES[r][lang]}</option>)}</select></label>
+            <label><span className="label">{L('area')}</span><select className="input" value={g.area} onChange={(e) => setG({ ...g, area: e.target.value })}>{TEAM_ROLES.map((r) => <option key={r} value={r}>{pick(ROLES[r], lang)}</option>)}</select></label>
             <label><span className="label">{L('goal')}</span><textarea className="input min-h-[70px]" value={g.goal} onChange={(e) => setG({ ...g, goal: e.target.value })} /></label>
             <label><span className="label">{L('atHome')}</span><textarea className="input min-h-[70px]" value={g.home} onChange={(e) => setG({ ...g, home: e.target.value })} /></label>
             <label><span className="label">{L('reviewBy')}</span><input className="input" type="date" value={g.review} onChange={(e) => setG({ ...g, review: e.target.value })} /></label>

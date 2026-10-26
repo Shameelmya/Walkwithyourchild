@@ -9,10 +9,10 @@ import { download, shareOrDownload } from '../../lib/util';
 import { LANGS, type Lang } from '../../lib/store';
 
 export default function Summary() {
-  const { t } = useT();
+  const { t, lang: appLang } = useT();
   const childId = useChildId();
   const toast = useToast((s) => s.show);
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(appLang);
   const [d, setD] = useState<SummaryData>();
   const [busy, setBusy] = useState('');
   const [scale, setScale] = useState(0.4);

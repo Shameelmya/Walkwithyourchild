@@ -7,6 +7,11 @@ test('story book: make, draw, read, PDF, delete', async ({ page }) => {
   await page.goto('/memory');
   await page.getByRole('link', { name: /Make a story book/ }).click();
   await expect(page).toHaveURL(/\/stories$/);
+  await expect(page.getByText(/Let your child lead/)).toBeHidden();
+  await page.getByRole('button', { name: 'More information' }).click();
+  await expect(page.getByText(/Let your child lead/)).toBeVisible();
+  await page.getByRole('button', { name: 'More information' }).click();
+  await expect(page.getByText(/Let your child lead/)).toBeHidden();
   await page.getByRole('button', { name: 'Start a new book' }).click();
   await page.getByRole('button', { name: /All about me/ }).click();
   await expect(page.getByLabel('Book title')).toHaveValue('All about me');
@@ -32,7 +37,7 @@ test('story book: make, draw, read, PDF, delete', async ({ page }) => {
   await page.getByRole('button', { name: 'Delete this book' }).click();
   await page.getByRole('dialog').getByRole('button').last().click();
   await expect(page.getByText('No books yet')).toBeVisible();
-  await page.goto('/more'); await expect(page.getByRole('link', { name: 'Story books' })).toBeVisible();
+  await page.goto('/more'); await expect(page.locator('#main').getByRole('link', { name: 'Story books' })).toBeVisible();
   expect(errs).toEqual([]);
 });
 
@@ -41,4 +46,15 @@ test('story book in Malayalam', async ({ page }) => {
   await page.evaluate(() => { const s = JSON.parse(localStorage.getItem('wwyc-ui') || '{}'); (s.state ??= {}).lang = 'ml'; localStorage.setItem('wwyc-ui', JSON.stringify(s)); });
   await page.goto('/stories');
   await expect(page.getByText('കഥാപുസ്തകങ്ങൾ').first()).toBeVisible();
+});
+
+test('whole app follows the language: games, care, skills in Hindi and Tamil', async ({ page }) => {
+  await onboard(page);
+  const setLang = (l: string) => page.evaluate((x) => { const s = JSON.parse(localStorage.getItem('wwyc-ui') || '{}'); (s.state ??= {}).lang = x; localStorage.setItem('wwyc-ui', JSON.stringify(s)); }, l);
+  await setLang('hi');
+  await page.goto('/play'); await expect(page.getByText('रंग भरो')).toBeVisible();
+  await page.goto('/skills'); await expect(page.getByText('हाथ धोना').first()).toBeVisible();
+  await setLang('ta');
+  await page.goto('/care'); await expect(page.getByText('மூச்சுத் திணறல்').first()).toBeVisible();
+  await page.goto('/updates'); await expect(page.getByText('வரவேற்கிறோம்')).toBeVisible();
 });

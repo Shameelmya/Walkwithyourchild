@@ -1,3 +1,4 @@
+import { Hint } from '../ui';
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Check, Phone } from 'lucide-react';
@@ -76,7 +77,7 @@ export function WeeklyEditor({ currentOnly = false }: { currentOnly?: boolean })
           </section>
         ))}
       </div>
-      <p className="text-sm text-muted mt-4">{t('selfCareNote')}</p>
+      <Hint className="mt-4">{t('selfCareNote')}</Hint>
     </div>
   );
 }
