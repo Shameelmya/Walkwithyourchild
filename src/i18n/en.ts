@@ -9,7 +9,7 @@ export const en = {
   // nav
   navHome: 'Home', navBook: 'Book', navNotebook: 'Notebook', navChild: 'My child', navMore: 'More', navMedicines: 'Medicines', navSeizures: 'Seizure diary',
   navVisits: 'Doctor visits', navRecords: 'Health records', navProgress: 'Progress', navDocuments: 'Documents', navSummary: 'Doctor summary', navTalk: 'Talk board',
-  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
+  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', navStories: 'Story books', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
   sos: 'SOS', sosLong: 'Emergency: open the emergency card', switchChild: 'Switch child', addChild: 'Add a child', editProfile: 'Edit profile', myChildPage: '“My child” page',
   // onboarding
   chooseLanguage: 'Choose your language', welcomeText: 'A gentle guide, a notebook for hospital visits, and simple tools for everyday care. Take it one step at a time.',

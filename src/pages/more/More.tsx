@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { HeartHandshake, Archive, Newspaper, Users, Settings, Info, Gamepad2, MessageSquareHeart } from 'lucide-react';
+import { HeartHandshake, Archive, Newspaper, Users, Settings, Info, Gamepad2, MessageSquareHeart, BookHeart } from 'lucide-react';
 import { useT, type TKey } from '../../i18n';
 import { Page, PageHeader } from '../../components/ui';
 import { cx } from '../../lib/util';
@@ -9,6 +9,7 @@ const ITEMS: { to: string; k: TKey; I: typeof Info; g: string }[] = [
   { to: '/talk', k: 'navTalk', I: MessageSquareHeart, g: 't-violet' },
   { to: '/play', k: 'navPlay', I: Gamepad2, g: 't-green' },
   { to: '/memory', k: 'navMemory', I: Archive, g: 't-violet' },
+  { to: '/stories', k: 'navStories', I: BookHeart, g: 't-coral' },
   { to: '/updates', k: 'navUpdates', I: Newspaper, g: 't-blue' },
   { to: '/community', k: 'navCommunity', I: Users, g: 't-mint' },
   { to: '/settings', k: 'navSettings', I: Settings, g: 't-amber' },

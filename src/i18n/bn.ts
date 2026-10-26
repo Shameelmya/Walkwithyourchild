@@ -12,7 +12,7 @@ export const bn: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'হোম', navBook: 'বই', navNotebook: 'নোটবুক', navChild: 'আমার সন্তান', navMore: 'আরও', navMedicines: 'ওষুধ', navSeizures: 'খিঁচুনির ডায়েরি',
   navVisits: 'ডাক্তারের ভিজিট', navRecords: 'স্বাস্থ্য রেকর্ড', navProgress: 'অগ্রগতি', navDocuments: 'নথিপত্র', navSummary: 'ডাক্তারের সারাংশ', navTalk: 'কথার বোর্ড',
-  navPlay: 'খেলা', navForMe: 'আমার জন্য', navMemory: 'স্মৃতির বাক্স', navUpdates: 'আপডেট', navCommunity: 'সম্প্রদায়', navSettings: 'সেটিংস', about: 'সম্পর্কে',
+  navPlay: 'খেলা', navForMe: 'আমার জন্য', navMemory: 'স্মৃতির বাক্স', navStories: 'গল্পের বই', navUpdates: 'আপডেট', navCommunity: 'সম্প্রদায়', navSettings: 'সেটিংস', about: 'সম্পর্কে',
   sos: 'SOS', sosLong: 'জরুরি: জরুরি কার্ড খুলুন', switchChild: 'সন্তান বদলান', addChild: 'সন্তান যোগ করুন', editProfile: 'প্রোফাইল সম্পাদনা', myChildPage: '“আমার সন্তান” পাতা',
   // onboarding
   chooseLanguage: 'আপনার ভাষা বেছে নিন', welcomeText: 'একটি স্নেহময় নির্দেশিকা, হাসপাতালে যাওয়ার জন্য নোটবুক, আর প্রতিদিনের যত্নের সহজ সরঞ্জাম। একটি একটি করে পদক্ষেপে এগোন।',

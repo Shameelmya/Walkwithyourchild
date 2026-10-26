@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, NotebookPen, Baby, Menu, Siren, Pill, Activity, Stethoscope, FolderHeart, MessageSquareHeart, HeartHandshake, Settings, Newspaper, Users, FileText, LineChart, Gamepad2, ClipboardList, Archive, Info, X, HeartPulse, Target, HandHeart } from 'lucide-react';
+import { Home, BookOpen, NotebookPen, Baby, Menu, Siren, Pill, Activity, Stethoscope, FolderHeart, MessageSquareHeart, HeartHandshake, Settings, Newspaper, Users, FileText, LineChart, Gamepad2, ClipboardList, Archive, Info, X, HeartPulse, Target, HandHeart, BookHeart } from 'lucide-react';
 import { useT, type TKey } from '../i18n';
 import { cx } from '../lib/util';
 import { ChildSwitcher } from './ChildSwitcher';
@@ -39,6 +39,7 @@ const CHILD: Item[] = [
 const YOU: Item[] = [
   { to: '/me', k: 'navForMe', I: HeartHandshake, c: 'var(--tc2)' },
   { to: '/memory', k: 'navMemory', I: Archive, c: 'var(--tv2)' },
+  { to: '/stories', k: 'navStories', I: BookHeart, c: 'var(--tc2)' },
   { to: '/updates', k: 'navUpdates', I: Newspaper, c: 'var(--tb2)' },
   { to: '/community', k: 'navCommunity', I: Users, c: 'var(--tm2)' },
   { to: '/settings', k: 'navSettings', I: Settings, c: 'var(--ta2)' },
