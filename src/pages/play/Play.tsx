@@ -6,7 +6,7 @@ import { LogOut, Volume1, Volume2, VolumeX, Music2, Palette, Move, LayoutGrid, G
 import { ArrowLeft } from '../../components/icons';
 import { useT, type TKey } from '../../i18n';
 import { setSound, type Inst, type Scale } from '../../lib/audio';
-import { LongPress, useWakeLock } from '../../components/ui';
+import { LongPress, useWakeLock, Hint } from '../../components/ui';
 import { useUI } from '../../lib/store';
 import { LangButton } from '../../components/LangButton';
 import { cx } from '../../lib/util';
@@ -128,8 +128,7 @@ export default function Play() {
               <div role="dialog" aria-modal="true" aria-labelledby="howto" className="relative w-full sm:max-w-md bg-surface rounded-t-[2rem] sm:rounded-[2rem] p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-lift anim-sheet flex flex-col items-center text-center gap-3">
                 <span className={cx('tile w-24 h-24 !rounded-full flex items-center justify-center text-5xl -mt-16 shadow-lift', game.tile)} aria-hidden>{game.e}</span>
                 <h2 id="howto" className="text-2xl font-extrabold">{name(game)}</h2>
-                <p className="eyebrow">{tx.howToPlay}</p>
-                <p className="text-lg leading-relaxed">{gameText(game.id, lang)[1]}</p>
+                <Hint><b className="block">{tx.howToPlay}</b>{gameText(game.id, lang)[1]}</Hint>
                 {!game.essential && (
                   <button role="switch" aria-checked={!gameMuted} onClick={() => setGameMuted(!gameMuted)} className="chip !min-h-[48px] !px-4 gap-2">
                     {gameMuted ? <VolumeX size={20} aria-hidden /> : <Volume2 size={20} aria-hidden />} {tx.sound}: {gameMuted ? tx.off : tx.on}

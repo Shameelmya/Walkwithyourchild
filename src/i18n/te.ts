@@ -12,7 +12,7 @@ export const te: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'హోమ్', navBook: 'పుస్తకం', navNotebook: 'నోట్‌బుక్', navChild: 'నా బిడ్డ', navMore: 'మరిన్ని', navMedicines: 'మందులు', navSeizures: 'మూర్ఛ డైరీ',
   navVisits: 'డాక్టర్ సందర్శనలు', navRecords: 'ఆరోగ్య రికార్డులు', navProgress: 'పురోగతి', navDocuments: 'పత్రాలు', navSummary: 'డాక్టర్ సారాంశం', navTalk: 'మాట్లాడే బోర్డు',
-  navPlay: 'ఆటలు', navForMe: 'నా కోసం', navMemory: 'జ్ఞాపకాల పెట్టె', navStories: 'కథల పుస్తకాలు', navUpdates: 'అప్‌డేట్‌లు', navCommunity: 'సమాజం', navSettings: 'సెట్టింగ్‌లు', about: 'గురించి',
+  navPlay: 'ఆటలు', navForMe: 'నా కోసం', navMemory: 'జ్ఞాపకాల పెట్టె', skipToContent: 'విషయానికి వెళ్ళండి', moreInfo: 'మరింత సమాచారం', navStories: 'కథల పుస్తకాలు', navUpdates: 'అప్‌డేట్‌లు', navCommunity: 'సమాజం', navSettings: 'సెట్టింగ్‌లు', about: 'గురించి',
   sos: 'SOS', sosLong: 'అత్యవసరం: అత్యవసర కార్డును తెరవండి', switchChild: 'బిడ్డను మార్చు', addChild: 'బిడ్డను జోడించు', editProfile: 'ప్రొఫైల్ సవరించు', myChildPage: '“నా బిడ్డ” పేజీ',
   // onboarding
   chooseLanguage: 'మీ భాషను ఎంచుకోండి', welcomeText: 'ఒక సున్నితమైన మార్గదర్శి, ఆసుపత్రి సందర్శనల కోసం నోట్‌బుక్, రోజువారీ సంరక్షణ కోసం సులభమైన సాధనాలు. ఒక్కో అడుగు వేస్తూ సాగండి.',

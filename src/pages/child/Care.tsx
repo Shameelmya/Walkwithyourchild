@@ -4,7 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { Phone, Play, Square, NotebookPen, Timer, PenLine, Trash2, BookOpen } from 'lucide-react';
 import { ChevronRight } from '../../components/icons';
 import { useT } from '../../i18n';
-import { Page, PageHeader, useWakeLock } from '../../components/ui';
+import { Page, PageHeader, useWakeLock, Hint } from '../../components/ui';
 import { BlockView } from '../../components/Blocks';
 import { db, getSetting, setSetting, getSheet } from '../../lib/db';
 import { useChild, useChildId } from '../../lib/hooks';
@@ -105,7 +105,7 @@ function TeamPlan({ kind }: { kind: string }) {
   useEffect(() => { getSetting(key, '').then((x) => { setV(x); loaded.current = key; }); }, [key]);
   return (
     <section className="grid gap-2">
-      <p className="text-sm text-muted">{t('ourTeamPlanHint')}</p>
+      <Hint>{t('ourTeamPlanHint')}</Hint>
       <textarea className="input min-h-[110px]" aria-label={t('ourTeamPlan', { name: child?.name ?? '' })} value={v} onChange={(e) => { setV(e.target.value); if (loaded.current === key) void setSetting(key, e.target.value); }} />
     </section>
   );
@@ -210,8 +210,7 @@ export function CareGuide() {
   const recent = useLiveQuery(() => db.episodes.where('childId').equals(childId).reverse().sortBy('start').then((l) => l.slice(0, 3)), [childId]) ?? [];
   return (
     <Page>
-      <PageHeader title={t('careGuide')} />
-      <p className="text-muted mb-4">{t('careGuideShort')}</p>
+      <PageHeader title={t('careGuide')} help={t('careGuideShort')} />
       <div className="grid grid-cols-2 gap-2.5 mb-3">
         {CONDITIONS.filter((c) => c.emergency).map((c) => (
           <Link key={c.id} to={c.to ?? `/care/${c.id}`} className={cx('tile min-h-[110px] flex flex-col justify-between', c.tile)}>

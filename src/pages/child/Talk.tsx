@@ -3,7 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { Maximize2, Minimize2, Pencil, Plus, Mic, Square, Play, Camera, EyeOff, Trash2, Check } from 'lucide-react';
 import { ChevronLeft, ChevronRight } from '../../components/icons';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Modal, FileButton, Seg, useToast, SheetActions } from '../../components/ui';
+import { Page, PageHeader, Modal, FileButton, Seg, useToast, SheetActions, Hint } from '../../components/ui';
 import { db, putBlob, type TalkCard } from '../../lib/db';
 import { useBlobUrl, useChildId } from '../../lib/hooks';
 import { meta, L } from '../../lib/content';
@@ -179,7 +179,7 @@ function CardEditor({ card, onClose, childId, count, onSaved }: { card: Card | n
             {voiceUrl && !rec && <button className="chip" onClick={() => void new Audio(voiceUrl).play()}><Play size={16} aria-hidden /> {t('play')}</button>}
             {voice && !rec && <button className="chip text-danger" onClick={() => setVoice(undefined)}><Trash2 size={16} aria-hidden /> {t('removeRecording')}</button>}
           </div>
-          <p className="text-sm text-muted mt-1">{t('voiceHint')}</p>
+          <Hint>{t('voiceHint')}</Hint>
         </div>
         <SheetActions>
           {card.builtin !== undefined ? <button className="btn-ghost" onClick={() => save(true)}><EyeOff size={18} aria-hidden /> {t('hideCard')}</button>
@@ -211,7 +211,7 @@ function RecordAll({ cards, childId, count, onClose }: { cards: Card[]; childId:
   return (
     <Modal open onClose={() => { void rec?.stop(); onClose(); }} title={t('recordVoices')}>
       <div className="grid gap-4 text-center">
-        <p className="text-sm text-muted">{t('recordVoicesHint')}</p>
+        <Hint>{t('recordVoicesHint')}</Hint>
         <div className="flex items-center justify-center gap-1 flex-wrap" aria-hidden>{cards.map((x, k) => <span key={x.key} className={cx('w-2 h-2 rounded-full', k === i ? 'bg-[rgb(var(--accent))] scale-125' : (x.key in fresh ? fresh[x.key] : x.voice) ? 'bg-[var(--p2)]' : 'bg-line')} />)}</div>
         <div className="mx-auto w-24 h-24 rounded-full bg-surface2 flex items-center justify-center text-5xl">{c.emoji ?? '💬'}</div>
         <p className="text-sm font-bold text-muted">{c.label}</p>

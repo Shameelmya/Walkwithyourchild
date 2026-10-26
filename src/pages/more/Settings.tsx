@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { CloudUpload, CloudDownload, Lock, Trash2, FileDown, Plus, Bell, Info, Phone } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Section, Modal, Confirm, Avatar, FileButton, useToast } from '../../components/ui';
+import { Page, PageHeader, Section, Modal, Confirm, Avatar, FileButton, useToast, Hint } from '../../components/ui';
 import { DisplaySettings } from '../../components/ReaderSettings';
 import { db, getSetting, setSetting } from '../../lib/db';
 import { hashPin, verifyPin, type PinHash } from '../../lib/crypto';
@@ -50,7 +50,7 @@ function PinSettings() {
         <button className="btn-primary" onClick={() => setMode('set')}><Lock size={18} aria-hidden /> {pin ? t('changePin') : t('setPin')}</button>
         {pin && <button className="btn-ghost" onClick={() => setMode('off')}>{t('turnOffPin')}</button>}
       </div>
-      <p className="text-sm text-muted mt-2">{t('autoLockNote')}</p>
+      <Hint>{t('autoLockNote')}</Hint>
       <Modal open={!!mode} onClose={close} title={mode === 'off' ? t('turnOffPin') : pin ? t('changePin') : t('setPin')}>
         <div className="grid gap-3">
           {pin && inp('pin-old', old, setOld, t('currentPin'))}
@@ -157,12 +157,12 @@ function VoiceSettings() {
       })}
       <label className="block"><span className="label">{t('speechSpeed')}</span>
         <input type="range" min={0.7} max={1.3} step={0.05} value={speechRate} onChange={(e) => setSpeechRate(+e.target.value)} className="slider w-full" /></label>
-      <p className="text-sm text-muted">{t('voiceInstallHint')}</p>
+      <Hint>{t('voiceInstallHint')}</Hint>
       <div className="flex flex-wrap gap-2">
         <Link to="/talk" className="chip">🎙️ {t('recordVoices')}</Link>
         <a href="/voice-test.html" className="chip">🔊 {t('voiceTest')}</a>
       </div>
-      <p className="text-xs text-muted/80 break-all">{browserInfo()} · {'speechSynthesis' in window ? speechSynthesis.getVoices().length : 0} voices</p>
+      <p className="text-xs text-muted/80 break-all">{browserInfo()} · {'speechSynthesis' in window ? speechSynthesis.getVoices().length : 0} 🔊</p>
     </div>
   );
 }
@@ -222,7 +222,7 @@ export default function Settings() {
       <Section title={t('seizureSettings')}>
         <div className="card p-4"><label className="label" htmlFor="s-rescue">{t('defaultRescueTime')}</label>
           <div className="flex items-center gap-3"><input id="s-rescue" type="number" min={1} max={30} className="input w-28" value={rescue} onChange={(e) => { const v = Math.max(1, Math.min(30, +e.target.value || 5)); setRescue(v); void setSetting('defaultRescue', v); }} /><span>{t('minutes')}</span></div>
-          <p className="text-sm text-muted mt-1">{t('rescueHint')}</p></div>
+          <Hint>{t('rescueHint')}</Hint></div>
       </Section>
       <Section title={t('reminders')}>
         <div className="card p-4 grid gap-3">

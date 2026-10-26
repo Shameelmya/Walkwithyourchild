@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { pick as pickL } from '../../lib/util';
 import { ListMusic, Plus, Minus, Circle, Square, Trash2, Play as PlayIcon } from 'lucide-react';
 import { hold, midi, tone } from '../../lib/audio';
 import { useUI, type Lang } from '../../lib/store';
@@ -33,7 +34,7 @@ const LETTER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 const SPEEDS = [{ e: '🐢', bpm: 50 }, { e: '🐇', bpm: 72 }, { e: '🚀', bpm: 100 }];
 const PPB = 110; // pixels per beat
 const EARLY = 0.5; // a key may be hit up to half a beat before its tile reaches the line
-const nameOf = (s: Song, l: Lang) => (typeof s.name === 'string' ? s.name : (s.name[l] ?? s.name.en));
+const nameOf = (s: Song, l: Lang) => (typeof s.name === 'string' ? s.name : pickL(s.name, l));
 const click = (accent: boolean, vol: number) => { tone(accent ? 1760 : 1175, 0.045, vol * (accent ? 0.55 : 0.35), 'triangle'); };
 
 /** Tiles fall in time with the song while a soft metronome keeps the beat. Tap the glowing key as a tile meets the line;

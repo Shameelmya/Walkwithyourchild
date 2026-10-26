@@ -2,6 +2,7 @@ import metaJson from '../generated/meta.json';
 import workbookJson from '../generated/workbook.json';
 import tocJson from '../generated/toc.json';
 import type { Lang } from './store';
+import { xt } from '../i18n/xt';
 
 export type L10n = { en: string } & Partial<Record<Lang, string>>;
 export type Block =
@@ -26,8 +27,8 @@ export const workbook = workbookJson as unknown as { title: L10n; intro: L10n; s
 export const toc = tocJson as { toc: { id: string; n: number; part: number; blocks: number; title: L10n }[]; parts: { n: number; title: L10n }[]; anchors: Record<string, { c: string; from: number; to: number }> };
 
 export const sheetById = (id: string) => workbook.sheets.find((s) => s.id === id);
-export const loc = (v: L10n | undefined, lang: Lang) => (v ? v[lang] ?? v.en : '');
-export const L = (v: L10n, lang: Lang) => v[lang] ?? v.en;
+export const loc = (v: L10n | undefined, lang: Lang) => (v ? v[lang] ?? xt(lang, v.en) : '');
+export const L = (v: L10n, lang: Lang) => v[lang] ?? xt(lang, v.en);
 
 export function partColor(part: number) {
   if (part >= 1 && part <= 5) return { c: `var(--p${part})`, t: `var(--p${part}t)` };

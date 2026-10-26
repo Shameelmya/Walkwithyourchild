@@ -47,7 +47,7 @@ export default function SheetPage() {
   else body = <WeeklyEditor />;
   return (
     <Page>
-      <PageHeader back="/notebook" title={<><span className="text-[var(--pi)]">{sheet.n}.</span> {loc(sheet.title, lang)}</>} sub={loc(sheet.hint, lang)} />
+      <PageHeader back="/notebook" title={<><span className="text-[var(--pi)]">{sheet.n}.</span> {loc(sheet.title, lang)}</>} help={sheet.hint ? loc(sheet.hint, lang) : undefined} />
       <div className="flex flex-wrap gap-2 mb-5">
         <PrintMenu sheetIds={[sheet.id]} filename={`sheet-${sheet.n}-${sheet.id}`} />
         {sheet.id === 'emergency' && <Link to="/sos" className="btn-danger !min-h-[44px] px-4"><Siren size={18} aria-hidden /> {t('openEmergencyCard')}</Link>}

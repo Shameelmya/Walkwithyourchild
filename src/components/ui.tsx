@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { create } from 'zustand';
-import { X, User, Check } from 'lucide-react';
+import { X, User, Check, CircleHelp } from 'lucide-react';
 import { ArrowLeft } from './icons';
 import { useT, type TKey } from '../i18n';
 import { Illus } from './Illus';
@@ -10,9 +10,11 @@ import { useBlobUrl, usePresence } from '../lib/hooks';
 import { useBack, useBackToClose } from '../lib/nav';
 import { cx } from '../lib/util';
 
-export function PageHeader({ title, back = true, actions, sub, color, eyebrow }: { title: ReactNode; back?: boolean | string; actions?: ReactNode; sub?: ReactNode; color?: string; eyebrow?: ReactNode }) {
+export function PageHeader({ title, back = true, actions, sub, color, eyebrow, help }: { title: ReactNode; back?: boolean | string; actions?: ReactNode; sub?: ReactNode; color?: string; eyebrow?: ReactNode; help?: ReactNode }) {
   const back_ = useBack();
   const { t } = useT();
+  const [showHelp, setShowHelp] = useState(false);
+  const helpId = useId();
   return (
     <header className="pt-2 pb-5">
       <div className="flex items-center gap-3">
@@ -25,10 +27,36 @@ export function PageHeader({ title, back = true, actions, sub, color, eyebrow }:
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h1 className="text-[1.65rem] font-extrabold leading-tight" style={color ? { color } : undefined}>{title}</h1>
         </div>
+        {help && <HelpButton open={showHelp} onClick={() => setShowHelp(!showHelp)} controls={helpId} label={t('moreInfo')} />}
         {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
       </div>
       {sub && <p className="text-muted mt-2 max-w-2xl">{sub}</p>}
+      {help && showHelp && <HelpCard id={helpId} onClose={() => setShowHelp(false)}>{help}</HelpCard>}
     </header>
+  );
+}
+
+function HelpButton({ open, onClick, controls, label }: { open: boolean; onClick: () => void; controls: string; label: string }) {
+  return (
+    <button type="button" className={cx('w-12 h-12 shrink-0 rounded-full grid place-items-center transition-colors', open ? 'bg-[rgb(var(--accent))] text-white' : 'bg-soft text-[rgb(var(--accent))]')} aria-expanded={open} aria-controls={controls} aria-label={label} onClick={onClick}>
+      <CircleHelp size={22} aria-hidden />
+    </button>
+  );
+}
+function HelpCard({ id, onClose, children }: { id: string; onClose: () => void; children: ReactNode }) {
+  return <div id={id} role="note" className="anim-fade mt-3 rounded-2xl bg-soft p-4 text-[0.95rem] leading-relaxed max-w-2xl grid gap-1.5 cursor-pointer" onClick={onClose}>{children}</div>;
+}
+
+/** A small "?" button: one tap shows the explanation, the next tap hides it. Keeps pages short. */
+export function Hint({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const { t } = useT();
+  const [open, setOpen] = useState(false);
+  const id = useId();
+  return (
+    <div className={cx('mt-1', className)}>
+      <HelpButton open={open} onClick={() => setOpen(!open)} controls={id} label={t('moreInfo')} />
+      {open && <HelpCard id={id} onClose={() => setOpen(false)}>{children}</HelpCard>}
+    </div>
   );
 }
 

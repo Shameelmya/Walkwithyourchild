@@ -9,7 +9,7 @@ export const ml: Partial<Record<keyof typeof en, string>> = {
   updateReady: 'ആപ്പിന്റെ പുതിയ പതിപ്പ് തയ്യാറാണ്.', mainNav: 'പ്രധാന മെനു', display: 'കാഴ്ച', displayAppWide: 'ഈ ക്രമീകരണങ്ങൾ ആപ്പിൽ മുഴുവനും ബാധകമാണ്.',
   navHome: 'ഹോം', navBook: 'പുസ്തകം', navNotebook: 'നോട്ട്ബുക്ക്', navChild: 'എന്റെ കുട്ടി', navMore: 'കൂടുതൽ', navMedicines: 'മരുന്നുകൾ', navSeizures: 'ഫിറ്റ്സ് ഡയറി',
   navVisits: 'ഡോക്ടർ സന്ദർശനങ്ങൾ', navRecords: 'ചികിത്സാ രേഖകൾ', navProgress: 'പുരോഗതി', navDocuments: 'രേഖകൾ', navSummary: 'ഡോക്ടർക്കുള്ള സംഗ്രഹം', navTalk: 'സംസാര ബോർഡ്',
-  navPlay: 'കളിസ്ഥലം', navForMe: 'എനിക്കായി', navMemory: 'ഓർമ്മപ്പെട്ടി', navStories: 'കഥാപുസ്തകങ്ങൾ', navUpdates: 'പുതിയ വിവരങ്ങൾ', navCommunity: 'കൂട്ടായ്മ', navSettings: 'ക്രമീകരണങ്ങൾ', about: 'ആപ്പിനെക്കുറിച്ച്',
+  navPlay: 'കളിസ്ഥലം', navForMe: 'എനിക്കായി', navMemory: 'ഓർമ്മപ്പെട്ടി', skipToContent: 'ഉള്ളടക്കത്തിലേക്ക് പോകുക', moreInfo: 'കൂടുതൽ അറിയാൻ', navStories: 'കഥാപുസ്തകങ്ങൾ', navUpdates: 'പുതിയ വിവരങ്ങൾ', navCommunity: 'കൂട്ടായ്മ', navSettings: 'ക്രമീകരണങ്ങൾ', about: 'ആപ്പിനെക്കുറിച്ച്',
   sos: 'SOS', sosLong: 'അടിയന്തരം: എമർജൻസി കാർഡ് തുറക്കുക', switchChild: 'കുട്ടിയെ മാറ്റുക', addChild: 'ഒരു കുട്ടിയെ ചേർക്കുക', editProfile: 'വിവരങ്ങൾ മാറ്റുക', myChildPage: '“എന്റെ കുട്ടി” താൾ',
   chooseLanguage: 'ഭാഷ തിരഞ്ഞെടുക്കൂ', welcomeText: 'സ്നേഹത്തോടെ ഒരു വഴികാട്ടി, ആശുപത്രിയിൽ കൊണ്ടുപോകാൻ ഒരു നോട്ട്ബുക്ക്, ദിവസവുമുള്ള പരിചരണത്തിന് ചില ലളിതമായ സഹായങ്ങൾ. പതുക്കെ, ഓരോ ചുവടായി മുന്നോട്ട് പോകാം.',
   privacyTitle: 'നിങ്ങളുടെ സ്വകാര്യത', disclaimer: 'ശ്രദ്ധിക്കുക', iUnderstand: 'എനിക്ക് മനസ്സിലായി', aboutChild: 'നിങ്ങളുടെ കുട്ടിയെക്കുറിച്ച്', aboutChildSub: 'പേര് മാത്രം മതി. ബാക്കി പിന്നീട് ചേർക്കാം.',

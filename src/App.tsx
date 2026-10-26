@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
+import { tr } from './i18n';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, getSetting } from './lib/db';
@@ -127,7 +128,7 @@ export default function App() {
   useEffect(() => applyUI({ lang, theme, fontScale }), [lang, theme, fontScale]);
   return (
     <BrowserRouter>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[70] btn-primary">Skip to content</a>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[70] btn-primary">{tr(lang, 'skipToContent')}</a>
       <Gate />
       <Toaster />
       <UpdatePrompt />

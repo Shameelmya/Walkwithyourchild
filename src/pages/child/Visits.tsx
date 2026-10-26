@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Plus, Pencil, Trash2, ClipboardCheck, HelpCircle } from 'lucide-react';
 import { useT } from '../../i18n';
-import { Page, PageHeader, Empty, Modal, Confirm, FormFields, Section, useToast, BottomBar, SheetActions, type FDef } from '../../components/ui';
+import { Page, PageHeader, Empty, Hint, Modal, Confirm, FormFields, Section, useToast, BottomBar, SheetActions, type FDef } from '../../components/ui';
 import { db, getSheet, type Visit } from '../../lib/db';
 import { useChildId } from '../../lib/hooks';
 import { fmtDate, isoDate } from '../../lib/util';
@@ -62,7 +62,7 @@ export default function Visits() {
       <Section title={t('upcoming')}>{upcoming.length ? <ul className="grid gap-3">{upcoming.map((v) => card(v, true))}</ul> : <Empty kind="calendar" title={t('noVisits')} text={t('noVisitsText')} />}</Section>
       {!!past.length && <Section title={t('pastVisits')}><ul className="grid gap-3">{past.map((v) => card(v, false))}</ul></Section>}
       <Modal open={!!edit} onClose={() => setEdit(null)} title={t('doctorVisit')}>
-        {edit && <><FormFields fields={FIELDS} value={edit} onChange={setEdit} /><p className="text-sm text-muted mt-3">{t('visitReminderNote')}</p><SheetActions><button className="btn-primary" onClick={save}>{t('save')}</button></SheetActions></>}
+        {edit && <><FormFields fields={FIELDS} value={edit} onChange={setEdit} /><Hint className="mt-3">{t('visitReminderNote')}</Hint><SheetActions><button className="btn-primary" onClick={save}>{t('save')}</button></SheetActions></>}
       </Modal>
       <BottomBar><button className="btn-primary w-full" onClick={() => setEdit({ date: '' })}><Plus size={18} aria-hidden /> {t('doctorVisit')}</button></BottomBar>
       <Confirm open={!!del} danger text={t('deleteEntryQ')} onNo={() => setDel(null)} onYes={async () => { await db.visits.delete(del!.id!); setDel(null); }} />

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { pick as pickL } from '../../lib/util';
 import { Volume2 } from 'lucide-react';
 import { PENTA, tone, play, midi, speak, animal, preloadAnimals } from '../../lib/audio';
 import { useUI, type Lang } from '../../lib/store';
@@ -49,8 +50,8 @@ function makeRound(kind: QuizKind, n: number, lang: Lang, last: string): Round {
   const named = (list: [string, Name][], render: (k: string, i: number) => ReactNode): Round => {
     const { target, opts } = pick(list, (x) => x[0]);
     const nm = target[1];
-    return { prompt: tx.findThe.replace('{x}', (nm[lang] ?? nm.en)), say: [tx.findThe.replace('{x}', (nm[lang] ?? nm.en)), lang, UI_TEXT.en.findThe.replace('{x}', nm.en)], answer: target[0],
-      options: opts.map(([k, nn], i) => ({ key: k, node: render(k, i), label: (nn[lang] ?? nn.en) })), praise: [(nm[lang] ?? nm.en), lang] };
+    return { prompt: tx.findThe.replace('{x}', pickL(nm, lang)), say: [tx.findThe.replace('{x}', pickL(nm, lang)), lang, UI_TEXT.en.findThe.replace('{x}', nm.en)], answer: target[0],
+      options: opts.map(([k, nn], i) => ({ key: k, node: render(k, i), label: pickL(nn, lang) })), praise: [pickL(nm, lang), lang] };
   };
   switch (kind) {
     case 'animals': return named(ANIMALS, (k) => big(k));

@@ -1,4 +1,5 @@
 import type { Lang } from '../../lib/store';
+import { xt } from '../../i18n/xt';
 
 type T = { en: [string, string] } & Partial<Record<Lang, [string, string]>>; // [name, how to play]
 /** Game names and one-line "how to play" in each language. */
@@ -63,6 +64,6 @@ export const SONG_TEXT: Partial<Record<Lang, Record<'metronome' | 'perfect' | 'g
 };
 
 /** A game's name and how-to-play line in the reader's language, or English. */
-export const gameText = (id: string, lang: Lang) => GAME_TEXT[id][lang] ?? GAME_TEXT[id].en;
+export const gameText = (id: string, lang: Lang): [string, string] => GAME_TEXT[id][lang] ?? [xt(lang, GAME_TEXT[id].en[0]), xt(lang, GAME_TEXT[id].en[1])];
 export const uiText = (lang: Lang) => UI_TEXT[lang] ?? UI_TEXT.en;
 export const songText = (lang: Lang) => ({ ...UI_TEXT.en, ...SONG_TEXT.en, ...UI_TEXT[lang], ...SONG_TEXT[lang] });
