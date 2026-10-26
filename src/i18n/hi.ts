@@ -91,7 +91,7 @@ export const hi: Partial<Record<keyof typeof en, string>> = {
   playIntro: 'हल्की आवाज़ों वाले सरल खेल। कहीं भी छुएँ या कोई भी कुंजी दबाएँ। कोई अंक नहीं।', gameBubbles: 'बुलबुले', gameMusic: 'म्यूज़िक पैड', gamePeek: 'छुपन-छुपाई', gameSea: 'शांत समंदर',
   volume: 'आवाज़', playExitHint: 'खेल से निकलने के लिए ऊपर कोने के बटन को दबाए रखें।', holdToExit: 'निकलने के लिए दबाए रखें',
   // for me
-  forMeSub: 'आपके अपने स्वास्थ्य और मन के लिए सहायता।', teleManas: 'टेली-मानस · 14416', teleManasSub: 'मुफ़्त, 24 घंटे, हिंदी और कई भाषाओं में। कॉल करने के लिए दबाएँ।',
+  forMeSub: 'आपके अपने स्वास्थ्य और मन के लिए सहायता।', teleManas: 'टेली-मानस · 14416', teleManasSub: 'मुफ़्त, 24 घंटे, कई भारतीय भाषाओं में। कॉल करने के लिए दबाएँ।',
   breathing: 'धीमी साँस', breatheIn: 'साँस अंदर लें', breatheOut: 'साँस बाहर निकालें', startBreathing: 'शुरू करें', breathingHint: '4 गिनती अंदर, 6 बाहर। दो या तीन मिनट काफी हैं।',
   relaxation: 'कसना और छोड़ना', weeklyCheck: 'यह हफ्ता, मेरे लिए', goodMoments: 'अच्छे पल', goodMomentPlaceholder: 'आज का एक अच्छा पल…', supportCircle: 'मेरा सपोर्ट सर्कल',
   openSupportCircle: 'मेरा सपोर्ट सर्कल खोलें', supportCircleHint: 'फोन नंबर जोड़ें और WhatsApp पर तैयार संदेश भेजें।',

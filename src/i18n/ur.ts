@@ -91,7 +91,7 @@ export const ur: Partial<Record<keyof typeof en, string>> = {
   playIntro: 'ہلکی آوازوں والے سادہ کھیل۔ کہیں بھی چھوئیں یا کوئی بھی کی دبائیں۔ کوئی اسکور نہیں۔', gameBubbles: 'بلبلے', gameMusic: 'موسیقی کا پیڈ', gamePeek: 'چھپن چھپائی', gameSea: 'پرسکون سمندر',
   volume: 'آواز', playExitHint: 'کھیل سے نکلنے کے لیے اوپر کونے کے بٹن کو دبائے رکھیں۔', holdToExit: 'نکلنے کے لیے دبائے رکھیں',
   // for me
-  forMeSub: 'آپ کی اپنی صحت اور ذہنی سکون کے لیے مدد۔', teleManas: 'ٹیلی-مانس · 14416', teleManasSub: 'مفت، 24 گھنٹے، اردو اور کئی زبانوں میں۔ کال کرنے کے لیے دبائیں۔',
+  forMeSub: 'آپ کی اپنی صحت اور ذہنی سکون کے لیے مدد۔', teleManas: 'ٹیلی-مانس · 14416', teleManasSub: 'مفت، 24 گھنٹے، کئی ہندوستانی زبانوں میں۔ کال کرنے کے لیے دبائیں۔',
   breathing: 'آہستہ سانس', breatheIn: 'سانس اندر لیں', breatheOut: 'سانس باہر نکالیں', startBreathing: 'شروع کریں', breathingHint: '4 گنتی اندر، 6 باہر۔ دو یا تین منٹ کافی ہیں۔',
   relaxation: 'کسنا اور چھوڑنا', weeklyCheck: 'یہ ہفتہ، میرے لیے', goodMoments: 'اچھے لمحات', goodMomentPlaceholder: 'آج کا ایک اچھا لمحہ…', supportCircle: 'میرا سپورٹ سرکل',
   openSupportCircle: 'میرا سپورٹ سرکل کھولیں', supportCircleHint: 'فون نمبر شامل کریں اور WhatsApp پر تیار پیغام بھیجیں۔',

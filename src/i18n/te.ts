@@ -91,7 +91,7 @@ export const te: Partial<Record<keyof typeof en, string>> = {
   playIntro: 'మృదువైన శబ్దాలతో సరళమైన ఆటలు. ఎక్కడ తాకినా చాలు. స్కోరు ఉండదు.', gameBubbles: 'బుడగలు', gameMusic: 'మ్యూజిక్ ప్యాడ్', gamePeek: 'దాగుడుమూతలు', gameSea: 'ప్రశాంత సముద్రం',
   volume: 'వాల్యూమ్', playExitHint: 'ఆట నుండి బయటకు రావడానికి, పై మూలలోని బటన్‌ను నొక్కి పట్టుకోండి.', holdToExit: 'బయటకు రావడానికి నొక్కి పట్టుకోండి',
   // for me
-  forMeSub: 'మీ ఆరోగ్యం, మనసు కోసం సహాయం.', teleManas: 'టెలి-మానస్ · 14416', teleManasSub: 'ఉచితం, 24 గంటలు, తెలుగు సహా అనేక భాషల్లో. కాల్ చేయడానికి నొక్కండి.',
+  forMeSub: 'మీ ఆరోగ్యం, మనసు కోసం సహాయం.', teleManas: 'టెలి-మానస్ · 14416', teleManasSub: 'ఉచితం, 24 గంటలు, అనేక భారతీయ భాషల్లో. కాల్ చేయడానికి నొక్కండి.',
   breathing: 'నెమ్మదైన శ్వాస', breatheIn: 'శ్వాస పీల్చండి', breatheOut: 'శ్వాస వదలండి', startBreathing: 'ప్రారంభించు', breathingHint: '4 లెక్కకు లోపలికి, 6 లెక్కకు బయటకు. రెండు మూడు నిమిషాలు చాలు.',
   relaxation: 'బిగించి వదలడం', weeklyCheck: 'ఈ వారం, నా కోసం', goodMoments: 'మంచి క్షణాలు', goodMomentPlaceholder: 'ఈ రోజు ఒక మంచి క్షణం…', supportCircle: 'నా మద్దతు వలయం',
   openSupportCircle: 'నా మద్దతు వలయాన్ని తెరువు', supportCircleHint: 'ఫోన్ నంబర్ జోడించి, WhatsAppలో సిద్ధమైన సందేశాన్ని పంపండి.',

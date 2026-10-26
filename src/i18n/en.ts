@@ -27,7 +27,7 @@ export const en = {
   medsGivenOf: '{done} of {all} done', nextVisit: 'Next doctor visit', noVisits: 'No visit planned', journey: 'Reading progress', journeySub: 'Continue where you stopped, or open any chapter.',
   openContents: 'Open the contents', backupReminder: 'Time to make a backup', lastBackupOn: 'Last backup: {date}', neverBackedUp: 'No backup made yet',
   // book
-  searchBook: 'Search the book', searchPlaceholder: 'Search in English or Malayalam', noResults: 'Nothing found. Try another word.', resultsCount: '{n} results',
+  searchBook: 'Search the book', searchPlaceholder: 'Type a word to search', noResults: 'Nothing found. Try another word.', resultsCount: '{n} results',
   bookmarks: 'Bookmarks', noBookmarks: 'No bookmarks yet', noBookmarksText: 'Tap the bookmark button while reading to keep a page you want to return to.',
   bookmarkAdded: 'Bookmark added', bookmarkRemoved: 'Bookmark removed', switchLanguage: 'Switch language', chapterNav: 'Chapters',
   addToQuestions: 'Add to my questions', questionAdded: 'Added to your questions for the doctor', questionExists: 'This question is already in your list',
@@ -88,7 +88,7 @@ export const en = {
   playIntro: 'Simple games with soft sounds. Any tap or key works. There is no score.', gameBubbles: 'Bubbles', gameMusic: 'Music pad', gamePeek: 'Peekaboo', gameSea: 'Quiet sea',
   volume: 'Volume', playExitHint: 'To leave a game, press and hold the button in the top corner.', holdToExit: 'Press and hold to leave',
   // for me
-  forMeSub: 'Support for your own health and well-being.', teleManas: 'Tele-MANAS · 14416', teleManasSub: 'Free, 24 hours, in Malayalam and many languages. Tap to call.',
+  forMeSub: 'Support for your own health and well-being.', teleManas: 'Tele-MANAS · 14416', teleManasSub: 'Free, 24 hours, in many Indian languages. Tap to call.',
   breathing: 'Slow breathing', breatheIn: 'Breathe in', breatheOut: 'Breathe out', startBreathing: 'Start', breathingHint: 'In for 4, out for 6. Two or three minutes is enough.',
   relaxation: 'Tense and release', weeklyCheck: 'This week, for me', goodMoments: 'Good moments', goodMomentPlaceholder: 'One good moment today…', supportCircle: 'My support circle',
   openSupportCircle: 'Open my support circle', supportCircleHint: 'Add a phone number and send a ready message on WhatsApp.',
@@ -216,7 +216,7 @@ export const en = {
   noVoiceShort: "No voice on this phone",
   testVoice: "Test",
   speechSpeed: "Speaking speed",
-  voiceInstallHint: "For a natural Malayalam or Kannada voice on Android: open phone Settings → search “Text-to-speech” → choose “Speech Services by Google” → Settings → Install voice data → pick the language. Voices marked ☁ sound most natural but need internet. You can also record your own voice on any talk card.",
+  voiceInstallHint: "For a natural voice in your language on Android: open phone Settings → search “Text-to-speech” → choose “Speech Services by Google” → Settings → Install voice data → pick the language. Voices marked ☁ sound most natural but need internet. You can also record your own voice on any talk card.",
   voiceOk: "Spoken",
   voiceFailed: "The phone did not speak ({why}).",
   useChrome: "This app is open in Samsung Internet, which does not speak aloud. Open the app link in Google Chrome and add it to the home screen from there.",

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Activity, NotebookPen, MessageSquareHeart, Pill, Stethoscope, CloudUpload, Check, Gamepad2, Wind, Phone, BookOpen, HelpCircle, HeartPulse, HeartHandshake } from 'lucide-react';
+import { Activity, BookHeart, MessageSquareHeart, Pill, Stethoscope, CloudUpload, Check, Gamepad2, Wind, Phone, BookOpen, HelpCircle, HeartPulse, HeartHandshake } from 'lucide-react';
 import { ChevronRight, ArrowRight } from '../components/icons';
 import { ct } from '../lib/careText';
 import { useT } from '../i18n';
@@ -42,7 +42,7 @@ export default function Home() {
     { to: '/talk', I: MessageSquareHeart, l: t('navTalk'), s: '', cls: 't-violet' },
     { to: '/play', I: Gamepad2, l: t('navPlay'), s: '', cls: 't-green' },
     { to: '/medicines', I: Pill, l: t('navMedicines'), s: slots.length ? t('medsGivenOf', { done, all: slots.length }) : '', cls: 't-mint' },
-    { to: '/notebook', I: NotebookPen, l: t('navNotebook'), s: '', cls: 't-amber' },
+    { to: '/stories', I: BookHeart, l: t('navStories'), s: '', cls: 't-amber' },
     { to: '/me', I: Wind, l: t('navForMe'), s: '', cls: 't-coral' },
   ];
   return (
