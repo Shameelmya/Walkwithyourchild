@@ -11,7 +11,7 @@ const en = {
   empty: 'Start your first book', emptyText: 'Pick a topic and the pages come ready, each with a line to begin.',
   cover: 'Cover', picture: 'Picture', layout: 'Layout', coverPhoto: 'Use a photo', theEnd: 'The End',
   clear: 'Clear', undo: 'Undo', save: 'Done', cancel: 'Cancel', prev: 'Previous page', next: 'Next page', fromMemory: 'Make a story book',
-  t_meadow: 'Meadow', t_night: 'Night sky', t_sea: 'Seaside', t_garden: 'Garden', t_sky: 'Rainbow', t_forest: 'Forest', t_space: 'Space',
+  t_meadow: 'Meadow', t_night: 'Night sky', t_sea: 'Seaside', t_garden: 'Garden', t_sky: 'Rainbow', t_forest: 'Forest', t_space: 'Space', pageLayout: 'Page layout', stickers: 'Stickers', t_backwaters: 'Backwaters', t_monsoon: 'Monsoon', t_underwater: 'Under the sea', t_jungle: 'Jungle', t_farm: 'Farm', t_city: 'City', t_snow: 'Snow', t_mountains: 'Mountains', t_dino: 'Dinosaurs', t_circus: 'Circus', t_train: 'Train', t_festival: 'Festival lights', t_birthday: 'Birthday', t_castle: 'Castle', t_school: 'School',
 };
 export type StoryKey = keyof typeof en;
 type Kind = { id: string; e: string; name: string; prompts: string[] };
@@ -38,7 +38,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'ആദ്യത്തെ പുസ്തകം തുടങ്ങാം', emptyText: 'ഒരു വിഷയം തിരഞ്ഞെടുത്താൽ പേജുകൾ തയ്യാർ. ഓരോന്നിലും തുടങ്ങാൻ ഒരു വരിയുണ്ടാകും.',
     cover: 'പുറംചട്ട', picture: 'ചിത്രം', layout: 'രൂപം', coverPhoto: 'ഫോട്ടോ വെക്കാം', theEnd: 'ശുഭം',
     clear: 'മായ്ക്കുക', undo: 'തിരികെ', save: 'ശരി', cancel: 'വേണ്ട', prev: 'മുൻപേജ്', next: 'അടുത്ത പേജ്', fromMemory: 'കഥാപുസ്തകം ഉണ്ടാക്കാം',
-    t_meadow: 'പുൽമേട്', t_night: 'നിലാവ്', t_sea: 'കടൽത്തീരം', t_garden: 'പൂന്തോട്ടം', t_sky: 'മഴവില്ല്', t_forest: 'കാട്', t_space: 'ആകാശയാത്ര',
+    t_meadow: 'പുൽമേട്', t_night: 'നിലാവ്', t_sea: 'കടൽത്തീരം', t_garden: 'പൂന്തോട്ടം', t_sky: 'മഴവില്ല്', t_forest: 'കാട്', pageLayout: 'പേജിന്റെ രൂപം', stickers: 'സ്റ്റിക്കറുകൾ', t_space: 'ആകാശയാത്ര', t_backwaters: 'കായൽ', t_monsoon: 'മഴക്കാലം', t_underwater: 'കടലിനടിയിൽ', t_jungle: 'കാട്ടുവഴി', t_farm: 'കൃഷിയിടം', t_city: 'നഗരം', t_snow: 'മഞ്ഞ്', t_mountains: 'മലനിരകൾ', t_dino: 'ദിനോസർ', t_circus: 'സർക്കസ്', t_train: 'തീവണ്ടി', t_festival: 'ഉത്സവ വിളക്കുകൾ', t_birthday: 'പിറന്നാൾ', t_castle: 'കൊട്ടാരം', t_school: 'സ്കൂൾ',
   },
   kn: {
     title: 'ಕಥೆ ಪುಸ್ತಕಗಳು', intro: 'ಮಗುವಿನ ಜೊತೆ ಕುಳಿತು ಅವರ ಕಥೆಯನ್ನು ಪುಟ್ಟ ಪುಸ್ತಕ ಮಾಡಿ. ಫೋಟೋ, ಚಿತ್ರ, ಧ್ವನಿ ಸೇರಿಸಬಹುದು. ಯಾವುದೂ ಈ ಫೋನ್‌ನಿಂದ ಹೊರಗೆ ಹೋಗುವುದಿಲ್ಲ.',
@@ -50,7 +50,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'ಮೊದಲ ಪುಸ್ತಕ ಶುರು ಮಾಡಿ', emptyText: 'ಒಂದು ವಿಷಯ ಆರಿಸಿದರೆ ಪುಟಗಳು ಸಿದ್ಧ. ಪ್ರತಿ ಪುಟದಲ್ಲೂ ಶುರು ಮಾಡಲು ಒಂದು ಸಾಲು ಇರುತ್ತದೆ.',
     cover: 'ಮುಖಪುಟ', picture: 'ಚಿತ್ರ', layout: 'ವಿನ್ಯಾಸ', coverPhoto: 'ಫೋಟೋ ಹಾಕಿ', theEnd: 'ಮುಕ್ತಾಯ',
     clear: 'ಅಳಿಸಿ', undo: 'ಹಿಂದಕ್ಕೆ', save: 'ಆಯಿತು', cancel: 'ಬೇಡ', prev: 'ಹಿಂದಿನ ಪುಟ', next: 'ಮುಂದಿನ ಪುಟ', fromMemory: 'ಕಥೆ ಪುಸ್ತಕ ಮಾಡಿ',
-    t_meadow: 'ಹುಲ್ಲುಗಾವಲು', t_night: 'ಬೆಳದಿಂಗಳು', t_sea: 'ಕಡಲತೀರ', t_garden: 'ಹೂದೋಟ', t_sky: 'ಕಾಮನಬಿಲ್ಲು', t_forest: 'ಕಾಡು', t_space: 'ಬಾಹ್ಯಾಕಾಶ',
+    t_meadow: 'ಹುಲ್ಲುಗಾವಲು', t_night: 'ಬೆಳದಿಂಗಳು', t_sea: 'ಕಡಲತೀರ', t_garden: 'ಹೂದೋಟ', t_sky: 'ಕಾಮನಬಿಲ್ಲು', t_forest: 'ಕಾಡು', pageLayout: 'ಪುಟದ ವಿನ್ಯಾಸ', stickers: 'ಸ್ಟಿಕ್ಕರ್‌ಗಳು', t_space: 'ಬಾಹ್ಯಾಕಾಶ', t_backwaters: 'ಹಿನ್ನೀರು', t_monsoon: 'ಮಳೆಗಾಲ', t_underwater: 'ಸಮುದ್ರದಾಳ', t_jungle: 'ದಟ್ಟ ಕಾಡು', t_farm: 'ತೋಟ', t_city: 'ನಗರ', t_snow: 'ಹಿಮ', t_mountains: 'ಬೆಟ್ಟಗಳು', t_dino: 'ಡೈನೋಸಾರ್', t_circus: 'ಸರ್ಕಸ್', t_train: 'ರೈಲು', t_festival: 'ಹಬ್ಬದ ದೀಪಗಳು', t_birthday: 'ಹುಟ್ಟುಹಬ್ಬ', t_castle: 'ಅರಮನೆ', t_school: 'ಶಾಲೆ',
   },
   hi: {
     title: 'कहानी की किताबें', intro: 'बच्चे के साथ बैठिए और उसकी कहानी को एक छोटी-सी किताब बना दीजिए। फ़ोटो, चित्र और उसकी आवाज़ भी जोड़ सकते हैं। सब कुछ इसी फ़ोन में रहता है।',
@@ -62,7 +62,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'पहली किताब शुरू कीजिए', emptyText: 'एक विषय चुनिए, पन्ने तैयार मिलेंगे। हर पन्ने पर शुरू करने के लिए एक पंक्ति होगी।',
     cover: 'आवरण', picture: 'चित्र', layout: 'बनावट', coverPhoto: 'फ़ोटो लगाएँ', theEnd: 'समाप्त',
     clear: 'मिटाएँ', undo: 'वापस', save: 'ठीक है', cancel: 'रहने दें', prev: 'पिछला पन्ना', next: 'अगला पन्ना', fromMemory: 'कहानी की किताब बनाएँ',
-    t_meadow: 'हरा मैदान', t_night: 'चाँदनी रात', t_sea: 'समुद्र तट', t_garden: 'बगीचा', t_sky: 'इंद्रधनुष', t_forest: 'जंगल', t_space: 'अंतरिक्ष',
+    t_meadow: 'हरा मैदान', t_night: 'चाँदनी रात', t_sea: 'समुद्र तट', t_garden: 'बगीचा', t_sky: 'इंद्रधनुष', t_forest: 'जंगल', pageLayout: 'पन्ने की बनावट', stickers: 'स्टिकर', t_space: 'अंतरिक्ष', t_backwaters: 'बैकवाटर', t_monsoon: 'बरसात', t_underwater: 'समुद्र के नीचे', t_jungle: 'घना जंगल', t_farm: 'खेत', t_city: 'शहर', t_snow: 'बर्फ़', t_mountains: 'पहाड़', t_dino: 'डायनासोर', t_circus: 'सर्कस', t_train: 'रेलगाड़ी', t_festival: 'त्योहार के दीये', t_birthday: 'जन्मदिन', t_castle: 'महल', t_school: 'स्कूल',
   },
   ta: {
     title: 'கதைப் புத்தகங்கள்', intro: 'குழந்தையுடன் அமர்ந்து அவர்களின் கதையை ஒரு சின்னப் புத்தகமாக்குங்கள். புகைப்படம், ஓவியம், குரல் சேர்க்கலாம். எதுவும் இந்த போனை விட்டு வெளியே போகாது.',
@@ -74,7 +74,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'முதல் புத்தகத்தைத் தொடங்குங்கள்', emptyText: 'ஒரு தலைப்பைத் தேர்ந்தெடுத்தால் பக்கங்கள் தயார். ஒவ்வொன்றிலும் தொடங்க ஒரு வரி இருக்கும்.',
     cover: 'அட்டை', picture: 'படம்', layout: 'வடிவம்', coverPhoto: 'புகைப்படம் வை', theEnd: 'முற்றும்',
     clear: 'அழி', undo: 'பின்செல்', save: 'சரி', cancel: 'வேண்டாம்', prev: 'முந்தைய பக்கம்', next: 'அடுத்த பக்கம்', fromMemory: 'கதைப் புத்தகம் செய்',
-    t_meadow: 'புல்வெளி', t_night: 'நிலா இரவு', t_sea: 'கடற்கரை', t_garden: 'பூந்தோட்டம்', t_sky: 'வானவில்', t_forest: 'காடு', t_space: 'விண்வெளி',
+    t_meadow: 'புல்வெளி', t_night: 'நிலா இரவு', t_sea: 'கடற்கரை', t_garden: 'பூந்தோட்டம்', t_sky: 'வானவில்', t_forest: 'காடு', pageLayout: 'பக்க வடிவம்', stickers: 'ஸ்டிக்கர்கள்', t_space: 'விண்வெளி', t_backwaters: 'காயல்', t_monsoon: 'மழைக்காலம்', t_underwater: 'கடலுக்கடியில்', t_jungle: 'அடர்காடு', t_farm: 'பண்ணை', t_city: 'நகரம்', t_snow: 'பனி', t_mountains: 'மலைகள்', t_dino: 'டைனோசர்', t_circus: 'சர்க்கஸ்', t_train: 'ரயில்', t_festival: 'திருவிழா விளக்குகள்', t_birthday: 'பிறந்தநாள்', t_castle: 'அரண்மனை', t_school: 'பள்ளி',
   },
   te: {
     title: 'కథల పుస్తకాలు', intro: 'పిల్లలతో కూర్చుని వారి కథను ఒక చిన్న పుస్తకంగా చేయండి. ఫోటోలు, బొమ్మలు, వారి గొంతు కూడా చేర్చవచ్చు. ఏదీ ఈ ఫోన్ దాటి వెళ్ళదు.',
@@ -86,7 +86,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'మొదటి పుస్తకం మొదలుపెట్టండి', emptyText: 'ఒక విషయం ఎంచుకుంటే పేజీలు సిద్ధం. ప్రతి పేజీలో మొదలుపెట్టడానికి ఒక వాక్యం ఉంటుంది.',
     cover: 'అట్ట', picture: 'బొమ్మ', layout: 'రూపం', coverPhoto: 'ఫోటో పెట్టండి', theEnd: 'సమాప్తం',
     clear: 'చెరిపివేయండి', undo: 'వెనక్కి', save: 'సరే', cancel: 'వద్దు', prev: 'మునుపటి పేజీ', next: 'తదుపరి పేజీ', fromMemory: 'కథల పుస్తకం చేయండి',
-    t_meadow: 'పచ్చిక బయలు', t_night: 'వెన్నెల రాత్రి', t_sea: 'సముద్ర తీరం', t_garden: 'పూలతోట', t_sky: 'ఇంద్రధనుస్సు', t_forest: 'అడవి', t_space: 'అంతరిక్షం',
+    t_meadow: 'పచ్చిక బయలు', t_night: 'వెన్నెల రాత్రి', t_sea: 'సముద్ర తీరం', t_garden: 'పూలతోట', t_sky: 'ఇంద్రధనుస్సు', t_forest: 'అడవి', pageLayout: 'పేజీ రూపం', stickers: 'స్టిక్కర్లు', t_space: 'అంతరిక్షం', t_backwaters: 'కాలువలు', t_monsoon: 'వానాకాలం', t_underwater: 'సముద్రం లోపల', t_jungle: 'దట్టమైన అడవి', t_farm: 'పొలం', t_city: 'నగరం', t_snow: 'మంచు', t_mountains: 'కొండలు', t_dino: 'డైనోసార్', t_circus: 'సర్కస్', t_train: 'రైలు', t_festival: 'పండుగ దీపాలు', t_birthday: 'పుట్టినరోజు', t_castle: 'కోట', t_school: 'బడి',
   },
   bn: {
     title: 'গল্পের বই', intro: 'শিশুর পাশে বসে তার গল্পটা একটা ছোট্ট বই করে ফেলুন। ছবি, আঁকা আর তার গলার আওয়াজও রাখা যায়। কিছুই এই ফোনের বাইরে যায় না।',
@@ -98,7 +98,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'প্রথম বইটা শুরু করুন', emptyText: 'একটা বিষয় বেছে নিলেই পাতা তৈরি। প্রতিটি পাতায় শুরু করার জন্য একটা লাইন থাকবে।',
     cover: 'প্রচ্ছদ', picture: 'ছবি', layout: 'নকশা', coverPhoto: 'ছবি দিন', theEnd: 'সমাপ্ত',
     clear: 'মুছুন', undo: 'ফিরে যান', save: 'ঠিক আছে', cancel: 'থাক', prev: 'আগের পাতা', next: 'পরের পাতা', fromMemory: 'গল্পের বই বানান',
-    t_meadow: 'সবুজ মাঠ', t_night: 'জ্যোৎস্না রাত', t_sea: 'সমুদ্রতীর', t_garden: 'ফুলবাগান', t_sky: 'রামধনু', t_forest: 'বন', t_space: 'মহাকাশ',
+    t_meadow: 'সবুজ মাঠ', t_night: 'জ্যোৎস্না রাত', t_sea: 'সমুদ্রতীর', t_garden: 'ফুলবাগান', t_sky: 'রামধনু', t_forest: 'বন', pageLayout: 'পাতার নকশা', stickers: 'স্টিকার', t_space: 'মহাকাশ', t_backwaters: 'জলাভূমি', t_monsoon: 'বর্ষা', t_underwater: 'সমুদ্রের তলায়', t_jungle: 'গভীর জঙ্গল', t_farm: 'খামার', t_city: 'শহর', t_snow: 'তুষার', t_mountains: 'পাহাড়', t_dino: 'ডাইনোসর', t_circus: 'সার্কাস', t_train: 'রেলগাড়ি', t_festival: 'উৎসবের আলো', t_birthday: 'জন্মদিন', t_castle: 'রাজপ্রাসাদ', t_school: 'স্কুল',
   },
   ur: {
     title: 'کہانی کی کتابیں', intro: 'بچے کے ساتھ بیٹھیے اور اس کی کہانی کو ایک ننھی سی کتاب بنا دیجیے۔ تصویریں، ڈرائنگ اور اس کی آواز بھی شامل کر سکتے ہیں۔ سب کچھ اسی فون میں رہتا ہے۔',
@@ -110,7 +110,7 @@ const ui: Partial<Record<Lang, Partial<Record<StoryKey, string>>>> = {
     empty: 'پہلی کتاب شروع کیجیے', emptyText: 'ایک موضوع چنیے، صفحات تیار ملیں گے۔ ہر صفحے پر شروع کرنے کے لیے ایک سطر ہوگی۔',
     cover: 'سرورق', picture: 'تصویر', layout: 'ترتیب', coverPhoto: 'تصویر لگائیں', theEnd: 'ختم شد',
     clear: 'صاف کریں', undo: 'واپس', save: 'ٹھیک ہے', cancel: 'رہنے دیں', prev: 'پچھلا صفحہ', next: 'اگلا صفحہ', fromMemory: 'کہانی کی کتاب بنائیں',
-    t_meadow: 'سبزہ زار', t_night: 'چاندنی رات', t_sea: 'ساحل', t_garden: 'باغیچہ', t_sky: 'قوسِ قزح', t_forest: 'جنگل', t_space: 'خلا',
+    t_meadow: 'سبزہ زار', t_night: 'چاندنی رات', t_sea: 'ساحل', t_garden: 'باغیچہ', t_sky: 'قوسِ قزح', t_forest: 'جنگل', pageLayout: 'صفحے کی ترتیب', stickers: 'اسٹیکر', t_space: 'خلا', t_backwaters: 'جھیل کنارے', t_monsoon: 'برسات', t_underwater: 'سمندر کی تہہ', t_jungle: 'گھنا جنگل', t_farm: 'کھیت', t_city: 'شہر', t_snow: 'برف', t_mountains: 'پہاڑ', t_dino: 'ڈائنوسار', t_circus: 'سرکس', t_train: 'ریل گاڑی', t_festival: 'تہوار کے دیے', t_birthday: 'سالگرہ', t_castle: 'محل', t_school: 'اسکول',
   },
 };
 

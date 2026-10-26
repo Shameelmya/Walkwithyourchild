@@ -12,7 +12,7 @@ import { isRtl } from '../../lib/store';
 import { st, storyKinds, type StoryKey } from '../../lib/storyText';
 import { cx, shareOrDownload } from '../../lib/util';
 import { Scene, THEMES, type ThemeId } from './story/art';
-import { CoverView, EndView, LAYOUTS, PageView, type Book, type SPage } from './story/pages';
+import { CoverView, EndView, LAYOUTS, PAGE_LAYOUTS, PageView, STICKERS, type Book, type SPage } from './story/pages';
 import { FlipBook } from './story/FlipBook';
 
 const INKS = ['#222222', '#D9534F', '#E08A1E', '#F2C230', '#2E9E6B', '#2F6FD6', '#8A5CC2', '#8B5A2B'];
@@ -166,7 +166,7 @@ function Workshop({ id }: { id: string }) {
         </div>
         <div className="card p-4 sm:p-5">
           {sel === 0 ? <CoverPanel book={book} update={update} onDelete={() => setDel(true)} />
-            : <PageEditor key={book.pages[sel - 1].id} p={book.pages[sel - 1]} onChange={setPage}
+            : <PageEditor key={book.pages[sel - 1].id} p={book.pages[sel - 1]} n={sel} theme={book.theme} onChange={setPage}
               onDelete={async () => { const p = book.pages[sel - 1]; await dropBlobs(pageBlobs(p)); update({ ...book, pages: book.pages.filter((x) => x.id !== p.id) }); setSel(Math.min(sel, book.pages.length - 1)); }} />}
         </div>
       </div>
@@ -192,7 +192,7 @@ function CoverPanel({ book, update, onDelete }: { book: Book; update: (b: Book) 
     <div className="grid gap-5">
       <label className="grid gap-1 text-sm font-bold">{s('bookTitle')}<input className="input font-normal" value={book.title} onChange={(e) => update({ ...book, title: e.target.value })} /></label>
       <label className="grid gap-1 text-sm font-bold">{s('author')}<input className="input font-normal" value={book.author} onChange={(e) => update({ ...book, author: e.target.value })} /></label>
-      <fieldset><legend className="text-sm font-bold mb-2">{s('picture')}</legend>
+      <fieldset className="min-w-0"><legend className="text-sm font-bold mb-2">{s('picture')}</legend>
         <div className="grid grid-cols-4 gap-3">{THEMES.map((th) => (
           <button key={th} type="button" aria-pressed={book.theme === th} onClick={() => update({ ...book, theme: th })} className="grid justify-items-center gap-1 text-[0.7rem] font-semibold">
             <span className={cx('w-14 h-14 rounded-full overflow-hidden border-[3px] transition', book.theme === th ? 'border-[rgb(var(--accent))] scale-105' : 'border-transparent')}><Scene theme={th} /></span>
@@ -200,7 +200,7 @@ function CoverPanel({ book, update, onDelete }: { book: Book; update: (b: Book) 
           </button>
         ))}</div>
       </fieldset>
-      <fieldset><legend className="text-sm font-bold mb-2">{s('layout')}</legend>
+      <fieldset className="min-w-0"><legend className="text-sm font-bold mb-2">{s('layout')}</legend>
         <div className="flex gap-3 flex-wrap">{LAYOUTS.map((l, i) => (
           <button key={l} type="button" aria-pressed={book.layout === l} aria-label={`${s('layout')} ${i + 1}`} onClick={() => update({ ...book, layout: l })}
             className={cx('w-[62px] rounded-[0.4rem] transition', book.layout === l ? 'ring-[3px] ring-[rgb(var(--accent))] ring-offset-2 ring-offset-surface' : 'opacity-80')}>
@@ -217,7 +217,9 @@ function CoverPanel({ book, update, onDelete }: { book: Book; update: (b: Book) 
   );
 }
 
-function PageEditor({ p, onChange, onDelete }: { p: SPage; onChange: (p: SPage) => void; onDelete: () => void }) {
+function PageEditor({ p, n, theme, onChange, onDelete }: { p: SPage; n: number; theme: ThemeId; onChange: (p: SPage) => void; onDelete: () => void }) {
+  const photoUrl = useBlobUrl(p.photo);
+  const drawUrl = useBlobUrl(p.drawing);
   const { s } = useS();
   const { t } = useT();
   const childId = useChildId();
@@ -247,6 +249,27 @@ function PageEditor({ p, onChange, onDelete }: { p: SPage; onChange: (p: SPage) 
           : !p.voice && <button className="btn-ghost" onClick={async () => { try { setRec(await startRecording('audio', 3 * 60_000, (b) => { setRec(null); setBlob('voice', b); })); } catch { toast(t('micNotAvailable')); } }}><Mic size={18} aria-hidden /> {s('voice')}</button>}
       </div>
       {voice && !rec && <div className="flex items-center gap-2"><audio src={voice} controls className="flex-1 min-w-0" /><button className="btn-ghost min-w-[48px]" aria-label={`${s('remove')}: ${s('voice')}`} onClick={() => clearBlob('voice')}><X size={18} aria-hidden /></button></div>}
+      <fieldset className="min-w-0"><legend className="text-sm font-bold mb-2">{s('pageLayout')}</legend>
+        <div className="flex gap-3 flex-wrap">{PAGE_LAYOUTS.map((l, i) => (
+          <button key={l} type="button" aria-pressed={(p.layout ?? 'auto') === l} aria-label={`${s('pageLayout')} ${i + 1}`} onClick={() => onChange({ ...p, layout: l })}
+            className={cx('w-[58px] rounded-[0.4rem] transition', (p.layout ?? 'auto') === l ? 'ring-[3px] ring-[rgb(var(--accent))] ring-offset-2 ring-offset-surface' : 'opacity-80')}>
+            <PageView page={{ ...p, layout: l }} n={n} theme={theme} photoUrl={photoUrl} drawUrl={drawUrl} />
+          </button>
+        ))}</div>
+      </fieldset>
+      <fieldset className="min-w-0"><legend className="text-sm font-bold mb-2">{s('picture')}</legend>
+        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">{THEMES.map((th) => (
+          <button key={th} type="button" aria-pressed={(p.scene ?? theme) === th} aria-label={s(`t_${th}` as StoryKey)} onClick={() => onChange({ ...p, scene: th })}
+            className={cx('shrink-0 w-12 h-12 rounded-full overflow-hidden border-[3px] transition', (p.scene ?? theme) === th ? 'border-[rgb(var(--accent))]' : 'border-transparent')}><Scene theme={th} /></button>
+        ))}</div>
+      </fieldset>
+      <fieldset className="min-w-0"><legend className="text-sm font-bold mb-2">{s('stickers')}</legend>
+        <div className="flex flex-wrap gap-1.5">{STICKERS.map((e) => {
+          const on = (p.stickers ?? []).includes(e);
+          return <button key={e} type="button" aria-pressed={on} aria-label={e} onClick={() => onChange({ ...p, stickers: on ? (p.stickers ?? []).filter((x) => x !== e) : [...(p.stickers ?? []), e].slice(-4) })}
+            className={cx('w-11 h-11 rounded-xl text-2xl grid place-items-center transition', on ? 'bg-soft ring-2 ring-[rgb(var(--accent))]' : 'bg-surface2')}>{e}</button>;
+        })}</div>
+      </fieldset>
       <button className="btn-ghost text-danger justify-self-start" onClick={() => setDel(true)}><Trash2 size={18} aria-hidden /> {s('deletePage')}</button>
       {draw && <DrawPad onCancel={() => setDraw(false)} onDone={async (b) => { setDraw(false); await setBlob('drawing', b); }} />}
       <Confirm open={del} danger text={`${s('deletePage')}?`} onNo={() => setDel(false)} onYes={() => { setDel(false); onDelete(); }} />
