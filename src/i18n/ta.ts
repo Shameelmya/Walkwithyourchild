@@ -12,7 +12,7 @@ export const ta: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'முகப்பு', navBook: 'புத்தகம்', navNotebook: 'குறிப்பேடு', navChild: 'என் குழந்தை', navMore: 'மேலும்', navMedicines: 'மருந்துகள்', navSeizures: 'வலிப்பு நாட்குறிப்பு',
   navVisits: 'டாக்டர் சந்திப்புகள்', navRecords: 'உடல்நலப் பதிவுகள்', navProgress: 'முன்னேற்றம்', navDocuments: 'ஆவணங்கள்', navSummary: 'டாக்டர் சுருக்கம்', navTalk: 'பேசும் பலகை',
-  navPlay: 'விளையாட்டு', navForMe: 'எனக்காக', navMemory: 'நினைவுப் பெட்டி', navUpdates: 'புதுப்பிப்புகள்', navCommunity: 'சமூகம்', navSettings: 'அமைப்புகள்', about: 'பற்றி',
+  navPlay: 'விளையாட்டு', navForMe: 'எனக்காக', navMemory: 'நினைவுப் பெட்டி', navStories: 'கதைப் புத்தகங்கள்', navUpdates: 'புதுப்பிப்புகள்', navCommunity: 'சமூகம்', navSettings: 'அமைப்புகள்', about: 'பற்றி',
   sos: 'SOS', sosLong: 'அவசரம்: அவசர அட்டையைத் திற', switchChild: 'குழந்தையை மாற்று', addChild: 'குழந்தையைச் சேர்', editProfile: 'சுயவிவரத்தைத் திருத்து', myChildPage: '“என் குழந்தை” பக்கம்',
   // onboarding
   chooseLanguage: 'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்', welcomeText: 'ஒரு மென்மையான வழிகாட்டி, மருத்துவமனைப் பயணங்களுக்கான குறிப்பேடு, அன்றாடப் பராமரிப்புக்கான எளிய கருவிகள். ஒரு நேரத்தில் ஒரு அடியாக எடுத்துச் செல்லுங்கள்.',

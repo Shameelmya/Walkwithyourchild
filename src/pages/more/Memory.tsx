@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Camera, Mic, Video, StickyNote, Hand, Square, Trash2 } from 'lucide-react';
+import { Camera, Mic, Video, StickyNote, Hand, Square, Trash2, BookHeart, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { st } from '../../lib/storyText';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Empty, FileButton, Modal, Confirm, useToast } from '../../components/ui';
 import { PinPad } from '../../components/Lock';
@@ -40,7 +42,7 @@ function Viewer({ m, onClose }: { m: Mem; onClose: () => void }) {
 }
 
 export default function Memory() {
-  const { t } = useT();
+  const { t, lang } = useT();
   const childId = useChildId();
   const toast = useToast((s) => s.show);
   const pin = useLiveQuery(() => getSetting<PinHash | null>('pin', null), []);
@@ -60,6 +62,11 @@ export default function Memory() {
   return (
     <Page wide>
       <PageHeader title={t('navMemory')} />
+      <Link to="/stories" className="card p-4 mb-5 flex items-center gap-3 min-h-[64px]">
+        <BookHeart size={28} className="text-[var(--p4)] shrink-0" aria-hidden />
+        <span className="flex-1"><b className="block">{st(lang, 'fromMemory')}</b><span className="text-sm text-muted line-clamp-2">{st(lang, 'intro')}</span></span>
+        <ChevronRight size={20} className="rtl:rotate-180 shrink-0" aria-hidden />
+      </Link>
       <div className="flex flex-wrap gap-2 mb-6">
         <FileButton accept="image/*" onFile={async (f) => add('photo', await compressImage(f, 2000, 0.85))}><Camera size={18} aria-hidden /> {t('photo')}</FileButton>
         <FileButton accept="image/*" capture="environment" onFile={async (f) => add('handprint', await compressImage(f, 2000, 0.85), t('handprint'))}><Hand size={18} aria-hidden /> {t('handprint')}</FileButton>

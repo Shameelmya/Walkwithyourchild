@@ -9,7 +9,7 @@ export const kn: Partial<Record<keyof typeof en, string>> = {
   updateReady: 'ಆ್ಯಪ್‌ನ ಹೊಸ ಆವೃತ್ತಿ ಸಿದ್ಧವಾಗಿದೆ.', mainNav: 'ಮುಖ್ಯ ಮೆನು', display: 'ತೋರಿಕೆ', displayAppWide: 'ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಇಡೀ ಆ್ಯಪ್‌ಗೆ ಅನ್ವಯಿಸುತ್ತವೆ.',
   navHome: 'ಮುಖಪುಟ', navBook: 'ಪುಸ್ತಕ', navNotebook: 'ನೋಟ್‌ಬುಕ್', navChild: 'ನನ್ನ ಮಗು', navMore: 'ಇನ್ನಷ್ಟು', navMedicines: 'ಔಷಧಿಗಳು', navSeizures: 'ಮೂರ್ಛೆ ದಿನಚರಿ',
   navVisits: 'ವೈದ್ಯರ ಭೇಟಿಗಳು', navRecords: 'ಆರೋಗ್ಯ ದಾಖಲೆಗಳು', navProgress: 'ಪ್ರಗತಿ', navDocuments: 'ದಾಖಲೆಗಳು', navSummary: 'ವೈದ್ಯರಿಗೆ ಸಾರಾಂಶ', navTalk: 'ಮಾತಿನ ಫಲಕ',
-  navPlay: 'ಆಟದ ಮನೆ', navForMe: 'ನನಗಾಗಿ', navMemory: 'ನೆನಪಿನ ಪೆಟ್ಟಿಗೆ', navUpdates: 'ಹೊಸ ಮಾಹಿತಿ', navCommunity: 'ಸಮುದಾಯ', navSettings: 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು', about: 'ಆ್ಯಪ್ ಬಗ್ಗೆ',
+  navPlay: 'ಆಟದ ಮನೆ', navForMe: 'ನನಗಾಗಿ', navMemory: 'ನೆನಪಿನ ಪೆಟ್ಟಿಗೆ', navStories: 'ಕಥೆ ಪುಸ್ತಕಗಳು', navUpdates: 'ಹೊಸ ಮಾಹಿತಿ', navCommunity: 'ಸಮುದಾಯ', navSettings: 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು', about: 'ಆ್ಯಪ್ ಬಗ್ಗೆ',
   sos: 'SOS', sosLong: 'ತುರ್ತು: ತುರ್ತು ಕಾರ್ಡ್ ತೆರೆಯಿರಿ', switchChild: 'ಮಗುವನ್ನು ಬದಲಿಸಿ', addChild: 'ಮಗುವನ್ನು ಸೇರಿಸಿ', editProfile: 'ವಿವರ ಬದಲಿಸಿ', myChildPage: '“ನನ್ನ ಮಗು” ಪುಟ',
   chooseLanguage: 'ನಿಮ್ಮ ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ', welcomeText: 'ಪ್ರೀತಿಯ ಮಾರ್ಗದರ್ಶಿ, ಆಸ್ಪತ್ರೆಗೆ ಕೊಂಡೊಯ್ಯಲು ನೋಟ್‌ಬುಕ್, ಮತ್ತು ದಿನನಿತ್ಯದ ಆರೈಕೆಗೆ ಸರಳ ಸಾಧನಗಳು. ನಿಧಾನವಾಗಿ, ಒಂದೊಂದೇ ಹೆಜ್ಜೆ.',
   privacyTitle: 'ನಿಮ್ಮ ಗೌಪ್ಯತೆ', disclaimer: 'ಗಮನಿಸಿ', iUnderstand: 'ನನಗೆ ಅರ್ಥವಾಯಿತು', aboutChild: 'ನಿಮ್ಮ ಮಗುವಿನ ಬಗ್ಗೆ', aboutChildSub: 'ಹೆಸರು ಮಾತ್ರ ಸಾಕು. ಉಳಿದದ್ದು ನಂತರ ಸೇರಿಸಬಹುದು.',

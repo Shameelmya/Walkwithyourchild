@@ -24,6 +24,8 @@ export async function pdfFromNode(node: ReactNode): Promise<Blob> {
   host.style.cssText = 'position:fixed;left:-12000px;top:0;width:794px;background:#fff;';
   document.body.appendChild(host);
   const root = await mount(node, host);
+  // Photos and drawings must finish loading, or they come out blank in the PDF.
+  await Promise.all(Array.from(host.querySelectorAll('img')).map((i) => i.decode().catch(() => {})));
   try { return await elementsToPdf(Array.from(host.querySelectorAll<HTMLElement>('.a4'))); }
   finally { root.unmount(); host.remove(); }
 }

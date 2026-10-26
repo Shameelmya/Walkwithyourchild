@@ -28,7 +28,7 @@ export function parentOf(path: string) {
   const p = path.split('?')[0];
   const map: Record<string, string> = {
     '/medicines': '/child', '/seizures': '/child', '/visits': '/child', '/records': '/child', '/progress': '/child', '/documents': '/child',
-    '/summary': '/child', '/talk': '/child', '/child/profile': '/child', '/me': '/more', '/memory': '/more', '/updates': '/more',
+    '/summary': '/child', '/talk': '/child', '/child/profile': '/child', '/me': '/more', '/memory': '/more', '/stories': '/more', '/updates': '/more',
     '/community': '/more', '/settings': '/more', '/about': '/more', '/book/search': '/book', '/book/bookmarks': '/book', '/notebook/notes': '/notebook',
   };
   if (map[p]) return map[p];
