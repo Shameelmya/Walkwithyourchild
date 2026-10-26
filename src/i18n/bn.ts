@@ -91,7 +91,7 @@ export const bn: Partial<Record<keyof typeof en, string>> = {
   playIntro: 'নরম শব্দের সহজ খেলা। যেকোনো জায়গায় ছুঁলেই হবে। কোনো স্কোর নেই।', gameBubbles: 'বুদবুদ', gameMusic: 'মিউজিক প্যাড', gamePeek: 'লুকোচুরি', gameSea: 'শান্ত সমুদ্র',
   volume: 'ভলিউম', playExitHint: 'খেলা থেকে বেরোতে ওপরের কোণের বোতামটি চেপে ধরে রাখুন।', holdToExit: 'বেরোতে চেপে ধরে রাখুন',
   // for me
-  forMeSub: 'আপনার নিজের স্বাস্থ্য ও মনের জন্য সহায়তা।', teleManas: 'টেলি-মানস · 14416', teleManasSub: 'বিনামূল্যে, ২৪ ঘণ্টা, বাংলা-সহ অনেক ভাষায়। কল করতে টিপুন।',
+  forMeSub: 'আপনার নিজের স্বাস্থ্য ও মনের জন্য সহায়তা।', teleManas: 'টেলি-মানস · 14416', teleManasSub: 'বিনামূল্যে, ২৪ ঘণ্টা, বহু ভারতীয় ভাষায়। কল করতে টিপুন।',
   breathing: 'ধীর শ্বাস', breatheIn: 'শ্বাস নিন', breatheOut: 'শ্বাস ছাড়ুন', startBreathing: 'শুরু করুন', breathingHint: '৪ গুনে নিন, ৬ গুনে ছাড়ুন। দু-তিন মিনিটই যথেষ্ট।',
   relaxation: 'টানটান করে ছেড়ে দেওয়া', weeklyCheck: 'এই সপ্তাহ, আমার জন্য', goodMoments: 'ভালো মুহূর্ত', goodMomentPlaceholder: 'আজকের একটি ভালো মুহূর্ত…', supportCircle: 'আমার সহায়তা বৃত্ত',
   openSupportCircle: 'আমার সহায়তা বৃত্ত খুলুন', supportCircleHint: 'একটি ফোন নম্বর যোগ করে WhatsApp-এ তৈরি বার্তা পাঠান।',

@@ -72,7 +72,7 @@ export const kn: Partial<Record<keyof typeof en, string>> = {
   voiceHint: 'ಪದವನ್ನು ನಿಧಾನವಾಗಿ, ಸ್ಪಷ್ಟವಾಗಿ ಹೇಳಿ. ಕಾರ್ಡ್ ಒತ್ತಿದಾಗ ಈ ರೆಕಾರ್ಡಿಂಗ್ ಕೇಳುತ್ತದೆ.', hideCard: 'ಈ ಕಾರ್ಡ್ ಮರೆಮಾಡಿ', micNotAvailable: 'ಮೈಕ್ ತೆರೆಯಲಾಗಲಿಲ್ಲ.',
   playIntro: 'ಮೃದು ಶಬ್ದಗಳಿರುವ ಸರಳ ಆಟಗಳು. ಎಲ್ಲಿ ಒತ್ತಿದರೂ ಸಾಕು. ಅಂಕಗಳಿಲ್ಲ.', gameBubbles: 'ಗುಳ್ಳೆಗಳು', gameMusic: 'ಸಂಗೀತ ಫಲಕ', gamePeek: 'ಕಣ್ಣಾಮುಚ್ಚಾಲೆ', gameSea: 'ಶಾಂತ ಸಮುದ್ರ',
   volume: 'ಧ್ವನಿ', playExitHint: 'ಆಟದಿಂದ ಹೊರಬರಲು ಮೇಲಿನ ಮೂಲೆಯ ಬಟನ್ ಒತ್ತಿ ಹಿಡಿಯಿರಿ.', holdToExit: 'ಹೊರಬರಲು ಒತ್ತಿ ಹಿಡಿಯಿರಿ',
-  forMeSub: 'ನಿಮ್ಮ ಆರೋಗ್ಯ ಮತ್ತು ಮನಸ್ಸಿಗೆ ಬೆಂಬಲ.', teleManas: 'ಟೆಲಿ-ಮಾನಸ · 14416', teleManasSub: 'ಉಚಿತ, 24 ಗಂಟೆ, ಕನ್ನಡದಲ್ಲೂ. ಕರೆ ಮಾಡಲು ಒತ್ತಿ.',
+  forMeSub: 'ನಿಮ್ಮ ಆರೋಗ್ಯ ಮತ್ತು ಮನಸ್ಸಿಗೆ ಬೆಂಬಲ.', teleManas: 'ಟೆಲಿ-ಮಾನಸ · 14416', teleManasSub: 'ಉಚಿತ, 24 ಗಂಟೆ, ಹಲವು ಭಾರತೀಯ ಭಾಷೆಗಳಲ್ಲಿ. ಕರೆ ಮಾಡಲು ಒತ್ತಿ.',
   breathing: 'ನಿಧಾನ ಉಸಿರಾಟ', breatheIn: 'ಉಸಿರು ಎಳೆಯಿರಿ', breatheOut: 'ಉಸಿರು ಬಿಡಿ', startBreathing: 'ಪ್ರಾರಂಭಿಸಿ', breathingHint: '4 ಎಣಿಸುವವರೆಗೆ ಉಸಿರು ಎಳೆಯಿರಿ, 6 ಎಣಿಸುವವರೆಗೆ ಬಿಡಿ. ಎರಡು ಮೂರು ನಿಮಿಷ ಸಾಕು.',
   relaxation: 'ಬಿಗಿ ಮಾಡಿ ಸಡಿಲಿಸಿ', weeklyCheck: 'ಈ ವಾರ, ನನಗಾಗಿ', goodMoments: 'ಒಳ್ಳೆಯ ಕ್ಷಣಗಳು', goodMomentPlaceholder: 'ಇಂದಿನ ಒಂದು ಒಳ್ಳೆಯ ಕ್ಷಣ…', supportCircle: 'ನನ್ನ ಬೆಂಬಲ ವಲಯ',
   openSupportCircle: 'ಬೆಂಬಲ ವಲಯ ತೆರೆಯಿರಿ', supportCircleHint: 'ಫೋನ್ ಸಂಖ್ಯೆ ಸೇರಿಸಿದರೆ, ಸಿದ್ಧ ಸಂದೇಶವನ್ನು ವಾಟ್ಸಾಪ್‌ನಲ್ಲಿ ಕಳುಹಿಸಬಹುದು.',

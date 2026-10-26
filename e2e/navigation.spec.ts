@@ -288,6 +288,7 @@ test('family place suggests the nearest palliative centre', async ({ page }) => 
   await page.getByLabel('District').selectOption('Malappuram');
   await page.getByLabel('PIN code').fill('676101');
   await page.getByRole('button', { name: 'Save' }).click();
+  await page.waitForTimeout(800); // let the profile reach the database before leaving the page
   await page.goto('/');
   await expect(page.getByText('Nearest palliative centre')).toBeVisible();
   await expect(page.getByRole('link', { name: /^Call .*Tirur|^Call (Karuna|Palliative Care Clinic)/ })).toHaveAttribute('href', /^tel:\+91/);
