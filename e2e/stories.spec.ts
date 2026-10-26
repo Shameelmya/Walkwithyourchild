@@ -65,3 +65,4 @@ test('whole app follows the language: games, care, skills in Hindi and Tamil', a
   await page.goto('/care'); await expect(page.getByText('மூச்சுத் திணறல்').first()).toBeVisible();
   await page.goto('/updates'); await expect(page.getByText('வரவேற்கிறோம்')).toBeVisible();
 });
+

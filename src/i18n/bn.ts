@@ -12,7 +12,7 @@ export const bn: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'হোম', navBook: 'বই', navNotebook: 'নোটবুক', navChild: 'আমার সন্তান', navMore: 'আরও', navMedicines: 'ওষুধ', navSeizures: 'খিঁচুনির ডায়েরি',
   navVisits: 'ডাক্তারের ভিজিট', navRecords: 'স্বাস্থ্য রেকর্ড', navProgress: 'অগ্রগতি', navDocuments: 'নথিপত্র', navSummary: 'ডাক্তারের সারাংশ', navTalk: 'কথার বোর্ড',
-  navPlay: 'খেলা', navForMe: 'আমার জন্য', navMemory: 'স্মৃতির বাক্স', screen: 'স্ক্রিন', skipToContent: 'মূল অংশে যান', moreInfo: 'আরও তথ্য', navStories: 'গল্পের বই', navUpdates: 'আপডেট', navCommunity: 'সম্প্রদায়', navSettings: 'সেটিংস', about: 'সম্পর্কে',
+  navPlay: 'খেলা', navForMe: 'আমার জন্য', navMemory: 'স্মৃতির বাক্স', alarmStops: 'উত্তর দিলে তবেই অ্যালার্ম থামবে।', snooze10: '10 মিনিট পরে মনে করিয়ে দিন', screen: 'স্ক্রিন', skipToContent: 'মূল অংশে যান', moreInfo: 'আরও তথ্য', navStories: 'গল্পের বই', navUpdates: 'আপডেট', navCommunity: 'সম্প্রদায়', navSettings: 'সেটিংস', about: 'সম্পর্কে',
   sos: 'SOS', sosLong: 'জরুরি: জরুরি কার্ড খুলুন', switchChild: 'সন্তান বদলান', addChild: 'সন্তান যোগ করুন', editProfile: 'প্রোফাইল সম্পাদনা', myChildPage: '“আমার সন্তান” পাতা',
   // onboarding
   chooseLanguage: 'আপনার ভাষা বেছে নিন', welcomeText: 'বই, হাসপাতালে যাওয়ার নোটবুক আর রোজকার যত্নের সরঞ্জাম, সব একটি অ্যাপে।',
@@ -49,7 +49,7 @@ export const bn: Partial<Record<keyof typeof en, string>> = {
   noMedicinesText: 'প্রতিটি ওষুধ তার ডোজ ও সময়সহ যোগ করুন। এটি আপনার নোটবুকের ওষুধের চার্ট পূরণ করবে।', medName: 'ওষুধ', medPurpose: 'কীসের জন্য', medDose: 'ডোজ',
   medTimes: 'সময়', addTime: 'সময় যোগ করুন', startDate: 'শুরুর তারিখ', stopDate: 'বন্ধের তারিখ (বন্ধ হলে)', medNotes: 'নোট (পার্শ্বপ্রতিক্রিয়া, পরিবর্তন)', given: 'দেওয়া হয়েছে', skipped: 'বাদ গেছে', late: 'দেরিতে দেওয়া হয়েছে',
   doseHistory: 'ইতিহাস', deleteMedQ: 'এই ওষুধ ও এর সূচি মুছে ফেলবেন?', enableReminders: 'ওষুধের রিমাইন্ডার চালু করুন', medDueTitle: 'ওষুধের সময়',
-  remindersHonest: 'অ্যাপ খোলা থাকলে বা এই ফোনে ইনস্টল করা থাকলে রিমাইন্ডার কাজ করে। ফোন লক থাকলে নির্ভরযোগ্য অ্যালার্ম পুরো ফোন অ্যাপের সাথে আসবে।',
+  remindersHonest: 'অ্যাপ খোলা থাকলে অ্যালার্ম বাজবে। অ্যাপ বন্ধ থাকলে বা ফোন অনেকক্ষণ লক থাকলে সময়মতো না-ও বাজতে পারে। জরুরি ওষুধের জন্য ফোনের ঘড়িতেও একটা অ্যালার্ম দিন।',
   // seizures
   seizureTimer: 'খিঁচুনির টাইমার', elapsed: 'খিঁচুনি শুরুর পর থেকে সময়', rescueAt: 'জরুরি সময় ঠিক করা হয়েছে: {m} মিনিট', stopped: 'খিঁচুনি থেমেছে',
   aidSide: 'আপনার সন্তানকে আলতো করে একপাশে কাত করে শুইয়ে দিন।', aidMouth: 'মুখে কিছু ঢোকাবেন না।', recordVideo: 'একটি ছোট ভিডিও করুন (২ মিনিট পর্যন্ত)', stopVideo: 'ভিডিও থামান', videoSaved: 'ভিডিও সংরক্ষিত',

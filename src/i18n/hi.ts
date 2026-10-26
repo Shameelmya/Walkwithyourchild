@@ -12,7 +12,7 @@ export const hi: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'होम', navBook: 'किताब', navNotebook: 'नोटबुक', navChild: 'मेरा बच्चा', navMore: 'और', navMedicines: 'दवाइयाँ', navSeizures: 'दौरे की डायरी',
   navVisits: 'डॉक्टर की मुलाकात', navRecords: 'स्वास्थ्य रिकॉर्ड', navProgress: 'प्रगति', navDocuments: 'कागज़ात', navSummary: 'डॉक्टर के लिए सारांश', navTalk: 'बातचीत का बोर्ड',
-  navPlay: 'खेल', navForMe: 'मेरे लिए', navMemory: 'यादों का डिब्बा', screen: 'स्क्रीन', skipToContent: 'सामग्री पर जाएँ', moreInfo: 'और जानकारी', navStories: 'कहानी की किताबें', navUpdates: 'अपडेट', navCommunity: 'समुदाय', navSettings: 'सेटिंग्स', about: 'परिचय',
+  navPlay: 'खेल', navForMe: 'मेरे लिए', navMemory: 'यादों का डिब्बा', alarmStops: 'जवाब देने पर ही अलार्म बंद होगा।', snooze10: '10 मिनट बाद याद दिलाएँ', screen: 'स्क्रीन', skipToContent: 'सामग्री पर जाएँ', moreInfo: 'और जानकारी', navStories: 'कहानी की किताबें', navUpdates: 'अपडेट', navCommunity: 'समुदाय', navSettings: 'सेटिंग्स', about: 'परिचय',
   sos: 'SOS', sosLong: 'इमरजेंसी: इमरजेंसी कार्ड खोलें', switchChild: 'बच्चा बदलें', addChild: 'बच्चा जोड़ें', editProfile: 'प्रोफ़ाइल बदलें', myChildPage: '“मेरा बच्चा” पन्ना',
   // onboarding
   chooseLanguage: 'अपनी भाषा चुनें', welcomeText: 'किताब, अस्पताल जाने के लिए नोटबुक और रोज़ की देखभाल के साधन, एक ही ऐप में।',
@@ -49,7 +49,7 @@ export const hi: Partial<Record<keyof typeof en, string>> = {
   noMedicinesText: 'हर दवा को उसकी खुराक और समय के साथ जोड़ें। यह आपकी नोटबुक का दवाओं का चार्ट भर देगा।', medName: 'दवा', medPurpose: 'यह किस लिए है', medDose: 'खुराक',
   medTimes: 'समय', addTime: 'समय जोड़ें', startDate: 'शुरू करने की तारीख', stopDate: 'बंद करने की तारीख (अगर बंद की हो)', medNotes: 'नोट्स (साइड इफेक्ट, बदलाव)', given: 'दी गई', skipped: 'छोड़ दी गई', late: 'देर से दी गई',
   doseHistory: 'इतिहास', deleteMedQ: 'यह दवा और उसका शेड्यूल मिटा दें?', enableReminders: 'दवा की याद दिलाना चालू करें', medDueTitle: 'दवा का समय',
-  remindersHonest: 'याद दिलाना तब काम करता है जब ऐप खुला हो या इस फोन पर इंस्टॉल हो। फोन लॉक होने पर भरोसेमंद अलार्म पूरे फोन ऐप के साथ आएँगे।',
+  remindersHonest: 'ऐप खुला होने पर अलार्म बजता है। ऐप बंद होने या फ़ोन देर तक लॉक रहने पर हो सकता है कि अलार्म समय पर न बजे। ज़रूरी दवाओं के लिए फ़ोन की घड़ी में भी अलार्म लगाएँ।',
   // seizures
   seizureTimer: 'दौरे का टाइमर', elapsed: 'दौरा शुरू होने के बाद का समय', rescueAt: 'इमरजेंसी का समय तय: {m} मिनट', stopped: 'दौरा रुक गया',
   aidSide: 'अपने बच्चे को धीरे से करवट दिलाकर लिटाएँ।', aidMouth: 'मुँह में कुछ न डालें।', recordVideo: 'छोटा वीडियो रिकॉर्ड करें (2 मिनट तक)', stopVideo: 'वीडियो रोकें', videoSaved: 'वीडियो सहेज लिया गया',
