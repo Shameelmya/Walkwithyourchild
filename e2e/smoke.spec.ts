@@ -13,6 +13,16 @@ test.beforeAll(async ({ browser }) => {
 });
 test.afterAll(async () => { await ctx.close(); });
 
+/** The reader's top bar slides away while reading; a tap on the text brings it back. */
+async function showReaderBar() {
+  const btn = page.locator('button[aria-haspopup="menu"]');
+  await page.waitForTimeout(600);
+  if (((await btn.boundingBox())?.y ?? -1) < 0) await page.locator('[data-b="20"]').click({ position: { x: 4, y: 4 } });
+  await page.waitForTimeout(600);
+  return btn;
+}
+
+
 test('1. onboarding completes', async () => {
   await page.goto('/');
   await expect(page).toHaveURL(/onboarding/);
@@ -32,15 +42,16 @@ test('2. switching EN to ML keeps the chapter and position', async () => {
   await page.waitForTimeout(800);
   const before = await page.evaluate(() => document.querySelector('[data-b="20"]')!.getBoundingClientRect().top);
   expect(Math.abs(before - 90)).toBeLessThan(60);
-  await page.getByRole('button', { name: 'Reading settings' }).click();
-  await page.getByRole('radio', { name: 'മലയാളം' }).click();
+  await (await showReaderBar()).click();
+  await page.getByRole('menuitemradio', { name: 'മലയാളം' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'ml');
   await expect(page).toHaveURL(/\/book\/c5/);
   await expect(page.getByRole('heading', { level: 1 })).not.toContainText('Caring for your child');
   await page.waitForTimeout(600);
   const after = await page.evaluate(() => document.querySelector('[data-b="20"]')!.getBoundingClientRect().top);
   expect(Math.abs(after - 90)).toBeLessThan(60);
-  await page.getByRole('radio', { name: 'English' }).click();
+  await (await showReaderBar()).click(); // the language button, now labelled in Malayalam
+  await page.getByRole('menuitemradio', { name: 'English' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 
