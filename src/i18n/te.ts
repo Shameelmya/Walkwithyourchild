@@ -12,7 +12,7 @@ export const te: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'హోమ్', navBook: 'పుస్తకం', navNotebook: 'నోట్‌బుక్', navChild: 'నా బిడ్డ', navMore: 'మరిన్ని', navMedicines: 'మందులు', navSeizures: 'మూర్ఛ డైరీ',
   navVisits: 'డాక్టర్ సందర్శనలు', navRecords: 'ఆరోగ్య రికార్డులు', navProgress: 'పురోగతి', navDocuments: 'పత్రాలు', navSummary: 'డాక్టర్ సారాంశం', navTalk: 'మాట్లాడే బోర్డు',
-  navPlay: 'ఆటలు', navForMe: 'నా కోసం', navMemory: 'జ్ఞాపకాల పెట్టె', screen: 'స్క్రీన్', skipToContent: 'విషయానికి వెళ్ళండి', moreInfo: 'మరింత సమాచారం', navStories: 'కథల పుస్తకాలు', navUpdates: 'అప్‌డేట్‌లు', navCommunity: 'సమాజం', navSettings: 'సెట్టింగ్‌లు', about: 'గురించి',
+  navPlay: 'ఆటలు', navForMe: 'నా కోసం', navMemory: 'జ్ఞాపకాల పెట్టె', alarmStops: 'మీరు జవాబు ఇచ్చిన తర్వాతే అలారం ఆగుతుంది.', snooze10: '10 నిమిషాల తర్వాత గుర్తు చేయండి', screen: 'స్క్రీన్', skipToContent: 'విషయానికి వెళ్ళండి', moreInfo: 'మరింత సమాచారం', navStories: 'కథల పుస్తకాలు', navUpdates: 'అప్‌డేట్‌లు', navCommunity: 'సమాజం', navSettings: 'సెట్టింగ్‌లు', about: 'గురించి',
   sos: 'SOS', sosLong: 'అత్యవసరం: అత్యవసర కార్డును తెరవండి', switchChild: 'బిడ్డను మార్చు', addChild: 'బిడ్డను జోడించు', editProfile: 'ప్రొఫైల్ సవరించు', myChildPage: '“నా బిడ్డ” పేజీ',
   // onboarding
   chooseLanguage: 'మీ భాషను ఎంచుకోండి', welcomeText: 'పుస్తకం, ఆసుపత్రి సందర్శనలకు నోట్‌బుక్, రోజువారీ సంరక్షణ సాధనాలు, అన్నీ ఒకే యాప్‌లో.',
@@ -49,7 +49,7 @@ export const te: Partial<Record<keyof typeof en, string>> = {
   noMedicinesText: 'ప్రతి మందును దాని డోస్, సమయాలతో జోడించండి. ఇది మీ నోట్‌బుక్‌లోని మందుల చార్ట్‌ను నింపుతుంది.', medName: 'మందు', medPurpose: 'ఎందుకు', medDose: 'డోస్',
   medTimes: 'సమయాలు', addTime: 'సమయం జోడించు', startDate: 'మొదలుపెట్టిన తేదీ', stopDate: 'ఆపిన తేదీ (ఆపితే)', medNotes: 'గమనికలు (దుష్ప్రభావాలు, మార్పులు)', given: 'ఇచ్చారు', skipped: 'వదిలేశారు', late: 'ఆలస్యంగా ఇచ్చారు',
   doseHistory: 'చరిత్ర', deleteMedQ: 'ఈ మందును, దాని షెడ్యూల్‌ను తొలగించాలా?', enableReminders: 'మందుల రిమైండర్‌లను ఆన్ చేయి', medDueTitle: 'మందు సమయం',
-  remindersHonest: 'యాప్ తెరిచి ఉన్నప్పుడు లేదా ఈ ఫోన్‌లో ఇన్‌స్టాల్ అయి ఉన్నప్పుడు రిమైండర్‌లు పనిచేస్తాయి. ఫోన్ లాక్ అయినప్పుడు నమ్మకమైన అలారమ్‌లు పూర్తి ఫోన్ యాప్‌తో వస్తాయి.',
+  remindersHonest: 'యాప్ తెరిచి ఉన్నప్పుడు అలారం మోగుతుంది. యాప్ మూసి ఉన్నప్పుడు లేదా ఫోన్ ఎక్కువసేపు లాక్ అయి ఉన్నప్పుడు సమయానికి మోగకపోవచ్చు. ముఖ్యమైన మందులకు ఫోన్ గడియారంలో కూడా అలారం పెట్టండి.',
   // seizures
   seizureTimer: 'మూర్ఛ టైమర్', elapsed: 'మూర్ఛ మొదలైనప్పటి నుండి గడిచిన సమయం', rescueAt: 'అత్యవసర సమయం సెట్ చేయబడింది: {m} నిమిషాలు', stopped: 'మూర్ఛ ఆగింది',
   aidSide: 'మీ బిడ్డను సున్నితంగా ఒక పక్కకు తిప్పి పడుకోబెట్టండి.', aidMouth: 'నోట్లో ఏమీ పెట్టకండి.', recordVideo: 'చిన్న వీడియో రికార్డ్ చేయండి (2 నిమిషాల వరకు)', stopVideo: 'వీడియో ఆపు', videoSaved: 'వీడియో సేవ్ అయింది',

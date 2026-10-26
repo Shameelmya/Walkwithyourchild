@@ -31,6 +31,7 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,
+        importScripts: ['sw-alarm.js'],
         // New versions take over straight away, so the next time the app opens it is up to date.
         skipWaiting: true,
         clientsClaim: true,

@@ -12,7 +12,7 @@ export const ur: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'ہوم', navBook: 'کتاب', navNotebook: 'نوٹ بک', navChild: 'میرا بچہ', navMore: 'مزید', navMedicines: 'دوائیں', navSeizures: 'دورے کی ڈائری',
   navVisits: 'ڈاکٹر کی ملاقات', navRecords: 'صحت کا ریکارڈ', navProgress: 'پیش رفت', navDocuments: 'کاغذات', navSummary: 'ڈاکٹر کے لیے خلاصہ', navTalk: 'بات چیت کا بورڈ',
-  navPlay: 'کھیل', navForMe: 'میرے لیے', navMemory: 'یادوں کا ڈبہ', screen: 'اسکرین', skipToContent: 'مواد پر جائیں', moreInfo: 'مزید معلومات', navStories: 'کہانی کی کتابیں', navUpdates: 'اپ ڈیٹس', navCommunity: 'برادری', navSettings: 'سیٹنگز', about: 'تعارف',
+  navPlay: 'کھیل', navForMe: 'میرے لیے', navMemory: 'یادوں کا ڈبہ', alarmStops: 'جواب دینے پر ہی الارم بند ہوگا۔', snooze10: '10 منٹ بعد یاد دلائیں', screen: 'اسکرین', skipToContent: 'مواد پر جائیں', moreInfo: 'مزید معلومات', navStories: 'کہانی کی کتابیں', navUpdates: 'اپ ڈیٹس', navCommunity: 'برادری', navSettings: 'سیٹنگز', about: 'تعارف',
   sos: 'SOS', sosLong: 'ایمرجنسی: ایمرجنسی کارڈ کھولیں', switchChild: 'بچہ بدلیں', addChild: 'بچہ شامل کریں', editProfile: 'پروفائل میں ترمیم', myChildPage: '“میرا بچہ” صفحہ',
   // onboarding
   chooseLanguage: 'اپنی زبان چنیں', welcomeText: 'کتاب، اسپتال کے دوروں کے لیے نوٹ بک اور روزمرہ نگہداشت کے آلات، سب ایک ایپ میں۔',
@@ -49,7 +49,7 @@ export const ur: Partial<Record<keyof typeof en, string>> = {
   noMedicinesText: 'ہر دوا کو اس کی خوراک اور اوقات کے ساتھ شامل کریں۔ یہ آپ کی نوٹ بک کا دواؤں کا چارٹ بھر دے گا۔', medName: 'دوا', medPurpose: 'یہ کس لیے ہے', medDose: 'خوراک',
   medTimes: 'اوقات', addTime: 'وقت شامل کریں', startDate: 'شروع کی تاریخ', stopDate: 'بند کرنے کی تاریخ (اگر بند کی ہو)', medNotes: 'نوٹس (مضر اثرات، تبدیلیاں)', given: 'دی گئی', skipped: 'چھوڑ دی گئی', late: 'دیر سے دی گئی',
   doseHistory: 'تاریخچہ', deleteMedQ: 'یہ دوا اور اس کا شیڈول مٹا دیں؟', enableReminders: 'دوا کی یاد دہانی چالو کریں', medDueTitle: 'دوا کا وقت',
-  remindersHonest: 'یاد دہانیاں اس وقت کام کرتی ہیں جب ایپ کھلی ہو یا اس فون پر انسٹال ہو۔ فون لاک ہونے پر قابل اعتماد الارم مکمل فون ایپ کے ساتھ آئیں گے۔',
+  remindersHonest: 'ایپ کھلی ہو تو الارم بجتا ہے۔ ایپ بند ہو یا فون دیر تک لاک رہے تو ہو سکتا ہے الارم وقت پر نہ بجے۔ اہم دواؤں کے لیے فون کی گھڑی میں بھی الارم لگائیں۔',
   // seizures
   seizureTimer: 'دورے کا ٹائمر', elapsed: 'دورہ شروع ہونے کے بعد کا وقت', rescueAt: 'ایمرجنسی کا وقت مقرر: {m} منٹ', stopped: 'دورہ رک گیا',
   aidSide: 'اپنے بچے کو آہستہ سے کروٹ پر لٹائیں۔', aidMouth: 'منہ میں کچھ نہ ڈالیں۔', recordVideo: 'مختصر ویڈیو ریکارڈ کریں (2 منٹ تک)', stopVideo: 'ویڈیو روکیں', videoSaved: 'ویڈیو محفوظ ہو گئی',

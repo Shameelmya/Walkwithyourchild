@@ -9,7 +9,7 @@ export const en = {
   // nav
   navHome: 'Home', navBook: 'Book', navNotebook: 'Notebook', navChild: 'My child', navMore: 'More', navMedicines: 'Medicines', navSeizures: 'Seizure diary',
   navVisits: 'Doctor visits', navRecords: 'Health records', navProgress: 'Progress', navDocuments: 'Documents', navSummary: 'Doctor summary', navTalk: 'Talk board',
-  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', screen: 'Screen', skipToContent: 'Skip to content', moreInfo: 'More information', navStories: 'Story books', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
+  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', alarmStops: 'The alarm stops only when you answer.', snooze10: 'Remind me in 10 minutes', screen: 'Screen', skipToContent: 'Skip to content', moreInfo: 'More information', navStories: 'Story books', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
   sos: 'SOS', sosLong: 'Emergency: open the emergency card', switchChild: 'Switch child', addChild: 'Add a child', editProfile: 'Edit profile', myChildPage: '“My child” page',
   // onboarding
   chooseLanguage: 'Choose your language', welcomeText: 'The book, a notebook for hospital visits and tools for daily care, in one app.',
@@ -45,8 +45,8 @@ export const en = {
   todaySchedule: "Today's schedule", allMedicines: 'All medicines', addMedicine: 'Add medicine', editMedicine: 'Edit medicine', noMedicines: 'No medicines added yet',
   noMedicinesText: 'Add each medicine with its dose and times. It will fill the medicines chart in your notebook.', medName: 'Medicine', medPurpose: 'What it is for', medDose: 'Dose',
   medTimes: 'Times', addTime: 'Add time', startDate: 'Started on', stopDate: 'Stopped on (if stopped)', medNotes: 'Notes (side effects, changes)', given: 'Given', skipped: 'Skipped', late: 'Given late',
-  doseHistory: 'History', deleteMedQ: 'Delete this medicine and its schedule?', enableReminders: 'Turn on medicine reminders', medDueTitle: 'Medicine time',
-  remindersHonest: 'Reminders work while the app is open or installed on this phone. Reliable alarms when the phone is locked will come with the full phone app.',
+  doseHistory: 'History', deleteMedQ: 'Delete this medicine and its schedule?', enableReminders: 'Turn on medicine reminders', medDueTitle: 'Time for medicine',
+  remindersHonest: 'The alarm rings while the app is open. When the app is closed or the phone has been locked for a while, the phone may not let it ring on time. For important doses, also set an alarm in the phone clock.',
   // seizures
   seizureTimer: 'Seizure timer', elapsed: 'Time since the seizure started', rescueAt: 'Emergency time set: {m} minutes', stopped: 'Seizure stopped',
   aidSide: 'Turn your child gently onto their side.', aidMouth: 'Put nothing in the mouth.', recordVideo: 'Record a short video (up to 2 minutes)', stopVideo: 'Stop video', videoSaved: 'Video saved',
