@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, MessageSquareHeart, Gamepad2, Baby, Pencil, Siren, HeartPulse } from 'lucide-react';
+import { Pill, Activity, Stethoscope, ClipboardList, LineChart, FolderHeart, FileText, Archive, Baby, Pencil, Siren, HeartPulse } from 'lucide-react';
 import { ChevronRight } from '../../components/icons';
 import { useT, type TKey } from '../../i18n';
 import { Avatar, Page } from '../../components/ui';
@@ -18,8 +18,7 @@ const TILES: { to: string; k: TKey; s: TKey; I: typeof Pill; g: string }[] = [
   { to: '/progress', k: 'navProgress', s: 'progressShort', I: LineChart, g: 't-green' },
   { to: '/documents', k: 'navDocuments', s: 'documentsShort', I: FolderHeart, g: 't-amber' },
   { to: '/summary', k: 'navSummary', s: 'summaryShort', I: FileText, g: 't-coral' },
-  { to: '/talk', k: 'navTalk', s: 'talkSub', I: MessageSquareHeart, g: 't-violet' },
-  { to: '/play', k: 'navPlay', s: 'playSub', I: Gamepad2, g: 't-green' },
+  { to: '/memory', k: 'navMemory', s: 'memorySub', I: Archive, g: 't-violet' },
 ];
 
 export default function ChildHub() {
