@@ -190,3 +190,11 @@ html[lang='ur'] body { line-height: 1.9; }
 html[lang='ur'] :is(h1, h2, h3, .font-head) { line-height: 1.9; }
 html[lang='ur'] :is(em, i, .italic) { font-style: normal; }
 html[lang='ur'] :is(.font-extrabold, .font-black, .font-bold) { font-weight: 700; }
+
+/* Story book page turn */
+.flip-away { animation: flip-away 700ms cubic-bezier(.45,.05,.3,1) forwards; backface-visibility: hidden; will-change: transform; }
+.flip-back { animation: flip-back 700ms cubic-bezier(.45,.05,.3,1) forwards; backface-visibility: hidden; will-change: transform; }
+@keyframes flip-away { from { transform: rotateY(0deg); } to { transform: rotateY(calc(var(--flip) * 180deg)); } }
+@keyframes flip-back { from { transform: rotateY(calc(var(--flip) * 180deg)); } to { transform: rotateY(0deg); } }
+.flip-shade { background: linear-gradient(90deg, rgba(0,0,0,.28), rgba(0,0,0,0) 60%); animation: flip-shade 700ms ease forwards; pointer-events: none; }
+@keyframes flip-shade { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
