@@ -47,8 +47,12 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4, fill = f
   const cur = useRef('');
   const submit = useRef(onSubmit); submit.current = onSubmit;
   const set = (p: string) => { cur.current = p; setPin(p); };
+  // Each tap lights up its key: the counter restarts the animation on every press.
+  const [hit, setHit] = useState<{ d: string; n: number }>({ d: '', n: 0 });
   const press = (d: string) => {
     if (busy || cur.current.length >= length) return;
+    setHit((h) => ({ d, n: h.n + 1 }));
+    try { navigator.vibrate?.(12); } catch { /* not every phone can */ }
     const p = cur.current + d; set(p);
     if (p.length === length) { setTimeout(() => submit.current(p), 120); setTimeout(() => set(''), 650); }
   };
@@ -56,7 +60,13 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4, fill = f
     const k = (e: KeyboardEvent) => { if (/^\d$/.test(e.key)) press(e.key); else if (e.key === 'Backspace') set(cur.current.slice(0, -1)); };
     addEventListener('keydown', k); return () => removeEventListener('keydown', k);
   });
-  const key = 'w-[74px] h-[74px] rounded-full bg-surface border border-line/70 text-[1.7rem] font-semibold text-ink shadow-[0_1px_2px_rgb(var(--shadow)/0.06)] active:scale-95 active:bg-soft transition grid place-items-center';
+  const key = 'relative overflow-hidden w-[74px] h-[74px] rounded-full bg-surface border border-line/70 text-[1.7rem] font-semibold text-ink shadow-[0_1px_2px_rgb(var(--shadow)/0.06)] active:scale-90 active:bg-soft transition grid place-items-center';
+  const digit = (d: string) => (
+    <button key={d} type="button" onClick={() => press(d)} className={key}>
+      {hit.d === d && <span key={hit.n} className="key-flash" aria-hidden />}
+      <span key={hit.d === d ? hit.n : 0} className={cx('relative', hit.d === d && hit.n > 0 && 'key-hit')}>{d}</span>
+    </button>
+  );
   return (
     <div className={cx('w-full max-w-[320px] mx-auto text-center', fill && 'flex-1 flex flex-col')}>
       <div className={cx(fill && 'flex-1 flex flex-col items-center justify-center')}>
@@ -64,14 +74,14 @@ export function Keypad({ onSubmit, error, busy, title, sub, length = 4, fill = f
         <h1 className="text-[1.45rem] font-extrabold tracking-tight">{title}</h1>
         {sub && <p className="text-muted mt-1 text-[0.95rem]">{sub}</p>}
         <div key={shake} className={cx('flex justify-center gap-5 my-7', shake > 0 && 'anim-pop')} aria-label={t('pin')} aria-live="polite" role="status">
-          {Array.from({ length }, (_, i) => <span key={i} className={cx('w-3.5 h-3.5 rounded-full border-2 transition', i < pin.length ? 'bg-[rgb(var(--accent))] border-[rgb(var(--accent))] scale-110' : 'border-muted/50')} />)}
+          {Array.from({ length }, (_, i) => <span key={i} className={cx('w-3.5 h-3.5 rounded-full border-2 transition', i < pin.length ? 'bg-[rgb(var(--accent))] border-[rgb(var(--accent))] scale-110 dot-pop' : 'border-muted/50')} />)}
         </div>
         <p role="alert" className="text-danger font-semibold text-sm min-h-[1.5em] -mt-3 mb-3">{busy ? <span className="inline-flex items-center gap-2 text-muted"><span className="w-4 h-4 rounded-full border-2 border-line border-t-[rgb(var(--accent))] animate-spin" aria-hidden /> {t('checking')}</span> : error ?? ''}</p>
       </div>
       <div className="grid grid-cols-3 gap-y-4 justify-items-center">
-        {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => <button key={d} type="button" onClick={() => press(d)} className={key}>{d}</button>)}
+        {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => digit(d))}
         <div className="w-[74px] h-[74px] grid place-items-center">{corner}</div>
-        <button type="button" onClick={() => press('0')} className={key}>0</button>
+        {digit('0')}
         <button type="button" aria-label={t('delete')} onClick={() => set(cur.current.slice(0, -1))} className="w-[74px] h-[74px] rounded-full grid place-items-center text-muted active:bg-surface2 transition"><Delete size={26} aria-hidden /></button>
       </div>
     </div>

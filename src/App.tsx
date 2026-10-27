@@ -41,6 +41,7 @@ const Palliative = L(() => import('./pages/more/Palliative'));
 const CareDetail = L(() => import('./pages/child/Care').then((m) => ({ default: m.CareDetail })));
 const Play = L(() => import('./pages/play/Play'));
 const ForMe = L(() => import('./pages/more/ForMe'));
+const HardMoments = L(() => import('./pages/more/HardMoments'));
 const Memory = L(() => import('./pages/more/Memory'));
 const Stories = L(() => import('./pages/more/Stories'));
 const Updates = L(() => import('./pages/more/Updates'));
@@ -107,6 +108,7 @@ function Gate() {
         <Route path="/play" element={<Play />} />
         <Route path="/play/:game" element={<Play />} />
         <Route path="/me" element={<ForMe />} />
+        <Route path="/me/skills" element={<HardMoments />} />
         <Route path="/memory" element={<Memory />} />
         <Route path="/stories" element={<Stories />} />
         <Route path="/stories/:id" element={<Stories />} />
