@@ -39,12 +39,12 @@ export const CONDITIONS: Condition[] = [
   { id: 'pain', e: '🤕', tile: 't-coral', name: n('Pain, crying and sleep', 'വേദന, കരച്ചിൽ, ഉറക്കം', 'ನೋವು, ಅಳು ಮತ್ತು ನಿದ್ದೆ'), src: [{ c: 'c5', h: 5 }, { c: 'c11', h: 4 }], roles: ['doctor', 'palliative'] },
   { id: 'stiffness', e: '🦵', tile: 't-violet', name: n('Stiffness, spasms and posture (dystonia)', 'പേശികൾ മുറുകൽ, ഇരിപ്പ് (ഡിസ്റ്റോണിയ)', 'ಸ್ನಾಯು ಬಿಗಿತ, ಭಂಗಿ (ಡಿಸ್ಟೋನಿಯಾ)'), src: [{ c: 'c5', h: 3 }], roles: ['physio', 'ot', 'doctor'], nearest: true },
   { id: 'balance', e: '🚶', tile: 't-blue', name: n('Walking and balance (ataxia)', 'നടത്തവും ബാലൻസും (അറ്റാക്സിയ)', 'ನಡಿಗೆ ಮತ್ತು ಸಮತೋಲನ (ಅಟಾಕ್ಸಿಯಾ)'), src: [{ c: 'c11', h: 0 }, { c: 'c5', h: 3 }], roles: ['physio', 'ot', 'doctor'], nearest: true },
-  { id: 'regression', e: '🔄', tile: 't-mint', name: n('Losing skills (regression)', 'കഴിവുകൾ കുറയുന്നത് (റിഗ്രഷൻ)', 'ಕೌಶಲ ಕಡಿಮೆಯಾಗುವುದು (ರಿಗ್ರೆಷನ್)'), src: [{ c: 'c11', h: 0 }, { c: 'c11', h: 1 }], roles: ['team', 'speech'] },
+  { id: 'regression', e: '🔄', tile: 't-mint', name: n('Losing skills (regression)', 'കഴിവുകൾ കുറയുന്നത് (റിഗ്രഷൻ)', 'ಕೌಶಲ ಕಡಿಮೆಯಾಗುವುದು (ರಿಗ್ರೆಷನ್)'), src: [{ c: 'c2', h: 6 }, { c: 'c11', h: 0 }, { c: 'c11', h: 5 }, { c: 'c11', h: 1 }], roles: ['team', 'speech'] },
   { id: 'skin', e: '🩹', tile: 't-green', name: n('Skin, toileting and comfort', 'തൊലി, മലമൂത്രവിസർജനം, സുഖം', 'ಚರ್ಮ, ಶೌಚ ಮತ್ತು ಆರಾಮ'), src: [{ c: 'c5', h: 4 }], roles: ['nurse'] },
   { id: 'medicine', e: '💊', tile: 't-mint', name: n('Medicines and reactions', 'മരുന്നുകളും പ്രതികരണങ്ങളും', 'ಔಷಧಿಗಳು ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಗಳು'), src: [{ c: 'c5', h: 2 }], roles: ['doctor', 'pharm'] },
 ];
-/** The care team in the book: who is in it, and one person to call. */
-export const TEAM_SRC: Src[] = [{ c: 'c9', h: 0 }, { c: 'c9', h: 1 }];
+/** The care team in the book: who is in it, one person to call, what palliative care offers, and how the social worker helps. */
+export const TEAM_SRC: Src[] = [{ c: 'c9', h: 0 }, { c: 'c9', h: 1 }, { c: 'c9', h: 6 }, { c: 'c9', h: 7 }];
 
 /** The blocks under a heading, up to the next heading, with their index in the chapter. */
 export function section(book: Book, s: Src): { b: Block; i: number; c: string }[] {
