@@ -12,7 +12,7 @@ export const hi: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'होम', navBook: 'किताब', navNotebook: 'नोटबुक', navChild: 'मेरा बच्चा', navMore: 'और', navMedicines: 'दवाइयाँ', navSeizures: 'दौरे की डायरी',
   navVisits: 'डॉक्टर की मुलाकात', navRecords: 'स्वास्थ्य रिकॉर्ड', navProgress: 'प्रगति', navDocuments: 'कागज़ात', navSummary: 'डॉक्टर के लिए सारांश', navTalk: 'बातचीत का बोर्ड',
-  navPlay: 'खेल', navForMe: 'मेरे लिए', navMemory: 'यादों का डिब्बा', alarmStops: 'जवाब देने पर ही अलार्म बंद होगा।', snooze10: '10 मिनट बाद याद दिलाएँ', screen: 'स्क्रीन', skipToContent: 'सामग्री पर जाएँ', moreInfo: 'और जानकारी', navStories: 'कहानी की किताबें', navUpdates: 'अपडेट', navCommunity: 'समुदाय', navSettings: 'सेटिंग्स', about: 'परिचय',
+  navPlay: 'खेल', navForMe: 'मेरे लिए', navMemory: 'यादों का डिब्बा', useFingerprint: 'फ़िंगरप्रिंट से खोलें', fingerprintLock: 'फ़िंगरप्रिंट से खोलना', fingerprintHint: 'फ़ोन के फ़िंगरप्रिंट या चेहरे से ऐप खोलें। PIN भी काम करता रहेगा।', fingerprintFailed: 'पहचान नहीं हुई। PIN डालें।', fingerprintOn: 'फ़िंगरप्रिंट से खोलना चालू है', emergency108: 'आपातकाल · 108', enterPinSub: 'आगे बढ़ने के लिए 4 अंकों का PIN डालें', alarmStops: 'जवाब देने पर ही अलार्म बंद होगा।', snooze10: '10 मिनट बाद याद दिलाएँ', screen: 'स्क्रीन', skipToContent: 'सामग्री पर जाएँ', moreInfo: 'और जानकारी', navStories: 'कहानी की किताबें', navUpdates: 'अपडेट', navCommunity: 'समुदाय', navSettings: 'सेटिंग्स', about: 'परिचय',
   sos: 'SOS', sosLong: 'इमरजेंसी: इमरजेंसी कार्ड खोलें', switchChild: 'बच्चा बदलें', addChild: 'बच्चा जोड़ें', editProfile: 'प्रोफ़ाइल बदलें', myChildPage: '“मेरा बच्चा” पन्ना',
   // onboarding
   chooseLanguage: 'अपनी भाषा चुनें', welcomeText: 'किताब, अस्पताल जाने के लिए नोटबुक और रोज़ की देखभाल के साधन, एक ही ऐप में।',
