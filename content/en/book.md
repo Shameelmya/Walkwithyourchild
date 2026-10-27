@@ -6,7 +6,7 @@ You may be holding this book on a hospital bench, on a long train journey, or at
 
 ### How to use this book
 
-- **Read the part that fits where you are now.** The book follows the journey many families walk: from the first signs, to living with the condition, to the time when the illness advances, and beyond. Turn to the part you need today.
+- **Read the part that fits where you are now.** The book follows the journey many families walk: from the first signs, to living with the condition, to the time when the illness advances. Turn to the part you need today.
 - **Use the notebook at the end.** It has pages for your child's details, your questions for the doctor, a medicines chart, an emergency card and more. Take it to every hospital visit.
 - **Read it with someone.** Your partner, a family member, a nurse or the social worker can read with you. Many parents find it easier that way.
 - **This book does not replace your child's doctors.** It helps you understand, prepare and ask good questions. Whenever you see **"Ask your team"**, take that question to the doctors, nurses or social worker caring for your child.
@@ -802,7 +802,7 @@ Things that help some families:
 > - "Can we talk to a counsellor about how we are feeling?"
 > - "Can someone talk with our child about their worries?"
 
-# part:5 | Towards the end, and after
+# part:5 | Towards the end
 
 ## chapter:13 | Preparing for the end
 
@@ -867,56 +867,3 @@ Ask the social worker in advance about what happens after death: certificates, t
 > - "Can we have a family meeting about planning ahead?"
 > - "What medicines should we keep at home for comfort?"
 > - "Whom do we call at night?"
-
-## chapter:14 | After your child has died
-
-There are no words that make this loss smaller. This chapter is here for whenever you need it: in the first days, months later, or years later.
-
-### Grief has no timetable
-
-Grief after a child's death can feel like a heavy weight on the chest, a fog, exhaustion, anger, numbness or deep longing. It may come in waves for a long time. There is no correct way or length of time to grieve.
-
-- **The silence can be the hardest part.** Your days were built around care: medicines, feeding, turning, watching. When that stops, the emptiness can be overwhelming.
-- **Relief and guilt can arrive together.** You may feel relief that your child is no longer suffering, or that the exhausting care has ended, and then feel guilty for that relief. Both feelings are normal and come from love.
-- **"If only..." thoughts are very common.** "If only I had noticed sooner," "if only I had followed the advice exactly." Please remember: these illnesses progress regardless of how much a parent does. **You cared for your child with everything you had.**
-
-### Staying connected to the team
-
-Many palliative teams continue to support families after a child's death. You can ask to talk with the doctor, nurse, counsellor or social worker who knew your child, and ask questions you were not able to ask before. Some families find it helps to return, to thank the team, or simply to talk about their child with people who knew them.
-
-### Brothers and sisters
-
-Children grieve differently from adults. They may seem fine one moment and very upset the next. They may show grief through play, anger, clinginess, trouble at school or stomach aches.
-
-- **Tell them the truth** about the death, in simple words. Avoid saying the child "became a star" or "is sleeping". Young children may take these words literally, with frightening results.
-- **Keep them close.** Try not to send them away for long periods, and keep daily routines going where you can.
-- **They may feel guilty,** or relieved that the household is calmer, or that they are no longer second. Reassure them that nothing they thought or did caused the death.
-- **Do not ask them to replace** their brother or sister, or to be "strong" for you.
-- **Watch for signs they need more help:** long-lasting sadness, withdrawal, anger, school refusal, or talk of wanting to be with the child who died. Ask for a counsellor.
-
-### Remembering
-
-- Keep your child's memory box, photos and videos.
-- Mark birthdays and anniversaries in ways that feel right to your family: a prayer, a meal, lighting a lamp, giving to others.
-- Talk about your child by name. Many parents want others to keep remembering too.
-
-### Partners and family
-
-You and your partner may grieve in very different ways and at different times. Be patient with each other. If blame or distance grows, a counsellor can help. Relatives may not know what to say. You can tell them: "Please just say her name, and listen."
-
-### The future
-
-- **Going back to work or study** can bring both comfort and pain. Take it step by step. The social worker can help with training or livelihood support.
-- **Thinking about another pregnancy?** Please meet a **genetic counsellor first,** or as early as possible in the pregnancy. They can explain the chances of the condition happening again and what tests are possible. Tests to check for the condition are allowed, but telling parents the sex of an unborn baby is not permitted by Indian law. Fear during another pregnancy is very natural. Ask for support.
-- **Other children in the family** may also need testing. Ask the genetic counsellor.
-- **Some parents later find meaning in helping other families** by joining or starting a parent group, or by sharing what they learned. Only you will know if and when that feels right.
-
-### When grief is too heavy
-
-> [!soft]
-> If months pass and you still cannot sleep, eat, work or care for your other children, feel hopeless, or think about ending your life, please reach out. **Tele-MANAS: 14416, free, 24 hours, in many Indian languages.** You do not have to carry this alone.
-
-> [!ask]
-> - "Can we meet you to talk about our child?"
-> - "Is there a counsellor for us and our other children?"
-> - "Can we see a genetic counsellor before another pregnancy?"

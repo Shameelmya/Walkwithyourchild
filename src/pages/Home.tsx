@@ -28,8 +28,10 @@ export default function Home() {
   const h = new Date().getHours();
   const greet = t(h < 12 ? 'goodMorning' : h < 17 ? 'goodAfternoon' : 'goodEvening');
   const pct = journeyPct(reading);
-  const chId = reading?.chapter ?? 'c0';
-  const ch = toc.toc.find((c) => c.id === chId)!;
+  // A saved place in a chapter the book no longer has falls back to the start.
+  const saved = toc.toc.find((c) => c.id === reading?.chapter);
+  const chId = saved?.id ?? 'c0';
+  const ch = saved ?? toc.toc[0];
   const part = toc.parts.find((p) => p.n === ch.part);
   const pc = partColor(ch.part);
   const cpct = Math.round(chapterPct(reading, chId) * 100);

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 test('extra: meds, notebook pdf, backup roundtrip', async ({ page }) => {
   const errs: string[] = []; page.on('pageerror', (e) => errs.push(String(e))); page.on('console', (m) => m.type() === 'error' && errs.push(m.text()));
-  const go = async (r: string) => { await page.goto(r); await page.waitForTimeout(300); if (await page.getByText('Enter your PIN').isVisible()) { await page.keyboard.type('1234'); await page.waitForTimeout(700); } };
+  const go = async (r: string) => { await page.goto(r).catch(() => page.goto(r)); /* a navigation right after a download can be aborted once */ await page.waitForTimeout(300); if (await page.getByText('Enter your PIN').isVisible()) { await page.keyboard.type('1234'); await page.waitForTimeout(700); } };
   await page.goto('/');
   await page.getByRole('button', { name: /English/ }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
