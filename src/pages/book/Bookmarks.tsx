@@ -12,7 +12,7 @@ export default function Bookmarks() {
   const r = useLiveQuery(() => getReading(), []);
   const [book, setBook] = useState<Book>();
   useEffect(() => { loadBook(lang).then(setBook); }, [lang]);
-  const list = [...(r?.bookmarks ?? [])].sort((a, b) => b.at - a.at);
+  const list = [...(r?.bookmarks ?? [])].filter((b) => toc.toc.some((c) => c.id === b.chapter)).sort((a, b) => b.at - a.at);
   return (
     <Page>
       <PageHeader title={t('bookmarks')} back="/book" />

@@ -101,6 +101,8 @@ export default function Reader() {
 
   useEffect(() => { let live = true; loadBook(lang).then((b) => live && setLoaded({ l: lang, b })); return () => { live = false; }; }, [lang]);
   const ch = book?.chapters.find((c) => c.id === chapter);
+  // An old link or saved place in a chapter the book no longer has opens the contents.
+  useEffect(() => { if (book && !ch) nav('/book', { replace: true }); }, [book, ch, nav]);
   const idx = toc.toc.findIndex((c) => c.id === chapter);
   const prev = toc.toc[idx - 1], next = toc.toc[idx + 1];
   const part = ch?.part ?? toc.toc[idx]?.part ?? 0;

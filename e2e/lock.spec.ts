@@ -13,6 +13,7 @@ test('lock screen: PIN, dark mode in header, fingerprint unlock', async ({ page,
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByText('Choose a 4-number PIN')).toBeVisible(); await page.keyboard.type('1234'); await expect(page.getByText('Type the PIN again')).toBeVisible(); await page.keyboard.type('1234'); await page.waitForTimeout(800);
   await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('button', { name: 'Switch child' })).toBeVisible(); // onboarding saved before we navigate away
   await page.goto('/settings');
   await page.getByRole('checkbox', { name: /Fingerprint unlock/ }).click(); // ticks once the phone confirms
   await expect(page.getByText('Fingerprint unlock is on')).toBeVisible();

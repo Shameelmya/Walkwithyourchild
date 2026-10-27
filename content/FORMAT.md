@@ -1,7 +1,7 @@
 # Content format
 
 Files (same structure in both languages; `en` and `ml` are parallel, block-for-block):
-- `{en,ml}/book.md` – the whole book: intro + 5 parts + 14 chapters
+- `{en,ml}/book.md` – the whole book: intro + 5 parts + 13 chapters
 - `{en,ml}/professionals.md` – appendix for professionals
 - `workbook.json` – the 11 notebook sheets (bilingual labels, column/field definitions, input types)
 - `meta.json` – titles, about, disclaimer, privacy text, helpline numbers, colours, callout labels, core UI terms, talk-board cards
