@@ -12,7 +12,7 @@ export const ur: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'ہوم', navBook: 'کتاب', navNotebook: 'نوٹ بک', navChild: 'میرا بچہ', navMore: 'مزید', navMedicines: 'دوائیں', navSeizures: 'دورے کی ڈائری',
   navVisits: 'ڈاکٹر کی ملاقات', navRecords: 'صحت کا ریکارڈ', navProgress: 'پیش رفت', navDocuments: 'کاغذات', navSummary: 'ڈاکٹر کے لیے خلاصہ', navTalk: 'بات چیت کا بورڈ',
-  navPlay: 'کھیل', navForMe: 'میرے لیے', navMemory: 'یادوں کا ڈبہ', alarmStops: 'جواب دینے پر ہی الارم بند ہوگا۔', snooze10: '10 منٹ بعد یاد دلائیں', screen: 'اسکرین', skipToContent: 'مواد پر جائیں', moreInfo: 'مزید معلومات', navStories: 'کہانی کی کتابیں', navUpdates: 'اپ ڈیٹس', navCommunity: 'برادری', navSettings: 'سیٹنگز', about: 'تعارف',
+  navPlay: 'کھیل', navForMe: 'میرے لیے', navMemory: 'یادوں کا ڈبہ', useFingerprint: 'فنگر پرنٹ سے کھولیں', fingerprintLock: 'فنگر پرنٹ سے کھولنا', fingerprintHint: 'فون کے فنگر پرنٹ یا چہرے سے ایپ کھولیں۔ PIN بھی کام کرتا رہے گا۔', fingerprintFailed: 'پہچان نہیں ہوئی۔ PIN استعمال کریں۔', fingerprintOn: 'فنگر پرنٹ سے کھولنا آن ہے', emergency108: 'ایمرجنسی · 108', enterPinSub: 'جاری رکھنے کے لیے 4 ہندسوں کا PIN درج کریں', alarmStops: 'جواب دینے پر ہی الارم بند ہوگا۔', snooze10: '10 منٹ بعد یاد دلائیں', screen: 'اسکرین', skipToContent: 'مواد پر جائیں', moreInfo: 'مزید معلومات', navStories: 'کہانی کی کتابیں', navUpdates: 'اپ ڈیٹس', navCommunity: 'برادری', navSettings: 'سیٹنگز', about: 'تعارف',
   sos: 'SOS', sosLong: 'ایمرجنسی: ایمرجنسی کارڈ کھولیں', switchChild: 'بچہ بدلیں', addChild: 'بچہ شامل کریں', editProfile: 'پروفائل میں ترمیم', myChildPage: '“میرا بچہ” صفحہ',
   // onboarding
   chooseLanguage: 'اپنی زبان چنیں', welcomeText: 'کتاب، اسپتال کے دوروں کے لیے نوٹ بک اور روزمرہ نگہداشت کے آلات، سب ایک ایپ میں۔',

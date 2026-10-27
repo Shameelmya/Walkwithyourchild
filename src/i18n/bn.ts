@@ -12,7 +12,7 @@ export const bn: Partial<Record<keyof typeof en, string>> = {
   // nav
   navHome: 'হোম', navBook: 'বই', navNotebook: 'নোটবুক', navChild: 'আমার সন্তান', navMore: 'আরও', navMedicines: 'ওষুধ', navSeizures: 'খিঁচুনির ডায়েরি',
   navVisits: 'ডাক্তারের ভিজিট', navRecords: 'স্বাস্থ্য রেকর্ড', navProgress: 'অগ্রগতি', navDocuments: 'নথিপত্র', navSummary: 'ডাক্তারের সারাংশ', navTalk: 'কথার বোর্ড',
-  navPlay: 'খেলা', navForMe: 'আমার জন্য', navMemory: 'স্মৃতির বাক্স', alarmStops: 'উত্তর দিলে তবেই অ্যালার্ম থামবে।', snooze10: '10 মিনিট পরে মনে করিয়ে দিন', screen: 'স্ক্রিন', skipToContent: 'মূল অংশে যান', moreInfo: 'আরও তথ্য', navStories: 'গল্পের বই', navUpdates: 'আপডেট', navCommunity: 'সম্প্রদায়', navSettings: 'সেটিংস', about: 'সম্পর্কে',
+  navPlay: 'খেলা', navForMe: 'আমার জন্য', navMemory: 'স্মৃতির বাক্স', useFingerprint: 'আঙুলের ছাপ দিয়ে খুলুন', fingerprintLock: 'আঙুলের ছাপে খোলা', fingerprintHint: 'ফোনের আঙুলের ছাপ বা মুখ দিয়ে অ্যাপ খুলুন। PIN-ও কাজ করবে।', fingerprintFailed: 'চেনা গেল না। PIN দিন।', fingerprintOn: 'আঙুলের ছাপে খোলা চালু হয়েছে', emergency108: 'জরুরি · 108', enterPinSub: 'এগোতে 4 সংখ্যার PIN দিন', alarmStops: 'উত্তর দিলে তবেই অ্যালার্ম থামবে।', snooze10: '10 মিনিট পরে মনে করিয়ে দিন', screen: 'স্ক্রিন', skipToContent: 'মূল অংশে যান', moreInfo: 'আরও তথ্য', navStories: 'গল্পের বই', navUpdates: 'আপডেট', navCommunity: 'সম্প্রদায়', navSettings: 'সেটিংস', about: 'সম্পর্কে',
   sos: 'SOS', sosLong: 'জরুরি: জরুরি কার্ড খুলুন', switchChild: 'সন্তান বদলান', addChild: 'সন্তান যোগ করুন', editProfile: 'প্রোফাইল সম্পাদনা', myChildPage: '“আমার সন্তান” পাতা',
   // onboarding
   chooseLanguage: 'আপনার ভাষা বেছে নিন', welcomeText: 'বই, হাসপাতালে যাওয়ার নোটবুক আর রোজকার যত্নের সরঞ্জাম, সব একটি অ্যাপে।',

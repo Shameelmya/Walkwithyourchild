@@ -21,11 +21,17 @@ import { RefreshCw, Volume2 } from 'lucide-react';
 import { voicesFor, bestVoice, speak, isSamsungBrowser, type NoVoice } from '../../lib/audio';
 import { PHRASES } from '../../lib/talk';
 import { LANGS } from '../../lib/store';
+import { bioAvailable, bioEnabled, bioEnroll, bioOff } from '../../lib/biometric';
+import { Fingerprint } from 'lucide-react';
 
 function PinSettings() {
   const { t } = useT();
   const toast = useToast((s) => s.show);
   const pin = useLiveQuery(() => getSetting<PinHash | null>('pin', null), []);
+  const bioOn = useLiveQuery(() => bioEnabled(), []);
+  const [bioCan, setBioCan] = useState(false);
+  useEffect(() => { void bioAvailable().then(setBioCan); }, []);
+  const { lang } = useT();
   const [mode, setMode] = useState<'' | 'set' | 'off'>('');
   const [a, setA] = useState(''); const [b, setB] = useState(''); const [old, setOld] = useState(''); const [err, setErr] = useState('');
   const close = () => { setMode(''); setA(''); setB(''); setOld(''); setErr(''); };
@@ -36,7 +42,7 @@ function PinSettings() {
     setSaving(true);
     try {
     if (pin && !(await verifyPin(old, pin))) return setErr(t('wrongPin'));
-    if (mode === 'off') { await setSetting('pin', null); toast(t('pinRemoved')); return close(); }
+    if (mode === 'off') { await setSetting('pin', null); await bioOff(); toast(t('pinRemoved')); return close(); }
     if (a.length !== 4) return setErr(t('pinShort'));
     if (a !== b) return setErr(t('pinMismatch'));
     await setSetting('pin', await hashPin(a)); toast(t('pinSaved')); close();
@@ -50,6 +56,16 @@ function PinSettings() {
         <button className="btn-primary" onClick={() => setMode('set')}><Lock size={18} aria-hidden /> {pin ? t('changePin') : t('setPin')}</button>
         {pin && <button className="btn-ghost" onClick={() => setMode('off')}>{t('turnOffPin')}</button>}
       </div>
+      {pin && bioCan && (
+        <label className="flex items-center gap-3 min-h-[56px] mt-3 pt-3 border-t border-line/60">
+          <Fingerprint className="text-[rgb(var(--accent))] shrink-0" aria-hidden />
+          <span className="flex-1"><b className="block">{t('fingerprintLock')}</b><span className="text-sm text-muted">{t('fingerprintHint')}</span></span>
+          <input type="checkbox" className="w-6 h-6 accent-[rgb(var(--accent))]" checked={!!bioOn} onChange={async (e) => {
+            if (!e.target.checked) { await bioOff(); return; }
+            if (await bioEnroll(meta.appTitle[lang])) toast(t('fingerprintOn')); else toast(t('fingerprintFailed'));
+          }} />
+        </label>
+      )}
       <Hint>{t('autoLockNote')}</Hint>
       <Modal open={!!mode} onClose={close} title={mode === 'off' ? t('turnOffPin') : pin ? t('changePin') : t('setPin')}>
         <div className="grid gap-3">

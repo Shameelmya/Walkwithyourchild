@@ -9,7 +9,7 @@ export const en = {
   // nav
   navHome: 'Home', navBook: 'Book', navNotebook: 'Notebook', navChild: 'My child', navMore: 'More', navMedicines: 'Medicines', navSeizures: 'Seizure diary',
   navVisits: 'Doctor visits', navRecords: 'Health records', navProgress: 'Progress', navDocuments: 'Documents', navSummary: 'Doctor summary', navTalk: 'Talk board',
-  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', alarmStops: 'The alarm stops only when you answer.', snooze10: 'Remind me in 10 minutes', screen: 'Screen', skipToContent: 'Skip to content', moreInfo: 'More information', navStories: 'Story books', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
+  navPlay: 'Play', navForMe: 'For me', navMemory: 'Memory box', useFingerprint: 'Unlock with fingerprint', fingerprintLock: 'Fingerprint unlock', fingerprintHint: "Open the app with the phone's fingerprint or face lock. The PIN still works.", fingerprintFailed: 'Not recognised. Please use your PIN.', fingerprintOn: 'Fingerprint unlock is on', emergency108: 'Emergency · 108', enterPinSub: 'Enter your 4-digit PIN to continue', alarmStops: 'The alarm stops only when you answer.', snooze10: 'Remind me in 10 minutes', screen: 'Screen', skipToContent: 'Skip to content', moreInfo: 'More information', navStories: 'Story books', navUpdates: 'Updates', navCommunity: 'Community', navSettings: 'Settings', about: 'About',
   sos: 'SOS', sosLong: 'Emergency: open the emergency card', switchChild: 'Switch child', addChild: 'Add a child', editProfile: 'Edit profile', myChildPage: '“My child” page',
   // onboarding
   chooseLanguage: 'Choose your language', welcomeText: 'The book, a notebook for hospital visits and tools for daily care, in one app.',
