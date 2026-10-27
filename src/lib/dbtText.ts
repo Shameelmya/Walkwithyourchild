@@ -1,0 +1,177 @@
+import type { Lang } from './store';
+import { ml, kn, hi, ta, te, bn, ur } from './dbtText.i18n';
+
+/**
+ * Skills for hard moments, from Dialectical Behaviour Therapy (DBT): distress tolerance,
+ * emotion regulation and acceptance, written for parents carrying grief and a child's care.
+ * Every language has the full set; a missing text falls back to English.
+ */
+const en = {
+  title: 'Skills for hard moments',
+  sub: 'Small, practised ways to get through grief, worry and anger',
+  card: 'Skills for hard moments',
+  cardSub: 'Ways to get through the worst minutes, understand your feelings and find some steadiness',
+  intro: 'These skills come from Dialectical Behaviour Therapy (DBT). They will not take the pain away, and they are not meant to. They help you get through the hardest moments without making things worse, and look after yourself while you carry so much.',
+  help: 'If the feelings stay too heavy for days, or you think of harming yourself, please talk to a counsellor or call Tele-MANAS on 14416.',
+  howStrong: 'How strong is the feeling right now?',
+  lvlHigh: 'Very strong. I might say or do something I regret.',
+  lvlMid: 'Strong, but I can still think.',
+  lvlLow: 'I want to understand what I am feeling.',
+  tabThrough: 'Get through it',
+  tabUnderstand: 'Understand it',
+  tabAccept: 'Accept it',
+  next: 'Next',
+  again: 'Start again',
+  done: 'Done',
+  save: 'Save',
+  saved: 'Saved',
+  start: 'Start',
+  stop: 'Stop',
+  minute: 'One minute',
+
+  stopTitle: 'Stop before you react',
+  stopIntro: 'When anger or panic rises, the first job is not to make things worse.',
+  stopSteps: [
+    ['S', 'Stop', 'Do not move or speak for a moment. Stay still.'],
+    ['T', 'Take a step back', 'Breathe in and out slowly before you do anything.'],
+    ['O', 'Observe', 'What is happening around you? What are you feeling and thinking?'],
+    ['P', 'Proceed mindfully', 'Ask: what will help my child and me right now? Then act.'],
+  ] as [string, string, string][],
+
+  coolTitle: 'Cool the body down',
+  coolIntro: 'When the feeling is so strong that you cannot think, change your body first. The mind follows.',
+  coolItems: [
+    ['Cold water', 'Splash cold water on your face, or hold a cold wet cloth over your eyes and cheeks for 30 seconds.'],
+    ['Move hard', 'Walk fast, climb stairs or march on the spot for a few minutes, until you are a little out of breath.'],
+    ['Breathe out longer', 'Breathe in for 4, out for 6. A long out-breath tells the body it is safe.'],
+    ['Tense and let go', 'Tighten one part of the body for 5 seconds as you breathe in, then let go as you breathe out.'],
+  ] as [string, string][],
+  coolCaution: 'If you have a heart problem or low blood pressure, are pregnant, or have an eating disorder, ask your doctor before using cold water or hard exercise.',
+  tenseGo: 'Tense and let go, with me',
+  tenseParts: ['Hands: make tight fists', 'Arms: press your elbows to your sides', 'Shoulders: lift them to your ears', 'Face: squeeze your eyes and jaw', 'Stomach: pull it in tight', 'Legs: press your feet into the floor'],
+  tense: 'Tighten…',
+  release: 'Let go…',
+
+  sootheTitle: 'Comfort yourself with the five senses',
+  sootheIntro: 'Tap the things that comfort you to build your own comfort kit. Use it when the day is heavy.',
+  senses: [
+    ['👀', 'See', ['A photo from a happy day', 'The sky or trees outside', 'Your child sleeping peacefully', 'A lamp or a candle']],
+    ['👂', 'Hear', ['A song, prayer or chant you love', 'Rain or birds', 'A voice note from someone who loves you', 'Quiet, for a few minutes']],
+    ['👃', 'Smell', ['Jasmine or other flowers', 'Coffee or tea', 'A soap or oil you like', 'Incense']],
+    ['👅', 'Taste', ['A cup of tea, sipped slowly', 'A sweet you love', 'A piece of fruit, eaten slowly', 'Cool water']],
+    ['✋', 'Touch', ['A warm bath', 'A soft shawl around you', 'Oil on your hands and feet', "Holding your child's hand"]],
+  ] as [string, string, string[]][],
+  myKit: 'My comfort kit',
+  kitEmpty: 'Nothing yet. Tap the ideas above that comfort you.',
+  addOwn: 'Add your own',
+
+  awayTitle: 'Take your mind somewhere else for a while',
+  awayIntro: 'Distraction is not running away. It is a short rest, so you can come back stronger.',
+  awayIdeas: [
+    'Water the plants, or clean one small corner',
+    'Cook or cut something simple, slowly',
+    'Call someone and ask how they are',
+    'Do something small for someone else',
+    'Remember a hard day you got through. You did it then.',
+    'Watch something funny for ten minutes',
+    'Listen to music that lifts you',
+    'Write the worry on paper, fold it, and put it away until tomorrow',
+    'Count backwards from 100 in sevens',
+    'Read a few pages of anything',
+    'Hold an ice cube, or squeeze a ball hard',
+    'Take a hot or cold shower',
+  ],
+  another: 'Another idea',
+
+  betterTitle: 'Make this moment a little better',
+  betterItems: [
+    ['Picture a safe place', 'Close your eyes. See a calm place you love. Hear it, feel the air there.'],
+    ['Find the meaning', 'Ask: what matters to me in this? Love for my child is in every hard thing I do.'],
+    ['Pray or be still', 'In your own way, open yourself to something larger than you.'],
+    ['Relax the body', 'Loosen your jaw, drop your shoulders, open your hands.'],
+    ['One thing at a time', 'Do only the thing in front of you. Just this cup of tea. Just this feed.'],
+    ['A short break', 'Ten minutes on the step with tea, while someone else watches your child.'],
+    ['Kind words to yourself', 'Choose the words you need to hear today, below.'],
+  ] as [string, string][],
+  wordsTitle: 'Words for today',
+  words: [
+    'I am doing the best I can.',
+    'This feeling will pass. I can get through this minute.',
+    'I do not have to be perfect to be a good parent.',
+    'It is all right to rest.',
+    'My love is not measured by how tired I am.',
+    'I can ask for help.',
+    'One day at a time. One hour at a time.',
+  ],
+  keepWords: 'Keep these words',
+
+  nameTitle: 'Name the feeling',
+  nameIntro: 'Grief often brings other feelings with it: guilt, anger, shame, even relief. All of them are human. Naming a feeling makes it a little smaller.',
+  feelings: [
+    ['grief', 'Grief', 'Grief fits the facts of loss. Do not push it away. Let yourself cry, and let someone sit with you.'],
+    ['sad', 'Sadness', 'Get a little active: step outside, see someone, or do one small thing you used to enjoy.'],
+    ['fear', 'Fear or worry', 'Gently do what you fear, one step at a time: ask the doctor the question, open the report.'],
+    ['anger', 'Anger', 'Step away, breathe, and be gently kind instead of attacking. Speak softly.'],
+    ['guilt', 'Guilt', 'If it is not your fault, stop apologising for it. Say: "This illness is no one\'s fault." If you did something wrong, repair it once, then let it go.'],
+    ['shame', 'Shame', 'Do not hide. Tell one person you trust. Keep meeting people.'],
+    ['helpless', 'Helplessness', 'Do one thing that is in your hands, however small.'],
+    ['lonely', 'Loneliness', 'Reach out to one person today, even with a short message.'],
+    ['jealous', 'Envy of other families', 'Wish them well in your heart, then turn back to your own child\'s small joys.'],
+    ['numb', 'Numbness', 'Notice small things through your senses. It is all right to feel little for a while.'],
+    ['tired', 'Exhaustion', 'Look after your body first: food, water, rest. See the daily care list below.'],
+    ['relief', 'Relief, and guilt about it', 'Relief after a hard day is normal and human. It does not mean you love your child any less.'],
+  ] as [string, string, string][],
+  howStrongIs: 'How strong is it? (0 to 10)',
+  whatHappened: 'What happened just before? (optional)',
+  checkTitle: 'Check the facts',
+  checkQs: [
+    'Am I reacting to what happened, or to what I fear might happen?',
+    'Is there another way to see this?',
+    'Does this feeling, and how strong it is, fit the facts?',
+  ],
+  fits: 'Yes, it fits',
+  notFits: 'Not fully',
+  fitsText: 'Then the feeling makes sense. Let it be there. Is there one small step that could help with the problem itself?',
+  oppTitle: 'Try the opposite action',
+  diary: 'My feelings diary',
+  diaryHint: 'Stays on this phone only.',
+
+  bodyTitle: 'Look after the body',
+  bodyIntro: 'A tired, hungry body makes every feeling stronger. Tick what you managed today; no score, no blame.',
+  bodyItems: [
+    'Took my own medicines, or saw a doctor if I am unwell',
+    'Ate at least two proper meals',
+    'Kept away from alcohol, tobacco and pills not prescribed for me',
+    'Slept or rested when I could',
+    'Moved my body: a walk or a stretch',
+    'Did one small thing that made me feel capable',
+    'Had one good moment',
+  ],
+  thisWeek: 'This week',
+
+  acceptTitle: 'Accepting what cannot be changed',
+  acceptIntro: 'Some things cannot be changed: the diagnosis, what has already happened. Fighting reality adds suffering on top of pain. Accepting is not approving, giving up, or loving less. It frees strength for what can still be done.',
+  acceptLines: [
+    'This is what is happening now.',
+    'I cannot change what has already happened.',
+    'I can feel this pain and still go on.',
+    'I can accept this and still hope, still pray, still try.',
+    'Today, I will give what I can.',
+  ],
+  turnMind: 'Acceptance is chosen again and again. Each time you notice yourself fighting what is, gently turn back.',
+  handsTitle: 'Open hands, soft face',
+  handsText: 'Rest your hands open on your lap, palms up. Let your face soften into a small, gentle smile. Stay for one minute. The body teaches the mind to accept.',
+  wiseTitle: 'Wise mind',
+  wiseText: 'Between the feeling mind and the thinking mind is wise mind: the quiet place inside you that knows. Breathe in and silently say "wise". Breathe out and say "mind". After ten breaths, ask: what does wise mind say?',
+  wiseIn: 'Breathe in: wise',
+  wiseOut: 'Breathe out: mind',
+  wiseAsk: 'What does wise mind say?',
+  breathN: 'Breath {n} of 10',
+};
+export type DbtDict = typeof en;
+
+const tr: Partial<Record<Lang, Partial<DbtDict>>> = { ml, kn, hi, ta, te, bn, ur };
+
+export function dbt(lang: Lang): DbtDict {
+  return { ...en, ...(tr[lang] ?? {}) } as DbtDict;
+}

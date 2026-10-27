@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Plus, Wind } from 'lucide-react';
+import { ChevronRight, LifeBuoy, Phone, Plus, Wind } from 'lucide-react';
 import { useT } from '../../i18n';
 import { Page, PageHeader, Section, Hint } from '../../components/ui';
 import { WeeklyEditor } from '../../components/sheets/Weekly';
@@ -12,8 +12,9 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { getSetting, setSetting } from '../../lib/db';
 import { ct } from '../../lib/careText';
 import { FromBook } from '../child/Care';
+import { dbt } from '../../lib/dbtText';
 
-function Breathing() {
+export function Breathing() {
   const { t } = useT();
   const [on, setOn] = useState(false);
   const [phase, setPhase] = useState<'in' | 'out'>('in');
@@ -72,6 +73,7 @@ function Thermometer() {
         <button key={n} aria-pressed={v === n} className={cx('h-12 rounded-xl font-extrabold tabular-nums text-sm transition', v === n ? 'text-white scale-110' : 'bg-surface2')} style={v === n ? { background: hue(n) } : undefined} onClick={() => { setV(n); setSaved(false); }}>{n}</button>
       ))}</div>
       {v !== null && !saved && <button className="btn-primary w-full" onClick={() => { void setSetting('distress', [...log, { at: Date.now(), v }].slice(-60)); setSaved(true); }}>{L('logIt')}</button>}
+      {v !== null && v >= 4 && <Link to="/me/skills" className="btn-outline w-full mt-3"><LifeBuoy size={18} aria-hidden /> {dbt(lang).card}</Link>}
       {v !== null && v >= 7 && (
         <div className="rounded-2xl bg-[var(--p1t)] p-3 mt-3">
           <p className="font-bold mb-2">{L('thermoHigh')}</p>
@@ -113,6 +115,11 @@ export default function ForMe() {
         <span className="w-14 h-14 rounded-full bg-[var(--p1)] text-white flex items-center justify-center shrink-0"><Phone aria-hidden /></span>
         <span><b className="text-lg block">{t('teleManas')}</b><span className="text-sm">{t('teleManasSub')}</span></span>
       </a>
+      <Link to="/me/skills" className="card p-4 mb-6 flex items-center gap-4 bg-[var(--p3t)]">
+        <span className="w-14 h-14 rounded-2xl bg-[var(--p3)] text-white flex items-center justify-center shrink-0"><LifeBuoy aria-hidden /></span>
+        <span className="flex-1"><b className="text-lg block">{dbt(lang).card}</b><span className="text-sm">{dbt(lang).cardSub}</span></span>
+        <ChevronRight className="text-muted rtl:rotate-180" aria-hidden />
+      </Link>
       <Section title={ct(lang, 'tooMuch')}><div className="grid gap-3"><Thermometer /><Grounding /></div></Section>
       <Section title={t('breathing')}><Breathing /></Section>
       <Section title={t('relaxation')}><div className="card p-4 prose-read" style={{ ['--pc' as string]: 'var(--p3)', ['--pt' as string]: 'var(--p3t)' }}>{relax.map((b, i) => <BlockView key={i} b={b} chapter="c10" index={toc.anchors.relax.from + i} />)}</div></Section>
