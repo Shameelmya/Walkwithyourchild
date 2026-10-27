@@ -802,11 +802,11 @@ Things that help some families:
 > - "Can we talk to a counsellor about how we are feeling?"
 > - "Can someone talk with our child about their worries?"
 
-# part:5 | Towards the end
+# part:5 | Advance care plan
 
-## chapter:13 | Preparing for the end
+## chapter:13 | Advance care plan: planning ahead together
 
-This is the chapter no parent wants to read. You may choose to read it now, later, or with someone beside you. Families and professionals told us that **when parents are prepared, their child's last days can be calmer, more comfortable and more full of love,** and parents carry less regret afterwards.
+This chapter is about planning ahead, so that your child is always as comfortable and peaceful as possible. You may choose to read it now, later, or with someone beside you. Families and professionals told us that **when parents talk things through early, the hardest times can be calmer, gentler and more full of love,** and parents carry fewer regrets.
 
 Every child is different. Some children live for many years with their condition. Your team can tell you whether this chapter is relevant now.
 
@@ -832,13 +832,13 @@ You can change your mind at any time. Write down what you decide, keep it with y
 
 ### Making memories
 
-Many families told us that making memories together helped them, and their other children, later. You might:
+Many families told us that making memories together brought them closeness and joy, and gave the whole family, brothers and sisters too, something to treasure. You might:
 
 - make **hand and foot prints** with paint or clay,
 - take **photos and videos,** and record your child's voice or laughter,
-- keep a **lock of hair,** a favourite piece of clothing or a toy,
+- keep a favourite piece of clothing, a toy or a drawing,
 - create something together: a painting, a song, a story, a family photo,
-- celebrate a birthday or festival early, if you wish,
+- celebrate the days that matter to your family: a birthday, a festival, a simple day together,
 - make a **memory box** to keep these things.
 
 Involve brothers and sisters if they want to take part.
@@ -849,19 +849,19 @@ Prayers, blessings and rituals can bring great comfort. Tell the team what your 
 
 ### Preparing brothers and sisters
 
-- Tell them honestly, in words they can understand, that their brother or sister is very ill and may die soon.
+- When the time comes, tell them gently and honestly, in words they can understand, that their brother or sister is very ill and the doctors cannot make the illness go away. A counsellor or your team can help you find the words.
 - **Do not use words that confuse,** such as "going to sleep" or "going on a journey", especially with young children. They may become afraid of sleeping or travelling.
-- Let them say goodbye in their own way: a drawing, a letter, a song, holding hands. Let them choose whether to be present.
+- Let them share their love in their own way: a drawing, a letter, a song, holding hands. Let them choose whether to be present.
 
-### The last days and hours
+### When your child needs more rest
 
-Your team can help you recognise when the end may be near. Common changes include sleeping much more, eating and drinking very little, breathing changes, and cool hands and feet. These are usually not painful for the child, but ask the team about anything that worries you.
+Your team can help you understand when your child's body is slowing down. Common changes include sleeping much more, eating and drinking very little, changes in breathing, and cool hands and feet. These are usually not painful for the child, but ask the team about anything that worries you.
 
 Stay close. Talk, hold, sing, pray. Some parents tell their child it is all right to rest. **Whatever happens in those moments, you have loved and cared for your child with everything you had.**
 
-### Practical matters
+### Practical help, when you need it
 
-Ask the social worker in advance about what happens after death: certificates, transport home, and any support available. Hospital or palliative staff can help with washing and dressing your child. You may want to do this yourself, or with them, or not at all. All are fine.
+It can help to know in advance that the social worker can guide you with the practical side when the time comes: papers, travel and any support available. Hospital or palliative staff will be there to help you care for your child in the way your family wishes, and you can be as involved as you want. Every choice is right.
 
 > [!ask]
 > - "Can we have a family meeting about planning ahead?"
