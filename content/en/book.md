@@ -123,6 +123,35 @@ You may hear the words **palliative care** or **supportive care**. Many people t
 > - "Can we meet a genetic counsellor?"
 > - "Is there a palliative or supportive care team here?"
 
+### When a child loses skills they had already learned
+
+Some children grow normally at first. They sit, walk, talk, play and know the people around them. Then, slowly, some of these abilities begin to slip away. Doctors call this **developmental regression**.
+
+This is different from **developmental delay**. In a delay, a child learns skills later than other children but keeps moving forward, slowly and steadily. In regression, a child **loses skills already learned**. It usually begins after a time of normal growth, and the change tends to continue over months or years.
+
+Doctors think of regression when three things come together: the child has been getting worse for more than three months, the child is losing abilities they once had, and the doctor finds new signs when examining the nerves and muscles. A child who lost skills once, after a brain infection, a head injury or near-drowning, and has stayed the same since, has a different kind of condition.
+
+### Many conditions, a few things in common
+
+Many rare conditions can cause regression in children. Each has its own long name, and your doctor will explain which one your child has. Most of them share a few things:
+
+- **They often run in families.** Many happen when both parents carry the same hidden gene change (see "Genes, in plain words" above). This is no one's fault.
+- **They begin in childhood,** anywhere from the first months of life to the teenage years, often after a period of normal growth.
+- **They change over time.** Movement, thinking, speech, sight, hearing and behaviour may all be affected, over months or years.
+- **Many of them shorten life.** This is why comfort, quality of life and palliative care matter from the very beginning.
+
+Doctors sometimes describe these conditions by the part of the brain they affect:
+
+- **White matter conditions** (also called leukodystrophies) damage the protective coat around the nerves, a little like the plastic covering on an electric wire. Messages in the brain then travel slowly or get lost. Stiffness, difficulty walking, and changes in behaviour or school work are often among the first signs.
+- **Grey matter conditions** affect the nerve cells themselves. Seizures, failing eyesight, and a decline in thinking and memory are often among the first signs.
+
+Other groups include storage disorders, mitochondrial disorders, conditions in which iron, copper or other substances build up in the brain, and some epilepsies that worsen over time. The names matter less than this: **ask your doctor which group your child's condition belongs to, and what it is likely to mean for your child.**
+
+> [!ask]
+> - "Is my child losing skills, or learning them slowly?"
+> - "Which part of the brain does my child's condition mainly affect?"
+> - "What changes should we watch for in the coming months?"
+
 ## chapter:3 | Hearing hard news
 
 There is no easy way to hear that your child has a condition that will not go away. Some parents remember every word. Others remember nothing after the first sentence. Many say the first question in their mind was: *Is there any cure?* And the second: *Then what is the point of everything we are doing?*
@@ -430,6 +459,16 @@ Some families face staring, mocking or questions. Some neighbours keep their chi
 > - "Can you meet our whole family to explain the condition?"
 > - "Is there someone who can talk with our other children?"
 
+### Each phase of the illness asks something different
+
+Families who live with a long illness often pass through three phases. Each brings its own worries and its own tasks. Knowing this can help you understand why your family feels so differently at different times.
+
+- **The beginning: crisis.** From the first signs to the diagnosis and the months just after. Families learn new routines and new words, get to know the hospital team, and begin to grieve the healthy life they had expected. It helps to face this together, as "we", and to accept that not everything will be clear at once.
+- **The long middle: living with the illness.** Day after day of care. Now the work is to keep some ordinary life going, to share the load so that no one person breaks down, and to live with uncertainty without letting it take over the whole family.
+- **The last phase: preparing for loss.** As the illness advances, families face hard decisions, goodbyes, and grief that begins before the loss. Hope does not end; it changes, from hoping for a cure to hoping for comfort, closeness and time together.
+
+Every family also carries its own beliefs, its own ways of talking, and sometimes the memory of an earlier loss. **There is no right way to go through these phases.** A social worker or counsellor can walk with you through each of them.
+
 ## chapter:8 | Money, papers and help
 
 Many families told us that the illness took their savings, their land, their gold and sometimes their jobs. Some borrowed from moneylenders at high monthly interest just to travel to the hospital. Others found that a card or certificate that worked at home was refused somewhere else.
@@ -541,6 +580,37 @@ Talking to parents who have walked the same road can bring comfort, practical ti
 > - "Who is our main contact after discharge?"
 > - "Can you write a letter for our local doctor?"
 > - "Is there a parent group for my child's condition?"
+
+### What palliative care can offer your family
+
+Palliative care looks after **the whole child, in body, mind and spirit, and the whole family,** from the time of diagnosis and for as long as it is needed. A good palliative care team can help with:
+
+- **Your child's symptoms:** pain, seizures, stiffness, feeding and breathing.
+- **Your family:** clear information, counselling, support for brothers and sisters, a break for carers, and spiritual support if you want it.
+- **Difficult conversations:** understanding the news, planning ahead, and making decisions together with the doctors.
+- **Your child's quality of life:** comfort, dignity, and the moments that still bring joy.
+
+Families of children with serious neurological illness have said that six things matter most to them. You can ask your team about each one:
+
+| What families need | What you can ask for |
+| --- | --- |
+| **Comfort for the child** | Help with pain, seizures, breathing, sleep and feeding |
+| **Support and a break** | Someone to talk to, help in a crisis, advice on money and legal matters, and short breaks from caring |
+| **Some ordinary life** | School and play for your child, a normal life for brothers and sisters, time for yourselves |
+| **Skills and confidence** | Training in care tasks, being ready for emergencies, learning to read your child's signals |
+| **Feeling safe** | Someone to call at any hour, a say in every decision, and a team that works together |
+| **Coping** | Help in accepting the illness and preparing for loss, and permission to enjoy life and care for yourselves |
+
+### How a psychiatric social worker can help
+
+A psychiatric social worker looks after the feelings and the everyday life of the family, alongside the doctors and nurses. You can ask to meet one at any stage. They can:
+
+- **Understand your family's situation:** how each of you is coping, what support you have, and what you need.
+- **Listen and counsel:** through the shock of the diagnosis, worry, grief that begins early, and strain between family members.
+- **Speak up for you:** help you get benefits, certificates and services, and make sure your voice is heard in decisions about your child.
+- **Connect you** with home care, short breaks, schools, ASHA and Anganwadi workers, community groups and palliative care teams.
+- **Stay with you through loss,** before and after, for parents, brothers and sisters, for as long as you need.
+- **Help others learn,** by training care teams and through research, so that more families get better help.
 
 # part:3 | Caring for yourself
 
@@ -669,6 +739,18 @@ As the illness advances, the goal of care slowly shifts: from trying to change t
 > - "What changes should we expect next?"
 > - "Is a feeding tube right for my child, and when?"
 > - "What can we do to keep our child comfortable at home?"
+
+### How the illness may unfold over time
+
+Doctors often describe these conditions in stages. **Your child may not follow this path exactly,** and the time between stages can be months or many years. Knowing the stages can help you prepare, ask the right questions at the right time, and notice when your child needs more help.
+
+1. **Before any signs.** The child grows and learns normally. The change is already inside the body, but no one can see it yet.
+2. **A slowing down.** New skills come more slowly, or stop coming. There may be small changes in behaviour, attention or play that are easy to miss.
+3. **Losing skills.** The child begins to lose things already learned. Seizures, changes in eyesight, difficulty walking and changes in thinking often appear at this stage.
+4. **Needing full care.** The child may no longer walk, speak or look after themselves, and swallowing may become difficult.
+5. **Comfort first.** The child sleeps more and responds less, and chest infections may come again and again. Care now turns fully to comfort, closeness and peace.
+
+At every stage there is something that can help. **Palliative care is not only for the last stage;** it can walk with your family from the day of diagnosis.
 
 ## chapter:12 | Grieving while your child is alive
 
